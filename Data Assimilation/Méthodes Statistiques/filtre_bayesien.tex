@@ -1,0 +1,50 @@
+% !TEX root = main.tex
+
+\subsection{Méthode séquentielle - Approche Probabiliste}
+
+\subsubsection{Filtrage bayésien}
+
+Le filtrage bayésien consiste à écrire la récurrence sur les lois de probabilité, pour estimer, en fonction des observations passées et courante $y_{1:k}$ l'état courant $\bm x_k$ et de prédire l'état future $\bm x_{k+1}$.
+
+Pour simplifier les notations, l'exposant $^{\mid k}$ qui conditionne la densité par les observations $\bm y_{1:N}$.
+La densité de l'état est initialisée par la densité a priori de l'état initial $p_{X_0}$.
+
+Puis pour tout $k \geq 0$ les lois de probabilité sont propagées.
+
+L'étape de propagation ou \textit{forecast} loi \textit{a priori} est obtenue grace à la loi des probabilité totales
+
+\begin{equation*}\label{tot_rule}
+    p_{\bm X_{k+1}}^{\mid k}(\bm x)= \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) p_{\bm X_{k}}^{\mid k}(\bm x')dx'
+\end{equation*}
+
+La loi \textit{a priori} de la $k+1$ observations peut être otenue de nouveau grace à la loi de probabilité totale
+
+\begin{equation*}
+    p_{\bm Y_{k+1}}^{\mid k}(\bm y) = \int p_{\bm Y_{k+1}\mid \bm X_{k+1} = \bm x}(\bm y) p_{\bm X_{k+1}}^{\mid k}(\bm x)dx
+\end{equation*}
+
+Après la $k+1$ observation $\bm y_{k+1}$, l'étape d'\textit{analyse} permet de déterminer la loi \textit{a posteriori} de l'état
+
+\begin{equation*}
+    p_{\bm X_{k+1}}^{\mid k+1}(\bm x) = p_{\bm X_{k+1} \mid \bm Y_{k+1} = \bm y_{k+1}}^{\mid k}(\bm x) = \frac{p_{\bm Y_{k+1}}^{\mid k}(\bm y) p_{\bm X_{k+1}}^{\mid k}(\bm x) }{p_{\bm Y_{k+1}}^{\mid k}(\bm y)}
+\end{equation*}
+
+
+la loi de Bayes après mesure de $\bm Y_n$
+\subsubsection{Filtre Particulaire}
+
+Le filtre particulaire est une implémentation du filtre bayésien qui approxime la PDF à l'aide d'une distribution empirique. Les transformations du filtre, \textit{forecast} et \textit{analysis} sont appliquées sur les membres de cet échantillon.
+Cette méthode converge vers la distribution exacte lorsque le nombre de particule $N \to \infty$.
+
+Le prior de l'état $p(\bm x)$ à l'instant $k$ est représenté par un ensemble de $N$ réalisations $\{\bm x_1, \bm x_2, \dots \bm x_N\}$ de tel sorte que
+
+\begin{equation*}
+    p_{\bm X_k}(\bm x) \simeq \sum_{i=1}^N \omega^i_k \delta(\bm x - \bm x_k^i) \quad \text{with} \sum_{i=1}^N \omega^i_k = 1, \omega^i_k > 0.
+\end{equation*}
+
+où $\delta$ est la masse de Dirac et $\omega^i_k$ les poids associés à chaque membre. Initialement, les échantillons sont supposés tirés de manière uniforme de tel sorte que $\omega^i_k = 1/N$.
+
+Lors de l'étape de \textit{propagation}, les particules sont propagés par le modèle de manière déterministe.
+
+Pour s'en convaincre, le loi de probabilité totale \ref{tot_rule} peut être réécrite
+
