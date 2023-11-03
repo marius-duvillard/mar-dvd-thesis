@@ -13,9 +13,9 @@ Puis pour tout $k \geq 0$ les lois de probabilité sont propagées.
 
 L'étape de propagation ou \textit{forecast} loi \textit{a priori} est obtenue grace à la loi des probabilité totales
 
-\begin{equation*}\label{tot_rule}
+\begin{equation}\label{tot_rule}
     p_{\bm X_{k+1}}^{\mid k}(\bm x)= \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) p_{\bm X_{k}}^{\mid k}(\bm x')dx'
-\end{equation*}
+\end{equation}
 
 La loi \textit{a priori} de la $k+1$ observations peut être otenue de nouveau grace à la loi de probabilité totale
 
@@ -26,7 +26,7 @@ La loi \textit{a priori} de la $k+1$ observations peut être otenue de nouveau g
 Après la $k+1$ observation $\bm y_{k+1}$, l'étape d'\textit{analyse} permet de déterminer la loi \textit{a posteriori} de l'état
 
 \begin{equation*}
-    p_{\bm X_{k+1}}^{\mid k+1}(\bm x) = p_{\bm X_{k+1} \mid \bm Y_{k+1} = \bm y_{k+1}}^{\mid k}(\bm x) = \frac{p_{\bm Y_{k+1}}^{\mid k}(\bm y) p_{\bm X_{k+1}}^{\mid k}(\bm x) }{p_{\bm Y_{k+1}}^{\mid k}(\bm y)}
+    p_{\bm X_{k+1}}^{\mid k+1}(\bm x) = p_{\bm X_{k+1} \mid \bm Y_{k+1} = \bm y_{k+1}}^{\mid k}(\bm x) = \frac{p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x}^{\mid k}(\bm y) p_{\bm X_{k+1}}^{\mid k}(\bm x) }{p_{\bm Y_{k+1}}^{\mid k}(\bm y)}
 \end{equation*}
 
 
@@ -39,7 +39,7 @@ Cette méthode converge vers la distribution exacte lorsque le nombre de particu
 Le prior de l'état $p(\bm x)$ à l'instant $k$ est représenté par un ensemble de $N$ réalisations $\{\bm x_1, \bm x_2, \dots \bm x_N\}$ de tel sorte que
 
 \begin{equation*}
-    p_{\bm X_k}(\bm x) \simeq \sum_{i=1}^N \omega^i_k \delta(\bm x - \bm x_k^i) \quad \text{with} \sum_{i=1}^N \omega^i_k = 1, \omega^i_k > 0.
+    p_{\bm X_k}(\bm x) \simeq \sum_{i=1}^N \omega^i_k \delta(\bm x - \bm x_k^i) \quad \text{with} \sum_{i=1}^N \omega^i_k = 1, \quad \omega^i_k > 0.
 \end{equation*}
 
 où $\delta$ est la masse de Dirac et $\omega^i_k$ les poids associés à chaque membre. Initialement, les échantillons sont supposés tirés de manière uniforme de tel sorte que $\omega^i_k = 1/N$.
@@ -48,3 +48,41 @@ Lors de l'étape de \textit{propagation}, les particules sont propagés par le m
 
 Pour s'en convaincre, le loi de probabilité totale \ref{tot_rule} peut être réécrite
 
+\begin{eqnarray*}
+    p_{\bm X_{k+1}}^{\mid k}(\bm x) &=& \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) p_{\bm X_{k}}^{\mid k}(\bm x')dx' \\
+    &\simeq& \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) \sum_{i=1}^N \omega^i_k \delta(\bm x' - \bm x_k^i) dx' \\
+    &\simeq& \sum_{i=1}^N \omega^i_k  \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) \delta(\bm x' - \bm x_k^i) dx' \\
+    &\simeq& \sum_{i=1}^N \omega^i_k \delta(\bm x - \mathcal M_{k,k+1}(\bm x_k^i) - \bm \eta_{k,k+1}) = \sum_{i=1}^N \omega^i_k \delta(\bm x - \bm x_{k+1}^i).
+\end{eqnarray*}
+
+Quant à l'étape d'analyse, elle correspond à une mise à jour du poids de chaque membre, qui correspond à sa vraissemblance conditionnée aux données
+
+\begin{eqnarray*}
+    p_{\bm X_{k+1}}^{\mid k+1}(\bm x) &\propto& p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x}^{\mid k}(\bm y)  \sum_{i=1}^N \omega^i_k \delta(\bm x - \bm x_{k+1}^i) \\
+    &\propto& \sum_{i=1}^N  \omega^i_k~p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x_{k+1}^i}^{\mid k}(\bm y)\delta(\bm x - \bm x_{k+1}^i)
+\end{eqnarray*}
+
+Leading to
+
+\begin{equation*}
+    \omega^i_{k+1}  = \frac{\omega^i_k~p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x_{k+1}^i}^{\mid k}(\bm y_{k+1}) }{\omega^j_k~\sum_j^N p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x_{k+1}^j}^{\mid k}(\bm y_{k+1}) }
+\end{equation*}
+
+Où le dénominateur est simplement un terme de normalisation.
+
+Cependant, lorsque la dimension est grande, le nombre de poids non nulle à tendance à tendre vers 0. Pour éviter cela, des méthodes de rééchantillonnage du \textit{posterior} ont été développé. Le filtre bootstrap \cite{gordon_1993} consiste à selectionner les membres de poids les plus élevé, de les cloner de manière proportionnelle à leurs poids. Après échantillonnage, $N$ particules sont rassemblées, dont certaines sont identitiques avec des approximativement égaux.
+Un exemple d'algorithme suivant
+
+\begin{algorithm}
+    \caption{Implémentation du rééchantillonnage par \textit{bootstrap}.}
+    \Pour{membre $n$ do}{
+    Tirer $u$ dans $\mathcal{U}[0,1[$\;
+    Initialiser $j=1$\;
+    Affecter $S_w = w^1$\;
+    \Tq{$S_w < u$}{
+        $j = j+1$\;
+        $S_w = S_w + w(j)\;$
+    }
+    Le membre $j$  est conservé et remplace le membre $n$.
+    }
+\end{algorithm}

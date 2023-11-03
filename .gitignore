@@ -3,3 +3,5 @@
 *.aux
 *.fdb_latexmk
 *.synctex.gz
+.vscode
+*.bbl
