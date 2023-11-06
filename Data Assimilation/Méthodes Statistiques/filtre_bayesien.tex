@@ -1,8 +1,11 @@
 % !TEX root = main.tex
+\subsection{Estimation}~\label{estimation}
 
-\subsection{Méthode séquentielle - Approche Probabiliste}
+\subsection{Chaîne de Markov cachée}~\label{hidden_mc}
 
-\subsubsection{Filtrage bayésien}
+\section{Méthode séquentielle - Approche Probabiliste}
+
+\subsection{Filtrage bayésien}
 
 Le filtrage bayésien consiste à écrire la récurrence sur les lois de probabilité, pour estimer, en fonction des observations passées et courante $y_{1:k}$ l'état courant $\bm x_k$ et de prédire l'état future $\bm x_{k+1}$.
 
@@ -24,14 +27,32 @@ La loi \textit{a priori} de la $k+1$ observations peut être otenue de nouveau g
 \end{equation*}
 
 Après la $k+1$ observation $\bm y_{k+1}$, l'étape d'\textit{analyse} permet de déterminer la loi \textit{a posteriori} de l'état
+avec la loi de Bayes appliquées après mesure de $\bm Y_n$
 
 \begin{equation*}
-    p_{\bm X_{k+1}}^{\mid k+1}(\bm x) = p_{\bm X_{k+1} \mid \bm Y_{k+1} = \bm y_{k+1}}^{\mid k}(\bm x) = \frac{p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x}^{\mid k}(\bm y) p_{\bm X_{k+1}}^{\mid k}(\bm x) }{p_{\bm Y_{k+1}}^{\mid k}(\bm y)}
+    p_{\bm X_{k+1}}^{\mid k+1}(\bm x) = p_{\bm X_{k+1} \mid \bm Y_{k+1} = \bm y_{k+1}}^{\mid k}(\bm x) = \frac{p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x}^{\mid k}(\bm y) p_{\bm X_{k+1}}^{\mid k}(\bm x) }{p_{\bm Y_{k+1}}^{\mid k}(\bm y)}.
 \end{equation*}
 
+De ces lois sur les distributions de probabilité peuvent être déduite les estimateurs Bayésiens tels que le MMSE \ref{estimation} accompagné de leur covariance conditionnées aux données
 
-la loi de Bayes après mesure de $\bm Y_n$
-\subsubsection{Filtre Particulaire}
+\begin{eqnarray*}
+    \hat \bm X_{k+1}^{\mid k} &=& \bE^{\mid k}(\bm X_{k+1}),
+    \bm P^{\mid k} &=& \bm V^{\mid k}(\bm X_{k+1}),
+
+
+\end{eqnarray*}
+
+
+\subsection{Filtre de Kalman}
+
+Introduit par Kalman en 1960 \cite{kalman_new_1960}, le filtre de Kalman est la version linéaire du filtre de bayésien. En supposant les distributions Gaussienne, et le modèle de Chaîne de Markov linéaire \ref{hidden_mc}, \dots
+
+\begin{algorithm}
+    \caption*{Filtre de Kalman}
+
+\end{algorithm}
+
+\subsection{Filtre Particulaire}
 
 Le filtre particulaire est une implémentation du filtre bayésien qui approxime la PDF à l'aide d'une distribution empirique. Les transformations du filtre, \textit{forecast} et \textit{analysis} sont appliquées sur les membres de cet échantillon.
 Cette méthode converge vers la distribution exacte lorsque le nombre de particule $N \to \infty$.
@@ -86,3 +107,4 @@ Un exemple d'algorithme suivant
     Le membre $j$  est conservé et remplace le membre $n$.
     }
 \end{algorithm}
+
