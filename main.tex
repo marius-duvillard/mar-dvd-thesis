@@ -18,20 +18,23 @@
 \usepackage{multicol}
 \usepackage{bm}
 \usepackage{amsmath}
-\usepackage[linesnumbered,ruled,vlined,french]{algorithm2e}
+\usepackage{amsfonts}
+\usepackage[vlined, french, onelanguage]{algorithm2e}
 \setlength{\columnseprule}{0pt}
 \setlength\columnsep{10pt}
 
 \newcommand{\bE}{\mathbb{E}}
-\newcommand{\bV}{\mathbb{E}}
+\newcommand{\bV}{\mathbb{V}}
+\newcommand{\bC}{\mathbb{C}}
+
 \usepackage[french]{babel}
 
 \bibliographystyle{plain}
 
 \begin{document}
 
-\input{Data Assimilation/Méthodes Statistiques/filtre_bayesien.tex}
-
+\input{DataAssimilation/Méthodes Statistiques/filtre_bayesien.tex}
+\input{PartMethods/mpm.tex}
 \bibliography{./biblio.bib}
 
 \end{document}

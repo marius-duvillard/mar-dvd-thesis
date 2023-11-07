@@ -33,3 +33,56 @@
   year     = {1960},
   pages    = {35--45}
 }
+
+
+@article{jiang_affine_2015,
+  title    = {The affine particle-in-cell method},
+  volume   = {34},
+  issn     = {0730-0301, 1557-7368},
+  url      = {https://dl.acm.org/doi/10.1145/2766996},
+  doi      = {10.1145/2766996},
+  language = {en},
+  number   = {4},
+  urldate  = {2021-12-13},
+  journal  = {ACM Transactions on Graphics},
+  author   = {Jiang, Chenfanfu and Schroeder, Craig and Selle, Andrew and Teran, Joseph and Stomakhin, Alexey},
+  month    = jul,
+  year     = {2015},
+  pages    = {1--10}
+}
+
+@article{hu_moving_2018,
+  title    = {A moving least squares material point method with displacement discontinuity and two-way rigid body coupling},
+  volume   = {37},
+  issn     = {0730-0301, 1557-7368},
+  url      = {https://dl.acm.org/doi/10.1145/3197517.3201293},
+  doi      = {10.1145/3197517.3201293},
+  abstract = {In this paper, we introduce the Moving Least Squares Material Point Method (MLS-MPM). MLS-MPM naturally leads to the formulation of Affine Particle-In-Cell (APIC) [Jiang et al. 2015] and Polynomial Particle-In-Cell [Fu et al. 2017] in a way that is consistent with a Galerkin-style weak form discretization of the governing equations. Additionally, it enables a new stress divergence discretization that effortlessly allows all MPM simulations to run two times faster than before. We also develop a Compatible Particle-In-Cell (CPIC) algorithm on top of MLS-MPM. Utilizing a colored distance field representation and a novel compatibility condition for particles and grid nodes, our framework enables the simulation of various new phenomena that are not previously supported by MPM, including material cutting, dynamic open boundaries, and two-way coupling with rigid bodies. MLS-MPM with CPIC is easy to implement and friendly to performance optimization.},
+  language = {en},
+  number   = {4},
+  urldate  = {2022-03-14},
+  journal  = {ACM Transactions on Graphics},
+  author   = {Hu, Yuanming and Fang, Yu and Ge, Ziheng and Qu, Ziyin and Zhu, Yixin and Pradhana, Andre and Jiang, Chenfanfu},
+  month    = aug,
+  year     = {2018},
+  pages    = {1--14}
+}
+
+@article{fu_polynomial_2017,
+  title    = {A polynomial particle-in-cell method},
+  volume   = {36},
+  issn     = {0730-0301, 1557-7368},
+  url      = {https://dl.acm.org/doi/10.1145/3130800.3130878},
+  doi      = {10.1145/3130800.3130878},
+  abstract = {Recently the Affine Particle-In-Cell (APIC) Method was proposed by Jiang et al.[2015; 2017b] to improve the accuracy of the transfers in Particle-In-Cell (PIC) [Harlow 1964] techniques by augmenting each particle with a locally affine, rather than locally constant description of the velocity. This reduced the dissipation of the original PIC without suffering from the noise present in the historic alternative, Fluid-Implicit-Particle (FLIP) [Brackbill and Ruppel 1986]. We present a generalization of APIC by augmenting each particle with a more general local function. By viewing the grid-to-particle transfer as a linear and angular momentum conserving projection of the particle-wise local grid velocities onto a reduced basis, we greatly improve the energy and vorticity conservation over the original APIC. Furthermore, we show that the cost of the generalized projection is negligible over APIC when using a particular class of local polynomial functions. Lastly, we note that our method retains the filtering property of APIC and PIC and thus has similar robustness to noise.},
+  language = {en},
+  number   = {6},
+  urldate  = {2022-05-12},
+  journal  = {ACM Transactions on Graphics},
+  author   = {Fu, Chuyuan and Guo, Qi and Gast, Theodore and Jiang, Chenfanfu and Teran, Joseph},
+  month    = nov,
+  year     = {2017},
+  pages    = {1--12}
+}
+
+

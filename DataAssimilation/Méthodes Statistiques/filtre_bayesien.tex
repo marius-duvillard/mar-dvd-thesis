@@ -42,30 +42,51 @@ la loi de Bayes après mesure de $\bm Y_n$
 Le filtre de Kalman introduit en 1960 \cite{kalman_new_1960} est une version du filtre Bayésien appliqué à un modèle linéaire Gaussien. Dans ces conditions, la distribution de l'état a priori de l'état et des observations sont défini par leur deux premiers moment tel que la propagation devient
 
 \begin{eqnarray*}
-    \bE [\bm X_{k+1}^\{|mid k}] = \bm M \bE [\bm X_{k+1}^\{|mid k}],\\
-    \bV [\bm X_{k+1}^\{|mid k}] = \bm M \bE [\bm X_{k+1}^\{|mid k}] \bm M^T + \bm Q,
+    \hat m_X &=& \bE [\bm X_{k+1}^{\mid k}] = \bm M \bE [\bm X_{k}^{\mid k}],\\
+    \hat{\bm  P}_{k+1} &=& \bV [\bm X_{k+1}^{\mid k}] = \bm M \bE [\bm X_{k+1}^{\mid k}] \bm M^T + \bm Q,
 \end{eqnarray*}
 
 et le modèle d'observation donne
 
-\begin{equation*}
-    \bE [\bm Y_{k+1}^\{|mid k}\mid ] = M \bE [X_{k+1}^\{|mid k}],\\
-    \bV [\bm X^\{|mid k}] = \bm M \bV [\bm X_{k+1}^\{|mid k}] \bm M^T + \bm R, \\
-    \bC[\bm Y^\{|mid k}, \bm X^\{|mid k}] = \bV [\bm X_{k+1}^\{|mid k}] H^T
-\end{equation*}
-
-De telle sorte que la distribution conditionnelle de $\bm Y_{k+1}$ par $^{\mid k}$ et $\bm X_{k+1}$ si cette dernière est non-dégénérée
-
 \begin{eqnarray*}
-    \bE[\bm Y^\{|mid k} \mid \bm X^\{|mid k}] = M \bE [X_{k+1}^\{|mid k}] +
-\end{eqnarray*}
-\begin{eqnarray*}
-
+    m_Y &=& \bE [\bm Y_{k+1}^{\mid k}] = \bm H \bE [X_{k+1}^{\mid k}],\\
+    \bm C_{Y,Y}&=&\bV [\bm Y_{k+1}^{\mid k}] = \bm H \bV [\bm X_{k+1}^{\mid k}] \bm H^T + \bm R, \\
+    \bm C_{X,Y} &=& \bC[\bm X_{k+1}^{\mid k},\bm Y^{\mid k}_{k+1}] = \bm P_{k+1} \bm H^T,
 \end{eqnarray*}
 
-\begin{equation*}
-    \bE [Y_{k+1}^\{|mid k}] = H
-\end{equation*}
+De telle sorte que la distribution conditionnelle de $\bm Y_{k+1}$ par $^{\mid k}$ et $\bm Y_{k+1} = \bm{y_{k+1}}$, si cette dernière est non-dégénérée (ce qui est le cas si $\bm R$ n'est pas singulière), est défini par ses deux premiers moments qui sont
+\begin{eqnarray*}
+    m_X &=& \bE[\bm X^{\mid k}_{k+1} \mid \bm Y_{k+1}^{\mid k}] = \hat m_X + \bm C_{X,Y} \bm C_{Y,Y}^{-1} (\bm y_{k+1} - m_Y), \\
+    \bm P_{k+1} &=& \bV[\bm X^{\mid k}_{k+1} \mid \bm Y_{k+1}^{\mid k}] = \hat{\bm  P}_{k+1} - \bm C_{X,Y} \bm C_{Y,Y}^{-1} \bm C_{X,Y}^T.
+\end{eqnarray*}
+
+Ainsi la distribution a posteriori est défini comme un produit matriciel où l'estimateur a priori $\hat m_X$ et sa variance $\hat{\bm  P}_{k+1}$ sont mis à jour à partir du \textit{gain de Kalman} $\bm K = \bm C_{X,Y} \bm C_{Y,Y}^{-1} $ et du \textit{terme d'innovation} $(\bm y_{k+1} - m_Y)$ de telle sorte que les précédentes équations s'écrivent
+
+\begin{eqnarray*}
+    m_X &=& \hat m_X + \bm K (\bm y_{k+1} - m_Y), \\
+    \bm P_{k+1} &=& (\bm I - \bm K\bm H)\hat{\bm  P}_{k+1} \\.
+\end{eqnarray*}
+
+Finalement, on peut réécr
+\begin{algorithm}
+    \caption{Filtre de Kalman}
+    \KwData{Initialisation de l'état $m x$ et de sa covariance $\bm P$;}
+    \For{$k \geq 1$}{
+        Prédiction\;
+        $\hat m_x = \bm M m x $\;
+        $\hat{\bm  P} = \bm M \bE [\bm X_{k+1}^{\mid k}] \bm M^T + \bm Q$\;
+        Observation de $\bm Y \to \bm y$
+        Analyse\;
+        Calcul du gain de Kalman: $\bm K = \hat{\bm{P}}\bm H^T (\bm H \hat{\bm  P}\bm H^T + \bm R)^{-1}$ \;
+        Calcul de l'analyse\;
+        $m_x = \hat m_x + \bm K (\bm y - \bm H \hat m_x)$\;
+        Calcul de la matrice de covariance de l'état\;
+
+
+
+    }
+\end{algorithm}
+
 \subsubsection{Filtre Particulaire}
 
 Le filtre particulaire est une implémentation du filtre bayésien qui approxime la PDF à l'aide d'une distribution empirique. Les transformations du filtre, \textit{forecast} et \textit{analysis} sont appliquées sur les membres de cet échantillon.
@@ -110,11 +131,11 @@ Un exemple d'algorithme suivant
 
 \begin{algorithm}
     \caption{Implémentation du rééchantillonnage par \textit{bootstrap}.}
-    \Pour{membre $n$ do}{
+    \For{membre $n$ do}{
     Tirer $u$ dans $\mathcal{U}[0,1[$\;
     Initialiser $j=1$\;
     Affecter $S_w = w^1$\;
-    \Tq{$S_w < u$}{
+    \While{$S_w < u$}{
         $j = j+1$\;
         $S_w = S_w + w(j)\;$
     }
