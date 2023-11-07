@@ -2,6 +2,7 @@
 
 \subsection{Méthode séquentielle - Approche Probabiliste}
 
+
 \subsubsection{Filtrage bayésien}
 
 Le filtrage bayésien consiste à écrire la récurrence sur les lois de probabilité, pour estimer, en fonction des observations passées et courante $y_{1:k}$ l'état courant $\bm x_k$ et de prédire l'état future $\bm x_{k+1}$.
@@ -31,6 +32,36 @@ Après la $k+1$ observation $\bm y_{k+1}$, l'étape d'\textit{analyse} permet de
 
 
 la loi de Bayes après mesure de $\bm Y_n$
+
+\subsubsection{Filtre de Kalman}
+
+Le filtre de Kalman est une version du filtre Bayésien appliqué à un modèle linéaire Gaussien. Dans ces conditions, la distribution de l'état a priori de l'état et des observations sont défini par leur deux premiers moment tel que la propagation devient
+
+\begin{eqnarray*}
+    \bE [\bm X_{k+1}^\{|mid k}] = \bm M \bE [\bm X_{k+1}^\{|mid k}],\\
+    \bV [\bm X_{k+1}^\{|mid k}] = \bm M \bE [\bm X_{k+1}^\{|mid k}] \bm M^T + \bm Q,
+\end{eqnarray*}
+
+et le modèle d'observation donne
+
+\begin{equation*}
+    \bE [\bm Y_{k+1}^\{|mid k}\mid ] = M \bE [X_{k+1}^\{|mid k}],\\
+    \bV [\bm X^\{|mid k}] = \bm M \bV [\bm X_{k+1}^\{|mid k}] \bm M^T + \bm R, \\
+    \bC[\bm Y^\{|mid k}, \bm X^\{|mid k}] = \bV [\bm X_{k+1}^\{|mid k}] H^T
+\end{equation*}
+
+De telle sorte que la distribution conditionnelle de $\bm Y_{k+1}$ par $^{\mid k}$ et $\bm X_{k+1}$ si cette dernière est non-dégénérée
+
+\begin{eqnarray*}
+    \bE[\bm Y^\{|mid k} \mid \bm X^\{|mid k}] = M \bE [X_{k+1}^\{|mid k}] +
+\end{eqnarray*}
+\begin{eqnarray*}
+
+\end{eqnarray*}
+
+\begin{equation*}
+    \bE [Y_{k+1}^\{|mid k}] = H
+\end{equation*}
 \subsubsection{Filtre Particulaire}
 
 Le filtre particulaire est une implémentation du filtre bayésien qui approxime la PDF à l'aide d'une distribution empirique. Les transformations du filtre, \textit{forecast} et \textit{analysis} sont appliquées sur les membres de cet échantillon.
