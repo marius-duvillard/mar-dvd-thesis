@@ -1,9 +1,12 @@
 % !TEX root = main.tex
+\subsection{Estimation}~\label{estimation}
+
+\subsection{Chaîne de Markov cachée}~\label{hidden_mc}
 
 \subsection{Méthode séquentielle - Approche Probabiliste}
 
 
-\subsubsection{Filtrage bayésien}
+\subsection{Filtrage bayésien}
 
 Le filtrage bayésien consiste à écrire la récurrence sur les lois de probabilité, pour estimer, en fonction des observations passées et courante $y_{1:k}$ l'état courant $\bm x_k$ et de prédire l'état future $\bm x_{k+1}$.
 
@@ -25,9 +28,10 @@ La loi \textit{a priori} de la $k+1$ observations peut être otenue de nouveau g
 \end{equation*}
 
 Après la $k+1$ observation $\bm y_{k+1}$, l'étape d'\textit{analyse} permet de déterminer la loi \textit{a posteriori} de l'état
+avec la loi de Bayes appliquées après mesure de $\bm Y_n$
 
 \begin{equation*}
-    p_{\bm X_{k+1}}^{\mid k+1}(\bm x) = p_{\bm X_{k+1} \mid \bm Y_{k+1} = \bm y_{k+1}}^{\mid k}(\bm x) = \frac{p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x}^{\mid k}(\bm y) p_{\bm X_{k+1}}^{\mid k}(\bm x) }{p_{\bm Y_{k+1}}^{\mid k}(\bm y)}
+    p_{\bm X_{k+1}}^{\mid k+1}(\bm x) = p_{\bm X_{k+1} \mid \bm Y_{k+1} = \bm y_{k+1}}^{\mid k}(\bm x) = \frac{p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x}^{\mid k}(\bm y) p_{\bm X_{k+1}}^{\mid k}(\bm x) }{p_{\bm Y_{k+1}}^{\mid k}(\bm y)}.
 \end{equation*}
 
 
@@ -35,7 +39,7 @@ la loi de Bayes après mesure de $\bm Y_n$
 
 \subsubsection{Filtre de Kalman}
 
-Le filtre de Kalman est une version du filtre Bayésien appliqué à un modèle linéaire Gaussien. Dans ces conditions, la distribution de l'état a priori de l'état et des observations sont défini par leur deux premiers moment tel que la propagation devient
+Le filtre de Kalman introduit en 1960 \cite{kalman_new_1960} est une version du filtre Bayésien appliqué à un modèle linéaire Gaussien. Dans ces conditions, la distribution de l'état a priori de l'état et des observations sont défini par leur deux premiers moment tel que la propagation devient
 
 \begin{eqnarray*}
     \bE [\bm X_{k+1}^\{|mid k}] = \bm M \bE [\bm X_{k+1}^\{|mid k}],\\
@@ -117,3 +121,4 @@ Un exemple d'algorithme suivant
     Le membre $j$  est conservé et remplace le membre $n$.
     }
 \end{algorithm}
+
