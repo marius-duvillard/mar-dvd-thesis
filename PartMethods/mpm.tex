@@ -2,7 +2,32 @@
 
 \subsection{Material Point Method (MPM)}
 
+La méthode MPM est une version de FLIP pour résoudre le problème de mécanique des solides.
+Elle consiste, comme en élément finis, à résoudre le problème aux valeurs sous sa forme faible, en utilisant conjointement deux discrétisations, une grille et des particules.
+
+Le problème aux conditions limites, sous sa forme forte, se composent des équations d'équilibre, des lois matériaux, de l'équation cinématiqu et des conditions limites et initiales donnant
+
+\begin{equation*}
+    \begin{cases}
+        \begin{aligned}
+             & \frac{D \rho}{Dt} + \rho \nabla \cdot \bm v  =  0                          ,                                                                         & \quad \text{(conservation de la masse)}                  \\
+             & \rho \frac{D \bm v}{Dt}                      =  \nabla \cdot \bm \sigma + \rho \bm b,                                                                & \quad  \text{(conservation de la quantité de mouvement)} \\
+             & \bm \sigma = LdC(\bm F),                                                                                                                             & \quad  \text{(loi de comportement)}                      \\
+             & \bm u(\bm z, t) = \bar{\bm u}, \quad \forall \bm z \in \Gamma_u,    \quad  \bm \sigma (\bm z) \cdot \bm n = \bm t, \quad \forall \bm z \in \Gamma_n, & \quad  \text{(conditions limites)}                       \\&\bm v(\bm z, t = 0), \quad \bm \sigma(\bm z, t= 0) = \bm \sigma_0. & \quad  \text{(conditions initiales)} \\
+        \end{aligned}
+    \end{cases}
+\end{equation*}
+
+La forme faible de l'équation de conservation du moment est, en introduisant une fonction test $\bm q$
+
+\begin{equation*}
+    \int_\Omega \rho \bm a \cdot \bm q d\bm z + \int_\Omega \bm \sigma : \nabla \cdot \bm q d\bm z = \int_\Omega \rho \bm b d\bm z + \int_{\partial \Omega_t} \bm t dS.
+\end{equation*}
+
+Le schéma MPM peut être obtenu en utilisant une discrétisation particulaire de la densité sur les particules et en utilisant un  $\Omega = \bigcup_p \Omega_p$.
+
 \subsubsection{Interprétation 1}
+
 
 \subsubsection{Interprétation 2}
 
