@@ -6,9 +6,14 @@ author: Marius Duvillard
 # Introduction
 ## Contexte industriel
 ### Fabrication du combustible de fission
+voir Giraud: p.1-6
+voir Orozco: p.3-9
 ### Broyeur à boulet
 ### régimes d'écoulement
+voir pouliquen.pdf
+voir Orozco
 ### indices de mélange
+voir Giraud
 ## Méthode de simulation du tambour en rotation
 ## Méthodes de mesure
 ## Concept de Jumeau Numérique
@@ -52,5 +57,8 @@ author: Marius Duvillard
 ### Méthode PIC - MPM
 #### Présenter formulation classique
 #### Présenter formulation GIMP
+#### Contact
+voir Bardenhagen, S.G., Brackbill, J.U., Sulsky, D., 2000. The material-point method for granular materials. Computer Methods in Applied Mechanics and Engineering 187, 529–541. https://doi.org/10.1016/S0045-7825(99)00338-2
+
 
 # Ensemble Data Assimilation for particle filter - Article 1

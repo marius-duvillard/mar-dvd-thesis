@@ -13,7 +13,7 @@ Le problème aux conditions limites, sous sa forme forte, se composent des équa
              & \frac{D \rho}{Dt} + \rho \nabla \cdot \bm v  =  0                          ,                                                                         & \quad \text{(conservation de la masse)}                  \\
              & \rho \frac{D \bm v}{Dt}                      =  \nabla \cdot \bm \sigma + \rho \bm b,                                                                & \quad  \text{(conservation de la quantité de mouvement)} \\
              & \bm \sigma = LdC(\bm F),                                                                                                                             & \quad  \text{(loi de comportement)}                      \\
-             & \bm u(\bm z, t) = \bar{\bm u}, \quad \forall \bm z \in \Gamma_u,    \quad  \bm \sigma (\bm z) \cdot \bm n = \bm t, \quad \forall \bm z \in \Gamma_n, & \quad  \text{(conditions limites)}                       \\&\bm v(\bm z, t = 0), \quad \bm \sigma(\bm z, t= 0) = \bm \sigma_0. & \quad  \text{(conditions initiales)} \\
+             & \bm u(\bm z, t) = \bar{\bm u}, \quad \forall \bm z \in \Gamma_u,    \quad  \bm \sigma (\bm z) \cdot \bm n = \bm t, \quad \forall \bm z \in \Gamma_t, & \quad  \text{(conditions limites)}                       \\&\bm v(\bm z, t = 0), \quad \bm \sigma(\bm z, t= 0) = \bm \sigma_0. & \quad  \text{(conditions initiales)} \\
         \end{aligned}
     \end{cases}
 \end{equation*}
@@ -25,6 +25,32 @@ La forme faible de l'équation de conservation du moment est, en introduisant un
 \end{equation*}
 
 Le schéma MPM peut être obtenu en utilisant une discrétisation particulaire de la densité sur les particules et en utilisant un  $\Omega = \bigcup_p \Omega_p$.
+
+En concentrant la masse sur la position de chaque particule, on peut représenter la densité comme un somme de dirac tel que
+
+\begin{equation*}
+    \rho(\bm z) = \sum_p V_p~\rho_p \delta(\bm z - \bm z_p) = \sum_p m_p \delta(\bm z - \bm z_p)
+\end{equation*}
+
+De même, on discrétise la contrainte $\bm \sigma$
+
+\begin{equation*}
+    \bm \sigma(x) = \sum_p \bm \sigma_p \delta(\bm z - \bm z_p).
+\end{equation*}
+Une généralisation a été proposée avec la méthode GIMP \cite{bardenhagen_generalized_2004} en définissant une représentation particulaire de la densité en attroduisant une fonction caractéristique $\chi_p$ tel que
+
+\begin{equation*}
+    \rho(\bm z) = \sum_p m_p \chi(\bm z - \bm z_p)
+\end{equation*}
+
+Ce qui donne en choisissant $i$ comme indice de dimension d'espace
+
+\begin{equation*}
+    \sum_p m_p q_i(\bm z_p) a_i(\bm z_p) + \sum_p \sigma_{ij} \partial_j u_i + \int_{\partial \Omega_t} t_i q_i dS.
+\end{equation*}
+
+
+
 
 \subsubsection{Interprétation 1}
 
@@ -55,7 +81,7 @@ La grille à chaque étape est initialisée dans un état non déformée. A l'ai
 \begin{eqnarray*}
     m_I \bm a_I &=& \bm f_I + \bm f_g, \\
     m_I \bm v^{n+1} &=& \bm v^{n} + \Delta t~ (\bm f_I + \bm f_g) / m_I, \\
-    \bm x_I^{n+1} &=& \bm x_I^{n} + \Delta t~ \bm v^{n+1}.
+    \bm x_I^{n+1} &=& \bm x_I^{n} + \Delta t~\bm v^{n+1}.
 \end{eqnarray*}
 
 C'est durant cette étape que les conditions limites ou les collisions avec un objet peuvent être prise en compte.
