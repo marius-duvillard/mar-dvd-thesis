@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.361">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Marius Duvillard">
+
+<title>Plan Manuscript</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="layout_files/libs/clipboard/clipboard.min.js"></script>
+<script src="layout_files/libs/quarto-html/quarto.js"></script>
+<script src="layout_files/libs/quarto-html/popper.min.js"></script>
+<script src="layout_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="layout_files/libs/quarto-html/anchor.min.js"></script>
+<link href="layout_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="layout_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="layout_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="layout_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="layout_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Plan Manuscript</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Marius Duvillard </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction-bibliographie" class="level1">
+<h1>1- Introduction / Bibliographie</h1>
+<section id="contexte-industriel" class="level2">
+<h2 class="anchored" data-anchor-id="contexte-industriel">1.1 Contexte industriel</h2>
+<section id="fabrication-du-combustible-de-fission" class="level3">
+<h3 class="anchored" data-anchor-id="fabrication-du-combustible-de-fission">1.1.1 Fabrication du combustible de fission</h3>
+<ul>
+<li>voir Giraud: p.1-6</li>
+<li>voir Orozco: p.3-9</li>
+</ul>
+</section>
+<section id="broyeur-à-boulet" class="level3">
+<h3 class="anchored" data-anchor-id="broyeur-à-boulet">1.1.2 Broyeur à boulet</h3>
+<ul>
+<li>Orozco ?</li>
+</ul>
+</section>
+<section id="régimes-découlement" class="level3">
+<h3 class="anchored" data-anchor-id="régimes-découlement">1.1.3 régimes d’écoulement</h3>
+<ul>
+<li>voir pouliquen.pdf</li>
+<li>voir Orozco <!-- ### indices de mélange
+voir Giraud --></li>
+</ul>
+</section>
+<section id="méthode-de-simulation-des-écoulements-granulaires-dans-un-tambour-en-rotation" class="level3">
+<h3 class="anchored" data-anchor-id="méthode-de-simulation-des-écoulements-granulaires-dans-un-tambour-en-rotation">1.1.4 Méthode de simulation des écoulements granulaires dans un tambour en rotation</h3>
+<ul>
+<li>voir Arseni 2020</li>
+<li>voir EFEM</li>
+<li>Mishra / Orozco / Chong / Chandra / Zuo / Zhu</li>
+</ul>
+</section>
+<section id="méthodes-de-mesures" class="level3">
+<h3 class="anchored" data-anchor-id="méthodes-de-mesures">1.1.5 Méthodes de mesures</h3>
+<ul>
+<li>voir Bastien + dossier mesures <!-- biblio --> ### 1.1.6 Concept de Jumeau Numérique</li>
+<li>voir session FJOH</li>
+</ul>
+</section>
+</section>
+<section id="méthodes-particulaires" class="level2">
+<h2 class="anchored" data-anchor-id="méthodes-particulaires">1.1 Méthodes particulaires</h2>
+<ul>
+<li>Présenter les méthodes continues et discrètes (voir cours PARTICLES)</li>
+</ul>
+<section id="présentation-dem" class="level3">
+<h3 class="anchored" data-anchor-id="présentation-dem">1.1.1 Présentation DEM</h3>
+</section>
+<section id="méthode-sph" class="level3">
+<h3 class="anchored" data-anchor-id="méthode-sph">1.1.2 Méthode SPH</h3>
+<!-- ###  1.1.2 Présentation méthodes continues voir généralité: noyau, discrétisation particulaire -->
+</section>
+<section id="méthode-mpm-pic" class="level3">
+<h3 class="anchored" data-anchor-id="méthode-mpm-pic">1.1.3 Méthode MPM-PIC</h3>
+</section>
+<section id="méthode-vm-problème-fluide-incompressible-et-similarité-avec-sph-vic-et-mpm" class="level3">
+<h3 class="anchored" data-anchor-id="méthode-vm-problème-fluide-incompressible-et-similarité-avec-sph-vic-et-mpm">1.1.4 Méthode VM –&gt; problème fluide incompressible et similarité avec SPH / VIC et MPM</h3>
+</section>
+</section>
+<section id="assimilation-de-données" class="level2">
+<h2 class="anchored" data-anchor-id="assimilation-de-données">1.2 Assimilation de données</h2>
+<!-- 1.2.1 Généralités: présenter un cas 1D pour expliquer le BLUE -->
+<ul>
+<li>cas 1D: x:température dans une salle, y: mesure de plusieurs thermomètre p21 Carpentier, voir Blayo, an introduction to data assimilation. Présenter les résultats de Blayo s.8-19.</li>
+<li><h3 id="modèle-stochastique-du-système" class="anchored">1.2.1 Modèle stochastique du système</h3></li>
+<li>inspérer de 3.4.2 de Asch, et Carpentier p.41</li>
+</ul>
+<section id="probability-formula" class="level3">
+<h3 class="anchored" data-anchor-id="probability-formula">1.2.2 Probability formula</h3>
+</section>
+<section id="estimation" class="level3">
+<h3 class="anchored" data-anchor-id="estimation">1.2.3 Estimation</h3>
+<ul>
+<li>Carpentier, chap 2, p27 -36</li>
+<li>Asch p.78-82</li>
+<li>Evensen 2.1.7 inférence bayésienne</li>
+</ul>
+</section>
+<section id="filtre-bayésien" class="level3">
+<h3 class="anchored" data-anchor-id="filtre-bayésien">1.2.4 Filtre Bayésien</h3>
+<ul>
+<li>Carpentier p42</li>
+<li>Asch p 91</li>
+<li>Evensen 2.2</li>
+</ul>
+</section>
+<section id="filtre-particulaire" class="level3">
+<h3 class="anchored" data-anchor-id="filtre-particulaire">1.2.5 Filtre particulaire</h3>
+<ul>
+<li>3.7 de Asch</li>
+<li>CoursEC section 5</li>
+</ul>
+</section>
+<section id="formulation-variationnelle" class="level3">
+<h3 class="anchored" data-anchor-id="formulation-variationnelle">1.2.7 Formulation variationnelle</h3>
+</section>
+<section id="filtre-de-kalman" class="level3">
+<h3 class="anchored" data-anchor-id="filtre-de-kalman">1.2.6 Filtre de Kalman</h3>
+</section>
+<section id="filtre-de-kalman-densemble" class="level3">
+<h3 class="anchored" data-anchor-id="filtre-de-kalman-densemble">1.2.8 Filtre de Kalman d’Ensemble</h3>
+<ul>
+<li>Bocquet, Lecture 2</li>
+<li>CoursEC 7.2</li>
+</ul>
+</section>
+<section id="méthodes-hybrides---rml" class="level3">
+<h3 class="anchored" data-anchor-id="méthodes-hybrides---rml">1.2.9 Méthodes Hybrides - RML</h3>
+</section>
+</section>
+</section>
+<section id="ensemble-data-assimilation-pour-la-simulation-particulaire---article-1" class="level1">
+<h1>2 Ensemble Data Assimilation pour la simulation particulaire - Article 1</h1>
+<section id="filtre-de-kalman-densemble-1" class="level2">
+<h2 class="anchored" data-anchor-id="filtre-de-kalman-densemble-1">2.1 Filtre de Kalman d’Ensemble</h2>
+<p>–&gt; choix d’une formulation in ensemble space à partir des mesures</p>
+</section>
+<section id="focus-approximation-des-méthodes-particulaires" class="level2">
+<h2 class="anchored" data-anchor-id="focus-approximation-des-méthodes-particulaires">2.2 Focus approximation des méthodes particulaires</h2>
+<p>–&gt; approximation et regression</p>
+</section>
+<section id="schéma-de-remaillage" class="level2">
+<h2 class="anchored" data-anchor-id="schéma-de-remaillage">2.3 Schéma de remaillage</h2>
+<p>–&gt; Redistribution</p>
+</section>
+<section id="focus-problème-vm" class="level2">
+<h2 class="anchored" data-anchor-id="focus-problème-vm">2.4 Focus problème VM</h2>
+<p>–&gt; Cas test</p>
+</section>
+<section id="filtres-adaptés" class="level2">
+<h2 class="anchored" data-anchor-id="filtres-adaptés">2.5 Filtres adaptés</h2>
+</section>
+</section>
+<section id="data-assimilation-modification-de-la-distribution-particulaire" class="level1">
+<h1>3 Data Assimilation: modification de la distribution particulaire</h1>
+<p>–&gt; Placer la biblio dans la partie 1.2 si associée à DA ou dans un 1.3 si trop dfférent (ex: OT)</p>
+</section>
+<section id="conclusion" class="level1">
+<h1>4 Conclusion</h1>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,66 @@
+<p>Dans cette note nous reprenons ce qui existe en terme d’utilsation de
+l’OT pour l’assimilation de données. Cela se base sur différents
+articles et thèse. Tout d’abord l’article de <em>Bocquet et
+al. 2023</em> qui présente l’OTDA comme des approches interpolante en
+déplacement dans l’état physique tandis que les approches classiques
+vont interpoler dans l’espace des intensités.</p>
+<p>Il y a ensuite les travaux de Feyeux pour qui utilise une distance de
+Wasserstein pour l’assimilation de données issues d’images.</p>
+<p>Egalement les travaux de Rivella 2007 peuvent trouver une résonnance
+dans une approche OT via une étape d’alignement de champs.</p>
+<p>Un travail de W.Steven Rosenthal Displacement data assimilation et
+al. 2017 trouve de similarités avec notre problématique de Vortex.</p>
+<p>#Bocquet, Marc, Pierre Vanderbecken, Alban Farchi, Joffrey Dumont Le
+Brazidec, et Yelva Roustan. Bridging classical data assimilation and
+optimal transport, 2023.</p>
+<p>https://doi.org/10.5194/egusphere-2023-2755.</p>
+<p>Il rappelle tout d’abord que DA est critique pour des systèmes
+chaotiques pour mettre à jour les conditions initiales, estimer les
+paramètres physiques et statistique du modèle et permet de réanalyser
+l’histoire passée (smoothing). Ils présentent deux faiblesses à l’AD
+outre les hypothèses sur les distributions d’erreur. - <em>the
+double-penalty error</em>, La DA classique en sciences géophysiques
+présente une faiblesse majeure appelée “erreur de double pénalité”. Cela
+se produit lorsque les erreurs du modèle et des données
+observationnelles sont surpénalisées, compromettant l’équilibre
+nécessaire. Par exemple, un léger déplacement de polluants peut
+entraîner des prédictions élevées là où aucun polluant n’est observé
+(voir image), créant des difficultés d’évaluation du modèle. Cette
+erreur est répandue dans les géosciences, affectant la prévision
+météorologique, la chimie atmosphérique, la prévision océanique, etc.
+L’utilisation de l’erreur quadratique moyenne aggrave ce problème,
+entravant l’apprentissage efficace des modèles. C’est une composante
+dominante à l’erreur de représentativité. <img
+src="./double_penalization_error.png" /></p>
+<ul>
+<li>La mise à jour de la DA classique peut être limitée à l’espace des
+valeurs des champs, ce qui entraîne une analyse confinée aux limites de
+l’état de fond et des observations. Ceci devient une lacune majeure
+lorsque le désaccord entre les observations et l’état de fond résulte
+d’une erreur de localisation des champs ou d’une mauvaise spécification
+générale de ces champs. La Figure 2 illustre des expériences de DA
+classique avec des analyses bénéfiques et inutiles. <img
+src="./prior_field.png" /></li>
+</ul>
+<p>On peut considérer que l’erreur provient du choix du RMSE comme
+mesure d’erreur, qui est une mesure localisé à une position. Une mesure
+plus intelligente consiste en la combinaison d’une carte de déplacement
+suivi de la norme classique RMSE (Hoffman et al., 1995; Keil and Craig,
+2009). Des métriques basées sur des approches on pu être proposées. Une
+approche élégante consiste à appliquer la théorie du <em>transport
+optimal</em> qui est associée à la <em>distance de Wasserstein</em>. Des
+exemples d’utilisation d’OT peuvent être trouvé chez <em>Farchi et
+al. (2016)</em> et <em>Vanderbecken et al. (2023)</em>.</p>
+<p>Posons quelques notations pour le transport optimal. Le problème
+consiste à trouver le plan au cout minimal de transporte la mesure <span
+class="math inline"><em>ρ</em><sub>0</sub></span> à <span
+class="math inline"><em>ρ</em><sub>1</sub></span>. Mesures donc non
+négative et d’intégrale à 1. Un choix d’intégral peut être aussi écrit.
+De plus, des généralisations pour des masses différentes ont également
+été faites.</p>
+<p>On défini un coût défini pour tout couple de point <span
+class="math inline">(<em>x</em>,<em>y</em>) ∈ <em>Ω</em><sup>2</sup></span>
+généralement fonction de la distance, on présente le coût
+quadratique</p>
+<p><span
+class="math display">𝒞<sub>[<em>b</em><em>o</em>]</sub> = ∥<em>x</em> − <em>y</em>∥<sub>2</sub><sup>2</sup></span></p>

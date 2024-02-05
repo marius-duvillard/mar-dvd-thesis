@@ -5,3 +5,6 @@
 *.synctex.gz
 .vscode
 *.bbl
+*.js
+*.css
+*.woff
