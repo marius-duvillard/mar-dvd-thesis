@@ -1,0 +1,9 @@
+\babel@toc {french}{}\relax 
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
+\contentsline {section}{\numberline {2}Bocquet, Marc et al., Bridging classical data assimilation and optimal transport, 2023}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Proposition}{5}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Première méthode}{6}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Deuxième méthode}{7}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Ravela et al., Data assimilation by field alignment}{7}{section.3}%
+\contentsline {section}{\numberline {4}Rosenthal et al., Displacement data assimilation}{8}{section.4}%
+\contentsline {section}{\numberline {5}Notes personnelles}{10}{section.5}%

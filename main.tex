@@ -1,40 +1,22 @@
-\documentclass[a4paper]{article}
-\usepackage[utf8]{inputenc}
-\usepackage{helvet}
-\renewcommand{\familydefault}{\sfdefault}
-\usepackage{geometry}
-\geometry{
-    left=16mm,
-    top=30mm,
-    right=16mm,
-    bottom=30mm
+\documentclass[a4paper]{report}
+
+\input{preambule.tex}
+
+\title{
+{Data assimilation for Meshless Simulations for the Digital Twin of a Fuel Manufacturing Process.}\\
+{\large Ecole Polytechnique / CEA Cadarache}
 }
-\usepackage{xcolor}
-\usepackage[absolute,overlay]{textpos}
-\usepackage{graphicx}
-\usepackage{lipsum}
-\usepackage{array}
-\usepackage{caption}
-\usepackage{multicol}
-\usepackage{bm}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage[vlined, french, onelanguage]{algorithm2e}
-\setlength{\columnseprule}{0pt}
-\setlength\columnsep{10pt}
-
-\newcommand{\bE}{\mathbb{E}}
-\newcommand{\bV}{\mathbb{V}}
-\newcommand{\bC}{\mathbb{C}}
-
-\usepackage[french]{babel}
-
-\bibliographystyle{plain}
+\author{Marius Duvillard}
+\date{\today}
 
 \begin{document}
 
+\maketitle
+\tableofcontents
+
+\input{Introduction/Industriel.tex}
 \input{DataAssimilation/Méthodes Statistiques/filtre_bayesien.tex}
 \input{PartMethods/mpm.tex}
-\bibliography{./biblio.bib}
+\bibliography{biblio}
 
 \end{document}

@@ -1,0 +1,56 @@
+\documentclass{article}
+\usepackage{graphicx} % Pour inclure des images
+\usepackage{amsmath} % Pour les environnements mathématiques
+\usepackage{amssymb} % Pour les symboles mathématiques
+\usepackage{bm} % Pour les symboles gras en mathématiques
+\usepackage{geometry}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\newcommand{\norm}[1]{\|#1\|}
+
+\begin{document}
+
+\title{Optimal Transport for Data Assimilation - Biblio}
+\author{Marius Duvillard}
+\date{\today}
+\maketitle
+
+\section{Introduction}
+L'objectif de ce document serait de pouvoir définir les variantes à apporter aux travaux de Rosenthal pour l'assimilation de notre problème vort ex.
+
+On rappelle que le problème initiale est de minimiser la fonction coût suivante
+
+\begin{equation*}
+    \mathcal J(\omega) = \frac12 \norm{d - h(\omega)}^2_{R^{-1}} + \frac12 \norm{\omega - \omega^f}_{P^{-1}_{\omega}}
+\end{equation*}
+
+Mais on souhaite avant de réaliser cette minimisation d'appliquer une transformation sur l'ébauche pour minimiser la likelihood
+
+\begin{equation*}
+    \mathcal J_a(\omega) = min_{\phi \in \mathcal U} \frac12 \norm{d - h(\Phi^{-1}(\omega))}^2_{R^{-1}} + S(\Phi^{-1})
+\end{equation*}~où $\Phi$ est une transformation qui soit admissible cinématiquement. Dans notre cas on utilise une fonction de courant $\Psi$ intégrée sur un interval de temps donné tel que
+
+\begin{equation}
+    \Phi(x,y;a) = (x, y) + \int_0^1 \left(-\Psi_y[x(t),y(t); a], \Psi_x[x(t), y(t); a]\right)dt.
+\end{equation}
+
+Dans notre formulation VIC, on utilise encore une grille régulière pour discrétiser $\Psi$. Par différences finies on obtient un champ de vitesse $\bm{v}$, et on peut interpoler avec des fonctions de forme linéaire.
+
+Supposons que l'on puisse intégrer la transformation sur un pas de temps. On aura alors
+
+\begin{equation*}
+    z_{t+1} = f(z_{t}, v_{t}),
+\end{equation*}
+
+Ce qui correspond à une étape d'advection.
+Comment obtenir les coefficients de \Psi en conséquence ?
+Pour cela il faut différentier l'opérateur d'observation par rapport aux coefficients $a$.
+
+\begin{equation*}
+    h(X(z)) = h (X)
+\end{equation*}
+
+
+\bibliography{C:/Users/md266594/mar-dvd-thesis/biblio.bib}
+
+\end{document}

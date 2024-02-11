@@ -21,21 +21,21 @@ header-includes:
     - \DeclareMathOperator{\Tr}{Tr}
 ---
 
-Dans cette note nous reprenons ce qui existe en terme d'utilsation de l'OT pour l'assimilation de données. Cela se base sur différents articles et thèse. Tout d'abord l'article de *Bocquet et al. 2023* qui présente l'OTDA comme des approches interpolante en déplacement dans l'état physique tandis que les approches classiques vont interpoler dans l'espace des intensités.
+Dans cette partie nous reprenons ce qui existe en terme d'utilsation de l'OT pour l'assimilation de données. Cela se base sur différents articles et thèse. Tout d'abord l'article de *Bocquet et al. 2023* qui présente l'OTDA comme des approches interpolante en déplacement dans l'état physique tandis que les approches classiques vont interpoler dans l'espace des intensités.
 
 Il y a ensuite les travaux de Feyeux pour qui utilise une distance de Wasserstein pour l'assimilation de données issues d'images.
 
-Egalement les travaux de Rivella 2007 peuvent trouver une résonnance dans une approche OT via une étape d'alignement de champs.
+Egalement les travaux de Ravela 2007 peuvent trouver une résonnance dans une approche OT via une étape d'alignement de champs.
 
 Un travail de W.Steven Rosenthal Displacement data assimilation et al. 2017 trouve de similarités avec notre problématique de Vortex.
 
-## Bocquet, Marc, Pierre Vanderbecken, Alban Farchi, Joffrey Dumont Le Brazidec, et Yelva Roustan. Bridging classical data assimilation and optimal transport, 2023. 
+## Bocquet, Marc, Pierre Vanderbecken, Alban Farchi, Joffrey Dumont Le Brazidec, et Yelva Roustan. Bridging classical data assimilation and optimal transport, 2023.
 
 **https://doi.org/10.5194/egusphere-2023-2755.**
 
 Il rappelle tout d'abord que DA est critique pour des systèmes chaotiques pour mettre à jour les conditions initiales, estimer les paramètres physiques et statistique du modèle et permet de réanalyser l'histoire passée (smoothing).
-Ils présentent deux faiblesses à l'AD outre les hypothèses sur l
-es distributions d'erreur.
+Ils présentent deux faiblesses à l'AD outre les hypothèses sur les distributions d'erreur.
+
 - *the double-penalty error*, La DA classique en sciences géophysiques présente une faiblesse majeure appelée "erreur de double pénalité". Cela se produit lorsque les erreurs du modèle et des données observationnelles sont surpénalisées, compromettant l'équilibre nécessaire. Par exemple, un léger déplacement de polluants peut entraîner des prédictions élevées là où aucun polluant n'est observé (voir image), créant des difficultés d'évaluation du modèle. Cette erreur est répandue dans les géosciences, affectant la prévision météorologique, la chimie atmosphérique, la prévision océanique, etc. L'utilisation de l'erreur quadratique moyenne aggrave ce problème, entravant l'apprentissage efficace des modèles. C'est une composante dominante à l'erreur de représentativité.
   ![](./double_penalization_error.png)
 
