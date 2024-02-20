@@ -19,12 +19,12 @@ header-includes:
 La mise à jour EnKF peut être exprimé sous différentes forme suivant l'espace dans laquelle la mise à jour est exprimé. En notant $\bA$ la matrice d'annomalie d'ensemble on obtient soit une mise à jours avec le gain de Kalman d'ensemble
 
 $$
-\bX^a = \bX^f + \bK(\bD - h(\bX)),
-$$, avec $\bK = \bA\bY^T(\bY \bY^T + R)^{-1}$ exprimé avec les approximations d'ensemble.
+\bX^a = \bX^f + \bK(\bD - \bm{h}(\bX)),
+$$, avec $\bK = \bA\bY^T(\bY \bY^T + \bm{R})^{-1}$ exprimé avec les approximations d'ensemble.
 
 On peut aussi exprimer l'analyse comme une combinaison linéaire de l'état avec un terme de correction exprimé dans l'espace des observations.
 $$
-\bX^a = \bX^f + \bA \bW, 
+\bX^a = \bX^f + \bA \bW,
 $$ avec $\bW = \bY^T (\bY \bY^T + R)^{-1}(\bD - h(\bX))$,
 
 Il y a enfin l'analyse a une interprétation en terme d'ensemble

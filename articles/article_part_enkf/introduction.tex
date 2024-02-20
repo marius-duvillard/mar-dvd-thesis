@@ -1,0 +1,58 @@
+% !TEX root = main.tex
+
+\section{Introduction}
+
+
+%%%% PLAN INTRODUCTION %%%%
+
+% CONTEXT
+
+%% Contexte industriel
+%% La simulation de manière générale
+% - La simulation numérique est là pour permettre de faire des prédictions de système réel complexe pour par exemple permettre l'optimsation de systèmes complexes, faire de l'analyse de risque, tout en réduisant les couts expérimentaux\dots
+% - En mécanique, on utilise principalement la méthode des éléments finis pour la simulation des solides et la méthode des éléments
+% The traditional method for numerical analysis has long been reliant on finite element, finite volume, and finite difference techniques. These methods require a prThis transition to meshless methods holds immense potential, especially in fields like
+%%% La simulation lagrangienne plus spécifiquement --> parlé de SPH, VM, ...
+%% La quantification de manière générale --> Parler inférence, s'inspirer du papier de Siripatana
+%%% Parler de l'assimilation de données --> parler de manière générale de EnKF, méthodes variationelles, optimal interpolation, Nudging
+
+
+Numerical simulation enables the assessment of complex real-world systems, for instance, to facilitate the optimization of complex systems and perform risk analysis, all while reducing experimental costs. Thanks to the increasing computational resources, they are a tool to understand and design processes, particularly in the mechanical field.
+The conventional approach to numerical analysis has historically leaned on grid-based methods. These techniques necessitate the use of structured meshes. The shift towards meshless methods offers significant promises for complex physics or large deformations (moving interfaces, material disintegration, or distortion) to avoid computing complex geometries.
+
+Meshless methods, specifically particle-based methods, describe geometry as a collection of particles that move with the deformation flow in a Lagrangian fashion. Each particle transports material properties and internal variables.
+On one hand, particles can represent a discrete medium. Particles are individual entities with kinematic properties that interact locally and balance multi-body equilibrium. The Discrete Element Method (DEM), first introduced by Condall~and~Strack~\cite{cundall_discrete_1979}, has gained much popularity in modeling granular materials.
+On the other hand, particles can discretize a continuum medium and are associated with shape functions to reconstruct continuous fields and differential operators. The Smoothed Particle Hydrodynamic (SPH), independently introduced by Gingold, Monaghan, and Lucy~\cite{gingold_monaghan_sph_1977,lucy_1977}, is one of the first continuum particle-based methods. It associates a kernel to each particle to approximate the continuous fields and the derivative operator to solve the strong form of the equilibrium equation. It has first been applied to stellar models but also to fluid dynamics. The Material Point Method (MPM) introduced by Sulsky~\cite{sulsky_particle_1994} is another particle-based that is part of the Particle-In-Cell family, like Fluid Implicit Particle~\cite{brackbill_flip_1988} (FLIP) introduced an auxiliary grid to project, solve, and interpolate back the solution on the particles. \newline
+
+The computed solution involves errors that must be understood, quantified, and reduced.
+Uncertainty is a fundamental aspect of scientific inquiry and modeling. It often arises when our knowledge is limited or incomplete. This uncertainty can manifest in various forms, such as the ambiguity surrounding the value of a model parameter, the vagueness regarding initial conditions, or the uncertainty in setting boundary conditions or external forces. Moreover, if numerical models usually bring essential physical principles, they involve some simplifications. The numerical error appears due to the algorithm and discretization.
+Besides, it extends to the uncertainty associated with forthcoming experimental measurements calibrating numerical models. \newline
+
+Data assimilation is a crucial methodology in scientific research, especially in complex and chaotic systems. Its fundamental purpose lies in combining different sources of information to obtain a better estimate of the system state. Integrating model predictions and observational data has found extensive application in disciplines such as meteorology, oceanography, hydrology, and geosciences~\cite{bocquet_introduction_2014}.
+
+In the domain of data assimilation, two prominent families of approaches have emerged: variational and stochastic methods. Variational approaches focus on optimizing a cost function that measures the misfit between model predictions and observations, seeking the most plausible estimate of the system state. The most commonly used formulations are 3D-VAR, 4D-VAR, and incremental 4D-VAR.
+On the other hand, stochastic approaches go beyond mere state estimation; they delve into the quantification of uncertainty associated with the estimated states. This is a critical aspect, especially in dynamic and uncertain systems, where acknowledging and characterizing uncertainty becomes paramount for reliable decision-making and model improvement. This is particularly crucial in dynamic and uncertain systems, where acknowledging and characterizing uncertainty becomes paramount for reliable decision-making and model improvement. In this approach, the estimate is sequentially updated based on previous and current observations. The assimilation process is performed through a Bayesian framework with a forecast and an analysis step. The Kalman filter~\cite{kalman_new_1960} is an example of a sequential formulation considering a linear model and Gaussian distribution assumptions. However, more advanced filters have been introduced to be adapted to nonlinear and arbitrary distributions. One of the most popular Bayesian filters is undoubtedly the Ensemble Kalman Filter introduced by Evensen~\cite{evensen_sequential_1994} mainly due to its adaptability to high dimensional problems with any evolution model. It consists in approximating the probability distribution of a state thanks to an ensemble of simulations called particles or members. \newline
+
+The goal of this paper is to introduce new approaches to apply ensemble Data Assimilation techniques to particle-based simulation that discretize a continuum domain. The hypothesis considers several members of different particle distributions. The Ensemble Kalman Filter (EnKF) has been extensively employed for Eulerian discretization frameworks. However, its application in the Lagrangian approach presents unique challenges. These primarily revolve around defining a unified state representation across all ensemble members and effectively updating this state during the analysis phase.
+
+Meshless methods are more or less sensible to these issues. For particle-based methods like the Discrete Element Method~\cite{cundall_discrete_1979} (DEM), the update phase is challenging due to interpenetration issues. For the classic soft-sphere approach introduced, the interaction is dependent on the geometry of the particle. Moving one particle to another leads to a complex global nonlinear optimization problem. In~\cite{chen_superfloe_2022}, an EnKF algorithm has been applied to a DEM simulation to study the Sea Ice flow. However, some simplifications have been introduced, like a new parametrization to reduce the number of particles, and changing particle positions have mild stability implications.\newline
+
+In contrast, particle-based methods in continuum discretization treat particles as point entities, thereby circumventing interpenetration issues. Common operations such as agglomeration, splitting, or resampling are utilized to update particle configurations, primarily to mitigate issues like distortion, excessive deformation or to manage particle count~\cite{yue_continuum_2015,cottet_multi-purpose_1999}.
+
+Nevertheless, the crux of the challenge lies in the inherent disparity in discretization across different ensemble members.
+The first solution is to consider a reference discretization for all members.
+In fixed-grid methodologies with Multi-Resolution Analysis (MRA) and moving mesh scenarios, the state definition on varied grids with assimilation is managed through projection and interpolation techniques to establish a reference grid for state updates \cite{siripatana_combining_2019,bonan_data_2017}. The selection of the reference and updated grids provides a spectrum of implementation possibilities. Furthermore, Siripatana et al. \cite{siripatana_combining_2019} elucidate that the EnKF correction is contingent solely upon the predictions and observations, thereby rendering it independent of the state definition.
+
+Another solution consists of defining the state with the union of the particles, considering the position and associated intensities of each particle. Darakananda et al.~\cite{darakananda_data-assimilated_2018}. Complex filters have been developed to estimate correctly the posterior discretization based on a nonlinear observation model or a deficient number of pressure sensors~\cite{le_provost_low-rank_2021}.
+However, these methods grapple with scenarios involving markedly divergent particle discretizations or highly variant model flows. In this general case, using a particle state using all particles for the update is unfeasible. Indeed, the update implies a linear combination of all members, leading to an exponential increase of particles.
+On the other hand, the state could be associated with the spatial field defined in a functional space. The updated fields could be evaluated on the entire domain. Finally, using approximation or regression, a new particle discretization could be approximated. These types of methods have already been introduced in the Vortex Method to better approximate the vorticity field by changing the particle intensities. Regroup under the label Meshless Rezoning Methods in~\cite{mimeau_review_2021}. It mainly involved iterative methods~\cite{beale_1988},  triangulation~\cite{russo_1994} or Radial Basis Function (RBF) interpolation~\cite{barba_lorena_a_vortex_2004,sperotto_2021}. The last ones offer to easily introduce new particles or introduce penalization to regularize optimization problems.\newline
+
+Based on those different formulations, we propose two types of adaptation of the EnKF filter. First, the Remesh-EnKF uses a new reference particle discretization. This way, the state could be updated, and the number of particles is controlled. This first method is based on the regridding of the particle discretization as described by~\cite{cottet_multi-purpose_1999} on which the classical EnKF analysis could be performed.
+Then, in a case where the particle discretization would be preserved, the Particle-EnKF is introduced. In this case, the analyzed field is approximated with the previous particle discretization. The particle's positions are unchanged; only the strengths are modified by regression.
+In the next part, background on sequential filtering and EnKF algorithm will be introduced \ref{Background_DA}, then on particle-based methods \ref{Background_Part}. Then, the two categories of method will be described in section \ref{Methods}. Afterward, those filters will be compared with a grid-based filter in a 1D Advection-Diffusion problem in section \ref{App_1D}, and an incompressible viscous flow is solved using a Vortex Method \ref{App_2D} where the filters are quantitatively analyses.
+
+
+
+
+
+

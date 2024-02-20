@@ -1,0 +1,148 @@
+% !TEX root = main.tex
+
+\appendix
+\section{Stochastic Ensemble Kalman Filter}~\label{appendix:enkf}
+
+We define the matrix of states and the matrix of anomalies $\X_f = [\state^1, \dots, \state^N]$, $\annomX_f$ whose columns are the member states and the normalized anomalies.
+
+\begin{equation*}
+    \annomX_f = \frac{1}{\sqrt{N - 1}}(\X_f - \overline{\state}_f \bm{1}^T),
+\end{equation*}where$\bm{1} \in \mathbb{R}^N$ is a vector of one.
+
+Respectively the matrix of observation and observation anomalies are $\mathcal Y_f = [\mathcal{H}(\state^1_f), \dots, \mathcal{H}(\state^N_f)]$, $\annomY_f$ where columns are
+
+\begin{equation*}
+    \annomY_f = \frac{1}{\sqrt{N - 1}} \left(\mathcal Y_f - \overline{\obs}_f \bm{1}^T \right) \quad \text{with} \quad \overline{\obs}_f = \frac{1}{N} \sum_{j=1}^{N} \mathcal{H}(\state^j_f).
+\end{equation*}
+
+The ensemble defines the covariance between states and observations $\Cov \bm H^T$, the covariance between observations $\Cov \bm H^T$, and $\tilde{\bm{K}}$
+
+\begin{eqnarray*}
+    \Cov \bm H^T &=& \frac{1}{N - 1} \sum_{i = 1}^{N} {(\state^i_f - \overline{\state}_f)}^T {\left[ \mathcal{H}_k(\state^i_f) - \overline{\bm{y}}_f\right]}^T = \annomX_f \annomY_f^T, \\
+    \bm H \Cov \bm H^T &=& \frac{1}{N -1} \sum_{i = 1}^{N}\left[ \mathcal{H}_k(\state^i_f) - \overline{\bm{y}}_f\right] {\left[ \mathcal{H}_k(\state^i_f) - \overline{\bm{y}}_f\right]}^T = \annomY_f \annomY_f^T,\\
+    \tilde{\bm{K}} &=& \Cov \bm H^T{(\bm H \Cov \bm H^T + \bm R)}^{-1} = \annomX_f \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}.
+\end{eqnarray*}
+
+This observation matrix-free implementation rely on the secant method approximation $\mathcal{H}(\state^i_f - \overline{\state}_f) \approx \predi - \overline{\obs}_f$.
+The forecast is then update to a posterior ensemble ${[\state^i_a]}_{i=1}^{N}$ such as
+
+\begin{equation} \label{enkf_formula}
+    \mstate_a = \mstate_f + \tilde{\bm{K}} ( \mdata - \mpred),
+\end{equation}where ${[\mdata]}^i = \obs + \bm{\varepsilon}^i$ is the perturbed observation with $\bm{\varepsilon}^i \sim \mathcal{N}(\bm{0}, \bm R) $, $\tilde{\bm{K}}$ the ensemble Kalman gain matrix and $( \mdata - \mpred)$ the innovation term.
+The forecast step is then applied to the analyzed ensemble until the next observation.
+Based on this formulation, we can deduce a correction formula only based on the member's predictions and observations.
+
+We can rewrite the classical update formula using the previous anomaly matrices.
+
+\begin{equation*}
+    \mstate_a = \mstate_f + \annomX_f \annomY_f^T {({\annomY_f \annomY_f^T + \bm R})}^{-1}(\mdata - \Y)
+\end{equation*}
+
+We reformulate the correction term by remarking that $ \bm{1}^T  \annomY_f^T = \bm{0}$. We define $\Fcorr$, the correction matrix that gives the update in terms of linear combinations of the forward states
+
+\begin{equation}
+    \mstate_a = \mstate_f + \mstate_f \Fcorr, \quad \Fcorr = \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred).
+\end{equation}.
+
+\section{Moment conservation of particle discretization}~\label{appendix:moment_conservation}
+
+The $m$-th moment of a particle distribution is define as the quantity $\sum_{p} z_p^{\alpha} \bm{U}_p$.
+
+First, we see that the partition of unity is required
+
+\begin{equation}~\label{eq:unity1}
+    \sum_{I \in \Lambda} W\left(\frac{z - z_I}{\ell_I}\right) = 1 ,\quad z \in \Omega
+\end{equation}~due to the final particle arrangement $\mathcal{P'}$ on a grid of size $d_p$, it leads to the following property
+
+\begin{equation}~\label{eq:unity2}
+    \sum_{p'\in\mathcal P'} W\left(\frac{z - z_{p'}}{\ell_I}\right) = \frac{V_I}{V_p'},\quad z \in \Omega.
+\end{equation}.
+
+Attention should be focused on the border. Extending the domain with "ghost" particles or nodes allows for verification of properties within $\Omega$.
+
+This property is the necessary condition for the conservation of the first moment. Primarly for the assigment \ref{assigment}
+
+\begin{gather}
+    \begin{align*}
+        \sum_{I \in \Lambda} \bm u_I V_I & = \sum_{p \in \Lambda} \bm U_p  W \left(\frac{z_I - z_p}{\ell_I} \right)                                                           & \\
+                                         & = \sum_{p \in \mathcal P} \bm U_p \sum_{I \in \Lambda} W \left(\frac{z_I - z_p}{\ell_I} \right) = \sum_{p \in \mathcal P} \bm U_p. &
+    \end{align*}
+\end{gather}~using the property \eqref{eq:unity1}. Secondary, for the interpolation process \ref{interpolation}
+
+\begin{gather}
+    \begin{align*}
+        \sum_{p' \in \mathcal P'} \bm U_{p'} = \sum_{p' \in \mathcal P'} \bm u_g(z_{p'}) V_{p'} & = \sum_{p' \in \mathcal P'} V_{p'} \sum_{I \in \Lambda} \bm u_I W \left(\frac{z_{p'} - z_I}{\ell_I}\right)                                                &   \\
+                                                                                                & =  \sum_{I \in \Lambda} \bm u_I  V_{p'}\sum_{p' \in \mathcal P'} W \left(\frac{z_{p'} - z_I}{\ell_I}\right)                                               &   \\
+                                                                                                & =  \sum_{I \in \Lambda} \frac{V_I}{V_p'} V_{p'} \bm u_I =                            \sum_{I \in \Lambda} \bm u_I V_{I} = \sum_{p \in \mathcal P} \bm U_p & ,
+    \end{align*}
+\end{gather}~using equation \eqref{eq:unity2}.
+
+It can be shown moreover that if for $1 \leq |\alpha| \leq m - 1$, $W$ satisfies,
+
+\begin{equation}
+    \sum_{I \in \Lambda} {(\bm z-\bm z_I)}^\alpha W \left(\frac{\bm z - \bm z_I}{\ell_I} \right) = 0, \label{eq:momentProperty}
+\end{equation}
+
+The regridding procedure will be of order $m$. Equivalently, the previous equality lead, for $0 \leq |\alpha| \leq m - 1$, to
+\begin{equation*}
+    \sum_{I \in \Lambda} \bm z_I^\alpha W \left(\frac{\bm z_p - \bm z_I}{\ell_I} \right) = \bm z^\alpha,
+\end{equation*}~obtained by developing ${(\bm z-\bm z_q)}^\alpha$ and using a recurrence on previous orders. This means that the interpolation is exact for polynomials of degrees less or equal to $m-1$ or that the moment of order $m-1$ is conserved.
+
+\section{Parameters}
+\label{appendix:simulation-parameters}
+\begin{table}[htbp]
+    \centering
+    \caption{Reference parameters}
+    \begin{tabular}{|l|l|}
+        \hline
+        Parameters            & Values                                                       \\
+        \hline
+        reference viscosity   & $v_{\text{ref}} = 0.001$                                     \\
+        reference orientation & $\theta_{\text{ref}}  = \frac{7 \pi}{8} (\text{rad.})$       \\
+        barycenter position   & $\bm{z}_{\text{ref}} = \left[\frac\pi2, \frac\pi2 \right]^T$ \\
+        translation velocity  & $U_{\text{ref}} = 0.25$                                      \\
+        \hline
+    \end{tabular}
+    \label{tab:ref}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Nominal assimilation and simulation parameters}
+    \begin{tabular}{|l|l|}
+        \hline
+        Parameters                      & Values                                   \\
+        \hline
+        time step                       & $dt = 0.005$                             \\
+        final time                      & $tf =10$                                 \\
+        std. observation                & $\sigma_{obs} =  5.0e^{-2}$              \\
+        vorticity threshold             & $\varepsilon_{\omega} = 1.0e^{-4}$       \\
+        particle characteristic length  & $dp = \frac{2\pi}{256} \approx 0.01227 $ \\
+        smoothing length                & $h = 2.0 dp$                             \\
+        number of assimilation          & $N_{\text{assim}} = 10$                  \\
+        ensemble size                   & $N_{\text{ens}} = 32$                    \\
+        number of observation           & $N_{\text{obs}} = 12^2 = 144$            \\
+        grid discretization             & $N_{\text{grid}} = 65^2 = 4225$          \\
+        number of remeshing by forecast & $N_{\text{remesh}} =  2 $                \\
+        \hline
+    \end{tabular}
+    \label{tab:simu_2d}
+\end{table}
+\begin{table}[htbp]
+    \centering
+    \caption{Ensemble generation variables.}
+    \begin{tabular}{|l|l|}
+        \hline
+        Variables   & Distributions                                                                                                           \\
+        \hline
+        radius      & $R \sim \cN(1.0, 0.05^2)$                                                                                               \\
+        orientation & $\theta \sim \cU\left(\pi, \frac\pi2 \right) (\text{rad.}) $                                                            \\
+        barycenter  & $z_{\text{mean},x} \sim \cN\left(\frac\pi2,0.1^2\right), \quad z_{\text{mean},y} \sim \cN\left(\frac\pi2,0.1^2\right) $ \\
+        velocity    & $U \sim \cU(0, 0.5^2) $                                                                                                 \\
+        viscosity   & $v \sim \cN(0.0015, 0.0005^2)$                                                                                          \\
+        \hline
+    \end{tabular}
+    \label{tab:ens_dipole}
+\end{table}
+
+\newpage

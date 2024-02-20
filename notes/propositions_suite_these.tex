@@ -1,0 +1,142 @@
+\documentclass{article}
+\usepackage{graphicx} % Pour inclure des images
+\usepackage{amsmath} % Pour les environnements mathématiques
+\usepackage{amssymb} % Pour les symboles mathématiques
+\usepackage{bm} % Pour les symboles gras en mathématiques
+\usepackage{geometry}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\bA}{\bm{A}}
+\newcommand{\bX}{\bm{X}}
+\newcommand{\bK}{\tilde{\bm{K}}}
+\newcommand{\bD}{\bm{D}}
+\newcommand{\bH}{\bm{H}}
+\newcommand{\bbf}{\bm{f}}
+\newcommand{\bY}{\bm{Y}}
+\newcommand{\bnu}{\bm{\nu}}
+\newcommand{\bW}{\bm{W}}
+\newcommand{\bR}{\bm{R}}
+\newcommand{\bB}{\bm{B}}
+\newcommand{\bC}{\bm{C}}
+\newcommand{\bx}{\bm{x}}
+\newcommand{\bP}{\bm{P}}
+\newcommand{\by}{\bm{y}}
+\newcommand{\bv}{\bm{v}}
+\newcommand{\bq}{\bm{q}}
+\newcommand{\bp}{\bm{p}}
+\newcommand{\br}{\bm{r}}
+\newcommand{\bs}{\bm{s}}
+
+\graphicspath{ {images} }
+
+\bibliographystyle{plain}
+\begin{document}
+
+\title{Proposition suite thèse}
+\author{Marius Duvillard}
+\date{\today}
+\maketitle
+
+\tableofcontents
+
+\section{Objectifs}
+Plusieurs possibilités s'offrent pour la suite de ma thèse. Celles-ci s'intègrent dans le sujet \textit{Assimilation de Données pour des méthodes Lagrangiennes}. Une possibilité est de proposer des méthodes qui permettent de modifier la position des particules.
+
+Jusqu'à présent, les méthodes proposées ne tenaient compte que d'une correction des intensités, ou bien d'une génération d'une nouvelle discrétisation de particules. Or, dans certains cas, ce type de correction n'est pas du tout possible. C'est le cas par exemple de la DEM où l'ajout et la génération de particules ne peuvent être regardés de la même manière.
+Une possibilité dans ce cas serait de modifier la configuration actuelle d'une simulation tout en tenant compte des contraintes liées aux interactions inter-particules.
+
+\section{Contexte}
+Dans la littérature, on retrouve des méthodes d'assimilation qui vont chercher à corriger la position de l'ébauche. Pour ce faire, différentes métriques ont été proposées et que j'ai résumées dans une petite note.
+
+\begin{itemize}
+    \item Un premier type de méthode consiste à déterminer un champ de déformation pour corriger la position de l'ébauche. C'est ce qu'a proposé Ravela via sa méthode de \textit{Data Assimilation by Field Alignment} \cite{ravela_data_2007}. Également, Rosenthal \cite{rosenthal_displacement_2017} propose, dans un cas de simulation vortex, de définir une suite de fonctions courant à appliquer pour modifier l'ébauche. Dans les deux cas, une étape de correction classique des intensités est enfin réalisée.
+    \item Un second type de formulation consiste à corriger l'erreur de position grâce à la définition d'une norme différente pour évaluer formuler le problème de variationnel. C'est ce qu'ont proposé, par exemple, Feyeux \cite{feyeux_transport_nodate} et \cite{bocquet_bridging_2023}. Dans le dernier cas, afin de tenir compte du fait que les distributions pouvaient avoir des masses différentes, une formulation définie à l'aide de deux états $x_b$ et $x_o$ a été développée. Avec ces états définis, un Barycentre doit être déterminé tel que $x_a = \argmin_{x} W(x_b, x) + W(x_o, x)$.
+\end{itemize}
+Dans les deux cas, les états sont définis sur des discrétisations Eulériennes, l'état est un champ continu. Dans les deux cas, il est donc possible de modifier les intensités.
+
+\section{Propositions}
+
+Suite à l'analyse de ces travaux, voici plusieurs propositions d'adaptations à notre cas.
+
+\subsection{Déplacement de vortex}
+Dans le cas de la méthode vortex, il semble assez raisonnable de pouvoir proposer une nouvelle version de l'implémentation du problème d'assimilation de données pour une discrétisation particulaire.
+En effet, on peut, déterminer la suite de fonctions courant $\Psi$, et donc définir une transformation finale qui respecte les conditions d'incompressibilité.
+
+La formulation serait exprimée, à l'aide d'une formulation incrémentale du problème (3DVar-inc ou EKF-inc)
+
+
+\begin{itemize}
+    \item À l'itération $m$, je calcule, sur un ensemble, une correction $\Psi_m$ paramétrée par $A_m$, ses valeurs nodales.
+    \item La fonction coût à minimiser est
+          \begin{equation*}
+              \mathcal{L}(a) = \frac12 \|d_v - h(a; \omega^f)\|^2_{R^{-1}} + \frac12 \|a - a^f\|^2_{P_{a}^{-1}}
+          \end{equation*}
+    \item Pour cela, on doit calculer la matrice d'observation linéarisée par rapport à $A_m$, $H_{p,m}$ autour de $A_m$ = 0. La matrice de covariance de $A_m$ peut-être obtenue à partir du calcul des statistiques de $\Psi_m$ grâce à un ensemble.
+    \item On en déduit le gain de Kalman $L_k$ et ainsi $A_{m}$.
+    \item On applique le champ de vitesse induit par $\Psi(A_{m})$ pour un pas de temps $dt$ (à fixer) et on advecte les particules.
+    \item On répète la procédure pour chaque membre, jusqu'à convergence.
+\end{itemize}
+
+
+Ici, l'ingrédient essentiel est de définir la transformation à partir d'une succession $\Psi_m$, permettant de vérifier, sous une forme explicite, les propriétés d'incompressibilité de l'écoulement.
+
+Ici, la différence avec l'alignement proposé par Rosenthal est uniquement de réaliser l'advection des particules. La fonction de courant était déjà définie sur une grille via l'approche VIC.
+
+\subsection{Déplacement configuration DEM}
+En s'inspirant du cas précédent, on souhaiterait proposer une formulation de la mise à jour de la position des particules, qui soit admissible avec les contraintes de la DEM. On rappelle qu'en DEM le problème est résolu grâce à la résolution de l'équation fondamentale de la dynamique comme $\frac{dx_p}{dt} = f_v + m_p F_{ip}(x_1, ..., x_p ; k)$. La force à appliquer $F_{ip}$ à la particule $p$ dépend d'une part des forces volumiques $f_v$ (gravitation) et des forces d'interactions $F_{ip}$ appliquées à la particule. Ces dernières sont déterminées à l'aide de loi d'interaction qui vont pénaliser les interpénétrations $\delta$ entre chaque particule, ainsi qu'avec la paroi. Les lois les plus simples sont la loi de Hooke par exemple (pénalisation linéaire), mais d'autres prennent également en compte le taux de pénétration $\dot \delta$.
+
+Ainsi, la mise à jour de la position des particules, pour être admissible dans le problème DEM, ne peut venir que par la définition d'une force complémentaire $F_{assim}$ qui doit s'ajouter aux forces d'interaction. On peut imaginer la définir localement pour chaque particule, ou bien globalement, via un champ et qui sera ensuite interpolé par la particule.
+
+La question dans cette proposition est de définir une formulation du problème variationnel tel que
+
+\begin{equation*}
+    \mathcal{L}(F) = \argmin_{F} \|d_v - h_{F}(X^b(F))\| + \|F - F^b\|^2_{P_{F}}
+\end{equation*}
+
+où $X = (m^b, x^b, v^b, a^b)$ est l'état de la simulation DEM, qui peut comprendre la position, la vitesse, l'accélération des particules.
+
+Ici, on aurait donc $h_F = v^b + d\tau F$ pour un schéma explicite très simple.
+Pour proposer quelque chose de similaire avec ce qui est fait précédemment, il faut définir la linéarisation de $h_F$ en fonction de $F$. De plus, l'opérateur d'observation nécessite de projeter les vitesses sur une grille (faisable en reprenant des méthodes d'assignement p2g).
+
+Un problème intermédiaire pour la DEM serait de définir la mise à jour sur un autre problème Lagrangien de dynamique des solides par exemple en MPM. En effet, l'étape de projection sur la grille est déjà implémentée. Le problème est plus simple car il n'y a pas de souci dans la mise à jour des positions. $F$ est directement défini sur une grille, et les étapes d'advection et de projection sont déjà plus ou moins accessibles.
+
+Dans les deux cas, une question réside toujours sur le moyen de calculer $P_{F}$ ainsi que $F^b$. Dans un premier temps, $F^b$ peut être choisi égal à 0. Quant à $P_{F}$, il est plus difficile de le définir. Une possibilité est de proposer une régularisation de $F$ et remplacer le prior par un terme $S(F)$. La question pourrait être de savoir selon quelle considération ? C'est en effet ce qui avait pu être proposé par les deux précédents papiers, afin de minimiser les déformations de la grille. Peut-être proposer une régularisation qui minimise justement l'interpénétration ?
+
+\subsection{Transport Optimal}
+Une implémentation dans un autre paradigme serait de partir d'une formulation du problème sous la forme du transport optimal.
+
+Tout comme Bocquet, on reprendrait le problème en deux étapes.
+
+\begin{itemize}
+    \item Détermination des états $x_b$ et $x_o$, deux distributions positives obtenues à partir de la résolution du problème dual régularisé par la divergence de KL
+          \begin{equation*}
+              \begin{split}
+                  \mathcal L_{\varepsilon} = \max_{\bbf_b \in \bR^{\mathcal N_b}, \bbf_o \in \bR^{\mathcal N_o}} &  \bbf_b^T \by^b + \bbf_o^T \by^o - \zeta^*_b(\bbf_b) + \zeta^*_o(\bbf_o) + \\  &\min_{P \in \mathcal{O}^+_{b,o}}\left(\varepsilon \sum_{ij} \left\{P_{ij} \ln{\frac{P_{ij}}{\nu_{ij}} - P{ij} + \nu_{ij}}\right\} + P{ij} \left\{C_{bo}^{ij} - f_b^i 1_o^j - H_l^j f_o^l 1_b^i \right\}\right)
+              \end{split}
+          \end{equation*}
+          En déterminant $\bf_b$ et $\bf_o$, le plan optimal $\bm{P}$ peut être obtenu, et $\bx_b$ et $\bx_o$ en prenant les marginales.
+    \item Détermination du barycentre $x_a$ par minimization du problème
+          \begin{equation*}
+              J = \min_{\bx^a \in \mathcal O^+_{N_a}} \left\{W_{\bC_{ba}}(\bx^b, \bx^a) + W_{\bC_{oa}}(\bx^o, \bx^a)\right\}.
+          \end{equation*}
+\end{itemize}
+Dans notre cas, les adaptations majeurs serais dans le choix des espaces des états $\bx_b, \bx_a, \bx_o$ à savoir respectivement $\mathcal O^+_{N_b},\mathcal O^+_{N_a},\mathcal O^+_{N_o}$.
+En effet, s'il est naturel d'utiliser l'espace issu de la discrétisation du forward pour $\bx_b$, cela est moins évident en ce qui concerne $\bx_a, \bx_o$.
+Une proposition que je fais serai d'utiliser une discrétisation particulaire uniforme pour $\bx_o$, afin d'être certain de capturer toutes les observations. Enfin utiliser une mise à jour de la discrétisation de $\bx_b$ pour obtenir $\bx_a$. La méthode de recherche du Barycentre se ferait par optimization des positions des particules en partant de la discrétization de $\bx_b$.
+
+Ainsi, après détermination de $\bx_b$ et $\bx_o$, on cherche $\bx_a$ alternativement dans l'espace $P(X, \Theta)$ où $X \in \Omega^n $ est une liste de $n$ particules avec des poids dans un sous ensemble $\Theta = \{\theta \in \mathbb{R^+}, \sum_i^{n} = m\}$, ou bien dans l'espace $P_n(\Omega, \Theta)$ qui est l'espace de mesures supporté par $n$ particules et avec des poids toujours dans l'espace $\Theta$.
+On est bien dans un cas ou les mesures $\bx_o$ et $\bx_b$ peuvent être vu comme des mesures empiriques.
+A partir de ce cadre je propose d'utiliser les algorithmes présentés dans l'article de Cuturi et al. \cite{cuturi_fast_2014}. Ceux-ci se base sur la descente de gradient de la fonction coût alternativement en fonction de la position et des intensités.
+
+Dans ce cas on proposerai une formulation qui va modifier la position et l'intensité des particules en corrigeant l'ébauche.
+
+Dans une méthode Lagrangienne continue, où les particules sont plus où moins indépendantes, c'est un schéma qui peut être mis en place.
+
+Dans un cadre où les particules sont discrètes, alors comment prendre en compte les contraintes d'interpénétraiton lors du déplacement ?
+
+\bibliography{C:/Users/md266594/mar-dvd-thesis/biblio.bib}
+\end{document}

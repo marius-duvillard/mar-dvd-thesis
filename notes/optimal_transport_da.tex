@@ -5,7 +5,6 @@
 \usepackage{bm} % Pour les symboles gras en mathématiques
 \usepackage{geometry}
 \usepackage[french]{babel}
-\usepackage{graphicx}
 \graphicspath{ {images} }
 % \geometry{
 %     left=20mm,
@@ -16,7 +15,6 @@
 \usepackage[T1]{fontenc}
 % \usepackage{a4wide}
 % \usepackage{authblk}
-\usepackage{graphicx}
 \setlength\parindent{0pt}
 \usepackage{hyperref}
 \newcommand{\norm}[1]{\|#1\|}
@@ -44,7 +42,7 @@
 \bibliographystyle{plain}
 \begin{document}
 
-\title{Optimal Transport for Data Assimilation - Biblio}
+\title{Optimal Transport/Field Alignment for Data Assimilation - Biblio}
 \author{Marius Duvillard}
 \date{\today}
 \maketitle
@@ -209,7 +207,15 @@ $$
 
 Le problème dépend donc de deux paramètres supplémentaires $\varepsilon > 0$ et $\bnu$. $\mathcal U_{bo}$ est l'espace admissible des plans de transfert entre $\bx^b$ et $\bx^o$. $\bnu$ est un plan de transport a priori. Or il ne peut pas être choisi à partir de $\mathcal{U}_{bo}$ celui-ci n'étant pas connu. Ainsi ils ont décidé de le choisir constant en utilisant un prior indépendant $\bx^b$ et $\bx^o$.
 
-On peut retrouver la formule dual en équation (30) du papier mais finalement, par optimisation , on peut obtenir deux variables duals $\bbf_b, \bbf_o$ qui permettent d'obtenir le plan $\bP$.
+On peut retrouver la formule dual en équation (30) du papier
+
+\begin{equation*}
+    \begin{split}
+        \mathcal L_{\varepsilon} = \max_{\bbf_b \in \bR^{\mathcal N_b}, \bbf_o \in \bR^{\mathcal N_o}} &  \bbf_b^T \by^b + \bbf_o^T \by^o - \zeta^*_b(\bbf_b) + \zeta^*_o(\bbf_o) + \\  &\min_{P \in \mathcal{O}^+_{b,o}}\left(\varepsilon \sum_{ij} \left\{P_{ij} \ln{\frac{P_{ij}}{\nu_{ij}} - P{ij} + \nu_{ij}}\right\} + P{ij} \left\{C_{bo}^{ij} - f_b^i 1_o^j - H_l^j f_o^l 1_b^i \right\}\right)
+    \end{split}
+\end{equation*}
+
+Finalement, par optimisation, on peut obtenir deux variables duals $\bbf_b, \bbf_o$ qui permettent d'obtenir le plan $\bP$.
 
 Ainsi, en récupérant les marginales, on obtient
 

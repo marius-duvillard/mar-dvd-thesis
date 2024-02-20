@@ -1,0 +1,107 @@
+% !TEX root = main.tex
+
+\section{Methods}\label{Methods}
+
+This section outlines the development of ensemble data assimilation techniques tailored for particle-based simulations. While the forward step aligns with the traditional Ensemble Kalman Filter, the primary challenge lies in the update during the analysis step. In order to be state independant, we define the analysis thanks to the equation \eqref{enkf_formula_Fcorr}. This step benefits from an observation matrix-free implementation, rendering the analysis independent of state discretization. Hence, the correction matrix in the analysis $\Fcorr$ relies solely on the observation $\bm{y}$, predictive observations $\{\bm h_i\}_{i=1}^{N{\text{ens}}}$, and noise samples $\{\bm \varepsilon_i\}_{i=1}^{N{\text{ens}}}$. The analysis fields are obtained at any spacial coordinates thanks to the particle approximation of each member field $\bm u^f_i$ such as for all $\bm z \in \Omega$
+
+\begin{equation*}
+    \bm u^a_i(\bm z) = \bm u^f_i(\bm z) + \sum_{j} \bm F_{ji} \bm u^f_j(\bm z) \quad i = 1,\dots, N
+\end{equation*}
+
+Thus, solutions are also described on a particle discretization $\mathcal{P}^a_i = \bigcup_k \mathcal{P}_k^f$. Such as
+
+\begin{equation}~\label{eq:part_enkf_eq}
+    \bm u^a_i(\bm z) = \sum_p \bm U^f_{ip} \phi_{\varepsilon}(\bm z - \bm z_{ip}) + \sum_{j} \bm F_{ij} \sum_p \bm U^f_{jp} \phi_{\varepsilon}(\bm z- \bm z_{jp}) \quad i = 1,\dots, N
+\end{equation}
+
+However, each assimilation introduce an exponential growth of the number of particle. It could be easily evaluate taking $N_{\text{parts}}$ the sum of particles over the ensemble. The first assimilation will create new members of $N_{\text{parts}}$ particles. The next assimilation multiply this value by $\nens$ leading to the exponential growth of particles.
+
+To overcome this effect, we introduce two distinct EnKF-adapted filters
+
+\begin{itemize}
+    \item The Remesh-EnKF filter (\ref{remesh_enkf}) employs an intermediate Eulerian discretization of the field, consistent across all members. Consequently, classical EnKF can be applied. Then a regular grid of particles is set a allow a constant number of particles.
+    \item The Particles-EnKF filter (\ref{part_enkf}) executes data assimilation with \eqref{eq:part_enkf_eq}. Analysed fields are approximated on each forward member discretization.
+\end{itemize}
+
+The choice of filter depends on the context, particularly regarding the feasibility of a remeshing process.
+
+\subsection{Remesh-EnKF}~\label{remesh_enkf}
+
+The first method consists by defining a scheme that combine an intermediate projection on a grid, to perform the assimilation, with a remeshing process to generate a new set of particles. The global scheme is build to conserve as much as possible the property of the particle discretization of the members.
+
+The assimilation is performed with the following step:
+\begin{itemize}
+    \item The members are forward, given new particle set $\mathcal{P}^f_i = \{(\bm z^f_{ip}, \bm U^f_{ip})\}_{ip = 1}^{N_{ip}}$,
+    \item The associate field is project on a regular grid of $n_g$ elements of characteristic length $2dp$. Using the assigment operator, we obtain for each node $iI \in \Lambda_{i}$
+          \begin{equation*}
+              \bm{u}^f_{iI} = \frac1{V_{iI}} \sum_{ip \in \mathcal P^f_i} \bm U^f_{ip}  W \left(\frac{\bm z_{iI} - \bm z^f_{ip}}{\ell_{iI}} \right)
+          \end{equation*}
+    \item Based on this new discretization, an Eulerian-based data assimilation coud be apply on the nodal state values $ \bm{u}^f_{iI}$ such as the analysis state $\bm{u}_{iI}^a$ is
+          \begin{equation*}
+              \bm{u}^a_{iI} = \bm{u}^f_{iI} + \sum_{j=1}^{N_{\text{ens}}} F_{ji} \bm{u}^f_{jI},
+          \end{equation*}
+    \item A new regular particle discretization is initialized. Two particles by directions are placed inside each cell of the grid. The new particle intensities could be evaluate thanks to the interpolation operator, such as for $ip \in \mathcal P_i^a$
+          \begin{equation*}
+              \bm U_{ip}^a = \sum_{iI \in \Lambda} \bm u^a_{iI} \left(\frac{\bm z_{iI} - \bm z_{ip}}{\ell_{iI}} \right).
+          \end{equation*}
+\end{itemize}
+
+The Remesh-Filter update scheme is sum-up in the algorithm~\ref{algo:remesh_enkf}.
+
+\begin{algorithm}~\label{algo:remesh_enkf}
+
+    \caption{Remesh Filter analysis update}
+    \KwData{$\bm G \in \mathbb R^{n_g \times d}, \bm z^a \in \mathbb R^{2 n_g \times d}$ \tcp*[r]{grid discretization}}
+    \KwData{$\bm R \in\mathbb{R}^{m}$  \tcp*[r]{observation covariance}}
+    \KwIn{$\mathcal{P}^f_i= \{(\bm z^f_{ip}, \bm U^f_{ip})\}_{ip = 1}^{N_{ip}}, \quad i = 1, \dots, N_{\text{ens}}$ \tcp*[r]{forward discretizations}}
+    \KwIn{ $\bm Y_f \in \mathbb{R}^{m \times N_{\text{ens}}}$ \tcp*[r]{the associate observation anomalies}}
+    \KwIn{$\bm D \in \mathbb{R}^{m \times N_{\text{ens}}}$  \tcp*[r]{the perturbed observations}}
+
+    $ \Fcorr = \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred)$ \tcp*[r]{correction matrix}
+    \SetKwFunction{proj}{Projection}
+    \SetKwFunction{assign}{Assign}
+    \ForEach{$i = 1, \dots, \nens $}{
+        $\bm u[:,i] =$ \proj{$\mathcal{P}^f_i, \bm G$}
+    }
+    $\bm u = \bm u + \bm u \Fcorr$ \tcp*[r]{analysis update}
+    \ForEach{$i = 1, \dots, \nens $}{
+    $\bm z^a_{ip}, \bm U^a_{ip} = $ \assign{$\bm u[:,i]$}
+    }
+    \Return{$\mathcal{P}^a_i=\{\bm z^a_{ip}, U^a_{ip}\}_{ip = 1}^{N_{a}}, \quad i = 1, \dots, N_{\text{ens}}$ \tcp*[r]{analyse discretizations} }
+\end{algorithm}
+
+\subsection{Particles-EnKF}~\label{part_enkf}
+
+The goal of the Particles-EnKF formulation is to define the analysis on the particle discretization as much as possible. In this scheme, we keep the particle positions after the forward is unchanged. The change concern the particle intensities. This way, the Lagrangian representation of the solution at the end of the forward step is kept the same as much as possible .
+
+The fields, defined in equation \eqref{eq:part_enkf_eq}, are approximated on the previous discretization such that $Z^a_i = Z_i^f$ to avoid exponential growth of the number of particles.
+
+
+By this way, the analyzed field is approximated by $\hat{\bm u}^a_i$ such as
+
+\begin{equation*}
+    \hat{\bm u}^a_i(\bm z) \simeq \sum_p \bm U^a_{ip} \varphi_{ip}(\bm z)
+\end{equation*}~where $\bm U^a_{ip}$ have been determined by approximation or regression.
+
+
+However, because this regression is only performed on the support, the current forecast discretization $Z^f_i$ additional particles could be introduced at the support border to allow a better estimate.
+
+The Part-EnKF algorithm is expressed in Algo \ref{algo:part_enkf}
+% \setcounter{algocf}{2}
+\begin{algorithm}~\label{algo:part_enkf}
+    \caption{Part-EnKF Filter analysis update}
+    \KwData{$\bm R \in\mathbb{R}^{m}$  \tcp*[r]{observation covariance}}
+    \KwIn{$\mathcal{P}^f_i= \{(\bm z^f_{ip}, \bm U^f_{ip})\}_{ip = 1}^{N_{ip}}, \quad i = 1, \dots, N_{\text{ens}}$ \tcp*[r]{forward discretizations}}
+    \KwIn{ $\bm Y_f \in \mathbb{R}^{m \times N_{\text{ens}}}$ \tcp*[r]{the associate observation anomalies}}
+    \KwIn{$\bm D \in \mathbb{R}^{m \times N_{\text{ens}}}$  \tcp*[r]{the perturbed observations}}
+
+    $ \Fcorr = \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred)$ \tcp*[r]{correction matrix}
+    \SetKwFunction{approxim}{Approx}
+
+    \ForEach{$i = 1, \dots, \nens $}{
+    $\bm U^a_{ip} = $\approxim{$\mathcal{P}^f_i, \Fcorr$} \tcp*[r]{approximate the analysis fields}
+    }
+    \Return{$\mathcal{P}^a_i=\{\bm z^f_{ip}, U^a_{ip}\}_{ip = 1}^{N_{a}}, \quad i = 1, \dots, N_{\text{ens}}$ \tcp*[r]{analyse discretizations}}
+\end{algorithm}
+
+% To do so, a border of null intensities particles is introduced after a remesh process. This introduced a collocation point that better fit the velocity flow during the simulation.

@@ -1,0 +1,109 @@
+\documentclass{article}
+\usepackage{graphicx} % Pour inclure des images
+\usepackage{amsmath} % Pour les environnements mathématiques
+\usepackage{amssymb} % Pour les symboles mathématiques
+\usepackage{bm} % Pour les symboles gras en mathématiques
+\usepackage{geometry}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand{\bv}{\bm{v}}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+
+
+\graphicspath{ {images} }
+
+\bibliographystyle{plain}
+\begin{document}
+
+\title{Alignement des champs de vorticité}
+\author{Marius Duvillard}
+\date{\today}
+\maketitle
+
+
+\section{Définition du problème}
+On suppose que les champs de vorticité ont été mal aligné. Pour corriger cette erreur, on souhaite appliquer une correction qui respecte les contraintes d'un écoulement incompressible. Pour cela, on introduit un transformation $\Phi$ qui doit corriger l'ébauche.
+On réécrit la loi de Bayes avec cette information
+
+\begin{equation*}
+    p(\omega,\Phi \mid y) \propto p(y \mid \omega, \Phi) p(\omega \mid \Phi) p(\Phi)
+\end{equation*}
+
+Pour les deux premiers termes on retrouve facilement la vraissemblance conditionnée par l'ébauche déformée c'est à dire $\Phi(\omega)$ qui est appliqué sur les coordonnées lagrangienne du champ.
+Le prior est également défini sur le champ déformé. Enfin il faut définir un prior pour $\Phi$. Ce terme est assez arbitraire. On veut simplement qu'il vérifie la condition d'un écoulement incompressible.
+
+\section{Correction dans le span des fonctions de courant des membres}
+
+On suppose que l'on veut résoudre le problème dans le span des fonctions courants courant de l'ensemble.
+
+Pour cela il suffit de supposer que la fonction courant de la correction $\hat \psi$ admet le prior $\mathcal N (\psi_0,  P_\psi)$ avec $\psi_0 = 0$ et $P_\phi =\frac{1}{N - 1}\sum (\psi_i - \bar \psi) (\psi_i - \bar \psi)^T$
+
+\begin{equation*}
+    \mathcal L(\psi) = \norm{d_v - h_\psi(\psi; \omega_i)}^2_{R^{-1}} + \norm{\psi}^2_{P^{-1}_{\psi}}
+\end{equation*}
+
+\section{Correction dans le span des champs de vitesse des membres}
+
+Après simplification, on voudrait arriver à la forme suivante du problème: Définir la transformation comme l'intégration du déplacement dans un champs de déplacement combinaison des champs de vitesse à l'instant $t$.
+
+Pour cela, on cherche un champ de vitesse $v$ qui aura comme distribution a priori $\mathcal N (v_0,  P_v)$ avec $\bv_0 = 0$ et $P_v = \frac{1}{N - 1}\sum (v_i - \bar v) (v_i - \bar v)^T$
+
+Le problème à minimiser est alors pour le membre $i$
+
+\begin{equation*}
+    \mathcal L(v) = \norm{d_v - h_v(v; \omega_i)}^2_{R^{-1}} + \norm{v - \bar v}^2_{P^{-1}}
+\end{equation*}
+
+En fait on peut chercher à réécrire le problème dans le Span de l'ensemble et ainsi trouver la combinaison linéaire en $v_i$.
+
+
+On note $V \in \mathbb R^{d \times N}$ l'ensemble des champs de vitesse où $d$ est la dimension de $v$ et $N$ la taille de l'ensemble. On cherche alors $b \in \mathcal R^{N}$ tel que
+
+\begin{equation*}
+    v = v_i + Vb
+\end{equation*}
+
+Tel que $\Phi$ devient
+
+\begin{equation*}
+    \Phi(x, y) = (x, y) + dt v_i(x, y) + dt \sum_j b_j v_j(x, y)
+\end{equation*}
+
+On a bien $\Phi$ qui est linéaire avec $b$
+
+\begin{equation*}
+    \norm{v - \bar v}^2_{P^{-1}} = \norm{b}^2_2
+\end{equation*}
+
+et d'autre part on doit linéarise $h$ par rapport à $v$.
+
+Pour cela,  étudions $h$. C'est la mesure de la vitesse après application intégration de l'advection de $\omega_i$ c'est à dire faire
+
+\begin{equation*}
+    h_v(v; \omega_i) = h_\omega(\Phi(\omega_i)) = h_{\omega}(\omega((x, y)+ dt v_i(x, y) + dt \sum_j b_j v_j(x, y)))
+\end{equation*}
+
+La difficulté maintenant est de déduire du déplacement de $\omega$, la variation de vitesse
+
+Pour cela on doit étudier la linéarisation de l'équation de la fonction de courant.
+
+On note $\hat \omega$ la nouvelle vorticité
+
+\begin{eqnarray*}
+    \Delta \psi  &=& \hat \omega \\
+    &=& \omega((x, y)+ dt v_i(x, y) + dt \sum_j b_j v_j(x, y)) \\
+    &=&
+\end{eqnarray*}
+
+
+\begin{eqnarray*}
+    h(v; \omega_i) = v
+\end{eqnarray*}
+
+
+\end{document}

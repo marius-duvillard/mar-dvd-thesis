@@ -1,0 +1,61 @@
+% !TEX root = main.tex
+
+\appendix
+\section{Parameters}
+\label{appendix:simulation-parameters}
+\begin{table}[htbp]
+    \centering
+    \caption{Reference parameters}
+    \begin{tabular}{|l|l|}
+        \hline
+        Parameters            & Values                                                       \\
+        \hline
+        reference viscosity   & $v_{\text{ref}} = 0.001$                                     \\
+        reference orientation & $\theta_{\text{ref}}  = \frac{7 \pi}{8} (\text{rad.})$       \\
+        barycenter position   & $\bm{z}_{\text{ref}} = \left[\frac\pi2, \frac\pi2 \right]^T$ \\
+        translation velocity  & $U_{\text{ref}} = 0.25$                                      \\
+        \hline
+    \end{tabular}
+    \label{tab:ref}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Nominal assimilation and simulation parameters}
+    \begin{tabular}{|l|l|}
+        \hline
+        Parameters                      & Values                          \\
+        \hline
+        time step                       & $dt = 0.005$                    \\
+        final time                      & $tf =10$                        \\
+        std. observation                & $\sigma_{obs} =  5.0e-2$        \\
+        vorticity threshold             & $\varepsilon_{\omega} = 1.0e-4$ \\
+        particle characteristic length  & $dp = 0.01227 $                 \\
+        smoothing length                & $h = 2.0 dp$                    \\
+        number of assimilation          & $N_{\text{assim}} = 10$         \\
+        ensemble size                   & $N_{\text{ens}} = 32$           \\
+        number of observation           & $N_{\text{obs}} = 12^2 = 144$   \\
+        grid discretization             & $N_{\text{grid}} = 65^2 = 4225$ \\
+        number of remeshing by forecast & $N_{\text{remesh}} =  2 $       \\
+        \hline
+    \end{tabular}
+    \label{tab:simu_2d}
+\end{table}
+\begin{table}[htbp]
+    \centering
+    \caption{Ensemble generation variables.}
+    \begin{tabular}{|l|l|}
+        \hline
+        Variables   & Distributions                                                                                                           \\
+        \hline
+        radius      & $R \sim \cN(1.0, 0.05^2)$                                                                                               \\
+        orientation & $\theta \sim \cU\left(\pi, \frac\pi2 \right) (\text{rad.}) $                                                            \\
+        barycenter  & $z_{\text{mean},x} \sim \cN\left(\frac\pi2,0.1^2\right), \quad z_{\text{mean},x} \sim \cN\left(\frac\pi2,0.1^2\right) $ \\
+        velocity    & $U \sim \cU(0, 0.5^2) $                                                                                                 \\
+        viscosity   & $v \sim \cN(0.0015, 0.0005^2)$                                                                                          \\
+        \hline
+    \end{tabular}
+    \label{tab:ens_dipole}
+\end{table}
+
+\newpage

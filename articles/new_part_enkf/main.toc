@@ -1,0 +1,28 @@
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
+\contentsline {section}{\numberline {2}Background}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Data assimilation}{5}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Data assimilation setting}{5}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Bayesian filtering}{6}{subsubsection.2.1.2}%
+\contentsline {subsubsection}{\numberline {2.1.3}Ensemble Kalman Filter}{6}{subsubsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.2}Particle-based methods}{7}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Particle discretization}{7}{subsubsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.3}Particle-based function manipulations}{8}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1}Approximation operator}{9}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2}Regression operator}{9}{subsubsection.2.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.3}Remeshing operator}{10}{subsubsection.2.3.3}%
+\contentsline {section}{\numberline {3}Methods}{11}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Remesh-EnKF}{12}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Particles-EnKF}{13}{subsection.3.2}%
+\contentsline {section}{\numberline {4}1D density advection-diffusion problem}{15}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Description of the problem}{15}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Assimilation parameters and ensemble generation}{16}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Results}{17}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Expanded state}{19}{subsection.4.4}%
+\contentsline {section}{\numberline {5}2D vortex-in-cell problem}{21}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Description of the method}{21}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Lamb-Chaplygin dipole and simulation parameters}{22}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Assimilation parameters and ensemble generation}{25}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Results}{27}{subsection.5.4}%
+\contentsline {section}{\numberline {A}Stochastic Ensemble Kalman Filter}{33}{appendix.A}%
+\contentsline {section}{\numberline {B}Moment conservation of particle discretization}{34}{appendix.B}%
+\contentsline {section}{\numberline {C}Parameters}{35}{appendix.C}%

@@ -1,0 +1,93 @@
+\documentclass{article}
+\usepackage{bm}
+
+\newcommand{\bA}{\bm{A}}
+\newcommand{\bX}{\bm{X}}
+\newcommand{\bK}{\tilde{\bm{K}}}
+\newcommand{\bD}{\bm{D}}
+\newcommand{\bH}{\bm{H}}
+\newcommand{\bY}{\bm{Y}}
+\newcommand{\bW}{\bm{W}}
+\newcommand{\bB}{\bm{B}}
+\newcommand{\bR}{\bm{R}}
+\newcommand{\bh}{\bm{h}}
+\newcommand{\bC}{\bm{C}}
+
+\title{Inflation and localization in the context of EnKF}
+\author{Marius Duvillard}
+\begin{document}
+
+\maketitle
+
+\section{EnKF formulations}
+
+La mise à jour EnKF peut être exprimée sous différentes formes suivant l'espace dans laquelle la mise à jour est exprimée. En notant $\bA$ la matrice d'anomalie d'ensemble, on obtient soit une mise à jour avec le gain de Kalman d'ensemble
+
+\[
+    \bX^a = \bX^f + \bK(\bD - \bh(\bX)),
+\]
+
+avec $\bK = \bA\bY^T(\bY \bY^T + \bR)^{-1}$ exprimé avec les approximations d'ensemble.
+
+On peut aussi exprimer l'analyse comme une combinaison linéaire de l'état avec un terme de correction exprimé dans l'espace des observations.
+
+\[
+    \bX^a = \bX^f + \bA \bW,
+\]
+
+avec $\bW = \bY^T (\bY \bY^T + \bR)^{-1}(\bD - \bh(\bX))$.
+
+Il y a enfin l'analyse a une interprétation en terme d'ensemble
+
+\[
+    \bX^a = \bX^f + \bC_{xy} \bB = \bX^f + (\bA \bY)^T \bB,
+\]
+
+Où $\bB$ est une matrice de taille $mxN$ qui correspond au coefficient de la combinaison linéaire sur les fonctions de représentation qui sont de la matrice de représentation d'ensemble $\bC_{xy}$.
+
+\section{Localisation}
+
+Un review a été fait par \textit{Chen et Oliver (2017)}.
+Introduite pour réduire les effets dû à l'approximation de rang faible avec le filtre de Kalman d'ensemble.
+La localisation permet d'augmenter le rang effectif de l'ensemble (usually Rank(A) < N). Cela permet de prendre en compte un nombre plus important d'observations indépendantes. Aussi, cela permet de réduire l'erreur d'échantillonnage en combinant avec l'inflation. Cela est essentiel pour des méthodes de grande dimension.
+
+Il existe plusieurs méthodes de localisation soit la \textit{localisation sur la matrice de covariance}, soit via \textit{l'analyse locale}. On peut lire \textit{Hamill et al., 2001}. Dans le premier cas, on va modifier la matrice de covariance en appliquant une matrice de corrélation, dans le second cas, on applique la mise à jour de l'analyse localement, c'est à dire qu'il y aura un découpage de l'état en fonction de l'influence des observations associées. On applique alors le filtrage sur $l$ problème en parallèle. On peut lire \textit{Evensen (2003)}.
+
+Cette dernière converge plus rapidement que le première dans le cas où la taille de l'ensemble est faible devant le nombre d'observation.
+
+\subsection{Localisation sur Covariance}
+
+L'objectif est de mettre à 0 les corrélations de longue distance.
+On peut appliquer la localisation soit sur l'espace de l'état, soit sur l'espace d'observation. On défini pour cela un \textit{taper} $\rho$ qui va être appliqué à la matrice de covariance d'état avec un produit d'Hadamard $\circ$ tel que $\bC_{xx} = \rho \circ \bC_{xx}$.
+Le produit d'Hadamard ou de Schur offre des propriétés intéressantes:
+\begin{itemize}
+    \item Si les deux matrices sont semi-définies positives, le produit l'est également. Si l'une est définie positive et l'autre semi-définie positive avec des diagonales positives alors le produit est défini positif.
+\end{itemize}
+
+De cette manière, on applique une régularisation. Généralement, un taper est pris pour être une fonction décroissante en fonction de la distance $r$ et paramétré par un régulateur $l$ de telle sorte que
+
+\[
+    \rho_{ij} = \exp(-d(x_i, x_j)^2/2r^2).
+\]
+
+\textit{Gaspiri and Cohn (1999)} ont proposé des fonctions polynomiales d'ordre 5 définies par morceaux (voir \textit{Localization in the Ensemble Kalman Filter} et \textit{Lorend(2003)}).
+
+Dans ce cas, on peut réécrire la mise à jour  comme
+
+\[
+    \bX^a = \bX^f + (\rho \circ \bA\bA^T) H^T (\bH (\rho \circ \bA\bA^T) \bH^T + R)^{-1}(\bD - h(\bX)).
+\]
+
+D'après les propriétés du produit d'Hadamard, il peut être montré que $\rho \circ \bA\bA^T$ est bien une matrice de covariance.
+
+La localization peut également se réaliser au niveau des observations. \textit{Houtekamer and Mitchell (2001)} font une approximation telle que $(\rho \circ \bA\bA^T)H^T = \rho \circ (A$.
+
+Deux taper sont introduits $\rho_{xy}$ et $\rho_{yy}$ tels que
+
+\[
+    \bX^a = \bX^f + (\rho_{xy} \circ \bA\bY)^T ((\rho \circ \bY\bY^T) + R)^{-1}(\bD - h(\bX)).
+\]
+
+\subsection{Localisation au niveau de l'analyse}
+
+\end{document}

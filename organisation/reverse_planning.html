@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data Assimilation with field alignment</title>
+<title>reverse_planning</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,71 +23,54 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="field_alignment_files/libs/clipboard/clipboard.min.js"></script>
-<script src="field_alignment_files/libs/quarto-html/quarto.js"></script>
-<script src="field_alignment_files/libs/quarto-html/popper.min.js"></script>
-<script src="field_alignment_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="field_alignment_files/libs/quarto-html/anchor.min.js"></script>
-<link href="field_alignment_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="field_alignment_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="field_alignment_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="field_alignment_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="field_alignment_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-</head><body class="fullcontent">\usepackage{bm}
-\newcommand{\norm}[1]{\|#1\|}
-\newcommand{\bq}{\bm{q}}
-\newcommand{\br}{\bm{r}}
-\newcommand{\bs}{\bm{s}}
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+<script src="reverse_planning_files/libs/clipboard/clipboard.min.js"></script>
+<script src="reverse_planning_files/libs/quarto-html/quarto.js"></script>
+<script src="reverse_planning_files/libs/quarto-html/popper.min.js"></script>
+<script src="reverse_planning_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="reverse_planning_files/libs/quarto-html/anchor.min.js"></script>
+<link href="reverse_planning_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="reverse_planning_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="reverse_planning_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="reverse_planning_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="reverse_planning_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
 
+</head>
 
-
+<body class="fullcontent">
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
 
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Data Assimilation with field alignment</h1>
-</div>
 
 
+<section id="retro-planning-2024" class="level1">
+<h1>Retro Planning 2024</h1>
+<pre class="mermaid"><code>gantt
+    title Retro-Planning
+    dateFormat DD-MM-YYYY
+    axisFormat %d-%m
+    section Article
+        Fin app2d: done, a0, 01-01-2024,30d
+        Correction Background: active,a1, 13-02-2024, 5d
+    section Dvpt  
+        Bibliographie: active, 01-01-2024, 13-02-2024
+    section Conf./Pr.
+        Présentation 3 minutes: p1, 17-03-2024, 10d
+        Journée des doctorants IRESNE:after p1, 27-03-2024, 3d
+        Mascot-Num:crit, 03-04-2024, 3d
+        ECCOMAS: crit, 03-06-2024, 5d
+        Café Thésard: crit, 28-06-2024, 1d
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-</header>
-
-<p>Ravella introduit dans son papier</p>
-<p><em>Ravela, Sai, Kerry Emanuel, et Dennis McLaughlin. «&nbsp;Data Assimilation by Field Alignment&nbsp;»</em></p>
-<p>Une méthode pour tenir compte des erreurs de position en appliquant un déplacement à imposer. La méthode est réalisée en deux étapes. D’abord la détermination d’un champ de déplacement, puis la correction des intensités. L’avantage de cette méthode, et quelle est adaptable à de nombreux filtres, en particulier les filtres d’ensemble.</p>
-<p>Il présente tout d’abord en quoi la formulation classique dans un problème de position entraîne une inflation de la matrice de covariance. La matrice issue de la perturbation d’une translation <span class="math inline">\(\lambda\)</span> devient: <span class="math inline">\(C_{\lambda} = C_{XX} + \sigma^2_{\lambda} C_{\Delta\Delta}\)</span> où <span class="math inline">\(\Delta\)</span> est la déviation du gradient (8).</p>
-<p>Pour réaliser l’alignement, on part de la formule de Bayes comme pour les filtres d’intensité. Cependant, on introduit une nouvelle variable spatiale <span class="math inline">\(\bq\)</span> vecteur de déplacement. Dans leur travail l’état est défini sur une grille dont les positions sont <span class="math inline">\(\br\)</span>. L’état est donc défini par les valeurs du champ <span class="math inline">\(X = X(\br)\)</span>.</p>
-<p>On défini <span class="math inline">\(\bq\)</span> sur la même grille tel que <span class="math inline">\(X(\br - \bq)\)</span> est le déplacement de X par <span class="math inline">\(\bq\)</span>.</p>
-<p>On réécrit la formule de Bayes en introduisant cette nouvelle variable</p>
-<p><span class="math display">\[
-P(X, \bq \mid Y) \propto P(Y \mid X, \bq) P(X^f \mid \bq) P(\bq)
-\]</span></p>
-<p>La Likelihood <span class="math inline">\(P(Y \mid X, \bq)\)</span> est similaire à la likelihood sur les intensités mais en appliquant au préalable le déplacement de telle sorte que les observations sont conditionnées par <span class="math inline">\(X(\br - \bq)\)</span>.</p>
-<p>On suppose donc que <span class="math inline">\(Y = H(X(\br - \bq)) + \bm{\eta} \sim \mathcal{N}(0, R)\)</span>, où les observations restent bien fixes.</p>
-<p>De même le prior sur l’intensité est inchangé en considérant au préalable la transformation <span class="math inline">\(\bq\)</span>. Mais il faut remarquer que la matrice de covariance est dépendante de <span class="math inline">\(\bq\)</span>. Dans un cas de filtre d’ensemble il s’agit de calculer la matrice également après transformation.</p>
-<p>Finalement le prior sur le déplacement <span class="math inline">\(P(\bq)\)</span> est l’élément aditionnel. Pour cela on introduit une fonction d’énergie, qui va régulariser les déplacements. C’est elle qui introduit un coup de déplacement. On peut penser le champ de déplacement comme un champ d’écoulement lissé. Cette propriété de lissage amene donc à considérer des pénalisations de Tikhonov qui va pénaliser à la fois le gradient et la divergence. Mais on peut tout à fait modifier notre a priori sur la distribution de <span class="math inline">\(\bq\)</span>. La prendre uniform n’apporterait pas d’information, la prendre gaussienne demande de définir une manière appropriée pour la définir. La contrainte ici reste locale mais elle introduit une forte régularité par pénalisation.</p>
-<p>En prenant finalement la log likelihood on obtient la fonction de coût associée <span class="math inline">\(J(X, \bq)\)</span>. On remarquera que un terme inhabituel lié à la dépendance de <span class="math inline">\(P\)</span> à <span class="math inline">\(\bq\)</span>.</p>
-<p>Ainsi on obtient</p>
-<p><span class="math display">\[
-J_2(X, \bq) = \frac12 \norm{(X - X^f)(\br - \bq)}^2_{P(\bq)} + \frac12 \norm{Y - H(X(\br - \bq))}^2_{R} + L(\bq) + \frac12 \ln{|B(\bq)|}.
-\]</span></p>
-<p>Pour résoudre le problème on a besoin de <span class="math inline">\(P(\bq)\)</span> et dériver toute la fonction coût. On peut utiliser pour cela un ensemble comme en EnKF pour l’estimer. Pour cela on suppose connu les déplacements associés à chacun des membres <span class="math inline">\(\bq_s\)</span>. On note <span class="math inline">\(\bp_s = \br_s - \bq_s\)</span>. et on estime donc <span class="math inline">\(B_Q\)</span>. Finalement, on finit par avoir une version Hybrid de la fonction de coût.</p>
-<p>Il choisis également de fixer les déplacement dans l’évaluation de <span class="math inline">\(B_Q\)</span> pour éviter de devoir les différentier et modifier dans la version itérative. Il peut ainsi définir les gradients en fonction de <span class="math inline">\(\bq_s\)</span></p>
+        
+    section Manuscrit
+        part. Intro:a4,01-04-2024, 30d
+        part. I: after a4, 60d
+    section Admin.
+        Fin de contract: crit, 01-10-2024,0.5d
+        Prolongation: crit, 31-12-2024, 0.5d</code></pre>
+</section>
 
 </main>
 <!-- /main column -->

@@ -1,0 +1,12 @@
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Particle-based Methods}{5}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}Particle discretization}{5}{subsubsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.2}Exemple of kernel functions}{6}{subsubsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.2}Particle-based function manipulations}{7}{subsection.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}Approximation operator}{8}{subsubsection.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.2}Regression operator}{8}{subsubsection.1.2.2}%
+\contentsline {subsubsection}{\numberline {1.2.3}Remeshing operator}{9}{subsubsection.1.2.3}%
+\contentsline {section}{\numberline {2}Methods}{11}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Remesh-EnKF}{11}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Particles-EnKF}{12}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Complexity}{13}{subsection.2.3}%

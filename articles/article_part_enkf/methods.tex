@@ -1,0 +1,109 @@
+% !TEX root = main.tex
+
+\section{Methods}\label{Methods}
+
+This section presents the development of ensemble data assimilation techniques for particle-based simulations.
+
+If the forward step is still the same in our approach as in the classical Ensemble Kalman Filter, the main challenge resides in the update in the analysis step.
+
+Based on the analysis formula~\ref{enkf_formula} and the two families of transformation~\ref{operators} on the particle discretization, we propose two different EnKF-adapted filters.
+
+The first common step is to compute the correction matrix $\bm{F}$ defined in~\ref{enkf_formula_Fcorr}, which defines the linear combination of the members. This step is possible because the analysis is independent of the state discretization thanks to the observation matrix-free implementation. Thus the analysis depends only on the observation $\bm{y}$, the predictive observation $\{\bm{h_i}\}_{i=1}^{N_{\text{ens}}}$ and the noise sample $\{\bm{\varepsilon_i}\}_{i=1}^{N_{\text{ens}}}$.
+
+The differences come with the state update process combine with the new state definition. On the one hand, the Remesh-EnKF filter~\ref{remesh_enkf} uses an intermediate Eulerian discretization of the field, which will be the same for all the members, and a remesh process to obtain a new particle discretization. On the other hand, the particle positions are still the same for the Particles-EnKF filter~\ref{part_enkf}, but the intensities will be updated according to an particle approximation of
+
+The Remesh-EnKF uses a regridding process to update the particle quantities directly. The second one is intended to keep as much as possible the forward member discretization based on the approximation operator.
+
+The choice of the filter will depend to the context, particularly if the a remeshing process is possible.
+\subsection{Remesh-EnKF}~\label{remesh_enkf}
+
+
+The first method consists by defining a scheme that combine an intermediate projection on a grid, to perform the assimilation, with a remeshing process to generate a new set of particles. The global scheme is build to conserve as much as posible the property of the particle discretization of the members.
+
+After the forecast step, the particle discretization for a member $i$ is defined by the set $\left\{(\bm{z}_{ip}, \hat{\bm U}^f_{ip})\right\}_{p=1}^{N_i}$ with $N_i$ the number of particles.
+The space is then discretize by a grid. The mesh consist of $n_g$ nodes with $W_I$ shape functions with each node $I$ and the field is approximate as
+
+\begin{equation*}
+  u_g(z) = \sum_I u_I W_I(z), \quad \forall z \in \Omega
+\end{equation*}~$u_I$ is the component of the field.
+
+Then, for each member $i$, the assignment scheme is define as
+
+\begin{equation*}
+  u_{iI} = \frac{1}{V_I}\sum_p U_{ip} W_I(\bz_p)
+\end{equation*}~where $V_{iI}$ is the volume associate to the node $I$ of the $i$-th member.
+
+Based on this new discretization, an Eulerian-based Data Assimilation coud be apply on the state vector $ \bm{u}_i = {u_{iI}}_{I=1}^{N_g}$ such as the analysis state $\bm{u_a}$ is
+
+\begin{equation*}
+  \bu^a_{i} =  \sum_{j=1}^{N_{\text{ens}}} F_{ij} \bu^f_{j}, \quad \forall i = 1, \dots N_{\text{ens}}.
+\end{equation*}
+
+After the remesh transformation \ref{remesh_enkf}, a new particles discretization on the regular grid is obtained and gives $\left\{(\bm{z}_q, \bm U^f_{iq})\right\}_{q=1}^{N_g}$ where $(\bm{z}_q, \bm U^f_{iq})$ are the new coordinates and intensities. The state of the forecast member could be directly expressed as the vector of intensities $\bm{U}^f_i = [\bm U^f_1,..., \bm U^f_{N_g}]^T$ with the ordered particle intensities. The linear combination is directly performed on particle intensities for each member $i = 0, \dots, N$ such as
+
+
+\begin{equation*}
+  \bm{U}^a_i = \bm{U}^f_i + \sum_j F_{ij} \bm{U}^f_j
+\end{equation*}.
+
+
+\subsection{Particles-EnKF}~\label{part_enkf}
+
+The Particles-EnKF formulation will not change the forward particle discretization. Each member will keep the same particle positions during the analysis step. The particle volumes do not change also. The only change will concern the particle intensities. This way, the Lagrangian representation of the solution at the end of the forward step is kept the same as much as possible.
+
+In this method, the analysis functions $u^a_i$ are approximate. The analysis fields are obtained at any spacial coordinates thanks to the particle approximation of each member field $u^f_i$ such as $\forall z \in \Omega$
+
+\begin{equation*}
+  \bm u^a_i(\bm z) = \bm u^f_i(\bm z) + \sum_{j} \bm F_{ij} \bm u^f_j(\bm z) \quad i = 1,\dots, N
+\end{equation*}
+
+Note that the ensemble $u^a_i$ is the same as obtain by updating the intensity in Remesh-EnKF.
+
+Thus, solutions are also described on a particle discretization $Z^a_i = \bigcup_k Z_k^f$. Such as
+
+\begin{equation}~\label{part_enkf_eq}
+  \bm u^a_i(\bm z) = \sum_p \bm U^f_{ip} \varphi_{ip}(\bm z) + \sum_{j} \bm F_{ij} \sum_p \bm U^f_{jp} \varphi_{jp}(\bm z) \quad i = 1,\dots, N
+\end{equation}
+
+One solution is to approximate this solution on the previous discretization such that $Z^a_i = Z_i^f$ to avoid exponential growth of the number of particles.
+
+This would be done thanks to agglomeration to reduce the number of particles like in \cite{yue_continuum_2015}, or with regression operation defined in section \ref{interpOp}.
+
+By this way, the analyzed field is approximated by $\hat{\bm u}^a_i$ such as
+
+\begin{equation*}
+  \hat{\bm u}^a_i(\bm z) \simeq \sum_p \bm U^a_{ip} \varphi_{ip}(\bm z)
+\end{equation*}~where $\bm U^a_{ip}$ have been determined by approximation or regression.
+
+
+However, because this regression is only performed on the support, the current forecast discretization $Z^f_i$ additional particles could be introduced at the support border to allow a better estimate.
+
+
+% To do so, a border of null intensities particles is introduced after a remesh process. This introduced a collocation point that better fit the velocity flow during the simulation.
+
+\subsection{Complexity}
+
+
+Before evaluating the accuracy of the two filters, we could first evaluate their computational complexity. In the Remesh-EnKF, the complexity is led by the remeshing step for the ensemble of size $N$. The analysis is just a matrix matrix multiplication.
+
+The remeshing process, described in section \ref{remesh_part}, necessitates redistributing the particle strengths to a new grid of particles. A loop over the $N_p$ particles is first performed. If the size of the kernel is finite of size $N_k$, the redistribution of one particle needs $N_k^d$ kernel evaluations, where $d$ is the space dimension. Thus, the complexity of the Remesh-filter is $\mathcal{O} (NN_pN_k^d)$.
+
+Finally, the updated step needs to compute a matrix multiplication between two matrices of shape $N^2$, leading to a global complexity of $\mathcal{O} (N^2 + NN_pN_k^d)$.
+
+On the other hand, the Particles-EnKF complexity is led by an evaluation of the analysis fields and the regression or approximation step. First, the $N$ analyses fields have to be evaluated in the particle positions of each member. Due to the linear combination of the forecast field as described in equation \ref{part_enkf_eq} such as
+
+
+\begin{equation*}
+  \bm u^a_i(\bm z_k) = \sum_{p \in V_k} \bm U^f_{ip} \varphi_{ip}(\bm z_k) + \sum_{j} \bm F_{ij} \sum_{p \in V_k} \bm U^f_{jp} \varphi_{jp}(\bm z_k) \quad i = 1,\dots, N, \quad k = 1, \dots, N_{ip}.
+\end{equation*}
+
+% In other world, for each particle in position $z_k$ the distance $\varphi_{ip}(\bm z_k)$ have to be evaluated where $ip$ in his neighborhood. Many nearest neighbors strategies could be introducing to do so. We proposed to use for each member to train a tree-based data structure like a KD-Tree \cite{bentley_1975_kdtree} because the space dimension of the space is low dimension. The evaluation of the distance for a given point to the particle of the $i$ members with only $\mathcal{O}( log(N_p))$ distance computations.
+
+
+% For this step, the complexity is thus about $\mathcal{O}(NN_p log(N_p))$.
+
+A grid search strategy could be used instead. For each particle, a grid cell is determined from which it belongs. All the particles are classified in a grid of size $N_g$. For each position evaluation, the distance is evaluated only on the particles in the next cells. Because the kernel is usually symmetric, the evaluation could be divided by two.
+
+A loop is performed over the $N_g^d$ grid cells, and the distance of the particles of one cell is computed with the arround cells. We approximate the mean number of particles in each cell as $N_{PIC} = \frac{NN_p}{N_g^d}$. Thus, the complexity is estimated as $\mathcal{O}(NN_p)$.
+
+Then, the particle strengths have to be computed. An approximation, as described in section \ref{interpOp}, does not add complexity. However, a regression method, like in section \ref{regressionOperator}, needs to solve $N$ linear system of size $N_p$. If the system is already computed thanks to the computation of the distances, the resolution needs the inversion of a $N_p$ matrix. This step uses a conjugate gradient algorithm, the best solver for a sparse system. In this case, the complexity is about $\mathcal{O}((N_0 + N_p) k)$ where $k$ is the number of iterations and $N_0$ is the non-zero value of the matrix to inverse, which is about $\mathcal{O}(N_p)$. Bringing everything together, the complexity is about $\mathcal{O}(kNN_p)$. Together the global complexity is about $\mathcal{O}((k+1)NN_p)$.

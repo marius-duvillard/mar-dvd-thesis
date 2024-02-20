@@ -1,0 +1,132 @@
+% !TEX root = main.tex
+
+\section{Background}
+
+\subsection{Data assimilation}~\label{Background_DA}
+
+Data assimilation could be generally formulate with a probabilistic framework. It allows to rigorously deal with measurement and model error in order to not only deduce an estimate of the real state but also associate uncertainty. Thus, state and observation are modeled as random variables. A filtering approach is then applied to estimate the current state based on past observations sequentially.
+
+The goal is to establish the recurrence in probability distributions that, through Bayesian estimation, will enable us to estimate the current state and predict the future state, including future observations.
+
+
+\subsubsection{Data assimilation setting}
+
+This recurrence is modeled by the use of a hidden Markov chain model. We position ourselves within a finite-dimensional context. The state $\bm x_k \in \bR^d, \bm y_k \in \bR^m$ where $d$ and $m$ are the state and observation dimension. The forecast and observation are introduced such as for $ k \geq 0$,
+\[
+    \begin{cases}
+        \state_{k+1} = \mathcal{M}_{k+1} (\state_{k}) + \bm{\eta}_{k+1}, \\
+        \bm{y}_{k+1} = \mathcal{H}_k (\state_{k+1}) + \bm \varepsilon_{k+1},
+    \end{cases}
+\]where $\mathcal{M}_{k+1}$ is the model operator describing the time evolution of the state from time $k$ to time $k+1$ and $\mathcal{H}_k$ is the observation operator. The term $\state_k$ $\in$ $\mathbb{R}^n$ is the vector state at time $k$ and $\bm{y}_k$ $\in$ $\mathbb{R}^m$ the observation vector, $\bm{\eta}_{k}$ is the model error that accounts for error in the numerical model and the errors due to discretization, and $\bm{\varepsilon}_k$ is the observation error which combine measurement error and representativeness error. We assume that $\bm{\eta}_{k}$, $\bm{\varepsilon}_k$ are random variables following Gaussian distributions with zero mean and covariance matrices $\bm Q_k$ and $\bm R_k$ respectively. Finally, we assume that the observation and the model errors are independent though the time and that initial error on $\state_0$, $\bm{\varepsilon}_k$ and $\bm{\eta}_{k}$ are mutually independent.Let $\mathcal{D}_k = \left\{\bm y_l\right\}_{l=1}^k$ represent the accumulated data up to time $k$.
+Thus, $\bm x_{k+1}$ and $\mathcal{D}_k$ are conditionally independent with respect to $\bm x_{k}$, and $\bm{y}_{k+1}$ and $\bm x_{k+1}$ are conditionally independent with respect with $\bm x_{k}$, leading to simplifications in the next paragraph.
+
+\subsubsection{Bayesian filtering}
+
+The filtering problem consist to assess the current state of the signal by utilizing data observation up to the present moment. Filtering involves the determination of $p_{\bm x_{k} \mid \mathcal{D}_{k}}$, the probability density function associated with the probability measure on the random variable $\bm x_{k} | \mathcal D_{k}$. Specifically, filtering focuses on the sequential updating of this probability density function as the index $k$ is incremented.
+The state density is initialized by the a priori density of the initial state $p_{x_0}$.
+Then, for all $k \geq 0$, probability distributions are propagated.
+The forecast step is obtained through the law of total probability
+
+\begin{eqnarray*}
+    p_{x_{k+1}}(x \mid \mathcal D_k) = p_{\bm x_{k+1} \mid \mathcal D_k}(\bm x) &=& \int p_{\bm x_{k+1}\mid \mathcal D_k,\bm x_{k} = \bm x'}(\bm x) p_{\bm x_{k} \mid \mathcal D_k}(\bm x') dx',\\
+    &=& \int p_{\bm x_{k+1}\mid \bm x_{k} = \bm x'}(\bm x) p_{\bm x_{k}\mid \mathcal D_k}(\bm x') dx'.
+\end{eqnarray*}
+The a priori law of the $k+1$ observations can be obtained again through the law of total probability
+\begin{equation*}
+    p_{\bm Y_{k+1}\mid \mathcal D_k}(\bm y) = \int p_{\bm Y_{k+1}\mid \bm x_{k+1} = \bm x}(\bm y) p_{\bm x_{k+1} \mid \mathcal D_k}(\bm x) , dx.
+\end{equation*}
+After the $k+1$ observation $\bm y_{k+1}$, the analysis step determines the a posteriori law of the state using Bayes law applied after measuring $\bm Y_n$
+\begin{equation*}
+    p_{\bm x_{k+1} \mid \mathcal D_{k+1}}(\bm x) = p_{\bm x_{k+1} \mid \bm Y_{k+1} = \bm y_{k+1}}(\bm x) = \frac{p_{\bm Y_{k+1} \mid \mathcal D_k,\bm x_{k+1} = \bm x}(\bm y_{k+1}) p_{\bm x_{k+1}\mid \mathcal D_k}(\bm x) }{p_{\bm Y_{k+1}\mid \mathcal D_k}(\bm y_{k+1})}.
+\end{equation*} This finally lead to a mapping from the prior $p_{\bm x_{k+1} \mid \mathcal D_k}$ to the posterior $p_{\bm x_{k+1} \mid \mathcal D_{k+1}}$.
+We remove the time subscript $k$ in the rest of the section for simplicity and present the forecast and analysis step for one time increment.
+
+\subsubsection{Ensemble Kalman Filter}~{\label{enkf}}
+
+The Kalman filter \cite{kalman_new_1960} is the Bayesian filter that use, moreover the previous hypothesis, that  $\mathcal M_k$ and $\mathcal H_k$ are linear operators. In this case, the posterior distribution of the state is still Gaussian, so only the mean and the variance are transmit.
+The Kalman estimator is thus a recursive version of the Minimum Mean Square Error applied to the Gaussian Linear model.
+
+The ensemble Kalman Filter (EnKF) is a data assimilation method adapted to high dimensional non-linear problems introduced by Evensen~\cite{evensen_sequential_1994}. The formulation uses an ensemble of discrete samples based on the assumptions of a multivariate Gaussian distribution, as for the Kalman filter. EnKF can be seen as a hybrid method between the Kalman filter and the particle filter. The forecast is performed in the same way as in the particle filter. Still, the analysis step is computed in Kalman's fashion with sample model error covariance.
+We present the stochastic EnKF, where the observations are perturbed to account for observation errors and to introduce stochasticity into the assimilation process, allowing for a more realistic representation of uncertainties and avoiding filter divergence issues.
+
+Assuming we have an ensemble of $N$ states $\left\{\bm \state^i \right\}_{i=1}^N$, we could forecast the ensemble by propagating each state with the dynamic model and obtain a forecast ensemble.
+The two first moments of the error are given by
+
+\begin{eqnarray*}
+    \overline{\state}_f &=& \frac{1}{N} \sum_{i = 1}^{N} \state^i_f, \\
+    \Cov &=& \frac{1}{N-1} \sum_{i = 1}^{N} (\state^i_f - \overline{\state}_f){(\state^i_f - \overline{\state}_f)}^T,
+\end{eqnarray*}
+where $\overline{\state}_f$ and $\Cov$ are the empirical estimates of the mean and covariance matrix of the state distribution obtained from the ensemble members.
+
+We define the matrix of states and the matrix of anomalies $\X_f = [\state^1, \dots, \state^N]$, $\annomX_f$ whose columns are the member states and the normalized anomalies.
+
+\begin{equation*}
+    \annomX_f = \frac{1}{\sqrt{N - 1}}(\X_f - \overline{\state}_f \bm{1}^T),
+\end{equation*}where$\bm{1} \in \mathbb{R}^N$ is a vector of one.
+
+Respectively the matrix of observation and observation anomalies are $\mathcal Y_f = [\mathcal{H}(\state^1_f), \dots, \mathcal{H}(\state^N_f)]$, $\annomY_f$ where columns are
+
+\begin{equation*}
+    \annomY_f = \frac{1}{\sqrt{N - 1}} \left(\mathcal Y_f - \overline{\obs}_f \bm{1}^T \right) \quad \text{with} \quad \overline{\obs}_f = \frac{1}{N} \sum_{j=1}^{N} \mathcal{H}(\state^j_f).
+\end{equation*}
+
+The ensemble defines the covariance between states and observations $\Cov \bm H^T$, the covariance between observations $\Cov \bm H^T$, and $\tilde{\bm{K}}$
+
+\begin{eqnarray*}
+    \Cov \bm H^T &=& \frac{1}{N - 1} \sum_{i = 1}^{N} {(\state^i_f - \overline{\state}_f)}^T {\left[ \mathcal{H}_k(\state^i_f) - \overline{\bm{y}}_f\right]}^T = \annomX_f \annomY_f^T, \\
+    \bm H \Cov \bm H^T &=& \frac{1}{N -1} \sum_{i = 1}^{N}\left[ \mathcal{H}_k(\state^i_f) - \overline{\bm{y}}_f\right] {\left[ \mathcal{H}_k(\state^i_f) - \overline{\bm{y}}_f\right]}^T = \annomY_f \annomY_f^T,\\
+    \tilde{\bm{K}} &=& \Cov \bm H^T{(\bm H \Cov \bm H^T + \bm R)}^{-1} = \annomX_f \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}.
+\end{eqnarray*}
+
+This observation matrix-free implementation rely on the secant method approximation $\mathcal{H}(\state^i_f - \overline{\state}_f) \approx \predi - \overline{\obs}_f$.
+The forecast is then update to a posterior ensemble ${[\state^i_a]}_{i=1}^{N}$ such as
+
+\begin{equation} \label{enkf_formula}
+    \mstate_a = \mstate_f + \tilde{\bm{K}} ( \mdata - \mpred),
+\end{equation}where ${[\mdata]}^i = \obs + \bm{\varepsilon}^i$ is the perturbed observation with $\bm{\varepsilon}^i \sim \mathcal{N}(\bm{0}, \bm R) $, $\tilde{\bm{K}}$ the ensemble Kalman gain matrix and $( \mdata - \mpred)$ the innovation term.
+The forecast step is then applied to the analyzed ensemble until the next observation.
+Based on this formulation, we can deduce a correction formula only based on the member's predictions and observations.
+
+We can rewrite the classical update formula using the previous anomaly matrices.
+
+\begin{equation*}
+    \mstate_a = \mstate_f + \annomX_f \annomY_f^T {({\annomY_f \annomY_f^T + \bm R})}^{-1}(\mdata - \Y)
+\end{equation*}
+
+We reformulate the correction term by remarking that $ \bm{1}^T  \annomY_f^T = \bm{0}$. We define $\Fcorr$, the correction matrix that gives the update in terms of linear combinations of the forward states
+
+\begin{equation}~\label{enkf_formula_Fcorr}
+    \mstate_a = \mstate_f + \mstate_f \Fcorr, \quad \Fcorr = \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred).
+\end{equation}where the matrix $\Fcorr$ only depends on the ensemble members through the predicted observations ensemble $\mpred_f$ and the observation.
+
+%%% Suppose we have to keep the modifications in account
+Consequently, the analysis could be entirely defined thanks to the ensemble predictions and the observation. Section 10.2 of the book \cite{evensen_data_2022} introduced various forms of the EnKF update where equation 10.2 is equivalent to \ref{enkf_formula_Fcorr}.
+
+\subsubsection{Expanded State Model} \label{ExpandedState}
+
+The Bayesian calibration of model parameters is possible by defining an expanded state. Suppose we parametrize the dynamic operator $\mathcal{M}(\bm{x} ; \bm{\theta})$. The parameter vector $\bm{\theta} \in \bR^q$ is then appended to the model state vector, and the model state is forecast with the parameter. The calibration is thus performed online, allowing a more accurate forecast prediction.
+The parameter is supposed to be constant in this article, meaning that the evolution model is simply identity, such as
+\begin{equation*}
+    \bm{\theta}_{k+1} = \bm{\theta}_{k}.
+\end{equation*}
+The expanded state system model is then
+
+\begin{gather*}
+    \left\{\begin{aligned}
+         & \bm{x}_{k+1}      & = & \mathcal{M}_{k, k+1}(\hat{\bm{x}}_{k}) + \bm{\eta}_{k+1} & , \\
+         & \bm{y}_{k+1}      & = & \mathcal{H}(\bm{x}_{k+1}) + \bm{\varepsilon}_{k+1}       & , \\
+         & \bm{\theta}_{k+1} & = & \bm{\theta}_{k+1} + \bm{\xi}_{k+1}                       & .
+    \end{aligned} \right.
+\end{gather*}
+
+where
+\begin{equation*}
+    \hat{\bm{x}}_k = \begin{pmatrix}
+        \bm{x}_k \\
+        \bm{\theta}_k
+    \end{pmatrix} \in \mathbf{R}^{n+q},
+\end{equation*}
+is the expanded state vector, with $q$ the dimension of the parameter vector, and
+
+The analysis step is then applies to $\hat{\bm{x}}_k$. This expression provide a derivative-free implementation of an inverse problem~\cite{iglesias_ensemble_2013}.
+

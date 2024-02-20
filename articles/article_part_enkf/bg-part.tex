@@ -1,0 +1,238 @@
+% !TEX root = main.tex
+
+\subsection{Particle-based Methods}~\label{Background_Part}
+We consider particle-methods for solving continuous problems in fluid or solid mechanics. The Lagrangian methods decompose the domain on a set $\mathcal P$ of particles that follow the dynamic of the problem. Each particle of the set $`\mathcal P$ brings quantities and the spatial coordinates $\bm z_p$.
+
+% The velocity field $\bm{v}$ is used to update the position of the particle such as $\bm z_p(t+dt) = \bm z_p(t) + f(z_p, \bm{v}{\bm z_p})$ with $f$ depending on the time-integration scheme.
+
+% The computation of the velocity field and the solving of the equation of mechanics depend on the class of method.
+We will focus our work on methods that discretize a solution on a continuous domain that can be defined with field $\bm u: \Omega \in \bR^d \to \bR^n$ with $\Omega$ the spatial domain, $d$ is the space dimension and $n$ the dimension of the solution. This includes methods like Smoothed particle hydrodynamics (SPH) \cite{gingold_monaghan_sph_1977,lucy_1977} and the Vortex Method (VM) \cite{cottet_vortex_2000} and is extended to other methods like the Material Point Method (MPM) \cite{sulsky_particle_1994}.
+
+\subsubsection{Particle discretization}
+
+Let $\Omega \in \mathbb R^d$ be our domain, where $d$ is the space dimension. Any smooth field $\bm u$ on $\Omega$ could be written
+
+\begin{equation*}
+	\bm u(\bm z) = \int_{\Omega} \bm u(\bm z') \delta(\bm z' - \bm z)  d\bm z',
+\end{equation*}with $\delta$ the Dirac delta distribution.
+
+A kernel function $\phi_\varepsilon$ is introduced to obtain an average estimate $\langle \bm u \rangle$ of $\bm u$ such that
+
+\begin{equation*}
+	\langle \bm u(\bm z) \rangle = \int_{\Omega} \bm u(\bm z') \phi_\varepsilon(\bm z-\bm z') d\bm z.
+\end{equation*}~, where $\varepsilon$ is the smoothing length. The smooth kernel should at least respect the following properties
+
+\begin{eqnarray*}
+	&& \int_{\Omega} \phi_\varepsilon(\bm z) d\bm z = 1,      \\
+	&& \phi_\varepsilon(\bm z) \to \delta(z), \quad \varepsilon \to 0, \\
+	&& \phi_\varepsilon(\bm z) \in C^k,  \quad k \geq 1,
+\end{eqnarray*} where the two first properties are remanent properties of the Dirac distribution and the last is a differentiability requirement.
+
+The average function $\langle \bm u \rangle$ is then used to approximate the original function.
+
+Finally, the original domain $\Omega$ is subdivided with $N_p$ subdomain $\Omega_p$ associated with a lagrangian particle in the location $z_p \in \Omega_p$. We denote by $V_p$ the volume of $\Omega_p$. This discretization is then used to approximate the average function such that
+
+
+\begin{eqnarray*}~\label{part_approx}
+	\langle \bm u(\bm z) \rangle &=& \sum_p \int_{\Omega_p} \bm u(\bm z') \phi_\varepsilon(\bm z-\bm z') d\bm z' \\
+	&\approx& \sum_p \bm u(\bm z_p) V_p \phi_\varepsilon (\bm z-\bm z_p) \\
+	&\approx& \sum_p \bm U_p \phi_\varepsilon (\bm z-\bm z_p).
+\end{eqnarray*}
+
+Thus, any function defined on a particle discretization is defined by an ensemble of particle location $\bm z_p$ associated with a particle value $\bm U_p = \bm u(z_p) V_p$ and a smooth kernel $\phi_\varepsilon$.
+
+% We also denote by $Z$ the particle discretization such as $Z = \left\{\bm u \in L(\Omega, \bR); \bm u \in \text{Vect} \{\varphi_i\}\right\}_{p=1}^{N_p}$.
+
+
+Based on this discretization, the differential operator could be derived through this formulation.
+
+\subsubsection{Exemple of kernel functions}
+
+Several kernels have been used depending on the method. The original formulation of MPM did not use a substitute kernel and wrote the density such as
+
+\begin{equation*}
+	\bm u(\bm z) = \sum_p \bm U_p \phi_\varepsilon (\bm z-\bm z_p)
+\end{equation*}
+
+And the resolution is based on a projection on a background grid associated with some shape function \cite{sulsky_particle_1994}.
+
+The GIMP method is a different formulation that uses the Heaviside function \cite{bardenhagen_generalized_2004} and thus associates a volume around each particle
+
+\begin{equation*}
+	M_1(r) = \frac{\alpha}{\varepsilon}\left\{\begin{aligned}
+		 & 1; & r \leq \varepsilon \\
+		 & 0; & \text{otherwise}
+	\end{aligned}
+	\right.
+\end{equation*}~where $r = \norm{\bm z}_2$.
+
+This method have been introduced to avoid the cell-crossing issue when a particle moves from one cell to another through the background grid.
+
+In SPH associate, as this name suggests, a smooth kernel to approximate the solution. Theoretically, it could be the Gaussian kernel function
+
+\begin{equation*}
+	\phi_g(r) = \frac{1}{{(\pi \varepsilon^2)}^{d/2}} \exp(-r^2/\varepsilon^2)
+\end{equation*}.
+
+This kernel is infinitely differentiable but defined on non-compact support. In practice, we use a cut-off to remove negligible value for large distance from a particle.
+
+Other kernels, based on B-Spline functions to work on a compact support. Those functions are also positive which is a requirement for some field like the density.
+
+For instance, the quadratic B-spline, we called $M_3$ defined with
+\begin{equation}~\label{quadratic_kernel}
+	M_3(r) = \frac{\alpha}{\varepsilon^d}\left\{ \begin{aligned}
+		 & \frac{3}{4} - |q|^2                            & 0 \leq           & |q| < \frac{1}{2} \\
+		 & \frac{1}{2} {\left(\frac{3}{2} - |q|\right)}^2 & \frac{1}{2} \leq & |q| < \frac{3}{2} \\
+		 & 0                                              & \frac{3}{2} \leq & |q|
+	\end{aligned}
+	\right.
+\end{equation}with $r = \norm{z}_2 $ and $q = r / \varepsilon$ and $\alpha$ the normalization condition and $d$ the spatial dimension.
+
+This kernel ensures the $C^1$ continuity.
+The cubic kernel is another B-Spline kernel which is
+\begin{eqnarray}~\label{cubic_kernel}
+	M_4(r) &=&  \frac{\alpha}{\varepsilon^d} \left\{ \begin{aligned}
+		 & \frac{1}{6}{(-|q|+2)}^3 - \frac{4}{6}{(-|q|+1)}^3 & 0 \leq      & |q| \leq  1 & \\
+		 & \frac{1}{6}{(- |q|+2)}^3                          & 1      \leq & |q| \leq 2  & \\
+		 & 0                                                 & 2 \leq      & |q|
+	\end{aligned}
+	\right.
+\end{eqnarray}
+
+In this last case, the normalization factor $\alpha$ is
+
+\begin{equation*}
+	\alpha = \left\{ \begin{aligned}
+		 & 1;    \quad      & 1\text d \\
+		 & 30/14 \pi; \quad & 2\text d \\
+		 & 3/ 2\pi; \quad   & 3\text d
+	\end{aligned}
+	\right.
+\end{equation*}
+
+Note that, those kernel have been define with the radial coordinate $r$. Another possibility would be to define the multidimensional kernel as the tensor product of the 1d kernel on the normalized coordinate. This is what is used for the following application of the regridding operation \ref{remesh_part} or the transfer define between particle and grid in the MPM scheme \cite{sulsky_particle_1994,jiang_affine_2015}.
+
+For the periodic boundary problem described in section \ref{App_1D}, we define an equivalent kernel function $\phi^P_g = \sum_{n=-\infty}^{+\infty} \phi_g(r - n L)$, \\ where $L$ is the periodic length. All the kernel properties are still verified on a single period.
+
+\subsection{Particle-based function manipulations}~\label{operators}
+
+One of the main drawbacks of Lagrangian methods is that they can produce a highly distorted distribution of particles. To conserve the overlapping of particle shape function, and enable communication between particles, two main techniques have been introduced to reconstruct a new particle discretization, or to adapt the particle strengths to better fit the current field.
+The different operators will be introduced in the assimilation process in order to update particle solution of each members.
+
+\subsubsection{Approximation operator}~\label{interpOp}
+
+The first category of solutions aims to improve the approximation of the  field by modifying particle strength. For any particle location, $\bm z_p$, the continuous field could be evaluated $\bm u(\bm z_p)$.
+
+A first approximation could be to use the particle approximation to reevaluate the particle intensities like in Equation \eqref{part_approx} such as
+
+\begin{equation*}
+	\bm U_p = \int_{\Omega_p} \bm u(z) d\bm z = \bm u(\bm z_p) V_p.
+\end{equation*}
+
+This approximation is easily computable but do not ensure the conservation of the all the moment of the field.
+
+\subsubsection{Regression operator}~\label{regressionOperator}
+
+Based on regression methods, the new intensities of the particles defined $\bm{U} = [\bm U_1, \dots, \bm U_p]^T$ could be obtain by solving a linear system based on the minimization of the quadratic error. Assume that we have some vector $\bm{u} = [\bm u_1(z_1), \dots, \bm u_p(\bm z_p)]^T$ of the continuous field evaluations. The particle approximation could be compute on each particle positions $\bm z_p$ given
+
+\begin{equation*}
+	\bm{u} \simeq \bm \Phi \bm{U},
+\end{equation*}~where $\bm \Phi_{ij} = \phi_\varepsilon(z_i - z_j)$.
+
+Find the new intensities $U_p$ correspond to solving the previous system in the least square sense. It corresponds to the classical problem to find the minimizer of the following quadratic function
+
+\begin{equation*}
+	\bm{U}_p = \argmin_{\bm{U}} \norm{\bm{u} - \Phi \bm{U}}^2_2.
+\end{equation*}
+
+
+In this case, the solution is $\bm U = (\bm \Phi^T \bm \Phi)^{-1} \bm \Phi \bm{u}$. Because the problem may be ill-posed, particularly in the case of large set of non well-distributed particles, the solution is regularized by introducing a Tikhonov penalization term. The Ridge regression we used introduced a penalization on of the form $\lambda \norm{\bm U}_2^2$, where $\lambda$ is a penalization coefficient, such as the new problem is
+
+\begin{equation*}
+	\bm{U}_{p,\text{ridge}} = \argmin_{\bm{U}} \norm{\bm{u} - \bm \Phi \bm{U}} + \lambda \norm{\bm{U}}^2_2.
+\end{equation*}given the following solution $\bm{U}_{p,\text{ridge}} = (\bm \Phi^T \bm \Phi + \lambda^2 \bm I)^{-1} \bm \Phi \bm{u}$.
+
+% Note that those methods are completely meshless operators that could be defined on whatever particle discretization.
+
+\subsubsection{Remeshing operator}~\label{remesh_part}
+A second type of method is based this time on a complete projection of the solution on a new regular grid of particles.
+The technique pioneered by Cottet and Koumoutsakos \cite{cottet_vortex_2000,cottet_multi-purpose_1999} in the Vortex Method also plays a crucial role in the Particle-in-Cell (PIC) method for transferring particle intensities to a grid, as observed in methods such as the Material Point Method (MPM) \cite{sulsky_particle_1994,de_vaucorbeil_material_2020,jiang_affine_2015}.
+
+Those method are based on a redistribution of the old intensities to the new regular distributed particle grid thanks to a kernel of redistribution $W$.
+
+For the one dimensional case, we denote by $z_{I}$ and $z_{p}$ respectively the grid and the old particle location. The new particles are defined on a grid with regular spacing $\ell_I$. We define the particle intensities with $\bm U_I$ and $\bm U_p$. By using the redistribution kernel $W$ through a classical interpolation rule, the new particle intensities are
+
+\begin{equation*}
+	\bm U_I = \sum_I \bm U_p  W \left(\frac{z_I - z_p}{\ell_I} \right).
+\end{equation*}
+
+The kernel $W$ determines the type and quality of interpolation. First, the partition of unity is required
+
+\begin{equation*}
+	\sum_p W\left(\frac{z_I - z_p}{\ell_I}\right) \equiv 1
+\end{equation*}
+
+which leads to the conservation of the first order moment
+
+\begin{gather}
+	\begin{align*}
+		\sum_p \bm U_p & = \sum_p\sum_I \bm U_I  W \left(\frac{z_I -  z_p}{\ell_I} \right)    & \\
+		               & = \sum_I \bm U_I  \sum_p W \left(\frac{  z_I -   z_p}{\ell_I}\right) & \\
+		               & = \sum_I \bm U_I
+	\end{align*}
+\end{gather}
+
+It can be shown moreover that if for $1 \leq |\alpha| \leq m - 1$, $W$ satisfies,
+
+\begin{equation}
+	\sum_I {(\bm z-\bm z_I)}^\alpha W \left(\frac{\bm z - \bm z_I}{\ell_I} \right) = 0, \label{momentProperty}
+\end{equation}
+
+The regridding procedure will be of order $m$. Equivalently, the previous equality lead, for $0 \leq |\alpha| \leq m - 1$, to
+\begin{equation*}
+	\sum_I \bm z_I^\alpha W \left(\frac{\bm z_p - \bm z_I}{\ell_I} \right) = \bm z^\alpha,
+\end{equation*}~obtained by developing ${(\bm z-\bm z_q)}^\alpha$ and using a recurrence on previous orders. This means that the interpolation is exact for polynomials of degrees less or equal to $m-1$ or that the moment of order $m-1$ is conserved.
+For instance, if $m = 2$, we obtain that
+
+
+\begin{gather}
+	\begin{align*}
+		\sum_p U_p (z - z_p) & = \sum_p \sum_I U_I  W \left(\frac{  z -   z_I}{\ell_I} \right) (  z_p -  z_I)                     & \\
+		                     & = \sum_p \sum_I U_I  \left[ (z - z_I) + (z_I - z_p) \right] W \left(\frac{z - z_I}{\ell_I} \right) & \\
+		                     & = \sum_I U_I  (z_I - z_p) + \sum_p (z - z_p) W \left(\frac{z - z_I}{l_p} \right)                   & \\
+		                     & = \sum_I U_I (z - z_I).
+	\end{align*}
+\end{gather}
+
+As a redistribution kernel, one may use the piecewise linear interpolation function
+
+\begin{equation*}
+	W(z) = \left\{ \begin{aligned}
+		 & 1 - |z| & 0 \leq & |z| < 1 \\
+		 & 0       & 1 \leq & |z|,
+	\end{aligned} \right.
+\end{equation*}~ which ensure the conservation of moment 0.
+
+For higher degrees of freedom, the B-spline function provides a smoothing function for higher order. For instance, the quadratic B-splines defined in \ref{quadratic_kernel} ensure moment conservation by respecting the property of equation~\ref{momentProperty}.
+
+However, if higher order B-spline improves the smoothness of the solution, their accuracy is limited to second order and can only interpolate exactly linear functions.
+
+Monaghan~\cite{monaghan_extrapolating_1985} proposes a systematic way to increase the accuracy and maintain the smoothness based on the extrapolation. The idea is to construct a new kernel based on a cutoff and its radial derivative. For $m = 4$, the cubic B-spline is improved by the following new interpolating kernel
+
+\begin{eqnarray*}~\label{cubic_radial_kernel}
+	M_4'(z) &=& \left\{ \begin{aligned}
+		 & 1 - \frac{5}{2}z^2 + \frac{3}{2} |z|^3 & 0 \leq & |z| \leq  1 & \\
+		 & \frac{1}{2}{(2 - |z|)}^2(1 - |z|)      & 1 \leq & |z| \leq 2  & \\
+		 & 0                                      & 2 \leq & |z|.
+	\end{aligned}
+	\right.
+\end{eqnarray*}
+
+The drawback of this method is to not be positive.
+
+Finally, for multidimensional space, the redistribution kernel $W$ could be obtain as the product of the one dimensional kernel applied to each coordinate.
+such as
+\begin{eqnarray*}
+	\bm U_p &=& \sum_I \bm U_I  W \left(\bm z_p - \bm z_I, \ell_I \right) \\
+	&=&  \sum_I \bm U_I  \prod_{i = 1}^d W_{1\text{D}} \left(\frac{\bm z_{I, i} - \bm z_{p, i}}{\ell_I} \right)
+\end{eqnarray*}
