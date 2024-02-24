@@ -112,27 +112,37 @@ Nous supposerons donc ici que les variables aléatoire introduites dans la secti
 Ainsi la distribution a posteriori peut être réécrite comme
 
 \begin{equation*}
-    p(\bm x \mid \bm y) \propto \exp\left(- \mathcal{\lambda(\bm x)}\right),
+    p(\bm x \mid \bm y) \propto \exp\left(- \mathcal{\L}(\bm x)\right),
 \end{equation*}
 
-avec $\lambda(\bm x)$
+avec $\mathcal L(\bm x)$
 
 \begin{equation*}
-    \lambda(\bm x) = \frac12 \norm(\bm x - \bm x^f)_{P^{-1}} + \frac12 \norm{\bm h(\bm x) - d}_{R^{-1}}.
+    \mathcal L(\bm x) = \frac12 \norm(\bm x - \bm x^f)_{P^{-1}} + \frac12 \norm{\bm h(\bm x) - d}_{R^{-1}}.
 \end{equation*}
 
-De plus, le logarithme étant une fonction strictement croissante, la maximisation de la posterior est équivalente à minimiser \lambda. D'où la nouvelle expression de $\bm x_{\text{MAP}}$
+De plus, le logarithme étant une fonction strictement croissante, la maximisation de la posterior est équivalente à minimiser $\mathcal L$. D'où la nouvelle expression de $\bm x_{\text{MAP}}$
 
 \begin{equation*}
-    \bm x_{\text{MAP}} = \argmin_{\bm x} \lambda(\bm x).
+    \bm x_{\text{MAP}} = \argmin_{\bm x} \mathcal L(\bm x).
 \end{equation*}
 
 Cette définition de l'estimateur nous permet d'introduire un ensemble de méthode variationnelles pour l'assimilation de données.
 Le minimum de cette fonction peut être obtenue en annulant son gradient
 
 \begin{equation*}
-    \nabla  \lambda(\bm x_{\text{MAP}}) = \bm 0.
+    \nabla  L(\bm x_{\text{MAP}}) = \bm 0.
 \end{equation*}
+
+On peut ainsi faire plusieurs remarque
+
+\begin{itemize}
+    \item La dérivée seconde de la fonction coût $\mathcal L$, la Hessienne, est une approximation à l'ordre 1 de la matrice de covariance a posteriori,
+    \item Si l'opérateur d'observation $h$ est non linéaire alors, le problème n'est pas convexe et une méthode itérative de minimisation est souvent mis en place. Même dans le cas où $h$ est linéaire, le stockage de matrice de grande dimension peut encourager à utiliser ces méthodes.
+\end{itemize}
+
+
+% Dans les prochaines sections, nous présenterons des méthodes qui utiliserons 
 
 
 \subsection{Filtre de Kalman}
