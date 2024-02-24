@@ -1,0 +1,186 @@
+% !TEX root = main.tex
+\section{Assimilation de données}
+\subsection{Estimation}~\label{estimation}
+
+\subsection{Chaîne de Markov cachée}~\label{hidden_mc}
+
+\subsection{Filtrage bayésien}~\label{filtrage_bayesien}
+
+Le filtrage bayésien consiste à écrire la récurrence sur les lois de probabilité, pour estimer, en fonction des observations passées et courante $y_{1:k}$ l'état courant $\bm x_k$ et de prédire l'état future $\bm x_{k+1}$.
+
+Pour simplifier les notations, l'exposant $^{\mid k}$ qui conditionne la densité par les observations $\bm y_{1:N}$.
+La densité de l'état est initialisée par la densité a priori de l'état initial $p_{X_0}$.
+
+Puis pour tout $k \geq 0$ les lois de probabilité sont propagées.
+
+L'étape de propagation ou \textit{forecast} loi \textit{a priori} est obtenue grace à la loi des probabilité totales
+
+\begin{equation}\label{tot_rule}
+    p_{\bm X_{k+1}}^{\mid k}(\bm x)= \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) p_{\bm X_{k}}^{\mid k}(\bm x')dx'
+\end{equation}
+
+La loi \textit{a priori} de la $k+1$ observations peut être otenue de nouveau grace à la loi de probabilité totale
+
+\begin{equation*}
+    p_{\bm Y_{k+1}}^{\mid k}(\bm y) = \int p_{\bm Y_{k+1}\mid \bm X_{k+1} = \bm x}(\bm y) p_{\bm X_{k+1}}^{\mid k}(\bm x)dx
+\end{equation*}
+
+Après la $k+1$ observation $\bm y_{k+1}$, l'étape d'\textit{analyse} permet de déterminer la loi \textit{a posteriori} de l'état
+avec la loi de Bayes appliquées après mesure de $\bm Y_n$
+
+\begin{equation*}
+    p_{\bm X_{k+1}}^{\mid k+1}(\bm x) = p_{\bm X_{k+1} \mid \bm Y_{k+1} = \bm y_{k+1}}^{\mid k}(\bm x) = \frac{p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x}^{\mid k}(\bm y) p_{\bm X_{k+1}}^{\mid k}(\bm x) }{p_{\bm Y_{k+1}}^{\mid k}(\bm y)}.
+\end{equation*}
+
+
+la loi de Bayes après mesure de $\bm Y_n$
+
+\subsubsection{Filtre particulaire}~\label{filtre_particulaire}
+
+Le filtre particulaire est une implémentation du filtre bayésien qui approxime la PDF à l'aide d'une distribution empirique. Les transformations du filtre, \textit{forecast} et \textit{analysis} sont appliquées sur les membres de cet échantillon.
+Cette méthode converge vers la distribution exacte lorsque le nombre de particule $N \to \infty$.
+
+Le prior de l'état $p(\bm x)$ à l'instant $k$ est représenté par un ensemble de $N$ réalisations $\{\bm x_1, \bm x_2, \dots \bm x_N\}$ de tel sorte que
+
+\begin{equation*}
+    p_{\bm X_k}(\bm x) \simeq \sum_{i=1}^N \omega^i_k \delta(\bm x - \bm x_k^i) \quad \text{with} \sum_{i=1}^N \omega^i_k = 1, \quad \omega^i_k > 0.
+\end{equation*}
+
+où $\delta$ est la masse de Dirac et $\omega^i_k$ les poids associés à chaque membre. Initialement, les échantillons sont supposés tirés de manière uniforme de tel sorte que $\omega^i_k = 1/N$.
+
+Lors de l'étape de \textit{propagation}, les particules sont propagés par le modèle de manière déterministe.
+
+Pour s'en convaincre, le loi de probabilité totale \ref{tot_rule} peut être réécrite
+
+\begin{eqnarray*}
+    p_{\bm X_{k+1}}^{\mid k}(\bm x) &=& \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) p_{\bm X_{k}}^{\mid k}(\bm x')dx' \\
+    &\simeq& \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) \sum_{i=1}^N \omega^i_k \delta(\bm x' - \bm x_k^i) dx' \\
+    &\simeq& \sum_{i=1}^N \omega^i_k  \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) \delta(\bm x' - \bm x_k^i) dx' \\
+    &\simeq& \sum_{i=1}^N \omega^i_k \delta(\bm x - \mathcal M_{k,k+1}(\bm x_k^i) - \bm \eta_{k,k+1}) = \sum_{i=1}^N \omega^i_k \delta(\bm x - \bm x_{k+1}^i).
+\end{eqnarray*}
+
+Quant à l'étape d'analyse, elle correspond à une mise à jour du poids de chaque membre, qui correspond à sa vraissemblance conditionnée aux données
+
+\begin{eqnarray*}
+    p_{\bm X_{k+1}}^{\mid k+1}(\bm x) &\propto& p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x}^{\mid k}(\bm y)  \sum_{i=1}^N \omega^i_k \delta(\bm x - \bm x_{k+1}^i) \\
+    &\propto& \sum_{i=1}^N  \omega^i_k~p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x_{k+1}^i}^{\mid k}(\bm y)\delta(\bm x - \bm x_{k+1}^i)
+\end{eqnarray*}
+
+Leading to
+
+\begin{equation*}
+    \omega^i_{k+1}  = \frac{\omega^i_k~p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x_{k+1}^i}^{\mid k}(\bm y_{k+1}) }{\omega^j_k~\sum_j^N p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x_{k+1}^j}^{\mid k}(\bm y_{k+1}) }
+\end{equation*}
+
+Où le dénominateur est simplement un terme de normalisation.
+
+Cependant, lorsque la dimension est grande, le nombre de poids non nulle à tendance à tendre vers 0. Pour éviter cela, des méthodes de rééchantillonnage du \textit{posterior} ont été développé. Le filtre bootstrap \cite{gordon_1993} consiste à selectionner les membres de poids les plus élevé, de les cloner de manière proportionnelle à leurs poids. Après échantillonnage, $N$ particules sont rassemblées, dont certaines sont identitiques avec des approximativement égaux.
+Un exemple d'algorithme suivant
+
+\begin{algorithm}
+    \caption{Implémentation du rééchantillonnage par \textit{bootstrap}.}
+    \For{membre $n$ do}{
+    Tirer $u$ dans $\mathcal{U}[0,1[$\;
+    Initialiser $j=1$\;
+    Affecter $S_w = w^1$\;
+    \While{$S_w < u$}{
+        $j = j+1$\;
+        $S_w = S_w + w(j)\;$
+    }
+    Le membre $j$  est conservé et remplace le membre $n$.
+    }
+\end{algorithm}
+
+\subsection{Estimation du maximum a posteriori}
+
+La loi a posteriori précédemment défini peut permettre de déterminer l'estimateur MAP (\textit{Maximum A Posteriori}). Il est la meilleure estimation de l'état connaissant les données mesurées. Il est défini comme
+
+\begin{equation*}
+    \bm x_{\text{MAP}} = \argmax_{\bm x} p(\bm x \mid \bm y).
+\end{equation*}
+
+Cette estimateur peut directement être estimé en suivant complètement la distribution comme dans le filtre particulaire~\ref{filtre_particulaire}.
+Autement, une manière de déterminer cet estimateur est d'introduire que la distribution a priori de l'état et des observations sont Gaussiennes.
+
+Nous supposerons donc ici que les variables aléatoire introduites dans la section \ref{hidden_mc} sont définies comme
+
+\begin{eqnarray*}
+    \bm \eta &\sim& \mathcal{N}(\bm 0, P), \quad p(\bm x) = \mathcal{N}(\bm x^f, P)\\
+    \bm \bm \varepsilon & \sim & \mathcal N(\bm 0, R), \quad \quad p(\bm x) = \mathcal{N}(\bm , R)\\.
+\end{eqnarray*}
+
+Ainsi la distribution a posteriori peut être réécrite comme
+
+\begin{equation*}
+    p(\bm x \mid \bm y) \propto \exp\left(- \mathcal{\lambda(\bm x)}\right),
+\end{equation*}
+
+avec $\lambda(\bm x)$
+
+\begin{equation*}
+    \lambda(\bm x) = \frac12 \norm(\bm x - \bm x^f)_{P^{-1}} + \frac12 \norm{\bm h(\bm x) - d}_{R^{-1}}.
+\end{equation*}
+
+De plus, le logarithme étant une fonction strictement croissante, la maximisation de la posterior est équivalente à minimiser \lambda. D'où la nouvelle expression de $\bm x_{\text{MAP}}$
+
+\begin{equation*}
+    \bm x_{\text{MAP}} = \argmin_{\bm x} \lambda(\bm x).
+\end{equation*}
+
+Cette définition de l'estimateur nous permet d'introduire un ensemble de méthode variationnelles pour l'assimilation de données.
+Le minimum de cette fonction peut être obtenue en annulant son gradient
+
+\begin{equation*}
+    \nabla  \lambda(\bm x_{\text{MAP}}) = \bm 0.
+\end{equation*}
+
+
+\subsection{Filtre de Kalman}
+
+Le filtre de Kalman introduit en 1960 \cite{kalman_new_1960} est une version du filtre Bayésien appliqué à un modèle linéaire Gaussien. Dans ces conditions, la distribution de l'état a priori de l'état et des observations sont défini par leur deux premiers moment tel que la propagation devient
+
+\begin{eqnarray*}
+    \hat m_X &=& \bE [\bm X_{k+1}^{\mid k}] = \bm M \bE [\bm X_{k}^{\mid k}],\\
+    \hat{\bm  P}_{k+1} &=& \bV [\bm X_{k+1}^{\mid k}] = \bm M \bE [\bm X_{k+1}^{\mid k}] \bm M^T + \bm Q,
+\end{eqnarray*}
+
+et le modèle d'observation donne
+
+\begin{eqnarray*}
+    m_Y &=& \bE [\bm Y_{k+1}^{\mid k}] = \bm H \bE [X_{k+1}^{\mid k}],\\
+    \bm C_{Y,Y}&=&\bV [\bm Y_{k+1}^{\mid k}] = \bm H \bV [\bm X_{k+1}^{\mid k}] \bm H^T + \bm R, \\
+    \bm C_{X,Y} &=& \bC[\bm X_{k+1}^{\mid k},\bm Y^{\mid k}_{k+1}] = \bm P_{k+1} \bm H^T,
+\end{eqnarray*}
+
+De telle sorte que la distribution conditionnelle de $\bm Y_{k+1}$ par $^{\mid k}$ et $\bm Y_{k+1} = \bm{y_{k+1}}$, si cette dernière est non-dégénérée (ce qui est le cas si $\bm R$ n'est pas singulière), est défini par ses deux premiers moments qui sont
+\begin{eqnarray*}
+    m_X &=& \bE[\bm X^{\mid k}_{k+1} \mid \bm Y_{k+1}^{\mid k}] = \hat m_X + \bm C_{X,Y} \bm C_{Y,Y}^{-1} (\bm y_{k+1} - m_Y), \\
+    \bm P_{k+1} &=& \bV[\bm X^{\mid k}_{k+1} \mid \bm Y_{k+1}^{\mid k}] = \hat{\bm  P}_{k+1} - \bm C_{X,Y} \bm C_{Y,Y}^{-1} \bm C_{X,Y}^T.
+\end{eqnarray*}
+
+Ainsi la distribution a posteriori est défini comme un produit matriciel où l'estimateur a priori $\hat m_X$ et sa variance $\hat{\bm  P}_{k+1}$ sont mis à jour à partir du \textit{gain de Kalman} $\bm K = \bm C_{X,Y} \bm C_{Y,Y}^{-1} $ et du \textit{terme d'innovation} $(\bm y_{k+1} - m_Y)$ de telle sorte que les précédentes équations s'écrivent
+
+\begin{eqnarray*}
+    m_X &=& \hat m_X + \bm K (\bm y_{k+1} - m_Y), \\
+    \bm P_{k+1} &=& (\bm I - \bm K\bm H)\hat{\bm  P}_{k+1} \\.
+\end{eqnarray*}
+
+Finalement, on peut réécr
+\begin{algorithm}
+    \caption{Filtre de Kalman}
+    \KwData{Initialisation de l'état $m x$ et de sa covariance $\bm P$;}
+    \For{$k \geq 1$}{
+        Prédiction\;
+        $\hat m_x = \bm M m x $\;
+        $\hat{\bm  P} = \bm M \bE [\bm X_{k+1}^{\mid k}] \bm M^T + \bm Q$\;
+        Observation de $\bm Y \to \bm y$
+        Analyse\;
+        Calcul du gain de Kalman: $\bm K = \hat{\bm{P}}\bm H^T (\bm H \hat{\bm  P}\bm H^T + \bm R)^{-1}$ \;
+        Calcul de l'analyse\;
+        $m_x = \hat m_x + \bm K (\bm y - \bm H \hat m_x)$\;
+        Calcul de la matrice de covariance de l'état\;
+
+
+
+    }
+\end{algorithm}

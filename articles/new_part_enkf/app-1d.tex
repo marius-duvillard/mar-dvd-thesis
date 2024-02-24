@@ -59,13 +59,29 @@ For the sake of comparison, we solve the convection diffusion equation with a ex
 
 \subsection{Assimilation parameters and ensemble generation}
 
-We conduct $N_{\text{assim}} = 30$ assimilation steps at evenly spaced intervals until the final time $t_f = 2 \frac{L}{v}$. During each assimilation step, the field $u^{gt}$ is observed at six regularly spaced positions $x_{\text{obs}}$. The observational data is subject to additive noise, denoted as $\eta \sim \mathcal{N}(0, \sigma_y \bm{I}_5)$, where $\sigma_y = \sigmaY$ and $\bm{I}_5$ represents the identity matrix.
-
-All filters undergo testing on an identical initial prior ensemble of size $N = 25$ members, characterized by Gaussian shapes that are shifted and scaled. The mean of the ensemble is drawn from $Z_m \sim \mathcal{N}(\meanZm, \sigmaZm)$, while the standard deviation is drawn from $S_m \sim \mathcal{U}(\smLow, \smUp)$.
-In the particle-based simulation, fields are discretized using regularly spaced particles that are shifted. Intensity values are obtained by fitting an interpolation operator like in Section~\ref{interpOp} to the particle intensity.
-The parameter $\varepsilon_{\text{mass}}$ is introduced as a cutoff for particle selection, allowing for the definition of varying numbers of particles for each simulation. The differentiation in particle support poses challenges during the interpolation phase in the Part-EnKF.
+\subsubsection{Ensemble distribution}
+All filters undergo testing on an identical initial prior ensemble of size $N = 25$ members, characterized by Gaussian shapes that are shifted and scaled. The mean of the ensemble is drawn from $Z_m \sim \mathcal{N}(\meanZm, \sigmaZm)$, while the standard deviation is drawn from $S_m \sim \mathcal{U}(\smLow, \smUp)$. The total mass is equal to 1.
 Velocity $v$ is sampled from $v \sim \mathcal{N}(\vmean, \vstd)$, and diffusion $D$ is sampled from $D \sim \mathcal{U}(\Dlow, \Dup)$. The sample and initial state are illustrated in Figure~\ref{fig:initial_gen}.
-Simultaneously, a standard Ensemble Kalman Filter (EnKF) update is applied to the nodal variables to construct the reference filter Grid-EnKF which use a grid-based model.
+The observational data is subject to additive noise, denoted as $\eta \sim \mathcal{N}(0, \sigma_y \bm{I})$, where $\sigma_y = \sigmaY$ and $\bm{I}$ represents the identity matrix.
+
+\subsubsection{Error definition}
+We define the error as the following relative ratio
+
+\begin{equation}~\label{eq:L2_error}
+	e_{L_2} =\frac{ \left[\frac1\nens \sum_{i = 1}^{\nens} \int_\Omega \left(u^{gt}(z) - u_i(z)\right)^2 dz\right]^{1/2}}{\norm{u}_{L_2}}
+\end{equation}~where $u_i$ denote the $i$-th member of the ensemble and $\norm{u}_{L_2}$ denote the $L_2$ norm of $u^{gt}$. We compute the parameter error with a norm-2 as $e_{\theta} = \frac{ \left[\frac1\nens \sum_{i = 1}^{\nens} \norm{\theta^{gt} - \theta_{i}}_2^2\right]^{1/2}}{\norm{\theta^{gt}}_2}$.
+
+
+\subsubsection{Numerical parameters}
+
+We conduct $N_{\text{assim}} = 30$ assimilation steps at evenly spaced intervals until the final time $t_f = 2 \frac{L}{v}$. During each assimilation step, the field $u^{gt}$ is observed at six regularly spaced positions $x_{\text{obs}}$.
+
+
+In the particle-based simulation, fields are discretized using regularly spaced particles that are shifted. Intensity values are obtained by fitting an interpolation operator like in Section~\ref{interpOp} to the particle intensity.
+The parameter $\varepsilon_{\text{mass}}$ is introduced as a cutoff for particle selection, allowing for the definition of varying numbers of particles for each simulation. The particle support poses challenges in the Part-EnKF as described in Section \ref{part_enkf}.
+
+Simultaneously, a standard Ensemble Kalman Filter (EnKF) update is applied to the nodal variables to construct the reference filter Grid-EnKF which use a grid-based model. For grid-based simulation, the fields of each member are interpolated at the node locations. In this way, the ensemble generated is still the same for the sake of comparison.
+
 
 \begin{figure}[ht!]
 	\centering
@@ -80,16 +96,10 @@ Simultaneously, a standard Ensemble Kalman Filter (EnKF) update is applied to th
 	\label{fig:initial_gen}
 \end{figure}
 
-For grid-based simulation, the fields of each member are interpolated at the node locations. In this way, the ensemble generated is still the same for the sake of comparison.
-Finally, we define the relative $L_2$ error as
-
-\begin{equation}~\label{eq:L2_error}
-	e_{L_2} =\frac{ \frac1\nens \sum_{i = 1}^{\nens} \left(\int_\Omega \left(u^{gt}(z) - u_i(z)\right)^2 dz\right)^{1/2}}{\norm{u}_{L_2}}
-\end{equation}~where $u_i$ denote the $i$-th member of the ensemble and $\norm{u}_{L_2}$ denote the $L_2$ norm of $u^{gt}$. We compute the parameter error with a norm-2 as $e_{\theta} = \frac{\frac1\nens \sum_{i = 1}^{\nens}  (\norm{\theta - \theta_{EnKF}}_2^2)^{1/2}}{\norm{\theta_{EnKF}}_2}$.
-
 \subsection{Results}
 
-We begin the comparison of the different filters by refraining from calibrating the parameters of the model. The filters exclusively update the state, treating the unknown parameters as a source of uncertainty for the model. The two filters outlined in the Method section~\ref{Methods} and the Eulerian filter are compared with the reference filter based on a grid discretization.
+We begin the comparison of the different filters just on the assimilation of the state. We treatThe parameter sample are still unchanged. We take unknown parameters into account as model uncertainties. The two filters outlined in the Method section~\ref{Methods} and the Eulerian filter are compared with the reference filter based on a grid discretization.
+
 In figure \ref{fig:1d_error_time}, we appreciate a similar agreement for all the filters, except for Particle-EnKF, with a reduced number of particles in the support.
 
 \begin{figure}

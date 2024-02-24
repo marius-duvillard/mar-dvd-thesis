@@ -37,73 +37,118 @@ On réécrit la loi de Bayes avec cette information
 Pour les deux premiers termes on retrouve facilement la vraissemblance conditionnée par l'ébauche déformée c'est à dire $\Phi(\omega)$ qui est appliqué sur les coordonnées lagrangienne du champ.
 Le prior est également défini sur le champ déformé. Enfin il faut définir un prior pour $\Phi$. Ce terme est assez arbitraire. On veut simplement qu'il vérifie la condition d'un écoulement incompressible.
 
-\section{Correction dans le span des fonctions de courant des membres}
+% \section{Correction dans le span des fonctions de courant des membres}
 
-On suppose que l'on veut résoudre le problème dans le span des fonctions courants courant de l'ensemble.
+% On suppose que l'on veut résoudre le problème dans le span des fonctions courants courant de l'ensemble.
 
-Pour cela il suffit de supposer que la fonction courant de la correction $\hat \psi$ admet le prior $\mathcal N (\psi_0,  P_\psi)$ avec $\psi_0 = 0$ et $P_\phi =\frac{1}{N - 1}\sum (\psi_i - \bar \psi) (\psi_i - \bar \psi)^T$
+% Pour cela il suffit de supposer que la fonction courant de la correction $\hat \psi$ admet le prior $\mathcal N (\psi_0,  P_\psi)$ avec $\psi_0 = 0$ et $P_\phi =\frac{1}{N - 1}\sum (\psi_i - \bar \psi) (\psi_i - \bar \psi)^T$
 
-\begin{equation*}
-    \mathcal L(\psi) = \norm{d_v - h_\psi(\psi; \omega_i)}^2_{R^{-1}} + \norm{\psi}^2_{P^{-1}_{\psi}}
-\end{equation*}
+% \begin{equation*}
+%     \mathcal L(\psi) = \norm{d_v - h_\psi(\psi; \omega_i)}^2_{R^{-1}} + \norm{\psi}^2_{P^{-1}_{\psi}}
+% \end{equation*}
 
 \section{Correction dans le span des champs de vitesse des membres}
 
-Après simplification, on voudrait arriver à la forme suivante du problème: Définir la transformation comme l'intégration du déplacement dans un champs de déplacement combinaison des champs de vitesse à l'instant $t$.
-
-Pour cela, on cherche un champ de vitesse $v$ qui aura comme distribution a priori $\mathcal N (v_0,  P_v)$ avec $\bv_0 = 0$ et $P_v = \frac{1}{N - 1}\sum (v_i - \bar v) (v_i - \bar v)^T$
-
-Le problème à minimiser est alors pour le membre $i$
-
-\begin{equation*}
-    \mathcal L(v) = \norm{d_v - h_v(v; \omega_i)}^2_{R^{-1}} + \norm{v - \bar v}^2_{P^{-1}}
-\end{equation*}
-
-En fait on peut chercher à réécrire le problème dans le Span de l'ensemble et ainsi trouver la combinaison linéaire en $v_i$.
-
-
-On note $V \in \mathbb R^{d \times N}$ l'ensemble des champs de vitesse où $d$ est la dimension de $v$ et $N$ la taille de l'ensemble. On cherche alors $b \in \mathcal R^{N}$ tel que
-
-\begin{equation*}
-    v = v_i + Vb
-\end{equation*}
-
-Tel que $\Phi$ devient
-
-\begin{equation*}
-    \Phi(x, y) = (x, y) + dt v_i(x, y) + dt \sum_j b_j v_j(x, y)
-\end{equation*}
-
-On a bien $\Phi$ qui est linéaire avec $b$
-
-\begin{equation*}
-    \norm{v - \bar v}^2_{P^{-1}} = \norm{b}^2_2
-\end{equation*}
-
-et d'autre part on doit linéarise $h$ par rapport à $v$.
-
-Pour cela,  étudions $h$. C'est la mesure de la vitesse après application intégration de l'advection de $\omega_i$ c'est à dire faire
-
-\begin{equation*}
-    h_v(v; \omega_i) = h_\omega(\Phi(\omega_i)) = h_{\omega}(\omega((x, y)+ dt v_i(x, y) + dt \sum_j b_j v_j(x, y)))
-\end{equation*}
-
-La difficulté maintenant est de déduire du déplacement de $\omega$, la variation de vitesse
-
-Pour cela on doit étudier la linéarisation de l'équation de la fonction de courant.
-
-On note $\hat \omega$ la nouvelle vorticité
+On cherche une transformation définie par l'intégration de la position d'un jeu de particule $P = \{(x_p, \Gamma_p)\}$ par un champs de vitesse $u$ tel que
 
 \begin{eqnarray*}
-    \Delta \psi  &=& \hat \omega \\
-    &=& \omega((x, y)+ dt v_i(x, y) + dt \sum_j b_j v_j(x, y)) \\
-    &=&
+    x(t;u) &=& x_p + \int_{0}^{t} u(x(t')) \mathrm dt' \\
+    \tilde x_p &=& x(1; u).
 \end{eqnarray*}
 
+On souhaite identifier ce champ de vitesse tel que
 
-\begin{eqnarray*}
-    h(v; \omega_i) = v
-\end{eqnarray*}
+\begin{equation*}
+    u = \argmin_{u \in \mathcal{V}} \norm{u^{obs} - h_u(\{(x_p, \Gamma_p)\}; x_{obs}, u)}^2_{R^{-1}}.
+\end{equation*}où $u^{obs}$ sont les vitesse observées en $x_{obs}$, $h_u$ l'opérateur d'observation après application du champ de vitesse $u$ pour déplacer les particules.
+
+Le champ $u$ est défini dans un espace vectoriel $\mathcal{V}$ dans lequel il admet une décomposition.
+
+Dans un premier temps on choisi $\mathcal{V} = \text{Span}(u_m)$ où $u_m$ est le champ de vitesse du $m$-ème membre.
+
+Ce choix est cohérent car par CL, il permet de définir une transformation à divergence nulle.
+De plus, il est cohérent avec la philosophie du filtre de Kalman d'utiliser la distribution des membres.
+
+Ainsi le champ $u$ se réécrit comme $u = \sum_m a_m u_m$.
+
+On peut réécrire la fonction objectif en fonction du vecteur $a \in \mathbb{R}^N$
+
+\begin{equation*}
+    \mathcal L_a =  \norm{u^{obs} - h_a(\{(x_p, \Gamma_p)\}; x_{obs}, a)}^2_{R^{-1}}.
+\end{equation*}
+
+Il convient de définir l'opérateur $h$ comme l'observation du champ de vitesse aux coordonnées $x_{obs}$ après déplacement des particules selon $u$
+
+\begin{equation*}
+    h_a(\{(x_p, \Gamma_p)\}; x_{obs}, a) = h(\{(\tilde x_p, \Gamma_p)\}; x_{obs}) = U_{obs}(\tilde x_p, \Gamma_p).
+\end{equation*}
+
+Du fait de la non-linéarité du problème (non linéarité de $x(t;a)$ par rapport à $a$), le problème n'est pas convexe. On se propose de résoudre le problème à l'aide d'un algoritme de minimisation NL. Pour cela on souhaite évaluer le gradient de $\mathcal L_a$.
+
+Dans un premier temps, ce vecteur est évalué par approximation de la dérivée directionnelle
+
+\begin{equation*}
+    \frac{\partial \mathcal L_a}{\partial a_i}(a) = D_{u_i} \mathcal L_a(a) \approx \frac{\mathcal L_a(a + \delta a_i u_i) - \mathcal L_a(a)}{\delta a_i}
+\end{equation*}
+
+Connaissant $\mathcal L_a$ et son gradient, on peut appliquer des algorithmes de minimisation NL.
+% \section{Correction dans le span des champs de vitesse des membres 2}
+
+% Après simplification, on voudrait arriver à la forme suivante du problème: Définir la transformation comme l'intégration d'un champ de vitesse combinaison des champs de vitesse des membres $v_i$ à l'instant $t$.
+
+% Pour cela, on cherche un champ de vitesse $v$ qui aura comme distribution a priori $\mathcal N (v_0,  P_v)$ avec $\bv_0 = 0$ et $P_v = \frac{1}{N - 1}\sum (v_i - \bar v) (v_i - \bar v)^T$
+
+% Le problème à minimiser est alors pour le membre $i$
+
+% \begin{equation*}
+%     \mathcal L(v) = \norm{d_v - h_v(v; \omega_i)}^2_{R^{-1}} + \norm{v - \bar v}^2_{P_{v}^{-1}}
+% \end{equation*}
+
+% En fait on peut chercher à réécrire le problème dans le Span de l'ensemble et ainsi trouver la combinaison linéaire en $v_i$.
+
+
+% On note $V \in \mathbb R^{d \times N}$ l'ensemble des champs de vitesse où $d$ est la dimension de $v$ et $N$ la taille de l'ensemble. On cherche alors $b \in \mathcal R^{N}$ tel que
+
+% \begin{equation*}
+%     v = v_i + Vb
+% \end{equation*}
+
+% Tel que $\Phi$ devient
+
+% \begin{equation*}
+%     \Phi(x, y) = (x, y) + dt v_i(x, y) + dt \sum_j b_j v_j(x, y)
+% \end{equation*}
+
+% On a bien $\Phi$ qui est linéaire avec $b$
+
+% \begin{equation*}
+%     \norm{v - \bar v}^2_{P^{-1}} = \norm{b}^2_2
+% \end{equation*}
+
+% et d'autre part on doit linéarise $h$ par rapport à $v$.
+
+% Pour cela,  étudions $h$. C'est la mesure de la vitesse après application intégration de l'advection de $\omega_i$ c'est à dire faire
+
+% \begin{equation*}
+%     h_v(v; \omega_i) = h_\omega(\Phi(\omega_i)) = h_{\omega}(\omega((x, y)+ dt v_i(x, y) + dt \sum_j b_j v_j(x, y)))
+% \end{equation*}
+
+% La difficulté maintenant est de déduire du déplacement de $\omega$, la variation de vitesse
+
+% Pour cela on doit étudier la linéarisation de l'équation de la fonction de courant.
+
+% On note $\hat \omega$ la nouvelle vorticité
+
+% \begin{eqnarray*}
+%     \Delta \psi  &=& \hat \omega \\
+%     &=& \omega((x, y)+ dt v_i(x, y) + dt \sum_j b_j v_j(x, y)) \\
+%     &=&
+% \end{eqnarray*}
+
+
+% \begin{eqnarray*}
+%     h(v; \omega_i) = v
+% \end{eqnarray*}
 
 
 \end{document}

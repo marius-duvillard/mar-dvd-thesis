@@ -1,0 +1,35 @@
+\babel@toc {french}{}\relax 
+\contentsline {section}{\numberline {1}Introduction / Bibliographie}{1}{}%
+\contentsline {subsection}{\numberline {1.1}Contexte industriel}{1}{}%
+\contentsline {subsubsection}{\numberline {1.1.1}Fabrication du combustible de fission}{1}{}%
+\contentsline {subsubsection}{\numberline {1.1.2}Broyeur à boulet}{1}{}%
+\contentsline {subsubsection}{\numberline {1.1.3}Régimes d'écoulement}{1}{}%
+\contentsline {subsubsection}{\numberline {1.1.4}Méthodes de mesures}{1}{}%
+\contentsline {subsubsection}{\numberline {1.1.5}Concept de Jumeau Numérique}{1}{}%
+\contentsline {subsubsection}{\numberline {1.1.6}Objectif: Appliquer assimilation de données à ces modèles}{1}{}%
+\contentsline {subsection}{\numberline {1.2}Assimilation de données}{1}{}%
+\contentsline {subsubsection}{\numberline {1.2.1}Approches stochastiques}{1}{}%
+\contentsline {paragraph}{Modèle stochastique du système}{1}{}%
+\contentsline {paragraph}{Probability formula}{1}{}%
+\contentsline {paragraph}{Estimation}{2}{}%
+\contentsline {subsubsection}{\numberline {1.2.2}Filtre Bayésien}{2}{}%
+\contentsline {paragraph}{Filtre particulaire}{2}{}%
+\contentsline {paragraph}{Formulation variationnelle (3DVar)}{2}{}%
+\contentsline {paragraph}{Méthodes Hybrides - RML}{2}{}%
+\contentsline {subsubsection}{\numberline {1.2.3}Filtre de Kalman}{2}{}%
+\contentsline {paragraph}{Filtre de Kalman d'Ensemble}{2}{}%
+\contentsline {section}{\numberline {2}Modélisation physique (Méthodes particulaires)}{2}{}%
+\contentsline {subsection}{\numberline {2.1}Méthode de simulation des écoulements granulaires dans un tambour en rotation}{2}{}%
+\contentsline {subsection}{\numberline {2.2}Présentation DEM}{2}{}%
+\contentsline {subsection}{\numberline {2.3}Méthode SPH}{2}{}%
+\contentsline {subsection}{\numberline {2.4}Méthode MPM-PIC}{2}{}%
+\contentsline {subsection}{\numberline {2.5}Méthode VM $\rightarrow $ Problème fluide incompressible et similarité avec SPH / VIC et MPM}{2}{}%
+\contentsline {subsection}{\numberline {2.6}Contenu et objectif}{2}{}%
+\contentsline {section}{\numberline {3}Ensemble Data Assimilation pour la simulation particulaire - Article 1}{2}{}%
+\contentsline {subsection}{\numberline {3.1}Adaptation du Filtre de Kalman d'Ensemble}{2}{}%
+\contentsline {subsection}{\numberline {3.2}Focus approximation des méthodes particulaires}{3}{}%
+\contentsline {subsection}{\numberline {3.3}Schéma de remaillage}{3}{}%
+\contentsline {subsection}{\numberline {3.4}Focus problème VM}{3}{}%
+\contentsline {subsection}{\numberline {3.5}Filtres adaptés}{3}{}%
+\contentsline {section}{\numberline {4}Data Assimilation: modification de la distribution particulaire}{3}{}%
+\contentsline {section}{\numberline {5}Conclusion}{3}{}%
