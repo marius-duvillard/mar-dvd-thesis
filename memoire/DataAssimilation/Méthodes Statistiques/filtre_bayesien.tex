@@ -1,8 +1,50 @@
 % !TEX root = main.tex
 \section{Assimilation de données}
-\subsection{Estimation}~\label{estimation}
 
-\subsection{Chaîne de Markov cachée}~\label{hidden_mc}
+\subsection{Introduction}~\label{intro_da}
+
+L'assimilation peut être décrit comme la combinaison des informations a priori d'un modèle de simulation numérique avec les données issues de l'observation afin d'obtenir une estimation optimale d'un système dynamique et de ses incertitudes.
+
+L'assimilation de données trouve son origine en prédiction météorologique ou en océanographie \mycolor{citer Bocquet}. Cependant, sa formulation mathématique se base sur l'inférence Bayésienne, la théorie du contrôle et le calcul variationnel.
+
+Plus que l'estimation d'un état, l'assimilation de données est aussi une formulation appropriée pour mettre à jour les paramètres d'un système.
+
+\subsection{Définition du problème}~\label{estimation}
+
+Nous décrirons le problème d'assimilation sous sa forme d'inférence Bayésienne. Suivant différentes hypothèses, nous montrerons qu'elle s'exprime alors sous des formes variées.
+
+\subsubsection{Définition de l'état}
+% Définition de l'état initial, modèle d
+Nous définissons un état $\bm x_k$ comme la variable d'\textit{état} qui définit complètement l'état du système à l'instant $t_k \in \mathbb R^+$. L'état du système est obtenu grâce un modèle $\mathcal{M}$ qui décrit l'évolution du système.
+Nous noterons $\mathcal X_k = \{\bx_1, \dots, \bx_k\}$ la trajectoire du modèle jusq'au pas de temps $t_k$.
+Nous supposerons que le modèle admet des incertitudes. Celle-ci sont issues de
+
+\begin{itemize}
+    \item \mycolor{Revoir le travail de la formation DA de grenoble}
+\end{itemize}
+
+Ainsi nous traiterons l'état comme une variable aléatoire tel que à laquelle nous lui associerons une incertitude à la prédiction $\bm \eta_k$
+
+\begin{equation*}
+    \bm x_k \mathcal{M}(x_0, t_k ; \bm \theta) + \eta_k.
+\end{equation*}
+où $\bm \theta$ sont l'ensemble des paramètres du modèle et $\bm x_0$ l'ensemble des
+
+\subsubsection{Définition des obervations}
+A une formulation dynamique, nous supposons également connue une formule d'émission ou équation d'observation. Celle-ci relie l'état et l'espace de mesure. On définie $\mathcal{D}_k$ les mesures prédites par la fenêtre d'état $\mathcal{X}_k$. Tout comme l'état, les mesures sont sujettent à des incertitudes issues de plusieurs sources
+
+\begin{itemize}
+    \item \mycolor{idem pour les observations.}
+\end{itemize}
+
+Ainsi, on défini la formule suivante
+\begin{equation*}
+    \mathcal D = \mathcal H (\mathcal{X}_k) + \mathcal{\varepsilon}_k
+\end{equation*} où $\mathcal{\varepsilon}_k$ défini l'incertitude sur l'observation $\mathcal D_k$ relatif à la prédiction $\mathcal{X}_k$.
+
+\subsubsection{Inférence Bayésienne}
+
+\subsubsection{Formulation récursive}~\label{hidden_mc}
 
 \subsection{Filtrage bayésien}~\label{filtrage_bayesien}
 
@@ -106,7 +148,7 @@ Nous supposerons donc ici que les variables aléatoire introduites dans la secti
 
 \begin{eqnarray*}
     \bm \eta &\sim& \mathcal{N}(\bm 0, P), \quad p(\bm x) = \mathcal{N}(\bm x^f, P)\\
-    \bm \bm \varepsilon & \sim & \mathcal N(\bm 0, R), \quad \quad p(\bm x) = \mathcal{N}(\bm , R)\\.
+    \bm \varepsilon & \sim & \mathcal N(\bm 0, R), \quad \quad p(\bm x) = \mathcal{N}(\bm , R)\\.
 \end{eqnarray*}
 
 Ainsi la distribution a posteriori peut être réécrite comme
