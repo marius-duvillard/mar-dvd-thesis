@@ -1,0 +1,15 @@
+% !TEX root = main.tex
+\section{Objectif}
+
+Pour aborder efficacement l'assimilation de données avec la MPM, il est essentiel de maîtriser d'abord l'assimilation de données dans des contextes plus simples, comme celui offert par la méthode VIC. Avec sa structure plus basique impliquant une grille de calcul et des particules transportant des quantités scalaires, l'approche VIC sert de préalable pour développer et affiner les techniques d'assimilation de données nécessaires pour des approches plus complexes comme la MPM.
+
+À ce jour, deux méthodes principales ont été développées pour l'assimilation de données dans le cadre de la méthode VIC. Ces méthodes visent à intégrer efficacement les observations dans le modèle de simulation pour améliorer la précision et la fiabilité des prédictions.
+
+
+Remesh-EnKF
+
+La première approche, nommée **Remesh-EnKF** (Remeshing Ensemble Kalman Filter), se concentre sur l'assimilation de données au niveau de la grille. Dans cette méthode, l'assimilation de données est effectuée en premier sur la grille. Ensuite, un maillage de particules est régénéré, ce qui permet de transférer les informations mises à jour de la grille vers les particules. Cette étape est cruciale pour maintenir la cohérence entre les données sur la grille et les caractéristiques physiques des particules. Enfin, un processus de troncature est appliqué pour éliminer les particules ayant une intensité trop faible, permettant ainsi d'optimiser les ressources de calcul et de conserver uniquement les particules significatives pour la dynamique du fluide.
+
+Part-EnKF
+
+La seconde approche, appelée **Part-EnKF** (Particle Ensemble Kalman Filter), propose une stratégie différente en effectuant l'assimilation directement sur les intensités des particules, sans nécessiter de remaillage. Cette méthode met l'accent sur la mise à jour des caractéristiques des particules individuelles, en tenant compte de leurs intensités et positions. Contrairement à la Remesh-EnKF, la Part-EnKF évite les difficultés liées au remaillage de particules, en se concentrant uniquement sur la mise à jour des attributs des particules existantes.
