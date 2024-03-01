@@ -142,7 +142,41 @@ avec la loi de Bayes appliquées après mesure de $\bm Y_n$
     p_{\bm X_{k+1}}^{\mid k+1}(\bm x) = p_{\bm X_{k+1} \mid \bm Y_{k+1} = \bm y_{k+1}}^{\mid k}(\bm x) = \frac{p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x}^{\mid k}(\bm y) p_{\bm X_{k+1}}^{\mid k}(\bm x) }{p_{\bm Y_{k+1}}^{\mid k}(\bm y)}.
 \end{equation*}
 
-la loi de Bayes après mesure de $\bm Y_n$
+% la loi de Bayes après mesure de $\bm Y_n$
+
+\section{Propagation}
+
+En pratique, il est difficile de réaliser la propagation de la distribution de l'état.
+En effet, l'évolution du prior nécessite de propager entièrement la distribution à l'aide de l'équation de Fokker-Planck, celle-ci ne pouvant être résolue qu'en dimension faible~\cite{jazwinski_4_1970}.
+
+Une première alternative consiste à uniquement considérer l'évolution pour les deux premiers moments. Dans ce cas, il s'agit de considérer que l'erreur de l'état $\bx_k$ suit une distribution Gaussienne $\mathcal{N} (0, \bm P_k)$. Si le modèle d'évolution $\mathcal{M} = \bM$ est linéaire, alors la matrice de covariance de l'état $\bx_{k+1}$ devient
+
+\begin{equation*}
+    \bP_{k+1} = \bM \bP_{k} \bM^T + \bm{Q_k}
+\end{equation*}où $\bm Q_k$ est la matrice de covariance de l'erreur de modèle.
+
+Cette proposition est un des éléments utilisés dans le filter de Kalman~\cite{kalman_filter}. Dans le cas où le modèle n'est pas linéaire, alors une approximation peut être obtenue par linéarisation du modèle.
+
+Une autre possibilité consiste à utiliser un ensemble pour représenter la distribution de l'état. L'état est représenté par un ensemble d'échantillons ou particules tel que $p(\bx_k)  = \sum_{i=1}^{N}$
+
+
+\section{Hypothèses et filtres}
+
+Dans les parties suivantes, nous présenterons quatres familles de méthode de filtrage.
+
+Nous présenterons quatre familles de méthode:
+\mycolor{présenter les différentes méthodes}
+\begin{itemize}
+    \item le filtre particulaire - filtre bayésien non linéaire sur distributions empirique
+    \item filtre de Kalman - filtre bayésien modèle linéaire, distributions gaussienne
+    \item filtre de Kaman d'Ensemble - filtre non linéaire, distribution gaussienne
+    \item Méthode Variationnelle d'ensemble - filtre non linéaire, distribution gaussienne
+
+\end{itemize}
+
+Celles-ci diffèrent par un certains nombres d'hypothèses que nous avons regroupé dans la Figure
+\mycolor{Faire un schéma des différentes méthodes de filtrage avec les hypothèses associées.}
+
 
 \section{Filtre particulaire}~\label{filtre_particulaire}
 
@@ -236,7 +270,7 @@ De plus, le logarithme étant une fonction strictement croissante, la maximisati
     \bm x_{\text{MAP}} = \argmin_{\bm x} \mathcal L(\bm x).
 \end{equation*}
 
-Cette définition de l'estimateur nous permet d'introduire un ensemble de méthode variationnelles pour l'assimilation de données.
+Cette définition de l'estimateur nous permet d'introduire un ensemble de méthodes variationnelles pour l'assimilation de données.
 Le minimum de cette fonction peut être obtenue en annulant son gradient
 
 \begin{equation*}
@@ -251,7 +285,9 @@ On peut ainsi faire plusieurs remarque
 \end{itemize}
 
 
-% Dans les prochaines sections, nous présenterons des méthodes qui utiliserons 
+Dans les prochaines sections, nous présenterons des méthodes qui utiliserons
+
+
 \section{Méthode Variationnelle}
 
 La méthode **3D-Var** (Three-Dimensional Variational Data Assimilation) est une méthode statique d'assimilation de données. Elle se concentre sur un seul instant, sans prendre en compte l'évolution temporelle du système. La fonction coût $J_{3D}(x)$ pour le 3D-Var est formulée comme suit :
@@ -272,7 +308,7 @@ La résolution du problème d'optimisation associée à l'approche 4D-Var pose u
 
 Les méthodes 3D-Var et 4D-Var présentent une limitation notable : elles ne prennent pas en compte les incertitudes sur l'état assimilé. Dans ces approches, l'accent est mis sur la minimisation de la différence entre les observations et les prédictions des modèles, mais sans une estimation explicite ou une gestion des incertitudes associées à l'état du système après assimilation. Ce point peut impacter la confiance des prévisions.
 
-\section{Filtre de Kalman}
+\section{Filtre de Kalman}~\label{kalman_filter}
 
 \subsection{Loïc redaction}
 

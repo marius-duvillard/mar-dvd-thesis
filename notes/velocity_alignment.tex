@@ -92,6 +92,20 @@ Dans un premier temps, ce vecteur est évalué par approximation de la dérivée
 \end{equation*}
 
 Connaissant $\mathcal L_a$ et son gradient, on peut appliquer des algorithmes de minimisation NL.
+
+\section{Ajout du prior}
+On souhaite tenir compte de notre prior dans la fonction coût. En effet, la fonction de coût de la posterior est la suivante
+
+\begin{equation*}
+    \mathcal L_a =  \norm{u^{obs} - h_a(\{(x_p, \Gamma_p)\}; x_{obs}, a)}^2_{R^{-1}} + \norm{u - u^f}_{P^f^{-1}}.
+\end{equation*}
+
+où on a rajouté un prior gaussien sur le champ $u$. Par facilité d'écriture on suppose que cette norme s'applique sur le champ discrétisé sur une grille. Dans ce cas $u \sim \mathcal N(u^f, P^f)$.
+Pour déterminer cette loi, on suppose que la distribution est centrée en 0. En effet, notre prior est de penser qu'il n'y a pas de réalignement. On suppose que l'alignement se fait préférentiellement avec le champ de vitesse des membres. Ainsi $P^f$ est pris comme
+
+\begin{equation*}
+
+\end{equation*}
 % \section{Correction dans le span des champs de vitesse des membres 2}
 
 % Après simplification, on voudrait arriver à la forme suivante du problème: Définir la transformation comme l'intégration d'un champ de vitesse combinaison des champs de vitesse des membres $v_i$ à l'instant $t$.
