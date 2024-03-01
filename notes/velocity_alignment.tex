@@ -93,19 +93,35 @@ Dans un premier temps, ce vecteur est évalué par approximation de la dérivée
 
 Connaissant $\mathcal L_a$ et son gradient, on peut appliquer des algorithmes de minimisation NL.
 
+\section{Calcul de la dérivée}
+
+Le calcul de la dérivée par différence finie nécessite de réaliser $M$ forward supplémentaire, ce qui peut être couteux. Une alternative consiste à déterminer une faiseau principal et de déterminer $M$ perturbation autour de cette trajectoire. Supposons que nous souhaitions calculer $\nabla_a h$. Pour cela nous perturbons le champ d'alignement $v(a)$ selon les direction $e_i$ tel que $a' = a + \varepsilon e_i$. Cette perturbation va entraîner autour de la trajectoire en $a$ que l'on note $x_a$ tel que $x_{a'}(t) = x_a(t) + \varepsilon x_1(t) + \varepsilon^2 x_2(t), \dots$.
+La dérivée particulaire donne
+
+\begin{equation*}
+    \frac{d}{dt}(x_a + \varepsilon x_1 + \varepsilon^2 x_2, \dots) = \sum_j a_j u_j(x_a + \varepsilon x_1 + \varepsilon^2 x_2, \dots) + \varepsilon a_i u_i (x_a + \varepsilon x_1 + \varepsilon^2 x_2, \dots)
+\end{equation*}
+
+Par développement en série de Taylor on obtient pour les différents champs de vitesse $u_j$
+\begin{equation*}
+    u_j(x_a + \varepsilon x_1 + \varepsilon^2 x_2, \dots) = u_j(x_a) + (\varepsilon x_1 + \varepsilon^2 x_2, \dots) \nabla_x u_j (x_a) + o(\varepsilon)
+\end{equation*}
+
+Par identification, on obtient les deux premiers ordres du développement
+\begin{eqnarray*}
+    \frac{dx_a}{dt} = \sum_j a_j u_j(x_a) \\
+    \frac{dx_1}{dt} = \sum_j a_j u_j(x_a)
+\end{eqnarray*}
+
 \section{Ajout du prior}
 On souhaite tenir compte de notre prior dans la fonction coût. En effet, la fonction de coût de la posterior est la suivante
 
 \begin{equation*}
-    \mathcal L_a =  \norm{u^{obs} - h_a(\{(x_p, \Gamma_p)\}; x_{obs}, a)}^2_{R^{-1}} + \norm{u - u^f}_{P^f^{-1}}.
+    \mathcal L_a =  \norm{u^{obs} - h_a(\{(x_p, \Gamma_p)\}; x_{obs}, a)}^2_{R^{-1}} + \norm{u}_{P^f^{-1}}.
 \end{equation*}
 
-où on a rajouté un prior gaussien sur le champ $u$. Par facilité d'écriture on suppose que cette norme s'applique sur le champ discrétisé sur une grille. Dans ce cas $u \sim \mathcal N(u^f, P^f)$.
-Pour déterminer cette loi, on suppose que la distribution est centrée en 0. En effet, notre prior est de penser qu'il n'y a pas de réalignement. On suppose que l'alignement se fait préférentiellement avec le champ de vitesse des membres. Ainsi $P^f$ est pris comme
 
-\begin{equation*}
 
-\end{equation*}
 % \section{Correction dans le span des champs de vitesse des membres 2}
 
 % Après simplification, on voudrait arriver à la forme suivante du problème: Définir la transformation comme l'intégration d'un champ de vitesse combinaison des champs de vitesse des membres $v_i$ à l'instant $t$.
