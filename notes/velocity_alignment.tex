@@ -95,7 +95,7 @@ Connaissant $\mathcal L_a$ et son gradient, on peut appliquer des algorithmes de
 
 \section{Calcul de la dérivée}
 
-Le calcul de la dérivée par différence finie nécessite de réaliser $M$ forward supplémentaire, ce qui peut être couteux. Une alternative consiste à déterminer une faiseau principal et de déterminer $M$ perturbation autour de cette trajectoire. Supposons que nous souhaitions calculer $\nabla_a h$. Pour cela nous perturbons le champ d'alignement $v(a)$ selon les direction $e_i$ tel que $a' = a + \varepsilon e_i$. Cette perturbation va entraîner autour de la trajectoire en $a$ que l'on note $x_a$ tel que $x_{a'}(t) = x_a(t) + \varepsilon x_1(t) + \varepsilon^2 x_2(t), \dots$.
+Le calcul de la dérivée par différence finie nécessite de réaliser $M$ forward supplémentaire, ce qui peut être couteux. Une alternative consiste à déterminer une faiseau principal et de déterminer $M$ perturbation autour de cette trajectoire. Supposons que nous souhaitions calculer $\nabla_a h$. Pour cela nous perturbons le champ d'alignement $v(a)$ selon les direction $e_i$ tel que $a' = a + \varepsilon e_i$. Cette perturbation va entraîner une déviation autour de la trajectoire en $a$ que l'on note $x_a$ tel que $x_{a'}(t) = x_a(t) + \varepsilon x_1(t) + \varepsilon^2 x_2(t), \dots$.
 La dérivée particulaire donne
 
 \begin{equation*}
@@ -107,11 +107,15 @@ Par développement en série de Taylor on obtient pour les différents champs de
     u_j(x_a + \varepsilon x_1 + \varepsilon^2 x_2, \dots) = u_j(x_a) + (\varepsilon x_1 + \varepsilon^2 x_2, \dots) \nabla_x u_j (x_a) + o(\varepsilon)
 \end{equation*}
 
-Par identification, on obtient les deux premiers ordres du développement
+En substituant dans la première expression, on obtient les deux premiers ordres du développement
 \begin{eqnarray*}
-    \frac{dx_a}{dt} &=&  \lim_{\varepsilon \to 0} \frac{d}{dt}(x_a + \varepsilon x_1 + \dots)  = \sum_j a_j u_j(x_a) \\
-    \frac{dx_1}{dt} &=& \lim_{\varepsilon \to 0} \frac{1}{\varepsilon} \frac{d}{dt}(x_a + \varepsilon x_1 + \dots) = \sum_j a_j \nabla u_j(x_a) + a_i u_i(x_a).
+    \frac{dx_a}{dt} &=&    \sum_j a_j u_j(x_a) \\
+    \frac{dx_1}{dt} &=&   \sum_j a_j x_1 \nabla u_j(x_a) + a_i u_i(x_a).
 \end{eqnarray*}
+
+Ainsi, la position finale des particules $x_{a'}(t = 1) = x_{a}(t = 1) + \varepsilon x_1(t=1)$.
+
+On peut donc durant la propogation sur le faiseau $a$ faire le calcul des $M$ trajectoire $x_1^j$.Il faut néanmoins calculer $\nabla u_j(x_a)$ ?
 
 \section{Ajout du prior}
 On souhaite tenir compte de notre prior dans la fonction coût. En effet, la fonction de coût de la posterior est la suivante
@@ -137,7 +141,8 @@ Avec $P$ la pseudo-inverse de $P$. Or $P$ est défini à partir de l'ensemble m�
 Or par décomposition de la solution en $u = \sum_i a_i u_i$, on obtient
 
 \begin{eqnarray*}
-    \norm{u}^2_{P^+} &=& \sum_i \sum_j a_i a_j \int_{\omega^2} u^i(x) P^+(x, x') u(x') \mathrm{d}x\mathrm{d}x' \\
+    \norm{u}^2_{P^+} &=& \sum_i \sum_j a_i a_j \int_{\omega^2} u^i(x) P^+(x, x') u(x') \mathrm{d}x\mathrm{d}x', \\
+    &=& \sum_j a_i a_j \int_{\omega^2} \delta{x'} \delta{x}\mathrm{d}x\mathrm{d}x', \\
     &=& \sum_i \sum_j a_i a_j = \norm{a}_2^2
 \end{eqnarray*}
 
