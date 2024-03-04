@@ -164,17 +164,16 @@ Une autre possibilité consiste à utiliser un ensemble pour représenter la dis
 
 Dans les parties suivantes, nous présenterons quatres familles de méthode de filtrage.
 
-Nous présenterons quatre familles de méthode:
 \mycolor{présenter les différentes méthodes}
 \begin{itemize}
     \item le filtre particulaire - filtre bayésien non linéaire sur distributions empirique
     \item filtre de Kalman - filtre bayésien modèle linéaire, distributions gaussienne
-    \item filtre de Kaman d'Ensemble - filtre non linéaire, distribution gaussienne
     \item Méthode Variationnelle d'ensemble - filtre non linéaire, distribution gaussienne
+    \item filtre de Kaman d'Ensemble - filtre non linéaire, distribution gaussienne
 
 \end{itemize}
 
-Celles-ci diffèrent par un certains nombres d'hypothèses que nous avons regroupé dans la Figure
+Celles-ci diffèrent par un certains nombres d'hypothèses que nous avons regroupé dans la Table et représenté sur la Figure
 \mycolor{Faire un schéma des différentes méthodes de filtrage avec les hypothèses associées.}
 
 
@@ -234,79 +233,6 @@ Un exemple d'algorithme suivant
     }
 \end{algorithm}
 
-\section{Estimation du maximum a posteriori}
-
-La loi a posteriori précédemment défini peut permettre de déterminer l'estimateur MAP (\textit{Maximum A Posteriori}). Il est la meilleure estimation de l'état connaissant les données mesurées. Il est défini comme
-
-\begin{equation*}
-    \bm x_{\text{MAP}} = \argmax_{\bm x} p(\bm x \mid \bm y).
-\end{equation*}
-
-Cette estimateur peut directement être estimé en suivant complètement la distribution comme dans le filtre particulaire~\ref{filtre_particulaire}.
-Autement, une manière de déterminer cet estimateur est d'introduire que la distribution a priori de l'état et des observations sont Gaussiennes.
-
-Nous supposerons donc ici que les variables aléatoire introduites dans la section précédentes sont définies comme
-
-\begin{eqnarray*}
-    \bm \eta &\sim& \mathcal{N}(\bm 0, P), \quad p(\bm x) = \mathcal{N}(\bm x^f, P)\\
-    \bm \varepsilon & \sim & \mathcal N(\bm 0, R), \quad \quad p(\bm x) = \mathcal{N}(\bm , R)\\.
-\end{eqnarray*}
-
-Ainsi la distribution a posteriori peut être réécrite comme
-
-\begin{equation*}
-    p(\bm x \mid \bm y) \propto \exp\left(- \mathcal{\L}(\bm x)\right),
-\end{equation*}
-
-avec $\mathcal L(\bm x)$
-
-\begin{equation*}
-    \mathcal L(\bm x) = \frac12 \norm(\bm x - \bm x^f)_{P^{-1}} + \frac12 \norm{\bm h(\bm x) - d}_{R^{-1}}.
-\end{equation*}
-
-De plus, le logarithme étant une fonction strictement croissante, la maximisation de la posterior est équivalente à minimiser $\mathcal L$. D'où la nouvelle expression de $\bm x_{\text{MAP}}$
-
-\begin{equation*}
-    \bm x_{\text{MAP}} = \argmin_{\bm x} \mathcal L(\bm x).
-\end{equation*}
-
-Cette définition de l'estimateur nous permet d'introduire un ensemble de méthodes variationnelles pour l'assimilation de données.
-Le minimum de cette fonction peut être obtenue en annulant son gradient
-
-\begin{equation*}
-    \nabla  L(\bm x_{\text{MAP}}) = \bm 0.
-\end{equation*}
-
-On peut ainsi faire plusieurs remarque
-
-\begin{itemize}
-    \item La dérivée seconde de la fonction coût $\mathcal L$, la Hessienne, est une approximation à l'ordre 1 de la matrice de covariance a posteriori,
-    \item Si l'opérateur d'observation $h$ est non linéaire alors, le problème n'est pas convexe et une méthode itérative de minimisation est souvent mis en place. Même dans le cas où $h$ est linéaire, le stockage de matrice de grande dimension peut encourager à utiliser ces méthodes.
-\end{itemize}
-
-
-Dans les prochaines sections, nous présenterons des méthodes qui utiliserons
-
-
-\section{Méthode Variationnelle}
-
-La méthode **3D-Var** (Three-Dimensional Variational Data Assimilation) est une méthode statique d'assimilation de données. Elle se concentre sur un seul instant, sans prendre en compte l'évolution temporelle du système. La fonction coût $J_{3D}(x)$ pour le 3D-Var est formulée comme suit :
-
-$$J_{3D}(x) = \frac{1}{2}\|x-x_b\|_{B^{-1}}^2+ \frac{1}{2}\|y-H(x)\|^2_{R^{-1}}$$
-
-où $x$ représente l'état du système, $x_b$ l'état de base ou ébauche (prévision du modèle), $B$ la matrice de covariance des erreurs de prévision, $y$ les observations, $H$ l'opérateur qui relie l'état du système aux observations, et $R$ la matrice de covariance des erreurs d'observation.
-
-Dans la méthode 3D-Var, la minimisation de $J(x)$ conduit à un état optimal qui est une meilleure estimation de l'état réel du système à un instant donné, en tenant compte à la fois des erreurs dans les observations et dans la prévision du modèle.
-
-La méthode **4D-Var** (Four-Dimensional Variational Data Assimilation) étend la méthode 3D-Var en incorporant une dimension temporelle. Cette approche considère non seulement l'état actuel du système mais aussi son évolution dans le temps. Elle cherche à minimiser la fonction coût sur une fenêtre temporelle, prenant en compte les observations et les prévisions à différents moments.
-
-Dans la méthode 4D-Var, la fonction coût est similaire à celle du 3D-Var, mais elle intègre l'aspect dynamique du système. La minimisation de la fonction coût $J_{4D}(x)$ sur une fenêtre temporelle conduit à un ajustement des prévisions du modèle non seulement à un instant donné mais sur toute la période considérée. La fonctionnelle s'écrit
-
-$$J_{4D}(x) = \frac{1}{2}\|x_0-x_{b,0}\|_{B^{-1}}^2 + \frac{1}{2} \sum_{t=0}^T \|y_t-H(x_t)\|^2_{R^{-1}}$$
-
-La résolution du problème d'optimisation associée à l'approche 4D-Var pose une difficulté quant à la résolution du problème numérique. Celle-ci est résolue par un solveur itératif qui nécessite la modélisation et résolution d'un problème adjoint. Cette mise en oeuvre peut se révéler particulièrement fastidieuse.
-
-Les méthodes 3D-Var et 4D-Var présentent une limitation notable : elles ne prennent pas en compte les incertitudes sur l'état assimilé. Dans ces approches, l'accent est mis sur la minimisation de la différence entre les observations et les prédictions des modèles, mais sans une estimation explicite ou une gestion des incertitudes associées à l'état du système après assimilation. Ce point peut impacter la confiance des prévisions.
 
 \section{Filtre de Kalman}~\label{kalman_filter}
 
@@ -383,11 +309,94 @@ Finalement, on peut réécrire
         Calcul de l'analyse\;
         $m_x = \hat m_x + \bm K (\bm y - \bm H \hat m_x)$\;
         Calcul de la matrice de covariance de l'état\;
-
-
-
     }
 \end{algorithm}
+
+\section{Méthodes Variationnelles d'ensemble}
+\section{Estimation du maximum a posteriori}
+
+La distribution a posteriori précédemment définie permet dans un premier temps de pouvoir définir l'estimateur l'estimateur MAP (\textit{Maximum A Posteriori}). Il est la meilleure estimation de l'état connaissant les données mesurées. Il est défini comme
+
+\begin{equation*}
+    \bm x_{\text{MAP}} = \argmax_{\bm x} p(\bm x \mid \bm y).
+\end{equation*}
+
+Cette estimateur peut directement être estimé en suivant complètement la distribution comme dans le filtre particulaire~\ref{filtre_particulaire}.
+
+Le logarithme étant une fonction strictement croissante, la maximisation de la posterior est équivalente à minimiser $\mathcal L$. D'où la nouvelle expression de $\bm x_{\text{MAP}}$
+
+\begin{equation*}
+    \bm x_{\text{MAP}} = - \argmin_{\bm x} p(\bm x \mid \bm y).
+\end{equation*}
+
+Le MAP peut être obtenu par des méthodes d'optimisaiton numérique en fonciton de la complexité de la distribution.
+
+Une manière de déterminer cet estimateur est d'introduire que la distribution a priori de l'état et des observations sont Gaussiennes.
+
+Nous supposerons donc ici que les variables aléatoire introduites dans la section précédentes sont définies comme
+
+\begin{eqnarray*}
+    \bm \eta &\sim& \mathcal{N}(\bm 0, P_{k+1}), \quad p(\bm x_{k+1}) = \mathcal{N}(\bm x_{k+1}^f, P_{k+1})\\
+    \bm \varepsilon & \sim & \mathcal N(\bm 0, R), \quad \quad p(\bm y_{k+1}) = \mathcal{N}(\bm g(\bm x_{k+1}^f) , R_{k+1})\\.
+\end{eqnarray*}~où $\bm x_{k+1}^f = \mathcal{M}(\bx_{k})$ l'état prédit par le modèle. Nous nous interessons maintenant à l'étape de mise à jour à l'instant $k+1$, l'indice temporel sera implicite pour le reste de la section.
+
+La distribution a posteriori peut être réécrite comme
+
+\begin{equation*}
+    p(\bm x \mid \bm y) \propto \exp\left(- \mathcal{\L}(\bm x)\right),
+\end{equation*}
+
+avec $\mathcal L(\bm x)$
+
+\begin{equation*}
+    \mathcal L(\bm x) = \frac12 \norm(\bm x - \bm x^f)_{ \bP^{-1}} + \frac12 \norm{\bm h(\bm x) - \bm d}_{\bR^{-1}}.
+\end{equation*}
+
+Le problème à minimiser devient alors
+
+\begin{equation*}
+    \bm x_{\text{MAP}} = \argmin_{\bm x} \mathcal L(\bm x).
+\end{equation*}
+
+Cette définition est à l'origine d'un ensemble de méthodes variationnelles pour l'assimilation de données dont la méthode 3DVar ou 4DVar courament utilisé en météorologie~\cite{talagrand1997assimilation}.
+Le minimum de cette fonction est obtenue en annulant son gradient qui se trouve être
+
+\begin{equation*}
+    \nabla_\bx \mathcal L(\bx^a) = \bP^{-1} (\bx^a - \bx^f) + \nabla_{\bx^a} \bm h (\bx^a) \bR^{-1}(\bg(\bx^a) - \bm d) = \bm 0.
+\end{equation*}
+
+
+On peut aussi faire plusieurs remarques :
+
+\begin{itemize}
+    \item La dérivée seconde de la fonction coût $\mathcal L$, la Hessienne, est une approximation à l'ordre 1 de la matrice de covariance a posteriori,
+    \item Si l'opérateur d'observation $h$ est non linéaire alors, le problème n'est pas convexe et une méthode itérative de minimisation est souvent mis en place. Même dans le cas où $h$ est linéaire, le stockage de matrice de grande dimension peut encourager à utiliser ces méthodes itérative,
+\end{itemize}
+
+\section{Méthodes de minimisation}
+
+\section{Méthode 3DVar et équivalence avec la mise à jour de Kalman}
+
+La méthode 3DVar est un cas particulier de l'équation précédente qui permet d'avoir une solution linéaire au problème. Elle se place dans le cas où la fonction d'observation est linéaire $\bm h(\bx) = \bH \bx$.
+$$\mathcal L_{3D}(\bx) = \frac{1}{2}\norm{\bx-\bx_b}_{\bP^{-1}}^2+ \frac{1}{2}\norm{y-H(x)}^2_{R^{-1}}$$
+
+Dans ce cas, l'annulation du gradient de la fonction coût se réduit à l'expression suivante
+
+\begin{equation*}
+    \bP^{-1} (\bx^a - \bx^f) + \bH^T \bR^{-1}(\bH \bx^a - \bm d) = \bm 0,
+\end{equation*}
+
+Ce qui nous permet d'obtenir une expression à l'estimateur MAP
+
+\begin{equation*}
+    \bx^a = \bx^f + (\bP^{-1} + \bH^T \bR^{-1} \bH)^{-1} \bH^T \bR^{-1} (\bd - \bH \bz^f),
+\end{equation*}~qui est l'expression de la mise à jour dans l'espace d'état.Il peut être coûteux d'inverser la matrice $(\bP^{-1} + \bH^T \bR^{-1} \bH)^{-1}$ si l'espace d'état est de grande dimension. A l'aide de la formule de Sherman-Morisson-Woodbury, la mise à jour peut être réécrite dans l'espace de mesure
+
+\begin{eqnarray*}
+    (\bP^{-1} + \bH^T \bR^{-1} \bH)^{-1} = \bP - \bP \bH^T (\bH \bP \bH^T + \bR)^{-1} \bH \bP
+\end{eqnarray*}
+
+Ainsi la matrice de covariance d'état $\bP$ ne necessite pas d'être inversé.
 
 \section{Filtre de Kalman d'Ensemble (EnKF)}
 
@@ -409,3 +418,6 @@ Dans l'EnKF, $x_{i}^{a}$ est l'état analysé (ou mis à jour) pour le i-ème me
 
 Cette version de l'EnKF est parfois appelé EnKF stochastique car les observations $y_i$ correspondent aux données mesurées bruitées, i.e. $y_i = y + \varepsilon_i$ où $\varepsilon_i$ correspond au bruit de mesure. Ce bruit numérique permet de supprimer un biais statistique sur l'estimation de l'état.
 
+\subsection{Méthode variationnelle d'ensemble}
+
+\section{Ensemble Kalman Filter}
