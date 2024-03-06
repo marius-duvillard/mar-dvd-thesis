@@ -110,12 +110,22 @@ Par développement en série de Taylor on obtient pour les différents champs de
 En substituant dans la première expression, on obtient les deux premiers ordres du développement
 \begin{eqnarray*}
     \frac{dx_a}{dt} &=&    \sum_j a_j u_j(x_a) \\
-    \frac{dx_1}{dt} &=&   \sum_j a_j x_1 \nabla u_j(x_a) + a_i u_i(x_a).
+    \frac{dx_1}{dt} &=&   \sum_j a_j x_1 \nabla_x u_j(x_a) + a_i u_i(x_a).
 \end{eqnarray*}
 
 Ainsi, la position finale des particules $x_{a'}(t = 1) = x_{a}(t = 1) + \varepsilon x_1(t=1)$.
 
-On peut donc durant la propogation sur le faiseau $a$ faire le calcul des $M$ trajectoire $x_1^j$.Il faut néanmoins calculer $\nabla u_j(x_a)$ ?
+Pour ce faire, on pourra résoudre le problème joint
+
+\begin{equation*}
+    \begin{cases}
+        \frac{dx_a}{dt}      & =  \sum_j a_j u_j(x_a),                                     \\
+        x_a(t=0)             & =  x_a^0,                                                   \\
+        i = 1, \dots, M:                                                                   \\
+        \frac{d\hat x_i}{dt} & =  \hat x_i (\sum_j a_j  \nabla_x u_j(x_a)) + a_i u_i(x_a), \\
+        \hat x_i(t=0)        & =  0.
+    \end{cases}
+\end{equation*}
 
 \section{Ajout du prior}
 On souhaite tenir compte de notre prior dans la fonction coût. En effet, la fonction de coût de la posterior est la suivante
@@ -143,8 +153,43 @@ Or par décomposition de la solution en $u = \sum_i a_i u_i$, on obtient
 \begin{eqnarray*}
     \norm{u}^2_{P^+} &=& \sum_i \sum_j a_i a_j \int_{\omega^2} u^i(x) P^+(x, x') u(x') \mathrm{d}x\mathrm{d}x', \\
     &=& \sum_j a_i a_j \int_{\omega^2} \delta{x'} \delta{x}\mathrm{d}x\mathrm{d}x', \\
-    &=& \sum_i \sum_j a_i a_j = \norm{a}_2^2
+    &=& \sum_i \sum_j a_i a_j \propto \norm{a}_2^2
 \end{eqnarray*}
+
+On peut également écrire la norme différemment. On constate que la fonction coût est infinie si $u \in \text{Ker} (P)$. Ainsi, on peut écrire une décomposition de $u$ comme
+
+\begin{equation*}
+    u = P v
+\end{equation*} où $v \in L(\Omega)$. $P$ n'étant pas de rang plein, il existe une infinité de vecteur $a$ qui vérifie cette propriété. Nous choisissons de les décomposer comme $v = v^* \oplus v^\perp$ avec $v^\perp \in \text{Ker}(P)$. On défini alors le pseudo inverse $P^+$ tel que
+
+\begin{equation*}
+    P^+ u = v^*
+\end{equation*}
+
+Ainsi on peut la norme en fonction de $v^*$
+
+\begin{equation*}
+    \norm{u}^2_{P^+} = \langle u, P^+ u \rangle = \langle v^*, P v^* \rangle = \langle v, P v \rangle
+\end{equation*}
+
+Or, $P v$ peut être défini dans une décomposition sur la famille des membres en effet
+
+\begin{equation*}
+    P = \frac1N \sum_{i=1}^N u_i \otimes u_i
+\end{equation*}
+
+Ce qui implique que
+
+\begin{equation*}
+    P v = \frac1N \sum_{i=1}^N \langle u_i, v \rangle u_i
+\end{equation*}
+
+On note le vecteur $a \in \mathbb{R}^N$ une décomposition de $Pv$ dans la famille des membres qui vérifie cette projection. On obtient finalement une nouvelle expression pour la norme
+
+\begin{equation}
+    \norm{u}^2_{P^+} = \langle v, P v \rangle = \frac1N \sum_{i=1}^N a_i \langle u_i, v\rangle = \frac1N \sum_{i=1}^N a_i^2 = \norm{a}^2_2
+\end{equation}
+
 
 \section{Méthode de gradient à l'origine}
 
@@ -163,7 +208,7 @@ Ici, on cherche à déterminer la meilleure direction de champ de vitesse pour m
 On cherche à faire diminuer au cours du temps $t$ la fonction coût $\mathcal L_a$ ce qui revient à minimiser
 
 \begin{equation*}
-    \min_{a \in \mathbb{R}^M, \quad \norm{a}^2 = 1} \frac{d \mathcal L_a}{dt} = \sum_i (\nabla_x \mathcal L_a \cdot u_i ) a_i
+    \min_{a \in \mathbb{R}^M,~\norm{a}^2 = 1} \frac{d \mathcal L_a}{dt} = \sum_i (\nabla_x \mathcal L_a \cdot u_i ) a_i
 \end{equation*}
 
 A partir des nouvelles valeurs de $a$ on applique le champ de vitesse sur un petit incrément $x^{n+1} = x^n + \left(\sum_i a_i u_i\right) dt$.
@@ -172,7 +217,7 @@ On procède de même au pas de temps suivant.
 
 On a donc un problème linéaire avec contrainte quadratique (LPQC) à résoudre.
 
-Le calcul du terme $\nabla_x \mathcal L_a \cdot u_i$ est en fait la dérivée directionnelle $D_{u_i} \mathcal L_a(a)$.
+Le calcul du terme $\nabla_x \mathcal L_a \cdot u_i$ est en fait la dérivée directionnelle $D_{u_i} \mathcal L_a(a)$, où ici $a_i$ sont les composantes de la dérivée de vitesse à appliqué à l'instant $t$.
 
 
 

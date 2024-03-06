@@ -32,17 +32,17 @@ The first method consists by defining a scheme that combine an intermediate proj
 The assimilation is performed with the following step:
 \begin{itemize}
     \item The members are forward, given new particle set $\mathcal{P}^f_i = \{(\bm z^f_{ip}, \bm U^f_{ip})\}_{ip = 1}^{N_{ip}}$,
-    \item The associate field is project on a regular grid of $n_g$ elements of characteristic length $2dp$. Using the assigment operator, we obtain for each node $iI \in \Lambda_{i}$
+    \item The associate field is project on a regular grid of $n_g$ elements of characteristic length $\ell_{iI}= 2dp$. Using the assigment operator, we obtain for each node $iI \in \Lambda_{i}$
           \begin{equation*}
-              \bm{u}^f_{iI} = \frac1{V_{iI}} \sum_{ip \in \mathcal P^f_i} \bm U^f_{ip}  W \left(\frac{\bm z_{iI} - \bm z^f_{ip}}{\ell_{iI}} \right)
+              \bm{u}^f_{iI} = \frac1{V_{iI}} \sum_{ip \in \mathcal P^f_i} \bm U^f_{ip}  \bm W \left(\frac{\bm z_{iI} - \bm z^f_{ip}}{\ell_{iI}} \right)
           \end{equation*}
     \item Based on this new discretization, an Eulerian-based data assimilation coud be apply on the nodal state values $ \bm{u}^f_{iI}$ such as the analysis state $\bm{u}_{iI}^a$ is
           \begin{equation*}
               \bm{u}^a_{iI} = \bm{u}^f_{iI} + \sum_{j=1}^{N_{\text{ens}}} F_{ji} \bm{u}^f_{jI},
           \end{equation*}
-    \item A new regular particle discretization is initialized. Two particles by directions are placed inside each cell of the grid. The new particle intensities could be evaluate thanks to the interpolation operator, such as for $ip \in \mathcal P_i^a$
+    \item A new regular particle discretization is initialized. Two particles by directions are placed inside each cell of the grid. The new particle intensities could be evaluate thanks to the interpolation operator, such as for $ip' \in \mathcal P_i^a$
           \begin{equation*}
-              \bm U_{ip}^a = \sum_{iI \in \Lambda} \bm u^a_{iI} \left(\frac{\bm z_{iI} - \bm z_{ip}}{\ell_{iI}} \right).
+              \bm U_{ip'}^a = \sum_{iI \in \Lambda} \bm u^a_{iI} \left(\frac{\bm z_{iI} - \bm z_{ip'}}{\ell_{iI}} \right).
           \end{equation*}
 \end{itemize}
 

@@ -147,42 +147,5 @@ However, Adding particles in a more complex solution is a challenging task. Inde
 
 In conclusion, this example underscores the Remesh-EnKF filter capability to yield results comparable to the classical EnKF applied to a grid model. Additionally, it highlights the Part-EnKF's capability in assimilating on a particle discretization while also emphasizing the importance of addressing spatial discrepancies between members, which can pose challenges in solution reconstruction. The computation of solution error reconstruction provides a straightforward criterion for remeshing a member and applying the analysis solution approximation.
 
-\subsection{Expanded state}
-
-In the case of an expanded state, we extend the update to parameters by introducing the variable $\theta = (v, D)$ in the state definition. This approach allows the calibration of these quantities.
-Figure \ref{calib4} displays the marginal distribution of parameters over time obtained with Remesh-EnKF. The velocity and diffusion exhibit well-estimated values, indicated by unbiased means and a reduction in variability.
-
-\begin{figure}[ht]
-	\centering
-	\begin{subfigure}{0.49\textwidth}
-		\includegraphics[width=\textwidth]{images/app1d/w_calibration/state_error.png}
-		\caption{}
-		\label{calib1}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}{0.49\textwidth}
-		\includegraphics[width=\textwidth]{images/app1d/w_calibration/velocity_error.png}
-		\caption{}
-		\label{calib2}
-	\end{subfigure}
-	\vfill
-	\begin{subfigure}{0.49\textwidth}
-		\includegraphics[width=\textwidth]{images/app1d/w_calibration/viscosity_error.png}
-		\caption{}
-		\label{calib3}
-	\end{subfigure}
-	\caption{In \subref{calib1}, \subref{calib2}, \subref{calib3} respectively state, velocity, and viscosity errors with respect to the assimilation time step.}
-\end{figure}
-
-\begin{figure}[ht]
-	\includegraphics[width=\textwidth]{images/app1d/w_calibration/remesh EnKF_params.png}
-	\caption{Marginal distribution of velocity (left) and viscosity (right) over time (Remesh-EnKF).}
-	\label{calib4}
-\end{figure}
-
-Quantitatively, we also observe a reduction of error of the estimation of the state in \ref{calib1}, the estimate of the velocity \ref{calib2}, and the estimate of the diffusion \ref{calib3}.
-
-Indeed, even though the state estimation was already well accurate in Figure \ref{fig:1d_error_time}, the state estimation further improves here, thanks to the calibration of the model parameters. Updating the parameters allows for adjusting the model to the observed data, thereby enhancing the accuracy of the state estimation. This underscores the significance of parameter calibration in achieving more precise results in the context of data assimilation.
-It is noteworthy that even in the worst-case scenario of the Part-EnKF, the estimation of parameters remains accurate, indicating a good understanding of the dynamic behavior of the problem.
 
 \newpage

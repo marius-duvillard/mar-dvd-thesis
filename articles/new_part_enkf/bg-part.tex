@@ -1,26 +1,26 @@
 % !TEX root = main.tex
 
 \subsection{Particle-based methods}~\label{Background_Part}
-We consider particle-methods for solving continuous problems in fluid or solid mechanics. The Lagrangian methods decompose the domain on a set $\mathcal P$ of particles that follow the dynamic of the problem. Each particle of the set $\mathcal P$ carries both quantities $\bm U_p$ and the spatial coordinates $\bm z_p$.
+We consider particle-methods for solving continuous problems in fluid or solid mechanics. The Lagrangian methods decompose the domain on a set $\mathcal P = \left\{(\bm z_p, \bm U_plef)\right\}_{p = 1}^{n_p}$, où $\bm z_p \in \Omega$, the spatial coordinates a particle $p$ and $\bm U_p \in \mathbb{R}^m$ its intensity.
 
 % The velocity field $\bm{v}$ is used to update the position of the particle such as $\bm z_p(t+dt) = \bm z_p(t) + f(z_p, \bm{v}{\bm z_p})$ with $f$ depending on the time-integration scheme.
 
 % The computation of the velocity field and the solving of the equation of mechanics depend on the class of method.
-We will focus our work on methods that discretize a solution a solution $u$ on a continuous domain $\Omega \subset \mathbb{R}^d$ with $\Omega$ the spatial domain. This includes methods like Smoothed particle hydrodynamics (SPH) \cite{gingold_monaghan_sph_1977,lucy_1977} and the Vortex Method (VM) \cite{cottet_vortex_2000} and is extended to other methods like the Material Point Method (MPM) \cite{sulsky_particle_1994}.
+We focus our work on methods that discretize a solution $\bm u$ on a continuous domain $\Omega \subset \mathbb{R}^d$ with $\Omega$ the spatial domain. This includes methods like Smoothed particle hydrodynamics (SPH) \cite{gingold_monaghan_sph_1977,lucy_1977} and the Vortex Method (VM) \cite{cottet_vortex_2000} and is extended to other methods like the Material Point Method (MPM) \cite{sulsky_particle_1994}.
 
 \subsubsection{Particle discretization}
 
-Let $\Omega \in \mathbb R^d$ be our domain, where $d$ is the space dimension. Any smooth field $\bm u$ on $\Omega$ could be written
+Any smooth field $\bm u$ on $\Omega$ could be written
 
 \begin{equation*}
 	\bm u(\bm z) = \int_{\Omega} \bm u(\bm z') \delta(\bm z' - \bm z)  d\bm z',
-\end{equation*}with $\delta$ the Dirac delta distribution.
+\end{equation*}with $\delta$ the Dirac distribution.
 
 A kernel function $\phi_\varepsilon$ is introduced to obtain an average estimate $\langle \bm u \rangle$ of $\bm u$ such that
 
 \begin{equation*}
-	\langle \bm u(\bm z) \rangle = \int_{\Omega} \bm u(\bm z') \phi_\varepsilon(\bm z-\bm z') d\bm z.
-\end{equation*}~, where $\varepsilon$ is the smoothing length. The smooth kernel should at least respect the following properties
+	\langle \bm u(\bm z) \rangle = \int_{\Omega} \bm u(\bm z') \phi_\varepsilon(\bm z-\bm z') d\bm z,
+\end{equation*}where $\varepsilon$ is the smoothing length. The smooth kernel should at least respect the following properties
 
 \begin{eqnarray*}
 	&& \int_{\Omega} \phi_\varepsilon(\bm z) d\bm z = 1,      \\
@@ -33,23 +33,21 @@ The average function $\langle \bm u \rangle$ is then used to approximate the ori
 Finally, the original domain $\Omega$ is subdivided with $N_p$ subdomain $\Omega_p$ associated with a lagrangian particle in the location $z_p \in \Omega_p$. We denote by $V_p$ the volume of $\Omega_p$. This discretization is then used to approximate the average function such that
 
 \begin{eqnarray}~\label{part_approx}
-	\langle \bm u(\bm z) \rangle &=& \sum_{p \in \mathcal P} \int_{\Omega_p} \bm u(\bm z') \phi_\varepsilon(\bm z-\bm z') d\bm z' \\
-	&\approx& \sum_{p \in \mathcal P} \bm u(\bm z_p) V_p \phi_\varepsilon (\bm z-\bm z_p) \\
 	&\approx& \sum_{p \in \mathcal P} \bm U_p \phi_\varepsilon (\bm z-\bm z_p).
 \end{eqnarray}
 
-Thus, any function defined on a particle discretization is defined by an ensemble of particle location $\bm z_p$ associated with a particle value $\bm U_p = \bm u(z_p) V_p$ and a smooth kernel $\phi_\varepsilon$.
+Thus, any function defined on a particle discretization is defined by a particle discretization $\mathcal{P}$ and a smoothing kernel $\phi_\varepsilon$.
 Based on this discretization, the differential operator could be derived through this formulation.
 
 Several kernels have been used depending on the method. Theoretically, it could be the Gaussian kernel function
 
 \begin{equation*}
-	\phi_g(r) = \frac{1}{{(\pi \varepsilon^2)}^{d/2}} \exp(-r^2/\varepsilon^2)
-\end{equation*}.
+	\phi_g(r) = \frac{1}{{(\pi \varepsilon^2)}^{d/2}} \exp(-r^2/\varepsilon^2).
+\end{equation*}
 
 This kernel is infinitely differentiable but defined on non-compact support. In practice, we use a cut-off to remove negligible value for large distance from a particle.
 
-Other kernels, based on B-Spline functions to work on a compact support. Those functions are also positive which is a requirement for some field like the density.
+Other kernels, based on B-Spline functions to work on a compact support.
 
 \subsection{Particle-based function manipulations}~\label{operators}
 
@@ -65,7 +63,7 @@ A first approximation could be to use the particle approximation to reevaluate t
 	\bm U_p = \int_{\Omega_p} \bm u(z) d\bm z = \bm u(\bm z_p) V_p,
 \end{equation*}~where $\bm z_p$ is the particle location.
 
-This approximation is easily computable but do not ensure the conservation of the all the moment of the field. A better approximation could be obtain using the iterative Beale's formula \cite{beale_accuracy_1988} which corrected circulation values in order to recover the vorticity field at the particle locations which is closed to the next paragraph.
+This approximation is easily computable but do not ensure the conservation of the all the moment of the field. A better approximation could be obtain using the iterative Beale's formula \cite{beale_accuracy_1988} which corrected circulation values in order to recover the vorticity field at the particle locations.
 
 \subsubsection{Regression operator}~\label{regressionOperator}
 
@@ -73,25 +71,25 @@ Based on regression methods, the new intensities of the particles defined $\bm{U
 
 \begin{equation*}
 	\bm{u} \simeq \bm \Phi \bm{U},
-\end{equation*}~where $\bm \Phi_{ij} = \phi_\varepsilon(z_i - z_j)$.
+\end{equation*}where $\bm \Phi_{ij} = \phi_\varepsilon(z_i - z_j)$.
 
-Finding the new intensities $U_p$ correspond to solving the previous system in the least square sense. It corresponds to the classical problem to find the minimizer of the following quadratic function
+Finding the new intensities $\bm U^*$ correspond to solving the previous system in the least square sense. It corresponds to the classical problem to find the minimizer of the following quadratic function
 
 \begin{equation*}
-	\bm{U}_p = \argmin_{\bm{U}} \norm{\bm{u} - \Phi \bm{U}}^2_2.
+	\bm{U}^*= \argmin_{\bm{U}} \norm{\bm{u} - \Phi \bm{U}}^2_2.
 \end{equation*}
 
 
-In this case, the solution is $\bm U = (\bm \Phi^T \bm \Phi)^{-1} \bm \Phi \bm{u}$. Because the problem may be ill-posed, particularly in the case of large set of non well-distributed particles, the solution is regularized by introducing a penalization term. The Ridge regression we used introduced a penalization on of the form $\Lambda \norm{\bm U}_2^2$, where $\Lambda$ is a penalization coefficient, such as the new problem is
+In this case, the solution is $\bm U^*  = (\bm \Phi^T \bm \Phi)^{-1} \bm \Phi \bm{u}$. This problem may be ill-posed, particularly in the case of large set of non well-distributed particles. We choose to regularized the solution by introducing a penalization term. The Ridge regression introduce a penalization on of the form $\lambda \norm{\bm U}_2^2$, where $\lambda$ is a penalization coefficient, such as the new problem is
 
 \begin{equation*}
-	\bm{U}_{p,\text{ridge}} = \argmin_{\bm{U}} \norm{\bm{u} - \bm \Phi \bm{U}}_2^2 + \Lambda \norm{\bm{U}}^2_2,
-\end{equation*}given the following solution $\bm{U}_{p,\text{ridge}} = (\bm \Phi^T \bm \Phi + \Lambda \bm I)^{-1} \bm \Phi \bm{u}$.
+	\bm{U}_{\text{ridge}}^* = \argmin_{\bm{U}} \norm{\bm{u} - \bm \Phi \bm{U}}_2^2 + \lambda \norm{\bm{U}}^2_2,
+\end{equation*}given the following solution $\bm{U}^*_{\text{ridge}} = (\bm \Phi^T \bm \Phi + \lambda \bm I)^{-1} \bm \Phi \bm{u}$.
 
 \subsubsection{Remeshing operator}~\label{remesh_part}
 A second type of manipulation is based this time on a complete projection of the solution on a new regular grid of particles~\cite{cottet_vortex_2000,cottet_multi-purpose_1999}. This method allow us to switch from an Lagrangian discretization $\mathcal P$ to an Eulerian one $\Lambda$, and then switch back to a completely new regular particles discretization $\mathcal P'$ that conserve as much as possible the moment of the particle discretization.
 
-In our methodology, we propose a two-step approach. Initially, we execute an assignment step (\ref{assigment}) to transition the particle discretization field into a grid discretization field. Subsequently, an interpolation step (\ref{interpolation}) is performed to yield a new set of regularly spaced particles. We demonstrate that the combination of these two operations preserves the moments of the particle distribution contingent upon the choice of the interpolation shape function $W$ associated with the grid.
+In our methodology, we propose a two-step approach. First, we execute an assignment step (\ref{assigment}) to transfer the particle discretization to the grid discretization. Subsequently, an interpolation step (\ref{interpolation}) is performed to yield a new set of regularly spaced particles.
 
 Our analysis pertains to the one-dimensional spatial scenario, where $\Omega \in \bR$. The extension to the $n$-dimensional case can be achieved through the tensorization of the one-dimensional approach.
 
@@ -104,7 +102,7 @@ Our analysis pertains to the one-dimensional spatial scenario, where $\Omega \in
 		      \bm{u}_I = \frac1{V_I} \sum_{p \in \mathcal P} \bm U_p  W \left(\frac{z_I - z_p}{\ell_I} \right).
 	      \end{equation*}
 
-	      Where $W$ determine a redistribution of the intensity on the grid. The new discretization can then be used to approximate the field $\bm{u}_p$, defined by the particle discretization, by interpolation such that
+	      Where $W$ determine a redistribution of the intensity on the grid. The new discretization can then be used to approximate the field $\bm{u}_p$, defined by the particle discretization by interpolation given
 
 	      \begin{equation*}
 		      \bm{u}_p(z) \approx \bm{u}_g(z) = \sum_{I \in \Lambda} \bm u_I W \left(\frac{z - z_I}{\ell_I} \right) \quad \forall z \in \Omega.
@@ -118,10 +116,10 @@ Our analysis pertains to the one-dimensional spatial scenario, where $\Omega \in
 	      \end{equation*}.
 \end{enumerate}
 
-The combination of these two steps can initially be utilized to generate a new undistorted particle distribution. The quality of the remeshing or regridding process depends on the shape function $W$, which serves as a redistribution kernel.
-The shape function $W$ determines the type and quality of the transfer. The method's effectiveness is evaluated by assessing the conservation of the first moments of the particle distributions, as detailed in the Appendix \ref{appendix:moment_conservation}.
+The combination of these two steps can initially be utilized to generate a new undistorted particle distribution.
+The shape function $W$ determines the type and quality of the transfer. The method effectiveness is evaluated by assessing the conservation of the first moments of the particle distributions, as detailed in the Appendix \ref{appendix:moment_conservation}.
 
-For the shape function $W$, one may employ the piecewise linear interpolation function, which ensures the conservation of moment 0. For higher moment conservation, the B-spline function provides a smoothing function for higher order.
+For $W$, one may employ the piecewise linear interpolation function, which ensures the conservation of moment 0. For higher moment conservation, the B-spline function provides a smoothing function for higher order.
 
 However, while higher-order B-splines improve the smoothness of the solution, their accuracy is limited to second order, allowing only exact interpolation of linear functions.
 

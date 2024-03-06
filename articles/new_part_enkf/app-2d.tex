@@ -157,27 +157,11 @@ We start by analyzing the assimilation error over time. Figure \ref{fig:assim_ti
 
 \begin{figure}[htbp]
 	\centering
-	\begin{subfigure}{0.49\linewidth}
-		\includegraphics*[width=\linewidth]{images/app2d/field_error_w_assim.pdf}
-	\end{subfigure}
-	\begin{subfigure}{0.49\linewidth}
-		\includegraphics*[width=\linewidth]{images/app2d/viscosity_error_w_assim.pdf}
-	\end{subfigure}
+	\includegraphics*[width=\linewidth]{images/app2d/field_error_w_assim.pdf}
 	\caption{Error curves through assimilation steps. Left: \(L_2\)-error of the field, Right: Error for the viscosity parameter. With Part-EnKF in blue and Remesh-EnKF in red.}
 	\label{fig:assim_time}
 \end{figure}
 
-\begin{figure}[htbp]
-	\centering
-	\begin{subfigure}{0.49\linewidth}
-		\includegraphics*[width=\linewidth]{images/app2d/visc_ppf.png}
-	\end{subfigure}
-	\begin{subfigure}{0.49\linewidth}
-		\includegraphics*[width=\linewidth]{images/app2d/visc_rmf.png}
-	\end{subfigure}
-	\caption{Evolution of the viscosity ensemble through assimilation. Left: for the Part-EnKF, Right: for the Remesh-EnKF. In blue the ensemble values, in red the estimate and black the reference.}
-	\label{fig:visc_time}
-\end{figure}
 
 \subsubsection{Error with respect to assimilation parameters}
 We assess the performances of the different filters by evaluating the convergence of the error with respect to the assimilation. Additionally, we added a filter called Part-Grid-EnKF. This last filter combined the approximation process of the Part-EnKF but on a regularly spaced particle discretization like the Remesh-EnKF filter. This filter will allow us to better show if the difference between the filters is due to the Part-EnKF discretization or the particle approximation.
@@ -188,54 +172,27 @@ As concern the convergence for other assimilation parameters \(N_{\text{obs}}\),
 Finally, we note that the converge with respect to \(N_{\text{obs}}\), \(\sigma_{\text{obs}}\) are less regular even for the Remesh-EnKF. This observation is probably mainly due to the fact that the measures and assimilation steps are regularly spaced over space and time. In fact, the number of measures over the dipole at time $t$ is low, and the relative position could have a relatively high impact on the assimilation.
 
 \begin{figure}[htbp]
-	\begin{subfigure}{0.45\textwidth}
-		\captionsetup{labelformat=empty}
-		\centering
-		\includegraphics[width=\linewidth]{./images/app2d/MSE_obs_precision_box.pdf}
-		\caption{state error w.r.t. $1/\sigma_{\text{obs}}^2$}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}{0.45\textwidth}
-		\captionsetup{labelformat=empty}
-		\centering
-		\includegraphics[width=\linewidth]{./images/app2d/MSE_visc_obs_precision_box.pdf}
-		\caption{viscosity error w.r.t $1/\sigma_{\text{obs}}^2$}
-		\label{fig:obs_precision}
-	\end{subfigure}
+	\captionsetup{labelformat=empty}
+	\centering
+	\includegraphics[width=\linewidth]{./images/app2d/MSE_obs_precision_box.pdf}
+	\caption{state error w.r.t. $1/\sigma_{\text{obs}}^2$}
+	\label{fig:obs_precision}
 \end{figure}
 
 \begin{figure}[htbp]
-	\begin{subfigure}{0.45\textwidth}
-		\centering
-		\includegraphics[width=\linewidth]{./images/app2d/MSE_na_box.pdf}
-		\captionsetup{labelformat=empty}
-		\caption{state error w.r.t. $N_{\text{assim}}$}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}{0.45\textwidth}
-		\centering
-		\includegraphics[width=\linewidth]{./images/app2d/MSE_visc_na_box.pdf}
-		\captionsetup{labelformat=empty}
-		\label{fig:na}
-		\caption{viscosity error w.r.t. $N_{\text{assim}}$}
-	\end{subfigure}
+	\centering
+	\includegraphics[width=\linewidth]{./images/app2d/MSE_na_box.pdf}
+	\captionsetup{labelformat=empty}
+	\caption{state error w.r.t. $N_{\text{assim}}$}
+	\label{fig:na}
 \end{figure}
 
 \begin{figure}[htbp]
-	\begin{subfigure}{0.48\textwidth}
-		\captionsetup{labelformat=empty}
-		\centering
-		\includegraphics[width=\linewidth]{./images/app2d/MSE_nobs_box.pdf}
-		\caption{state error w.r.t. $N_{\text{obs}}$}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}{0.45\textwidth}
-		\captionsetup{labelformat=empty}
-		\centering
-		\includegraphics[width=\linewidth]{./images/app2d/MSE_visc_nobs_box.pdf}
-		\caption{viscosity error w.r.t $N_{\text{obs}}$}
-		\label{fig:nobs}
-	\end{subfigure}
+	\captionsetup{labelformat=empty}
+	\centering
+	\includegraphics[width=\linewidth]{./images/app2d/MSE_nobs_box.pdf}
+	\caption{state error w.r.t. $N_{\text{obs}}$}
+	\label{fig:nobs}
 	\caption{Error curves for different assimilation parameters. Left: The normalize $L_2$ error for the vorticity field. Right: The normalize error on viscosity.}
 	\label{fig:assim_params}
 \end{figure}
@@ -283,14 +240,7 @@ Thanks to the Part-Grid-EnKF, we could better decompose the error. On the one ha
 		\caption{state error w.r.t. $\varepsilon_{\omega}$}
 		\label{fig:eps_omega}
 	\end{subfigure}
-	\hfill
-	\begin{subfigure}{0.48\textwidth}
-		\centering
-		\includegraphics[width=\linewidth]{./images/app2d/MSE_visc_eps_omega_box.pdf}
-		\captionsetup{labelformat=empty}
-		\caption{viscosity error w.r.t. $\varepsilon_{\omega}$}
-		\label{fig:eps_omega_visc}
-	\end{subfigure}
+
 	\begin{subfigure}{0.48\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{./images/app2d/MSE_dp_box.pdf}
@@ -298,14 +248,7 @@ Thanks to the Part-Grid-EnKF, we could better decompose the error. On the one ha
 		\caption{state error w.r.t. $d_p$}
 		\label{fig:np_visc}
 	\end{subfigure}
-	\hfill
-	\begin{subfigure}{0.48\textwidth}
-		\centering
-		\includegraphics[width=\linewidth]{./images/app2d/MSE_visc_dp_box.pdf}
-		\captionsetup{labelformat=empty}
-		\caption{viscosity error w.r.t. $d_p$}
-		\label{fig:np}
-	\end{subfigure}
+
 	\caption{Error curves for simulation parameters. The effect of $\varepsilon_{\omega}$ on the error is particularly observed on high value. The Part-EnKF error is strongly linked to $d_p$ through the particle approximation error.}
 	\label{fig:simu_parameters_error}
 \end{figure}

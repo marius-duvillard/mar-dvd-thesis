@@ -4,31 +4,31 @@
 
 \subsection{Data assimilation}~\label{Background_DA}
 
-Data assimilation could be generally formulate with a probabilistic framework. It allows to rigorously deal with measurement and model error in order to not only deduce an estimate of the real state but also associate uncertainty. Thus, state and observation are modeled as random variables. A filtering approach is then applied to estimate the current state based on past observations sequentially.
+Data assimilation could be generally formulate with a probabilistic framework. It allows to rigorously deal with measurement and model error in order to not only deduce an estimate of the real state but also associate uncertainty. Thus, state and observation are modeled as random variables. A filtering approach is then applied to sequentially estimate the current state based on past observations.
 
-The goal is to establish the recurrence in probability distributions that, through Bayesian estimation, will enable us to estimate the current state and predict the future state, including future observations.
+The goal is to establish the recurrence in probability distributions that, through Bayesian estimation, will enable us to estimate the current state and predict the future state.
 
 
 \subsubsection{Data assimilation setting}
 
-This recurrence is modeled by the use of a hidden Markov chain model. We position ourselves within a finite-dimensional context. The state $\bm x_k \in \bR^d, \bm y_k \in \bR^m$ where $d$ and $m$ are the state and observation dimension. The forecast and observation are introduced such as for $ k \geq 0$,
+This recurrence is modeled by the use of a hidden Markov chain model. We position ourselves within a finite-dimensional context. The forecast and observation are introduced such as for $ k \geq 0$,
 \[
     \begin{cases}
         \state_{k+1} = \mathcal{M}_{k+1} (\state_{k}) + \bm{\eta}_{k+1}, \\
-        \bm{y}_{k+1} = \mathcal{H}_k (\state_{k+1}) + \bm \varepsilon_{k+1},
+        \bm{y}_{k+1} = \mathcal{H}_{k+1} (\state_{k+1}) + \bm \varepsilon_{k+1},
     \end{cases}
 \]where $\mathcal{M}_{k+1}$ is the model operator describing the time evolution of the state from time $k$ to time $k+1$ and $\mathcal{H}_k$ is the observation operator. The term $\state_k$ $\in$ $\mathbb{R}^n$ is the vector state at time $k$ and $\bm{y}_k$ $\in$ $\mathbb{R}^m$ the observation vector, $\bm{\eta}_{k}$ is the model error that accounts for error in the numerical model and the errors due to discretization, and $\bm{\varepsilon}_k$ is the observation error which combine measurement error and representativeness error. We assume that $\bm{\eta}_{k}$, $\bm{\varepsilon}_k$ are random variables following Gaussian distributions with zero mean and covariance matrices $\bm Q_k$ and $\bm R_k$ respectively. Finally, we assume that the observation and the model errors are independent though the time and that initial error on $\state_0$, $\bm{\varepsilon}_k$ and $\bm{\eta}_{k}$ are mutually independent.Let $\mathcal{D}_k = \left\{\bm y_l\right\}_{l=1}^k$ represent the accumulated data up to time $k$.
 Thus, $\bm x_{k+1}$ and $\mathcal{D}_k$ are conditionally independent with respect to $\bm x_{k}$, and $\bm{y}_{k+1}$ and $\bm x_{k+1}$ are conditionally independent with respect with $\bm x_{k}$, leading to simplifications in the next paragraph.
 
 \subsubsection{Bayesian filtering}
 
-The filtering problem consist to assess the current state of the signal by utilizing data observation up to the present moment. Filtering involves the determination of $p_{\bm x_{k} \mid \mathcal{D}_{k}}$, the probability density function associated with the probability measure on the random variable $\bm x_{k} | \mathcal D_{k}$. Specifically, filtering focuses on the sequential updating of this probability density function as the index $k$ is incremented.
+The filtering problem consist to assess the current state of the signal by utilizing data observation up to the present moment. Filtering involves the determination of $p(\bm x_{k} \mid \mathcal{D}_{k})$, the probability density function associated with the probability measure on the random variable $\bm x_{k} | \mathcal D_{k}$. Specifically, filtering focuses on the sequential updating of this probability density function as the index $k$ is incremented.
 The state density is initialized by the a priori density of the initial state $p_{x_0}$.
 Then, for all $k \geq 0$, probability distributions are propagated.
 The forecast step is obtained through the law of total probability
 
 \begin{equation*}
-    p(\bm x_{k+1} \mid \mathcal D_k) = \mathbb{E}_{\bm x_k}\left[p(\bm x_{k+1} \mid \mathcal{D}_k, \bm x_k) \mid \mathcal D_k \right] = \mathbb{E}_{\bm x_k}\left[p(\bm x_{k+1} \mid \bm x_k) \mid \mathcal D_k \right].
+    p(\bm x_{k+1} \mid \mathcal D_k) = \mathbb{E}_{\bm x_k}\left[p(\bm x_{k+1} \mid  \bm x_k,\mathcal{D}_k) \mid \mathcal D_k \right] = \mathbb{E}_{\bm x_k}\left[p(\bm x_{k+1} \mid \bm x_k) \mid \mathcal D_k \right].
 \end{equation*}
 The a priori law of the $k+1$ observations can be obtained again through the law of total probability
 \begin{equation*}
@@ -36,8 +36,16 @@ The a priori law of the $k+1$ observations can be obtained again through the law
 \end{equation*}
 After the $k+1$ observation of the random variable $\bm y_{k+1}$, the analysis step determines the a posteriori law of the state using Bayes law
 \begin{equation*}
-    p(\bm x_{k+1} \mid \mathcal D_{k+1}) = p(\bm x_{k+1} \mid \bm y_{k+1}, \mathcal D_{k})  = \frac{p(\bm y_{k+1} \mid \mathcal D_k,\bm x_{k+1})  p(\bm x_{k+1}\mid \mathcal D_k)}{p(\bm y_{k+1}\mid \mathcal D_k)}.
-\end{equation*} This finally lead to a mapping from the prior $p(\bm x_{k+1} \mid \mathcal D_k)$ to the posterior $p(\bm x_{k+1} \mid \mathcal D_{k+1})$.
+    p(\bm x_{k+1} \mid \mathcal D_{k+1}) = p(\bm x_{k+1} \mid \bm y_{k+1}, \mathcal D_{k})  = \frac{p(\bm y_{k+1} \mid \bm x_{k+1} ,\mathcal D_k)  p(\bm x_{k+1}\mid \mathcal D_k)}{p(\bm y_{k+1}\mid \mathcal D_k)}.
+\end{equation*}
+
+Due to independence hypothesis the formula reduced to
+
+\begin{equation*}
+    p(\bm x_{k+1} \mid \mathcal D_{k+1}) = \frac{p(\bm y_{k+1} \mid \bm x_{k+1})  p(\bm x_{k+1})}{p(\bm y_{k+1})} \propto p(\bm y_{k+1} \mid \bm x_{k+1})  p(\bm x_{k+1}).
+\end{equation*}
+
+This finally lead to a mapping from the prior $p(\bm x_{k+1} \mid \mathcal D_k)$ to the posterior $p(\bm x_{k+1} \mid \mathcal D_{k+1})$.
 We remove the time subscript $k$ in the rest of the section for simplicity and present the forecast and analysis step for one time increment.
 
 \subsubsection{Ensemble Kalman Filter}~{\label{enkf}}
@@ -45,18 +53,18 @@ We remove the time subscript $k$ in the rest of the section for simplicity and p
 
 The Kalman filter \cite{kalman_new_1960} is a Bayesian filter that, in addition to the previously mentioned assumptions, requires $\mathcal{M}_k$ and $\mathcal{H}_k$ to be linear operators. In this case, the posterior distribution of the state is still Gaussian, so only the mean and the variance are updated. The Kalman estimator is thus a recursive version of the Minimum Mean Square Error applied to the Gaussian Linear model.
 
-The ensemble Kalman Filter (EnKF) is a data assimilation method adapted to high dimensional non-linear problems introduced by Evensen~\cite{evensen_sequential_1994}. The formulation uses an ensemble of discrete samples based on the assumptions of a multivariate Gaussian distribution, as for the Kalman filter. We present the stochastic EnKF, where the observations are perturbed to account for observation errors and to introduce stochasticity into the assimilation process, allowing for a more realistic representation of uncertainties and avoiding filter divergence issues.
+The ensemble Kalman Filter (EnKF) is a data assimilation method adapted to high dimensional non-linear problems introduced by Evensen~\cite{evensen_sequential_1994}. The formulation uses an ensemble of discrete samples based on the assumptions of a multivariate Gaussian distribution, as for the Kalman filter. We present the stochastic EnKF, where the observations are perturbed to account for observation errors.
 
-Assuming we have an ensemble of $N$ states $\left\{\bm \state^i \right\}_{i=1}^N$, we could forecast the ensemble by propagating each state with the dynamic model and obtain a forecast ensemble.
+Assuming we have an ensemble of $N$ states $\left\{\bm \state^i \right\}_{i=1}^N$, we forecast the ensemble by propagating each state with the dynamic model and obtain a forecast ensemble.
 The two first moments of the error are given by
 
 \begin{eqnarray*}
     \overline{\state}_f &=& \frac{1}{N} \sum_{i = 1}^{N} \state^i_f, \\
-    \Cov &=& \frac{1}{N-1} \sum_{i = 1}^{N} (\state^i_f - \overline{\state}_f){(\state^i_f - \overline{\state}_f)}^T,
+    \Cov_f &=& \frac{1}{N-1} \sum_{i = 1}^{N} (\state^i_f - \overline{\state}_f){(\state^i_f - \overline{\state}_f)}^T,
 \end{eqnarray*}
-where $\overline{\state}_f$ and $\Cov$ are the empirical estimates of the mean and covariance matrix of the state distribution obtained from the ensemble members.
+where $\overline{\state}_f$ and $\Cov_f$ are the empirical estimates of the mean and covariance matrix of the state distribution obtained from the ensemble members.
 
-Respectively, the mean and covariance of the observation $\left\{\mathcal{H}(\state^1_f) \right\}_{i=1}^N$ could be estimate as well as the covariance between state and observation.
+Respectively, the mean and covariance of the observation $\left\{\mathcal{H}(\state^i_f) \right\}_{i=1}^N$ could be estimate as well as the covariance between state and observation.
 
 We develop the general formulation of the EnKF filter in the Appendix~\ref{appendix:enkf}.
 
@@ -64,4 +72,4 @@ Finally, our formulation of EnKF takes advantages of a correction of the state d
 
 \begin{equation}~\label{enkf_formula_Fcorr}
     \mstate_a = \mstate_f + \mstate_f \Fcorr,
-\end{equation}where the matrix $\Fcorr$ only depends on the ensemble members through the predicted observations ensemble $\left\{\mathcal{H}(\state^1_f) \right\}_{i=1}$, the observation $\obs$ and the associate perturbations  $\left\{\bm{\varepsilon}^i \right\}_{i=1}$.
+\end{equation}where the matrix $\Fcorr$ only depends on the ensemble members through the predicted observations ensemble $\left\{\mathcal{H}(\state^i_f) \right\}_{i=1}$, the observation $\obs$ and the associate perturbations  $\left\{\bm{\varepsilon}^i \right\}_{i=1}$.
