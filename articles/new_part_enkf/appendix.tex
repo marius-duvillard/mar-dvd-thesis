@@ -88,12 +88,30 @@ The regridding procedure will be of order $m$. Equivalently, the previous equali
     \sum_{I \in \Lambda} \bm z_I^\alpha W \left(\frac{\bm z_p - \bm z_I}{\ell_I} \right) = \bm z^\alpha,
 \end{equation*}~obtained by developing ${(\bm z-\bm z_q)}^\alpha$ and using a recurrence on previous orders. This means that the interpolation is exact for polynomials of degrees less or equal to $m-1$ or that the moment of order $m-1$ is conserved.
 
-\section{Parameters}
-\label{appendix:simulation-parameters}
+\section{Parameters}~\label{appendix:simulation-parameters}
+
+\subsection{One dimension problem}
+\begin{table}[htbp]
+    \centering
+    \caption{Ensemble generation variables}
+    \begin{tabular}[t]{|l|l|}
+        \hline
+        Variables                   & Distributions                              \\
+        \hline
+        Gaussian mean               & $Z_m \sim  \mathcal{N}(\meanZm, \sigmaZm)$ \\
+        Gaussian standard deviation & $S_m \sim\mathcal{U}(\smLow, \smUp)$       \\
+        velocity                    & $v \sim \mathcal{N}(\vmean, \vstd)$        \\
+        diffusion                   & $D \sim \mathcal{U}(\Dlow, \Dup)$          \\
+        \hline
+    \end{tabular}
+    \label{tab:ens_gen_1d}
+\end{table}
+
+\subsection{Two dimension problem}
 \begin{table}[htbp]
     \centering
     \caption{Reference parameters}
-    \begin{tabular}{|l|l|}
+    \begin{tabular}[t]{|l|l|}
         \hline
         Parameters            & Values                                                       \\
         \hline
@@ -109,12 +127,12 @@ The regridding procedure will be of order $m$. Equivalently, the previous equali
 \begin{table}[htbp]
     \centering
     \caption{Nominal assimilation and simulation parameters}
-    \begin{tabular}{|l|l|}
+    \begin{tabular}[t]{|l|l|}
         \hline
         Parameters                      & Values                                   \\
         \hline
         time step                       & $dt = 0.005$                             \\
-        final time                      & $tf =10$                                 \\
+        final time                      & $t_f =10$                                \\
         std. observation                & $\sigma_{obs} =  5.0e^{-2}$              \\
         vorticity threshold             & $\varepsilon_{\omega} = 1.0e^{-4}$       \\
         particle characteristic length  & $dp = \frac{2\pi}{256} \approx 0.01227 $ \\
@@ -128,10 +146,11 @@ The regridding procedure will be of order $m$. Equivalently, the previous equali
     \end{tabular}
     \label{tab:simu_2d}
 \end{table}
+
 \begin{table}[htbp]
     \centering
-    \caption{Ensemble generation variables.}
-    \begin{tabular}{|l|l|}
+    \caption{Ensemble generation variables}
+    \begin{tabular}[t]{|l|l|}
         \hline
         Variables   & Distributions                                                                                                           \\
         \hline

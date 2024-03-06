@@ -13,8 +13,8 @@ For the following application, the reference solution will use $v = \refv$ and $
 We define the $2\pi$-periodic heat kernel in one dimension, such as
 
 \begin{equation*}
-	\phi(u, s) = \sum_{k=-\infty}^{\infty} \frac{1}{\sqrt{4 \pi s}} \exp{\left(-\frac{{(u - kL)}^2}{4s} \right)}.
-\end{equation*}where $L=2\pi$ the periodic length
+	\phi(u, s) = \sum_{k=-\infty}^{\infty} \frac{1}{\sqrt{4 \pi s}} \exp{\left(-\frac{{(u - 2\pi k)}^2}{4s} \right)}.
+\end{equation*}
 
 Considering an initial condition characterized by a Gaussian shape expressed as $u^{gt}(z, 0) = \phi(z-z_0, Dt_0)$, where $\zz$, $t_0 = \frac{\sigma_0^2}{2D}$, and $\sigz$, we derive the comprehensive analytical solution utilizing the Green equation solution
 \begin{equation*}
@@ -23,7 +23,7 @@ Considering an initial condition characterized by a Gaussian shape expressed as 
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=\linewidth]{images/app1d/analytical_solution.png}
+	\includegraphics[width=\linewidth]{images/app1d/analytical_frame.pdf}
 	\caption{The analytical solution of the convection-diffusion problem evolves over time, with the final snapshot revealing a complete spatial period.}
 	\label{fig:1d_analytical}
 \end{figure}
@@ -34,34 +34,24 @@ Following a Lagrangian perspective by tracking a fluid particle of position $z_p
 	\frac{dz_p}{dt} = v(z_p, t), \quad \frac{dU_p}{dt} = D \frac{d^2 U_p}{dz^2}
 \end{equation*}
 
-For solving the convection-diffusion scheme, we employ the two steps of the viscous splitting algorithm outlined in Section \ref{App_2D}. Initially, we address the equation for non-diffusive advection
-\begin{equation*}
-	\frac{dz_p}{dt} = v(z_p, t), \quad \frac{dU_p}{dt} = 0
-\end{equation*}
-
-and subsequently, we apply the diffusion equation
-\begin{equation*}
-	\frac{dz_p}{dt} = 0, \quad \frac{dU_p}{dt} = D \frac{d^2 U_p}{dz^2}
-\end{equation*}
-
-The advection is taken into account by updating the position of the particle with an Euler explicit scheme. %For a time step $dt$, the particle location become $z_p(t+dt) = z_p(t) + dt v$.
+For solving the convection-diffusion scheme, we employ the two steps of the viscous splitting algorithm. The advection is taken into account by updating the position of the particle with an Euler explicit scheme.
 On the other hand, we use a redistribution method called the Particle Strength Exchange Method (PSE)~\cite{degond_1989,cottet_1990} to approximate the laplacian term $\frac{d^2 U_p}{dz^2}$.
 
 Such as, the intensities $U_p$ are updated using the following formula
 \begin{equation*}
 	U_p = U_p + \varepsilon^{-1} \sum_{q} (U_q - U_p) \phi_g^P(z_q - z_p).
-\end{equation*}with $\varepsilon$ the smoothing length of the Gaussian periodic kernel define as $ \phi^P_g = \sum_{n=-\infty}^{+\infty} \phi_g(r - n L)$.
+\end{equation*}with $\varepsilon$ the smoothing length of the Gaussian periodic kernel define as $ \phi^P_g = \sum_{n=-\infty}^{+\infty} \phi_g(r - 2 \pi n)$.
 
-For the periodic boundary problem described in section \ref{App_1D}, we define an equivalent kernel function $\phi^P_g = \sum_{n=-\infty}^{+\infty} \phi_g(r - n L)$, \\ . All the kernel properties are still verified on a single period.
+For the periodic boundary problem described in section \ref{App_1D}, we define an equivalent kernel function $\phi^P_g = \sum_{n=-\infty}^{+\infty} \phi_g(r - 2 \pi  n )$.
 
-Our particle-based model employs a discretization of \npart{} particles with a size of $h = \frac{L}{N_{\text{part}}}$ and a smoothing length of $\varepsilon = 1.3 h$.
+The particle-based model employs a discretization of \npart{} particles with a size of $h = \frac{L}{N_{\text{part}}}$ and a smoothing length of $\varepsilon = 1.3 h$.
 For the sake of comparison, we solve the convection diffusion equation with a explicit (?) central finite difference scheme discretized on a regular grid with \ngrid{} nodes.
 
 \subsection{Assimilation parameters and ensemble generation}
 
 \subsubsection{Ensemble distribution}
-All filters undergo testing on an identical initial prior ensemble of size $N = 25$ members, characterized by Gaussian shapes that are shifted and scaled. The mean of the ensemble is drawn from $Z_m \sim \mathcal{N}(\meanZm, \sigmaZm)$, while the standard deviation is drawn from $S_m \sim \mathcal{U}(\smLow, \smUp)$. The total mass is equal to 1.
-Velocity $v$ is sampled from $v \sim \mathcal{N}(\vmean, \vstd)$, and diffusion $D$ is sampled from $D \sim \mathcal{U}(\Dlow, \Dup)$. The sample and initial state are illustrated in Figure~\ref{fig:initial_gen}.
+All filters undergo testing on an identical initial prior ensemble of size $N = 25$ members, characterized by Gaussian shapes that are shifted and scaled. The mean of the function and its standard deviation are sample. The total mass is set equal to 1. Parameter of velocity $v$ and the diffusion $D$ are also sampled. The different distribution are defined in Appendix~\ref{tab:ens_gen_1d}. Moreover the parameters samples and initial state are illustrated in Figure~\ref{fig:initial_gen}.
+
 The observational data is subject to additive noise, denoted as $\eta \sim \mathcal{N}(0, \sigma_y \bm{I})$, where $\sigma_y = \sigmaY$ and $\bm{I}$ represents the identity matrix.
 
 \subsubsection{Error definition}
@@ -86,11 +76,11 @@ Simultaneously, a standard Ensemble Kalman Filter (EnKF) update is applied to th
 \begin{figure}[ht!]
 	\centering
 	\begin{subfigure}{0.49\textwidth}
-		\includegraphics[width=\textwidth]{images/app1d/parameters.png}
+		\includegraphics[width=\textwidth]{images/app1d/param.pdf}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}{0.49\textwidth}
-		\includegraphics[width=\textwidth]{images/app1d/initial_state.png}
+		\includegraphics[width=\textwidth]{images/app1d/prior.pdf}
 	\end{subfigure}
 	\caption{On the left the initial parameters sample, $v$ in abscissa and $D$ in ordinate. On the right is the initial ensemble state.}
 	\label{fig:initial_gen}

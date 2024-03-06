@@ -142,19 +142,19 @@ Avec la norme sur $u$ qui est
     \norm{u}^2_{P^+} = \int_{\omega^2} u(x) P^+(x, x') u(x') \mathrm{d}x\mathrm{d}x' \\
 \end{eqnarray*}
 
-Avec $P$ la pseudo-inverse de $P$. Or $P$ est défini à partir de l'ensemble même
+% Avec $P$ la pseudo-inverse de $P$. Or $P$ est défini à partir de l'ensemble même
 
-\begin{equation*}
-    P(x, x') = \sum_i^M  u_i(x) u_i(x')
-\end{equation*}
+% \begin{equation*}
+%     P(x, x') = \sum_i^M  u_i(x) u_i(x')
+% \end{equation*}
 
-Or par décomposition de la solution en $u = \sum_i a_i u_i$, on obtient
+% Or par décomposition de la solution en $u = \sum_i a_i u_i$, on obtient
 
-\begin{eqnarray*}
-    \norm{u}^2_{P^+} &=& \sum_i \sum_j a_i a_j \int_{\omega^2} u^i(x) P^+(x, x') u(x') \mathrm{d}x\mathrm{d}x', \\
-    &=& \sum_j a_i a_j \int_{\omega^2} \delta{x'} \delta{x}\mathrm{d}x\mathrm{d}x', \\
-    &=& \sum_i \sum_j a_i a_j \propto \norm{a}_2^2
-\end{eqnarray*}
+% \begin{eqnarray*}
+%     \norm{u}^2_{P^+} &=& \sum_i \sum_j a_i a_j \int_{\omega^2} u^i(x) P^+(x, x') u(x') \mathrm{d}x\mathrm{d}x', \\
+%     &=& \sum_j a_i a_j \int_{\omega^2} \delta{x'} \delta{x}\mathrm{d}x\mathrm{d}x', \\
+%     &=& \sum_i \sum_j a_i a_j \propto \norm{a}_2^2
+% \end{eqnarray*}
 
 On peut également écrire la norme différemment. On constate que la fonction coût est infinie si $u \in \text{Ker} (P)$. Ainsi, on peut écrire une décomposition de $u$ comme
 
@@ -187,7 +187,7 @@ Ce qui implique que
 On note le vecteur $a \in \mathbb{R}^N$ une décomposition de $Pv$ dans la famille des membres qui vérifie cette projection. On obtient finalement une nouvelle expression pour la norme
 
 \begin{equation}
-    \norm{u}^2_{P^+} = \langle v, P v \rangle = \frac1N \sum_{i=1}^N a_i \langle u_i, v\rangle = \frac1N \sum_{i=1}^N a_i^2 = \norm{a}^2_2
+    \norm{u}^2_{P^+} = \langle v, P v \rangle = \frac1N \sum_{i=1}^N a_i \langle u_i, v\rangle = \frac1N \sum_{i=1}^N a_i^2 = \frac1N \norm{a}^2_2
 \end{equation}
 
 

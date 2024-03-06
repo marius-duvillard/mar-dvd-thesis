@@ -48,9 +48,9 @@ The assimilation is performed with the following step:
 
 The Remesh-Filter update scheme is sum-up in the algorithm~\ref{algo:remesh_enkf}.
 
-\begin{algorithm}~\label{algo:remesh_enkf}
+\begin{algorithm}
 
-    \caption{Remesh Filter analysis update}
+    \caption{Remesh Filter analysis update}~\label{algo:remesh_enkf}
     \KwData{$\bm G \in \mathbb R^{n_g \times d}, \bm z^a \in \mathbb R^{2 n_g \times d}$ \tcp*[r]{grid discretization}}
     \KwData{$\bm R \in\mathbb{R}^{m}$  \tcp*[r]{observation covariance}}
     \KwIn{$\mathcal{P}^f_i= \{(\bm z^f_{ip}, \bm U^f_{ip})\}_{ip = 1}^{N_{ip}}, \quad i = 1, \dots, N_{\text{ens}}$ \tcp*[r]{forward discretizations}}
@@ -88,8 +88,8 @@ However, because this regression is only performed on the support, the current f
 
 The Part-EnKF algorithm is expressed in Algo \ref{algo:part_enkf}
 % \setcounter{algocf}{2}
-\begin{algorithm}~\label{algo:part_enkf}
-    \caption{Part-EnKF Filter analysis update}
+\begin{algorithm}
+    \caption{Part-EnKF Filter analysis update}~\label{algo:part_enkf}
     \KwData{$\bm R \in\mathbb{R}^{m}$  \tcp*[r]{observation covariance}}
     \KwIn{$\mathcal{P}^f_i= \{(\bm z^f_{ip}, \bm U^f_{ip})\}_{ip = 1}^{N_{ip}}, \quad i = 1, \dots, N_{\text{ens}}$ \tcp*[r]{forward discretizations}}
     \KwIn{ $\bm Y_f \in \mathbb{R}^{m \times N_{\text{ens}}}$ \tcp*[r]{the associate observation anomalies}}
@@ -97,11 +97,12 @@ The Part-EnKF algorithm is expressed in Algo \ref{algo:part_enkf}
 
     $ \Fcorr = \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred)$ \tcp*[r]{correction matrix}
     \SetKwFunction{approxim}{Approx}
-
+    \SetKwFunction{evaluate}{AnalysisFieldValues}
     \ForEach{$i = 1, \dots, \nens $}{
-    $\bm U^a_{ip} = $\approxim{$\mathcal{P}^f_i, \Fcorr$} \tcp*[r]{approximate the analysis fields}
+    $\bm u^a_{ip} =$ \evaluate{$\mathcal{P}^f_i, \Fcorr$} \tcp*[r]{evaluate the analysis field}
+    $\bm U^a_{ip} =$ \approxim{$\bm u^a_{ip}$} \tcp*[r]{approximate the analysis field}
     }
-    \Return{$\mathcal{P}^a_i=\{\bm z^f_{ip}, U^a_{ip}\}_{ip = 1}^{N_{a}}, \quad i = 1, \dots, N_{\text{ens}}$ \tcp*[r]{analyse discretizations}}
+    \Return{$\mathcal{P}^a_i=\{\bm z^f_{ip}, \bm U^a_{ip}\}_{ip = 1}^{N_{ip}}, \quad i = 1, \dots, N_{\text{ens}}$ \tcp*[r]{analyse discretizations}}
 \end{algorithm}
 
 % To do so, a border of null intensities particles is introduced after a remesh process. This introduced a collocation point that better fit the velocity flow during the simulation.
