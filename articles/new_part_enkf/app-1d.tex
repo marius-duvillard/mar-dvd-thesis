@@ -37,15 +37,22 @@ Following a Lagrangian perspective by tracking a fluid particle of position $z_p
 For solving the convection-diffusion scheme, we employ the two steps of the viscous splitting algorithm. The advection is taken into account by updating the position of the particle with an Euler explicit scheme.
 On the other hand, we use a redistribution method called the Particle Strength Exchange Method (PSE)~\cite{degond_1989,cottet_1990} to approximate the laplacian term $\frac{d^2 U_p}{dz^2}$.
 
-Such as, the intensities $U_p$ are updated using the following formula
-\begin{equation*}
-	U_p = U_p + \varepsilon^{-1} \sum_{q} (U_q - U_p) \phi_g^P(z_q - z_p).
-\end{equation*}with $\varepsilon$ the smoothing length of the Gaussian periodic kernel define as $ \phi^P_g = \sum_{n=-\infty}^{+\infty} \phi_g(r - 2 \pi n)$.
 
-For the periodic boundary problem described in section \ref{App_1D}, we define an equivalent kernel function $\phi^P_g = \sum_{n=-\infty}^{+\infty} \phi_g(r - 2 \pi  n )$.
+\begin{equation*}
+	D \frac{d^2 U_p}{dz^2}  = D V_p \frac{d^2 u_p}{dz^2} \approx D V_p \varepsilon^{-d} \int [u(z)  - u(y)] \phi_\varepsilon(y - z) dz,
+\end{equation*}
+
+This leads, with the particle approximation, to a redistribution of the particles intensities in their previous locations, such as
+
+\begin{equation*}
+	\frac{dU_p}{dt} = D \varepsilon^{-d} V_p \sum_q (U_q - U_p) \phi_\varepsilon( z_q -  z_p),
+\end{equation*}where $V_p$ the volume of the particle $p$ and $d$ the dimension of $\Omega$.
+For further details on the computation, please refer to \cite{cottet_1990}.
+
+For the periodic boundary problem described in section \ref{App_1D}, we define an equivalent kernel function $\phi_\varepsilon= \phi^P_g = \sum_{n=-\infty}^{+\infty} \phi_g(r - 2 \pi  n )$.
 
 The particle-based model employs a discretization of \npart{} particles with a size of $h = \frac{L}{N_{\text{part}}}$ and a smoothing length of $\varepsilon = 1.3 h$.
-For the sake of comparison, we solve the convection diffusion equation with a explicit (?) central finite difference scheme discretized on a regular grid with \ngrid{} nodes.
+For the sake of comparison, we solve the convection diffusion equation with an explicit central finite difference scheme discretized on a regular grid with \ngrid{} nodes.
 
 \subsection{Assimilation parameters and ensemble generation}
 
@@ -58,9 +65,15 @@ The observational data is subject to additive noise, denoted as $\eta \sim \math
 We define the error as the following relative ratio
 
 \begin{equation}~\label{eq:L2_error}
-	e_{L_2} =\frac{ \left[\frac1\nens \sum_{i = 1}^{\nens} \int_\Omega \left(u^{gt}(z) - u_i(z)\right)^2 dz\right]^{1/2}}{\norm{u}_{L_2}}
-\end{equation}~where $u_i$ denote the $i$-th member of the ensemble and $\norm{u}_{L_2}$ denote the $L_2$ norm of $u^{gt}$. We compute the parameter error with a norm-2 as $e_{\theta} = \frac{ \left[\frac1\nens \sum_{i = 1}^{\nens} \norm{\theta^{gt} - \theta_{i}}_2^2\right]^{1/2}}{\norm{\theta^{gt}}_2}$.
+	e_{L_2} =\frac{ \left[\frac1\nens \sum_{i = 1}^{\nens} \int_\Omega \left(u_i(z) - u^{gt}(z)\right)^2 dz\right]^{1/2}}{\norm{u^{gt}}_{L_2}}
+\end{equation}~where $u_i$ denote the $i$-th member of the ensemble and $\norm{u}_{L_2}$ denote the $L_2$ norm of $u^{gt}$.
 
+The $L_2$ norm is computed using a quadrature over a regular grid of an ensemble of cells $\mathcal{C}$ such as for any $f \in L_2$
+
+$$
+	\norm{f}_{L_2}  = \int_{\Omega} f^2~d\Omega \approx \sum_{c \in \mathcal{C}} f(z)~V_c
+$$~where $z_c$ is the center of the cell $c$ and $V_c$ the volume of the cell. The grid is still the same for all the simulations.
+%We compute the parameter error with a norm-2 as $e_{\theta} = \frac{ \left[\frac1\nens \sum_{i = 1}^{\nens} \norm{\theta^{gt} - \theta_{i}}_2^2\right]^{1/2}}{\norm{\theta^{gt}}_2}$.
 
 \subsubsection{Numerical parameters}
 
@@ -88,9 +101,20 @@ Simultaneously, a standard Ensemble Kalman Filter (EnKF) update is applied to th
 
 \subsection{Results}
 
-We begin the comparison of the different filters just on the assimilation of the state. We treatThe parameter sample are still unchanged. We take unknown parameters into account as model uncertainties. The two filters outlined in the Method section~\ref{Methods} and the Eulerian filter are compared with the reference filter based on a grid discretization.
+We compare the different filters on the assimilation of the state. We first compare the Grid-EnKF, the Remesh EnKF and two Part-ENKF filter with 100 and 60 particules. The parameter sample are still unchanged. We take unknown parameters into account as model uncertainties. The two filters outlined in the Method section~\ref{Methods} and the Eulerian filter are compared with the reference filter based on a grid discretization.
 
-In figure \ref{fig:1d_error_time}, we appreciate a similar agreement for all the filters, except for Particle-EnKF, with a reduced number of particles in the support.
+In figure \ref{fig:1d_error_time}, we appreciate different assimilation step for the Remesh-EnKF filter.
+
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{\textwidth}
+		\includegraphics[width=\textwidth]{images/app1d/wo_calibration/remesh_EnKF.png}
+	\end{subfigure}
+	\caption{Data assimilation ower assimilation step for the Remesh-EnKF filter.}
+\end{figure}
+
+The result are quite similar for all the different filters, except the Part-EnKF with 60 particules.
 
 \begin{figure}
 	\centering
@@ -99,18 +123,9 @@ In figure \ref{fig:1d_error_time}, we appreciate a similar agreement for all the
 	\label{fig:1d_error_time}
 \end{figure}
 
-% Faire référence à cette figure
-\begin{figure}
-	\centering
-	\begin{subfigure}{\textwidth}
-		\includegraphics[width=\textwidth]{images/app1d/wo_calibration/remesh_EnKF.png}
-	\end{subfigure}
-	\caption{Data assimilation comparison over different filters. From top to bottom, with Grid Filter, RemeshEnKF, PartEnKF with $N_{part}=100$, and PartEnKF with $N_{part}=60$.}
-\end{figure}
-\newpage
-
 The primary issue arises from the regression on non-overlapping support, where the regression struggles to fit the analysis solution defined on a more considerable space support. This leads to heightened variability, particularly in the tail of the distribution. Addressing this common challenge in RBF Regression \cite{fornberg_flyer_2015} involves increasing the Ridge penalization coefficient, a parameter we choose through cross-validation Ridge regression.
 Even with a more stable regression, it remains a projection of the analysis solution onto the forecast support. It is imperative to increase the number of particles to achieve a better approximation of the analysis solution using the particle approximation operator in Section~\ref{interpOp} or the regression operator in Section~\ref{regressionOperator}.
+
 We validate this assumption by varying the initial support of particles. Quantitatively, as observed in Figure~\ref{error_support}, the error decreases with an increase in the number of particles. Moreover, qualitatively examining the snapshot on the right reveals that the solution closely aligns with the reference.
 
 \begin{figure}
@@ -135,7 +150,7 @@ We validate this assumption by varying the initial support of particles. Quantit
 \end{figure}
 However, Adding particles in a more complex solution is a challenging task. Indeed, a good spacing between particles and the density of particles has to be preserved. In this case, we advise defining criteria for the error of the reconstruction. Instead of adding particles, we advise generating a new, regularly spaced grid of particles to reconstruct the solution.
 
-In conclusion, this example underscores the Remesh-EnKF filter capability to yield results comparable to the classical EnKF applied to a grid model. Additionally, it highlights the Part-EnKF's capability in assimilating on a particle discretization while also emphasizing the importance of addressing spatial discrepancies between members, which can pose challenges in solution reconstruction. The computation of solution error reconstruction provides a straightforward criterion for remeshing a member and applying the analysis solution approximation.
+In conclusion, this example underscores the Remesh-EnKF filter capability to yield results comparable to the classical EnKF applied to a grid model. Additionally, it highlights the Part-EnKF capability in assimilating on a particle discretization while also emphasizing the importance of addressing spatial discrepancies between members, which can pose challenges in solution reconstruction. The computation of solution error reconstruction provides a straightforward criterion for remeshing a member and applying the analysis solution approximation.
 
 
 \newpage

@@ -21,41 +21,18 @@ The vorticity field is discretized using a collection of discrete vortices, each
 	\omega(\bm z) = \sum_{i=1}^{N_p} \Gamma_p \phi_\varepsilon(\bm z - \bm z_p).
 \end{equation*}
 
-To address the Navier-Stokes equation, we employ a viscous splitting scheme, following the methodology outlined in \cite{cottet_1990}, acknowledging the predominance of the convection term over viscosity. The initial phase involves solving the advection component for each particle in a Lagrangian context
-
-\begin{eqnarray*}
-	\frac{d\bm z_p}{dt} = \bm{v}(\bm z_p), \quad \frac{\omega_p}{dt} = 0.
-\end{eqnarray*}The particle trajectory depends on the local velocity field obtained using the Biot-Savart law. The resolution is based on the Vortex-In-Cell algorithm \cite{christiansen_1973, birdsall_1969}, coupled with an FFT solver to enhance computation performance.
-
-The subsequent steps involve assigning particle vorticity values to the grid using a particle-to-grid formula, computing the velocity field by solving the Poisson equation on the grid verified by the stream function. Finally, the velocity is interpolated back onto the particles using the grid-to-particles formula.
-
-In conclusion, a Runge-Kutta 3 time-stepping scheme is employed to update the particle positions through a time integration scheme. The second phase involves solving the heat equation.
-\begin{equation*}
-	\frac{ \mathrm{d}\z_p}{ \mathrm{d}t} = 0, \quad	\frac{ \mathrm{d}\omega_p}{ \mathrm{d}t} = \nu \Delta \omega(\z_p),
-\end{equation*}by employing an integral equation that approximates $\Delta \omega$
-
-\begin{equation*}
-	\Delta \omega \approx \varepsilon^{-2} \int [\omega(\z)  - \omega(\bm{y})] \phi_\varepsilon(\bm{y} - \z) d\z,
-\end{equation*}
-
-This leads, with the particle approximation, to a redistribution of the particles' intensities in their previous locations, such as
-
-\begin{equation*}
-	\frac{d\Gamma_p}{dt} = \nu \varepsilon^{-2} \sum_q (G_q - G_p) \phi_\varepsilon(\z_q - \z_p).
-\end{equation*}
-For further details on the computation, please refer to \cite{cottet_1990}. Consequently, our vortex model equation is solely dependent on the fluid's viscosity as a model parameter.
-
+To address the Navier-Stokes equation, we employ a viscous splitting scheme, following the methodology outlined in \cite{cottet_1990}, acknowledging the predominance of the convection term over viscosity. We use the Vortex-In-Cell algorithm \cite{christiansen_1973, birdsall_1969}, coupled with an FFT solver to cumpute the advection velocity. The subsequent steps involve assigning particle vorticity values to the grid using a particle-to-grid formula, computing the velocity field by solving the Poisson equation on the grid verified by the stream function. Finally, the velocity is interpolated back onto the particles using the grid-to-particles formula. A Runge-Kutta 3 time-stepping scheme is employed to update the particle positions through a time integration scheme. The final phase involves solving the heat equation and update the particles intensities thanks to the PSE method previously described in Section~\ref{App_1D}.
 
 \subsection{Lamb-Chaplygin dipole and simulation parameters}
 
-We define the reference as the advection of the Lamb-Chaplygin dipole inside a close domain with stress-free walls. Lamb-Chaplygin dipole is a popular choice for numerical studies \cite{orlandi_vortex_1990}. The model represents a specific steady, inviscid dipolar vortex flow and offers a non-trivial solution to the two-dimensional Euler equations. The dipole is characterized by a translation velocity $U$, a mean position $\bm{z_0}$, a radius $R$, and an orientation $\alpha$. This particular test case is designed to assess the impact of a relatively small domain of the particle support, which is crucial for the Part-EnKF filter.
+We define the reference as the advection of the Lamb-Chaplygin dipole inside a close domain with stress-free walls. Lamb-Chaplygin dipole is a popular choice for numerical studies \cite{orlandi_vortex_1990}. The model represents a specific steady, inviscid dipolar vortex flow and offers a non-trivial solution to the two-dimensional Euler equations. The dipole is characterized by a translation velocity $U$, a mean position $\bm{z}_0$, a radius $R$, and an orientation $\alpha$.
 
 The dipole vorticity field $\omega$ could be expressed as
 
 \begin{equation*}
 	\omega(r) = \begin{cases}
-		\frac{-2 k U J_1(kr)}{J_0(kR)} \sin \alpha, \quad & \text{for} \quad  r < R, \\
-		0, \quad                                          & \text{otherwise},
+		\frac{-2 k U J_1(kr)}{J_0(kR)} \sin \alpha \quad & \text{for} \quad  r < R, \\
+		0 \quad                                          & \text{otherwise},
 	\end{cases}
 \end{equation*}where $(r, \alpha)$ represent the polar coordinates in the dipole reference frame. Here, $J_0$ and $J_1$ denote the zeroth and first order Bessel functions of the first kind, respectively, and $k$ is determined such that $kR$ corresponds to the first non-trivial zero of the first Bessel function.  The dipole vorticity field is depicted in Figure \ref{fig:lamb_dipole}.
 
@@ -115,7 +92,7 @@ An ensemble of 32 members is created by sampling distributions over the dipole p
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.7\linewidth]{images/app2d/ensemble_sample.png}
+	\includegraphics[width=0.9\linewidth]{images/app2d/ensemble_sample.png}
 	\caption{Six samples from the initial ensemble.}
 	\label{fig:sample_ens}
 \end{figure}
@@ -124,11 +101,8 @@ The initial vorticity field is first discretized on a regular grid of particles 
 
 \subsubsection{Error definition}
 
-We will employ the same metric, the relative \(L_2\)-error, similar to the one-dimensional application in~\ref{eq:L2_error} as well as the absolute \(L_2\)-error. The $L_2$ norm is computed using a quadrature over a regular grid of an ensemble of cells $\mathcal{C}$ such as for any $f \in L_2$
-
-$$
-	\norm{f}_{L_2}  = \int_{\Omega} f^2~d\Omega \approx \sum_{c \in \mathcal{C}} f(\z)~V_c
-$$~where $\z_c$ is the center of the cell $c$ and $V_c$ the volume of the cell. The grid is still the same for all the simulations.
+We use an absolute error absolute \(L_2\)-error defined as $ \frac1\nens \sum_{i = 1}^{\nens} \int_\Omega \left(\omega_i(\z) - \omega^{gt}(\z)\right)^2 \mathrm{d}\z$.
+We use the the member error also to evaluate the dispartion of the error estimate.
 
 \subsubsection{Numerical parameters}
 
@@ -153,47 +127,50 @@ Observations are collected on a regular grid of size $N_{\text{obs}}$, measuring
 \subsubsection{Error through time}
 
 
-We start by analyzing the assimilation error over time. Figure \ref{fig:assim_time} illustrates the relative error throughout the assimilation process for the nominal set of parameters, demonstrating comparable results for both filters, as well as for the assimilation of state and model viscosity. Additionally, Figure \ref{fig:visc_time} depicts the evolution of the ensemble distribution for the viscosity parameters. In both cases, the variance and the bias decrease over time. However, the Remesh-EnKF has higher variances compared to the Part-EnKF, particularly at the middle and end stages of assimilation. Notably, the filters underestimate the viscosity in the initial assimilation steps. It could be primarily due to the dissipation introduced in the first estimate, which is subsequently offset thanks to the parameter. After subsequent assimilation steps, the parameter finally stabilizes. Nevertheless, the reference always falls within the range of the distribution.
+We start by analyzing the assimilation error over time. Figure \ref{fig:assim_time} illustrates the relative error throughout the assimilation process for the nominal set of assimilation parameters, demonstrating comparable results for both filters.
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics*[width=\linewidth]{images/app2d/field_error_w_assim.pdf}
+	\includegraphics*[width=0.7\linewidth]{images/app2d/field_error_w_assim.pdf}
 	\caption{Error curves through assimilation steps. Left: \(L_2\)-error of the field, Right: Error for the viscosity parameter. With Part-EnKF in blue and Remesh-EnKF in red.}
 	\label{fig:assim_time}
 \end{figure}
 
 
 \subsubsection{Error with respect to assimilation parameters}
-We assess the performances of the different filters by evaluating the convergence of the error with respect to the assimilation. Additionally, we added a filter called Part-Grid-EnKF. This last filter combined the approximation process of the Part-EnKF but on a regularly spaced particle discretization like the Remesh-EnKF filter. This filter will allow us to better show if the difference between the filters is due to the Part-EnKF discretization or the particle approximation.
+We assess the performances of the different filters by evaluating the convergence of the error with respect to the assimilation parameters.
 
-First, we observe the convergence rate concerning data assimilation parameters: the observation precision, which is \(1/\sigma_{\text{obs}}^2\), the number of observations \(N_{\text{obs}}\), the number of assimilation step \(N_{\text{assim}}\).
-The results are regrouped in Figure \ref{fig:assim_params}. We first observed that the convergence is more substantial and more regular for the Remesh-EnKF. The convergence is the same at low precision, but for high precision, the error decreases slower for the Part-EnKF and Part-Grid-EnKF. In fact, the observed high reduction of variances and the high bias suggest a collapse of the state of the ensemble to a suboptimal solution. Nevertheless, the viscosity errors are all comparable. This observation leads to the conclusion that the approximation step bounds the error of the state.
+First, we observe the convergence rate concerning data assimilation parameters: The observation precision, which is \(1/\sigma_{\text{obs}}^2\), the number of observations \(N_{\text{obs}}\), the number of assimilation step \(N_{\text{assim}}\).
+
+We first observed that the convergence is more substantial and more regular for the Remesh-EnKF. The convergence is the same at low precision, but for high precision, the error decreases slower for the Part-EnKF and Part-Grid-EnKF. In fact, the observed high reduction of variances and the high bias suggest a collapse of the state of the ensemble to a suboptimal solution. Nevertheless, the viscosity errors are all comparable. This observation leads to the conclusion that the approximation step bounds the error of the state.
 As concern the convergence for other assimilation parameters \(N_{\text{obs}}\), \(\sigma_{\text{obs}}\), the conclusion is quite similar. The field error decreases with \(N_{\text{obs}}\), \(\sigma_{\text{obs}}\) for the Remesh-EnKF. The result is more mitigated for the Part-EnKF. Again, it confirms that the Part-EnKF fails to converge as successfully as the Remesh-EnKF.
 Finally, we note that the converge with respect to \(N_{\text{obs}}\), \(\sigma_{\text{obs}}\) are less regular even for the Remesh-EnKF. This observation is probably mainly due to the fact that the measures and assimilation steps are regularly spaced over space and time. In fact, the number of measures over the dipole at time $t$ is low, and the relative position could have a relatively high impact on the assimilation.
 
 \begin{figure}[htbp]
 	\captionsetup{labelformat=empty}
 	\centering
-	\includegraphics[width=\linewidth]{./images/app2d/MSE_obs_precision_box.pdf}
-	\caption{state error w.r.t. $1/\sigma_{\text{obs}}^2$}
+	\includegraphics[width=0.6\linewidth]{./images/app2d/MSE_obs_precision_box.pdf}
+	\caption{Box plots of the state error w.r.t. $1/\sigma_{\text{obs}}^2$.}
 	\label{fig:obs_precision}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=\linewidth]{./images/app2d/MSE_na_box.pdf}
+	\includegraphics[width=0.6\linewidth]{./images/app2d/MSE_na_box.pdf}
 	\captionsetup{labelformat=empty}
-	\caption{state error w.r.t. $N_{\text{assim}}$}
+	\caption{Box plots of the state error w.r.t. $N_{\text{assim}}$.}
+
 	\label{fig:na}
 \end{figure}
 
 \begin{figure}[htbp]
 	\captionsetup{labelformat=empty}
 	\centering
-	\includegraphics[width=\linewidth]{./images/app2d/MSE_nobs_box.pdf}
-	\caption{state error w.r.t. $N_{\text{obs}}$}
+	\includegraphics[width=0.6\linewidth]{./images/app2d/MSE_nobs_box.pdf}
+	\caption{Box plots of the state error w.r.t. $N_{\text{obs}}$.}
+
 	\label{fig:nobs}
-	\caption{Error curves for different assimilation parameters. Left: The normalize $L_2$ error for the vorticity field. Right: The normalize error on viscosity.}
+
 	\label{fig:assim_params}
 \end{figure}
 
@@ -240,7 +217,7 @@ Thanks to the Part-Grid-EnKF, we could better decompose the error. On the one ha
 		\caption{state error w.r.t. $\varepsilon_{\omega}$}
 		\label{fig:eps_omega}
 	\end{subfigure}
-
+	\hfill
 	\begin{subfigure}{0.48\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{./images/app2d/MSE_dp_box.pdf}
@@ -249,7 +226,7 @@ Thanks to the Part-Grid-EnKF, we could better decompose the error. On the one ha
 		\label{fig:np_visc}
 	\end{subfigure}
 
-	\caption{Error curves for simulation parameters. The effect of $\varepsilon_{\omega}$ on the error is particularly observed on high value. The Part-EnKF error is strongly linked to $d_p$ through the particle approximation error.}
+	\caption{Error box plots for simulation parameters. The effect of $\varepsilon_{\omega}$ on the error is particularly observed on high value. The Part-EnKF error is strongly linked to $d_p$ through the particle approximation error.}
 	\label{fig:simu_parameters_error}
 \end{figure}
 
