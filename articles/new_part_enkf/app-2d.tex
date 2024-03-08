@@ -131,7 +131,7 @@ We start by analyzing the assimilation error over time. Figure \ref{fig:assim_ti
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics*[width=0.7\linewidth]{images/app2d/field_error_w_assim.pdf}
+	\includegraphics*[width=0.7\linewidth]{images/app2d/final/error_in_time.pdf}
 	\caption{Error curves through assimilation steps. Left: \(L_2\)-error of the field, Right: Error for the viscosity parameter. With Part-EnKF in blue and Remesh-EnKF in red.}
 	\label{fig:assim_time}
 \end{figure}
@@ -149,14 +149,14 @@ Finally, we note that the converge with respect to \(N_{\text{obs}}\), \(\sigma_
 \begin{figure}[htbp]
 	\captionsetup{labelformat=empty}
 	\centering
-	\includegraphics[width=0.6\linewidth]{./images/app2d/MSE_obs_precision_box.pdf}
+	\includegraphics[width=0.6\linewidth]{./images/app2d/final/MSE_obs_precision_box.pdf}
 	\caption{Box plots of the state error w.r.t. $1/\sigma_{\text{obs}}^2$.}
 	\label{fig:obs_precision}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.6\linewidth]{./images/app2d/MSE_na_box.pdf}
+	\includegraphics[width=0.6\linewidth]{./images/app2d/final/MSE_na_box.pdf}
 	\captionsetup{labelformat=empty}
 	\caption{Box plots of the state error w.r.t. $N_{\text{assim}}$.}
 
@@ -166,7 +166,7 @@ Finally, we note that the converge with respect to \(N_{\text{obs}}\), \(\sigma_
 \begin{figure}[htbp]
 	\captionsetup{labelformat=empty}
 	\centering
-	\includegraphics[width=0.6\linewidth]{./images/app2d/MSE_nobs_box.pdf}
+	\includegraphics[width=0.6\linewidth]{./images/app2d/final/MSE_nobs_box.pdf}
 	\caption{Box plots of the state error w.r.t. $N_{\text{obs}}$.}
 
 	\label{fig:nobs}
@@ -220,7 +220,7 @@ Thanks to the Part-Grid-EnKF, we could better decompose the error. On the one ha
 	\hfill
 	\begin{subfigure}{0.48\textwidth}
 		\centering
-		\includegraphics[width=\linewidth]{./images/app2d/MSE_dp_box.pdf}
+		\includegraphics[width=\linewidth]{./images/app2d/final/MSE_size_box.pdf}
 		\captionsetup{labelformat=empty}
 		\caption{state error w.r.t. $d_p$}
 		\label{fig:np_visc}

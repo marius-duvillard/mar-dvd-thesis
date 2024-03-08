@@ -199,13 +199,29 @@ On part de la fonction coût suivante
 \end{equation*}
 
 Mais cette fois le champ d'alignement est paramétré différemment avec $a$.
-Ici, on cherche à déterminer la meilleure direction de champ de vitesse pour minimiser la fonction coût en appliquant un petit pas de temps tel que
+Ici, on cherche à déterminer la meilleure direction de champ de vitesse pour minimiser la fonction coût en appliquant une vitesse telle que
 
 \begin{equation*}
-    \frac{dx}{dt} = \sum_i a_i u_i(x).
+    \frac{dx}{dt} = \sum_i a_i(t) u_i(x).
 \end{equation*}
 
 On cherche à faire diminuer au cours du temps $t$ la fonction coût $\mathcal L_a$ ce qui revient à minimiser
+
+La fonction de coût est donc paramétrée par deux variables $a$ et $t$
+
+\begin{equation*}
+    \mathcal L_a(a;t) =  \frac12 \norm{u^{obs} - h(x(t,a(t)); x_{obs})}^2_{R^{-1}}
+\end{equation*}
+
+On souhaite appliquer la vitesse qui va maximiser la variation négative de $L_a$ à $t=t_0$.
+
+Cela revient à résoudre pour $a$
+
+\begin{equation*}
+    \min_{a\in \mathbb{R}^M,~\norm{a}^2 = 1} \frac{\partial L_a}{\partial t}(a;t) =  \frac12 \norm{u^{obs} - h(x(t,a(t)); x_{obs})}^2_{R^{-1}}
+\end{equation*}
+
+Cela est vrai pour deux le deux points $a_1 = \nabla_x h U / \norm{\nabla_x h U }$ et $a_2 = - \nabla_x h U / \norm{\nabla_x h U }$
 
 \begin{equation*}
     \min_{a \in \mathbb{R}^M,~\norm{a}^2 = 1} \frac{d \mathcal L_a}{dt} = \sum_i (\nabla_x \mathcal L_a \cdot u_i ) a_i
