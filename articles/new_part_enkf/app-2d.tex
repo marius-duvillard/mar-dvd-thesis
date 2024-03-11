@@ -162,12 +162,14 @@ In the Figure~\ref{fig:na_1} the reduction of error is still prominent and show 
 \begin{figure}[h!]
 	\centering
 	\begin{subfigure}{0.49\linewidth}
+		\centering
 		\includegraphics[width=\linewidth]{./images/app2d/final/MSE_na_box.pdf}
 		\caption{}
 		\label{fig:na_1}
 
 	\end{subfigure}
 	\begin{subfigure}{0.49\linewidth}
+		\centering
 		\includegraphics[width=\linewidth]{./images/app2d/final/MSE_na_box_log_log.pdf}
 		\caption{}
 		\label{fig:na_2}
@@ -177,17 +179,19 @@ In the Figure~\ref{fig:na_1} the reduction of error is still prominent and show 
 
 \end{figure}
 
-Finally, we analyse the error convergence with respect to the number of observation.
+Finally, we analyse the error convergence with respect to the number of observation. Observation location increase regularly in both axis. In Figure~\ref{fig:nobs_1}, the error estimate decrease but
 
 \begin{figure}[h!]
 	\centering
 	\begin{subfigure}{0.49\linewidth}
-		\includegraphics[width=0.6\linewidth]{./images/app2d/final/MSE_nobs_box.pdf}
+		\centering
+		\includegraphics[width=\linewidth]{./images/app2d/final/MSE_nobs_box.pdf}
 		\caption{Box plots of the state error w.r.t. $N_{\text{obs}}$.}
 		\label{fig:nobs_1}
 	\end{subfigure}
 	\begin{subfigure}{0.49\linewidth}
-		\includegraphics[width=0.6\linewidth]{./images/app2d/final/MSE_nobs_box.pdf}
+		\centering
+		\includegraphics[width=\linewidth]{./images/app2d/final/MSE_nobs_box_log_log.pdf}
 		\caption{Box plots of the state error w.r.t. $N_{\text{obs}}$.}
 		\label{fig:nobs_2}
 	\end{subfigure}
