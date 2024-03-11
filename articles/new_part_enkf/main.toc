@@ -29,10 +29,10 @@
 \contentsline {subsubsection}{\numberline {5.3.3}Numerical parameters}{24}{subsubsection.5.3.3}%
 \contentsline {subsection}{\numberline {5.4}Results}{25}{subsection.5.4}%
 \contentsline {subsubsection}{\numberline {5.4.1}Error through time}{25}{subsubsection.5.4.1}%
-\contentsline {subsubsection}{\numberline {5.4.2}Error with respect to assimilation parameters}{25}{subsubsection.5.4.2}%
+\contentsline {subsubsection}{\numberline {5.4.2}Error with respect to assimilation parameters}{26}{subsubsection.5.4.2}%
 \contentsline {subsubsection}{\numberline {5.4.3}Error with respect to simulation parameters}{26}{subsubsection.5.4.3}%
-\contentsline {section}{\numberline {A}Stochastic Ensemble Kalman Filter}{30}{appendix.A}%
-\contentsline {section}{\numberline {B}Moment conservation of particle discretization}{31}{appendix.B}%
-\contentsline {section}{\numberline {C}Parameters}{32}{appendix.C}%
-\contentsline {subsection}{\numberline {C.1}One dimension problem}{32}{subsection.C.1}%
-\contentsline {subsection}{\numberline {C.2}Two dimension problem}{32}{subsection.C.2}%
+\contentsline {section}{\numberline {A}Stochastic Ensemble Kalman Filter}{31}{appendix.A}%
+\contentsline {section}{\numberline {B}Moment conservation of particle discretization}{32}{appendix.B}%
+\contentsline {section}{\numberline {C}Parameters}{33}{appendix.C}%
+\contentsline {subsection}{\numberline {C.1}One dimension problem}{33}{subsection.C.1}%
+\contentsline {subsection}{\numberline {C.2}Two dimension problem}{33}{subsection.C.2}%

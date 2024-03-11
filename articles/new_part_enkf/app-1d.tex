@@ -126,12 +126,12 @@ The result are quite similar for all the different filters, except the Part-EnKF
 The primary issue arises from the regression on non-overlapping support, where the regression struggles to fit the analysis solution defined on a more considerable space support. This leads to heightened variability, particularly in the tail of the distribution. Addressing this common challenge in RBF Regression \cite{fornberg_flyer_2015} involves increasing the Ridge penalization coefficient, a parameter we choose through cross-validation Ridge regression.
 Even with a more stable regression, it remains a projection of the analysis solution onto the forecast support. It is imperative to increase the number of particles to achieve a better approximation of the analysis solution using the particle approximation operator in Section~\ref{interpOp} or the regression operator in Section~\ref{regressionOperator}.
 
-We validate this assumption by varying the initial support of particles. Quantitatively, as observed in Figure~\ref{error_support}, the error decreases with an increase in the number of particles. Moreover, qualitatively examining the snapshot on the right reveals that the solution closely aligns with the reference.
+We validate this assumption by varying the initial support of particles. Quantitatively, as observed in Figure~\ref{error_support}, the error estimate and dispersion decreases with an increase in the number of particles. At the level of 70 particles support a threshold is reached  Moreover, qualitatively examining the snapshot on the right reveals that the solution closely aligns with the reference.
 
 \begin{figure}
 	\centering
 	\begin{subfigure}{0.39\textwidth}
-		\includegraphics[width=\textwidth]{images/app1d/error_support/error_support.png}
+		\includegraphics[width=\textwidth]{images/app1d/error_support/error_part.pdf}
 		\label{error_support1}
 	\end{subfigure}
 	\hfill
