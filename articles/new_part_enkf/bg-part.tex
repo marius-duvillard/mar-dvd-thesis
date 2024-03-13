@@ -1,7 +1,7 @@
 % !TEX root = main.tex
 
 \subsection{Particle-based methods}~\label{Background_Part}
-We consider particle-methods for solving continuous problems in fluid or solid mechanics. The Lagrangian methods decompose the domain on a set $\mathcal P = \left\{\bm z_p, \bm U_p\right\}_{p = 1}^{n_p}$, où $\bm z_p \in \Omega$, the spatial coordinates a particle $p$ and $\bm U_p \in \mathbb{R}^n$ its intensity.
+We consider particle methods for solving continuous problems in fluid or solid mechanics. The Lagrangian methods decompose the domain on a set $\mathcal P = \left\{\bm z_p, \bm U_p\right\}_{p = 1}^{n_p}$, où $\bm z_p \in \Omega$, the spatial coordinates a particle $p$ and $\bm U_p \in \mathbb{R}^n$ its intensity.
 
 % The velocity field $\bm{v}$ is used to update the position of the particle such as $\bm z_p(t+dt) = \bm z_p(t) + f(z_p, \bm{v}{\bm z_p})$ with $f$ depending on the time-integration scheme.
 
@@ -45,14 +45,12 @@ Several kernels have been used depending on the method. Theoretically, it could 
 	\phi_g(r) = \frac{1}{{(\pi \varepsilon^2)}^{d/2}} \exp(-r^2/\varepsilon^2).
 \end{equation*}
 
-This kernel is infinitely differentiable but defined on non-compact support. In practice, we use a cut-off to remove negligible value for large distance from a particle.
-
-Other kernels, based on B-Spline functions to work on a compact support.
+This kernel is infinitely differentiable but defined on non-compact support. In practice, we use a cutoff to remove negligible value for a large distance from a particle.
 
 \subsection{Particle-based function manipulations}~\label{operators}
 
-Based on particle discretization, we present several particle manipulation that will used in our methods. Originally, those manipulation are either dedicate to improve the quality of the approximation, avoid high distorsion by creating a new particle discretization or to project the solution on a Eulerian configuration. The different operators will be used in the assimilation process in
-order to update particle solution of each members in Section~\ref{Methods}.
+Based on particle discretization, we present several particle manipulations that will used in our methods. Initially, those manipulations are either dedicated to improving the quality of the approximation, avoiding high distortion by creating a new particle discretization or projecting the solution on an Eulerian configuration. The different operators will be used in the assimilation process in
+order to update the particle solution of each member in Section~\ref{Methods}.
 
 \subsubsection{Approximation operator}~\label{interpOp}
 
@@ -63,31 +61,31 @@ A first approximation could be to use the particle approximation to reevaluate t
 	\bm U_p = \int_{\Omega_p} \bm u(z) d\bm z = \bm u(\bm z_p) V_p,
 \end{equation*}~where $\bm z_p$ is the particle location.
 
-This approximation is easily computable but do not ensure the conservation of the all the moment of the field. A better approximation could be obtain using the iterative Beale's formula \cite{beale_accuracy_1988} which corrected circulation values in order to recover the vorticity field at the particle locations.
+This approximation is easily computable but does not ensure the conservation of all the moments of the field. A better approximation could be obtained using the iterative Beale's formula \cite{beale_accuracy_1988}, which corrected circulation values in order to recover the vorticity field at the particle locations.
 
 \subsubsection{Regression operator}~\label{regressionOperator}
 
-Based on regression methods, the new intensities of the particles defined $\bm{U} = [\bm U_1, \dots, \bm U_p]^T$ could be obtain by minimizing the quadratic error. Assume that we have some vector $\bm{u} = [\bm u_1(z_1), \dots, \bm u_p(\bm z_p)]^T$ of the continuous field evaluations. The particle approximation could be compute on each particle positions $\bm z_p$ given
+Based on regression methods, the new intensities of the particles defined $\bm{U} = [\bm U_1, \dots, \bm U_p]^T$ could be obtained by minimizing the quadratic error. Assume that we have some vector $\bm{u} = [\bm u_1(z_1), \dots, \bm u_p(\bm z_p)]^T$ of the continuous field evaluations. The particle approximation could be computed on each particle position $\bm z_p$ given
 
 \begin{equation*}
 	\bm{u} \simeq \bm \Phi \bm{U},
 \end{equation*}where $\bm \Phi_{ij} = \phi_\varepsilon(z_i - z_j)$.
 
-Finding the new intensities $\bm U^*$ correspond to solving the previous system in the least square sense. It corresponds to the classical problem to find the minimizer of the following quadratic function
+Finding the new intensities $\bm U^*$ corresponds to solving the previous system in the least square sense. It corresponds to the classical problem of finding the minimizer of the following quadratic function
 
 \begin{equation*}
 	\bm{U}^*= \argmin_{\bm{U}} \norm{\bm{u} - \Phi \bm{U}}^2_2.
 \end{equation*}
 
 
-In this case, the solution is $\bm U^*  = (\bm \Phi^T \bm \Phi)^{-1} \bm \Phi \bm{u}$. This problem may be ill-posed, particularly in the case of large set of non well-distributed particles. We choose to regularized the solution by introducing a penalization term. The Ridge regression introduce a penalization on of the form $\lambda \norm{\bm U}_2^2$, where $\lambda$ is a penalization coefficient, such as the new problem is
+In this case, the solution is $\bm U^*  = (\bm \Phi^T \bm \Phi)^{-1} \bm \Phi \bm{u}$. This problem may be ill-posed, particularly in the case of a large set of non-well-distributed particles. We choose to regularize the solution by introducing a penalization term. The Ridge regression introduces a penalization on of the form $\lambda \norm{\bm U}_2^2$, where $\lambda$ is a penalization coefficient, such as the new problem is
 
 \begin{equation*}
 	\bm{U}_{\text{ridge}}^* = \argmin_{\bm{U}} \norm{\bm{u} - \bm \Phi \bm{U}}_2^2 + \lambda \norm{\bm{U}}^2_2,
 \end{equation*}given the following solution $\bm{U}^*_{\text{ridge}} = (\bm \Phi^T \bm \Phi + \lambda \bm I)^{-1} \bm \Phi \bm{u}$.
 
 \subsubsection{Remeshing operator}~\label{remesh_part}
-A second type of manipulation is based this time on a complete projection of the solution on a new regular grid of particles~\cite{cottet_vortex_2000,cottet_multi-purpose_1999}. This method allow us to switch from an Lagrangian discretization $\mathcal P$ to an Eulerian one $\Lambda$, and then switch back to a completely new regular particles discretization $\mathcal P'$ that conserve as much as possible the moment of the particle discretization.
+A second type of manipulation is based this time on a complete projection of the solution on a new regular grid of particles~\cite{cottet_vortex_2000,cottet_multi-purpose_1999}. This method allows us to switch from a Lagrangian discretization $\mathcal P$ to an Eulerian one $\Lambda$ and then switch back to an entirely new regular particles discretization $\mathcal P'$ that conserves as much as possible the moment of the particle discretization.
 
 In our methodology, we propose a two-step approach. First, we execute an assignment step (\ref{assigment}) to transfer the particle discretization to the grid discretization. Subsequently, an interpolation step (\ref{interpolation}) is performed to yield a new set of regularly spaced particles.
 
@@ -102,14 +100,14 @@ Our analysis pertains to the one-dimensional spatial scenario, where $\Omega \in
 		      \bm{u}_I = \frac1{V_I} \sum_{p \in \mathcal P} \bm U_p  W \left(\frac{z_I - z_p}{\ell_I} \right).
 	      \end{equation*}
 
-	      Where $W$ determine a redistribution of the intensity on the grid. The new discretization can then be used to approximate the field $\bm{u}_p$, defined by the particle discretization by interpolation given
+	      Where $W$ determines a redistribution of the intensity on the grid, the new discretization can then be used to approximate the field $\bm{u}_p$, defined by the particle discretization by interpolation given.
 
 	      \begin{equation*}
 		      \bm{u}_p(z) \approx \bm{u}_g(z) = \sum_{I \in \Lambda} \bm u_I W \left(\frac{z - z_I}{\ell_I} \right) \quad \forall z \in \Omega.
 	      \end{equation*}
 	\item  \textit{Interpolation on a new regular particle discretization} \label{interpolation}
 
-	      A new set of particles is define at the quarter of each cells such that the new position are define at $z_{p'} = d_p/2 + i~dp, \quad i = 0,\dots, 2n_g $. The value of the field is then interpolate at that new location and multiply with the volume of the particle $\bm{U}_{p'} = \bm  u_g(z_{p'}) V_{p'}$ in order to give a new particle approximation of the field
+	      A new set of particles is defined at the quarter of each cell such that the new position is defined at $z_{p'} = d_p/2 + i~dp, \quad i = 0,\dots, 2n_g $. The value of the field is then interpolated at that new location and multiplied with the volume of the particle $\bm{U}_{p'} = \bm  u_g(z_{p'}) V_{p'}$ in order to give a new particle approximation of the field.
 
 	      \begin{equation*}
 		      \bm{u}_g(z)  \approx \bm{u}_{p'}(z) = \sum_{p'\in\mathcal P'} \bm{u}_g(z_{p'}) V_p,
@@ -121,7 +119,7 @@ The shape function $W$ determines the type and quality of the transfer. The meth
 
 For $W$, one may employ the piecewise linear interpolation function, which ensures the conservation of moment 0. For higher moment conservation, the B-spline function provides a smoothing function for higher order.
 
-However, while higher-order B-splines improve the smoothness of the solution, their accuracy is limited to second order, allowing only exact interpolation of linear functions.
+However, while higher-order B-splines improve the smoothness of the solution, their accuracy is limited to the second order, allowing only exact interpolation of linear functions.
 
 Monaghan~\cite{monaghan_extrapolating_1985} proposes a systematic approach to enhance accuracy and maintain smoothness through extrapolation. The concept involves constructing a new shape function based on a cutoff and its radial derivative. For $m = 4$, the cubic B-spline is improved by the following new interpolating kernel
 

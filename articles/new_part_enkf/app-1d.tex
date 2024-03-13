@@ -34,7 +34,7 @@ Following a Lagrangian perspective by tracking a fluid particle of position $z_p
 	\frac{dz_p}{dt} = v(z_p, t), \quad \frac{dU_p}{dt} = D \frac{d^2 U_p}{dz^2}
 \end{equation*}
 
-For solving the convection-diffusion scheme, we employ the two steps of the viscous splitting algorithm. The advection is taken into account by updating the position of the particle with an Euler explicit scheme.
+To solve the convection-diffusion scheme, we employ the two steps of the viscous splitting algorithm. The advection is taken into account by updating the position of the particle with an Euler explicit scheme.
 On the other hand, we use a redistribution method called the Particle Strength Exchange Method (PSE)~\cite{degond_1989,cottet_1990} to approximate the laplacian term $\frac{d^2 U_p}{dz^2}$.
 
 
@@ -42,7 +42,7 @@ On the other hand, we use a redistribution method called the Particle Strength E
 	D \frac{d^2 U_p}{dz^2}  = D V_p \frac{d^2 u_p}{dz^2} \approx D V_p \varepsilon^{-d} \int [u(z)  - u(y)] \phi_\varepsilon(y - z) dz,
 \end{equation*}
 
-This leads, with the particle approximation, to a redistribution of the particles intensities in their previous locations, such as
+It deals with the particle approximation by a redistribution of the particle intensities in their previous locations, such as
 
 \begin{equation*}
 	\frac{dU_p}{dt} = D \varepsilon^{-d} V_p \sum_q (U_q - U_p) \phi_\varepsilon( z_q -  z_p),
@@ -52,12 +52,12 @@ For further details on the computation, please refer to \cite{cottet_1990}.
 For the periodic boundary problem described in section \ref{App_1D}, we define an equivalent kernel function $\phi_\varepsilon= \phi^P_g = \sum_{n=-\infty}^{+\infty} \phi_g(r - 2 \pi  n )$.
 
 The particle-based model employs a discretization of \npart{} particles with a size of $h = \frac{L}{N_{\text{part}}}$ and a smoothing length of $\varepsilon = 1.3 h$.
-For the sake of comparison, we solve the convection diffusion equation with an explicit central finite difference scheme discretized on a regular grid with \ngrid{} nodes.
+For the sake of comparison, we solve the convection-diffusion equation with an explicit central finite difference scheme discretized on a regular grid with \ngrid{} nodes.
 
 \subsection{Assimilation parameters and ensemble generation}
 
 \subsubsection{Ensemble distribution}
-All filters undergo testing on an identical initial prior ensemble of size $N = 25$ members, characterized by Gaussian shapes that are shifted and scaled. The mean of the function and its standard deviation are sample. The total mass is set equal to 1. Parameter of velocity $v$ and the diffusion $D$ are also sampled. The different distribution are defined in Appendix~\ref{tab:ens_gen_1d}. Moreover the parameters samples and initial state are illustrated in Figure~\ref{fig:initial_gen}.
+All filters undergo testing on an identical initial prior ensemble of size $N = 25$ members, characterized by Gaussian shapes that are shifted and scaled. The mean of the function and its standard deviation are sampled. The total mass is set equal to 1. Parameters of velocity $v$ and the diffusion $D$ are also sampled. The different distributions are defined in Appendix~\ref{tab:ens_gen_1d}. Moreover, the parameters samples and initial state are illustrated in Figure~\ref{fig:initial_gen}.
 
 The observational data is subject to additive noise, denoted as $\eta \sim \mathcal{N}(0, \sigma_y \bm{I})$, where $\sigma_y = \sigmaY$ and $\bm{I}$ represents the identity matrix.
 
@@ -83,7 +83,7 @@ We conduct $N_{\text{assim}} = 30$ assimilation steps at evenly spaced intervals
 In the particle-based simulation, fields are discretized using regularly spaced particles that are shifted. Intensity values are obtained by fitting an interpolation operator like in Section~\ref{interpOp} to the particle intensity.
 The parameter $\varepsilon_{\text{mass}}$ is introduced as a cutoff for particle selection, allowing for the definition of varying numbers of particles for each simulation. The particle support poses challenges in the Part-EnKF as described in Section \ref{part_enkf}.
 
-Simultaneously, a standard Ensemble Kalman Filter (EnKF) update is applied to the nodal variables to construct the reference filter Grid-EnKF which use a grid-based model. For grid-based simulation, the fields of each member are interpolated at the node locations. In this way, the ensemble generated is still the same for the sake of comparison.
+Simultaneously, a standard Ensemble Kalman Filter (EnKF) update is applied to the nodal variables to construct the reference filter Grid-EnKF, which uses a grid-based model. For grid-based simulation, the fields of each member are interpolated at the node locations. In this way, the ensemble generated is still the same for the sake of comparison.
 
 
 \begin{figure}[ht!]
@@ -101,9 +101,9 @@ Simultaneously, a standard Ensemble Kalman Filter (EnKF) update is applied to th
 
 \subsection{Results}
 
-We compare the different filters on the assimilation of the state. We first compare the Grid-EnKF, the Remesh EnKF and two Part-ENKF filter with 100 and 60 particules. The parameter sample are still unchanged. We take unknown parameters into account as model uncertainties. The two filters outlined in the Method section~\ref{Methods} and the Eulerian filter are compared with the reference filter based on a grid discretization.
+We compare the different filters on the assimilation of the state. We first compare the Grid-EnKF, the Remesh EnKF, and two Part-ENKF filters with 100 and 60 particles. The parameter sample is still unchanged. We take unknown parameters into account as model uncertainties. The two filters outlined in the Method section~\ref{Methods} and the Eulerian filter are compared with the reference filter based on a grid discretization.
 
-In figure \ref{fig:1d_error_time}, we appreciate different assimilation step for the Remesh-EnKF filter.
+In figure \ref{fig:1d_error_time}, we appreciate different assimilation steps for the Remesh-EnKF filter.
 
 
 \begin{figure}
@@ -114,7 +114,7 @@ In figure \ref{fig:1d_error_time}, we appreciate different assimilation step for
 	\caption{Data assimilation ower assimilation step for the Remesh-EnKF filter.}
 \end{figure}
 
-The result are quite similar for all the different filters, except the Part-EnKF with 60 particules.
+The result is quite similar for all the different filters except the Part-EnKF with 60 particles.
 
 \begin{figure}
 	\centering
@@ -126,7 +126,7 @@ The result are quite similar for all the different filters, except the Part-EnKF
 The primary issue arises from the regression on non-overlapping support, where the regression struggles to fit the analysis solution defined on a more considerable space support. This leads to heightened variability, particularly in the tail of the distribution. Addressing this common challenge in RBF Regression \cite{fornberg_flyer_2015} involves increasing the Ridge penalization coefficient, a parameter we choose through cross-validation Ridge regression.
 Even with a more stable regression, it remains a projection of the analysis solution onto the forecast support. It is imperative to increase the number of particles to achieve a better approximation of the analysis solution using the particle approximation operator in Section~\ref{interpOp} or the regression operator in Section~\ref{regressionOperator}.
 
-We validate this assumption by varying the initial support of particles. Quantitatively, as observed in Figure~\ref{error_support}, the error estimate and dispersion decreases with an increase in the number of particles. At the level of 70 particles support a threshold is reached  Moreover, qualitatively examining the snapshot on the right reveals that the solution closely aligns with the reference.
+We validate this assumption by varying the initial support of particles. Quantitatively, as observed in Figure~\ref{error_support}, the error estimate and dispersion decrease with an increase in the number of particles. At the level of 70 particles support, a threshold is reached. Moreover, qualitatively examining the snapshot on the right reveals that the solution closely aligns with the reference.
 
 \begin{figure}
 	\centering
@@ -148,7 +148,7 @@ We validate this assumption by varying the initial support of particles. Quantit
 	\caption{Left: Error with respect to particle support size, Middle: Final step for a support of 100 particles, Right: Final step for a support of 60 particles.}
 	\label{error_support}
 \end{figure}
-However, Adding particles in a more complex solution is a challenging task. Indeed, a good spacing between particles and the density of particles has to be preserved. In this case, we advise defining criteria for the error of the reconstruction. Instead of adding particles, we advise generating a new, regularly spaced grid of particles to reconstruct the solution.
+However, Adding particles to a more complex solution is challenging. Indeed, good spacing between particles and particle density has to be preserved. In this case, we advise defining criteria for the reconstruction' error. Instead of adding particles, we advise generating a new, regularly spaced grid of particles to reconstruct the solution.
 
 In conclusion, this example underscores the Remesh-EnKF filter capability to yield results comparable to the classical EnKF applied to a grid model. Additionally, it highlights the Part-EnKF capability in assimilating on a particle discretization while also emphasizing the importance of addressing spatial discrepancies between members, which can pose challenges in solution reconstruction. The computation of solution error reconstruction provides a straightforward criterion for remeshing a member and applying the analysis solution approximation.
 

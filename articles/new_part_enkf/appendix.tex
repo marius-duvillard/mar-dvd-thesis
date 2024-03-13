@@ -29,7 +29,7 @@ The forecast is then update to a posterior ensemble ${[\state^i_a]}_{i=1}^{N}$ s
 \begin{equation} \label{enkf_formula}
     \mstate_a = \mstate_f + \tilde{\bm{K}} ( \mdata - \mpred),
 \end{equation}where ${[\mdata]}^i = \obs + \bm{\varepsilon}^i$ is the perturbed observation with $\bm{\varepsilon}^i \sim \mathcal{N}(\bm{0}, \bm R) $, $\tilde{\bm{K}}$ the ensemble Kalman gain matrix and $( \mdata - \mpred)$ the innovation term.
-The forecast step is then applied to the analyzed ensemble until the next observation.
+The forecast step is then applied to the analyzed ensemble until the following observation.
 Based on this formulation, we can deduce a correction formula only based on the member's predictions and observations.
 
 We can rewrite the classical update formula using the previous anomaly matrices.
@@ -46,7 +46,7 @@ We reformulate the correction term by remarking that $ \bm{1}^T  \annomY_f^T = \
 
 \section{Moment conservation of particle discretization}~\label{appendix:moment_conservation}
 
-The $m$-th moment of a particle distribution is define as the quantity $\sum_{p} z_p^{\alpha} \bm{U}_p$.
+The $m$-th moment of a particle distribution is defined as the quantity $\sum_{p} z_p^{\alpha} \bm{U}_p$.
 
 First, we see that the partition of unity is required
 
@@ -60,7 +60,7 @@ First, we see that the partition of unity is required
 
 Attention should be focused on the border. Extending the domain with "ghost" particles or nodes allows for verification of properties within $\Omega$.
 
-This property is the necessary condition for the conservation of the first moment. Primarly for the assigment \ref{assigment}
+This property is the necessary condition for the conservation of the first moment. Primarily for the assignment \ref{assigment}
 
 \begin{gather}
     \begin{align*}
@@ -83,7 +83,7 @@ It can be shown moreover that if for $1 \leq |\alpha| \leq m - 1$, $W$ satisfies
     \sum_{I \in \Lambda} {(\bm z-\bm z_I)}^\alpha W \left(\frac{\bm z - \bm z_I}{\ell_I} \right) = 0, \label{eq:momentProperty}
 \end{equation}
 
-The regridding procedure will be of order $m$. Equivalently, the previous equality lead, for $0 \leq |\alpha| \leq m - 1$, to
+The regridding procedure will be ordered at $m$. Equivalently, the previous equality lead, for $0 \leq |\alpha| \leq m - 1$, to
 \begin{equation*}
     \sum_{I \in \Lambda} \bm z_I^\alpha W \left(\frac{\bm z_p - \bm z_I}{\ell_I} \right) = \bm z^\alpha,
 \end{equation*}~obtained by developing ${(\bm z-\bm z_q)}^\alpha$ and using a recurrence on previous orders. This means that the interpolation is exact for polynomials of degrees less or equal to $m-1$ or that the moment of order $m-1$ is conserved.
@@ -129,19 +129,19 @@ The regridding procedure will be of order $m$. Equivalently, the previous equali
     \caption{Nominal assimilation and simulation parameters}
     \begin{tabular}[t]{|l|l|}
         \hline
-        Parameters                      & Values                                   \\
+        Parameters                      & Values                                 \\
         \hline
-        time step                       & $dt = 0.005$                             \\
-        final time                      & $t_f =10$                                \\
-        std. observation                & $\sigma_{obs} =  5.0e^{-2}$              \\
-        vorticity threshold             & $\varepsilon_{\omega} = 1.0e^{-4}$       \\
+        time step                       & $dt = 0.005$                           \\
+        final time                      & $t_f =10$                              \\
+        std. observation                & $\sigma_{obs} =  5.0e^{-2}$            \\
+        vorticity threshold             & $\varepsilon_{\omega} = 1.0e^{-4}$     \\
         particle characteristic length  & $dp = \frac{pi}{256} \approx 0.01227 $ \\
-        smoothing length                & $h = 2.0 dp$                             \\
-        number of assimilation          & $N_{\text{assim}} = 10$                  \\
-        ensemble size                   & $N_{\text{ens}} = 32$                    \\
-        number of observation           & $N_{\text{obs}} = 12^2 = 144$            \\
-        grid discretization             & $N_{\text{grid}} = 65^2 = 4225$          \\
-        number of remeshing by forecast & $N_{\text{remesh}} =  2 $                \\
+        smoothing length                & $h = 2.0 dp$                           \\
+        number of assimilation          & $N_{\text{assim}} = 10$                \\
+        ensemble size                   & $N_{\text{ens}} = 32$                  \\
+        number of observation           & $N_{\text{obs}} = 12^2 = 144$          \\
+        grid discretization             & $N_{\text{grid}} = 65^2 = 4225$        \\
+        number of remeshing by forecast & $N_{\text{remesh}} =  2 $              \\
         \hline
     \end{tabular}
     \label{tab:simu_2d}

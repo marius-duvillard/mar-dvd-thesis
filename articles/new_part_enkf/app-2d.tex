@@ -21,7 +21,7 @@ The vorticity field is discretized using a collection of discrete vortices, each
 	\omega(\bm z) = \sum_{i=1}^{N_p} \Gamma_p \phi_\varepsilon(\bm z - \bm z_p).
 \end{equation*}
 
-To address the Navier-Stokes equation, we employ a viscous splitting scheme, following the methodology outlined in \cite{cottet_1990}, acknowledging the predominance of the convection term over viscosity. We use the Vortex-In-Cell algorithm \cite{christiansen_1973, birdsall_1969}, coupled with an FFT solver to cumpute the advection velocity. The subsequent steps involve assigning particle vorticity values to the grid using a particle-to-grid formula, computing the velocity field by solving the Poisson equation on the grid verified by the stream function. Finally, the velocity is interpolated back onto the particles using the grid-to-particles formula. A Runge-Kutta 3 time-stepping scheme is employed to update the particle positions through a time integration scheme. The final phase involves solving the heat equation and update the particles intensities thanks to the PSE method previously described in Section~\ref{App_1D}.
+To address the Navier-Stokes equation, we employ a viscous splitting scheme, following the methodology outlined in \cite{cottet_1990}, acknowledging the predominance of the convection term over viscosity. We use the Vortex-In-Cell algorithm \cite{christiansen_1973, birdsall_1969}, coupled with an FFT solver to compute the advection velocity. The subsequent steps involve assigning particle vorticity values to the grid using a particle-to-grid formula and computing the velocity field by solving the Poisson equation on the grid verified by the stream function. Finally, the velocity is interpolated back onto the particles using the grid-to-particles formula. A Runge-Kutta 3 time-stepping scheme is employed to update the particle positions through a time integration scheme. The final phase involves solving the heat equation and updating the particle intensities thanks to the PSE method previously described in Section~\ref{App_1D}.
 
 \subsection{Lamb-Chaplygin dipole and simulation parameters}
 
@@ -34,12 +34,12 @@ The dipole vorticity field $\omega$ could be expressed as
 		\frac{-2 k U J_1(kr)}{J_0(kR)} \sin \alpha \quad & \text{for} \quad  r < R, \\
 		0 \quad                                          & \text{otherwise},
 	\end{cases}
-\end{equation*}where $(r, \alpha)$ represent the polar coordinates in the dipole reference frame. Here, $J_0$ and $J_1$ denote the zeroth and first order Bessel functions of the first kind, respectively, and $k$ is determined such that $kR$ corresponds to the first non-trivial zero of the first Bessel function.  The dipole vorticity field is depicted in Figure \ref{fig:lamb_dipole}.
+\end{equation*}where $(r, \alpha)$ represent the polar coordinates in the dipole reference frame. Here, $J_0$ and $J_1$ denote the zeroth and first-order Bessel functions of the first kind, respectively, and $k$ is determined such that $kR$ corresponds to the first non-trivial zero of the first Bessel function. The dipole vorticity field is depicted in Figure \ref{fig:lamb_dipole}.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.6\linewidth]{images/app2d/lamb.pdf}
-	\caption{The Lamb-Chaplygin dipole vorticity field on a normalize space.}
+	\caption{The Lamb-Chaplygin dipole vorticity field on a normalized space.}
 	\label{fig:lamb_dipole}
 \end{figure}
 
@@ -47,7 +47,7 @@ The dipole is positioned at the center of a box with dimensions $[0, \pi] \times
 
 The boundary box features stress-free walls, meaning fluid cannot pass through them. The velocity perpendicular to the walls is zero, while tangential velocity remains undetermined. When a vortex, such as a dipole, reaches this boundary, it walks along the wall, sensing its reflection and interacting with it.
 
-Because this problem does not have an explicit solution on a closed domain, we simulate the ground truth with the vortex method for a fined discretization and fixed set of parameters described also in Table \ref{tab:ref}. The trajectory of the ground truth is illustrate in the Figure \ref{fig:ref_trajectory} on a regularly spaced grid.
+Because this problem does not have an explicit solution on a closed domain, we simulate the ground truth with the vortex method for a fined discretization and fixed set of parameters also described in Table \ref{tab:ref}. The trajectory of the ground truth is illustrated in Figure \ref{fig:ref_trajectory} on a regularly spaced grid.
 
 \begin{figure}[htbp]
 	\begin{subfigure}{0.32\textwidth}
@@ -83,7 +83,7 @@ Several parameters in the simulation influence the particle distribution and can
 	\label{fig:eps_effect}
 \end{figure}
 
-For the next paragraphs, if the value is not explicitly changed, we use the nominal parameters described in Table \ref{tab:simu_2d} for the simulation.
+For the following paragraphs, if the value is not explicitly changed, we use the nominal parameters described in Table \ref{tab:simu_2d} for the simulation.
 
 \subsection{Assimilation parameters and ensemble generation}
 
@@ -97,12 +97,12 @@ An ensemble of 32 members is created by sampling distributions over the dipole p
 	\label{fig:sample_ens}
 \end{figure}
 
-The initial vorticity field is first discretized on a regular grid of particles with a characteristic length $d_p$, where each particle receives the circulation $\Gamma_p = \omega(\bm z_p) V_p$, and $V_p = d_p^2$ represents the volume of the particle.
+The initial vorticity field is first discretized on a regular grid of particles with a characteristic length $d_p$, where each particle receives the circulation $\Gamma_p = \omega(\bm z_p) V_p$ and $V_p = d_p^2$ represents the volume of the particle.
 
 \subsubsection{Error definition}
 
 We use an absolute error absolute \(L_2\)-error defined as $ \frac1\nens \sum_{i = 1}^{\nens} \int_\Omega \left(\omega_i(\z) - \omega^{gt}(\z)\right)^2 \mathrm{d}\z$.
-We use the the member error also to evaluate the dispartion of the error estimate.
+We also use the member errors to evaluate the dispersion of the error estimate.
 
 \subsubsection{Numerical parameters}
 
@@ -113,7 +113,7 @@ Observations are collected on a regular grid of size $N_{\text{obs}}$, measuring
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{images/app2d/velocity_ref_recadre.pdf}
-	\caption{Observed and reference velocity fields. The error on each component is sample from a centred normal distribution with the nominal value $\sigma_{\text{obs}} = 0.05$.}
+	\caption{Observed and reference velocity fields. The error on each component is a sample from a centered normal distribution with the nominal value $\sigma_{\text{obs}} = 0.05$.}
 	\label{fig:velocity}
 \end{figure}
 
@@ -123,23 +123,23 @@ Observations are collected on a regular grid of size $N_{\text{obs}}$, measuring
 
 \subsubsection{Error through time}
 
-We start by analyzing the assimilation error over time. Figure \ref{fig:assim_time} illustrates the error throughout the assimilation process for the nominal set of assimilation parameters, demonstrating comparable results for both filters. At each assimilation step, the error decrease and avoid the solution to diverge elsewhere.
+We start by analyzing the assimilation error over time. Figure \ref{fig:assim_time} illustrates the error throughout the assimilation process for the nominal set of assimilation parameters, demonstrating comparable results for both filters. At each assimilation step, the error decreases and prevents the solution from diverging elsewhere.
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics*[width=0.7\linewidth]{images/app2d/final/error_in_time.pdf}
-	\caption{Error curves through assimilation steps. Left: \(L_2\)-error of the field, Right: Error for the viscosity parameter. With Part-EnKF in blue and Remesh-EnKF in red.}
+	\caption{error curves through assimilation steps. Left: \(L_2\)-error of the field, Right: Error for the viscosity parameter. With Part-EnKF in blue and Remesh-EnKF in red.}
 	\label{fig:assim_time}
 \end{figure}
 
 \newpage
 
-\subsubsection{Error with respect to assimilation parameters}
+\subsubsection{error with respect to assimilation parameters}
 We also assess the performances of the different filters by evaluating the convergence of the error with respect to the assimilation parameters.
 
 We observe the convergence rate concerning data assimilation parameters: The observation precision, which is \(1/\sigma_{\text{obs}}^2\), the number of observations \(N_{\text{obs}}\), the number of assimilation step \(N_{\text{assim}}\).
 
-The Figure \ref{fig:obs_precision_1} illustrate a decreasing error bias and variances with respect to observation precision similarly for both filter.What is striking in the same Figure~\ref{fig:obs_precision_2} but in the log-scale is the regular convergence rate for both filter with respect to the observation precision. The order of convergence is about 0.68 for Part-EnKF and 0.75 for Remesh-EnKF.
+Figure \ref{fig:obs_precision_1} illustrates a decreasing error bias and variances with respect to observation precision similarly for both filters. What is striking in the same Figure~\ref{fig:obs_precision_2} but in the log-scale is the regular convergence rate for both filters with respect to the observation precision. The order of convergence is about 0.68 for Part-EnKF and 0.75 for Remesh-EnKF.
 
 \begin{figure}[h!]
 	\centering
@@ -159,7 +159,7 @@ The Figure \ref{fig:obs_precision_1} illustrate a decreasing error bias and vari
 \end{figure}
 
 
-In the Figure~\ref{fig:na_1} the reduction of error is still prominent and show a reduction of variance as the number of observation increase. In the log-scale Figure~\ref{fig:na_2}, the error decrease also at a constant rate for both Filter. We notice, we notice a stronger order of 1.8 for the Remesh-EnKF compared to an order of 1.4 for Part-EnKF.
+In Figure~\ref{fig:na_1}, the reduction of error is still prominent and shows a reduction of variance as the number of observations increases. In the log-scale Figure~\ref{fig:na_2}, the error decrease also at a constant rate for both filters. We notice a more substantial order of 1.8 for the Remesh-EnKF compared to an order of 1.4 for Part-EnKF.
 
 \begin{figure}[h!]
 	\centering
@@ -181,7 +181,7 @@ In the Figure~\ref{fig:na_1} the reduction of error is still prominent and show 
 
 \end{figure}
 
-Finally, we analyse the error convergence with respect to the number of observation. Observation locations increase regularly in both axis. In Figure~\ref{fig:nobs_1}, the error estimate and variances decrease. For relatively small number of observations the two filters offers similar results when in contrast the Remesh-EnKF have relatively better result when the number of observation is increased. Moreover, the convergence rate seems to change around 200 observation points as illustrate the log-scale Figure~\ref{fig:nobs_2}. Nevertheless, it illustrates adequate performances for both filters.
+Finally, we analyze the error convergence with respect to the number of observations. Observation locations increase regularly on both axes. In Figure~\ref{fig:nobs_1}, the error estimate and variances decrease. For a relatively small number of observations, the two filters offer similar results when, in contrast, the Remesh-EnKF has relatively better results when the number of observations is increased. Moreover, the convergence rate seems to change around 200 observation points, as illustrated in the log-scale Figure~\ref{fig:nobs_2}. Nevertheless, it illustrates adequate performances for both filters.
 
 \begin{figure}[h!]
 	\centering
@@ -204,9 +204,9 @@ Finally, we analyse the error convergence with respect to the number of observat
 
 
 
-\subsubsection{Error with respect to simulation parameters}
+\subsubsection{error with respect to simulation parameters}
 
-To better understand the differences, let us now turn to the evolution of the error with respect to particle discretization parameters. For the Part-EnKF, remember that each member has its own particle discretization that flows according to the dipole direction and velocity. Each analyzed member's solutions are then respectively projected on their member discretization. However, this scheme could introduce different sources of error. First, due to particle irregularity in the particle distribution, it introduced severe approximation that led to errors between the analyzed and the approximated solution. Even more seriously, certain parts of the solution may vanish as no particle in the support can interpolate it. This effect could be appreciated on several samples of the ensemble where the analysis is projected on a non-conforming particle discretization. For instance, we analyzed the first assimilation step of one member for the different filters. If the analyzed field is known over the space domain, we observed in Figure~\ref{fig:assim_member} that the Remesh-Filter and Part-Grid-EnKF are only able to interpolate the entire solution. The Part-EnKF is not entirely able to interpolate the solution with the forecast member discretization.
+To better understand the differences, let us now turn to the evolution of the error with respect to particle discretization parameters. For the Part-EnKF, remember that each member has its own particle discretization that flows according to the dipole direction and velocity. Each analyzed member's solutions are then respectively projected on their member discretization. However, this scheme could introduce different sources of error. First, due to particle irregularity in the particle distribution, severe approximation was introduced, which led to errors between the analyzed and the approximated solution. Even more seriously, certain parts of the solution may vanish as no particle in the support can interpolate it. This effect could be appreciated on several samples of the ensemble where the analysis is projected on a non-conforming particle discretization. For instance, we analyzed the first assimilation step of one member for the different filters. If the analyzed field is known over the space domain, we observed in Figure~\ref{fig:assim_member} that the Remesh-Filter and Part-Grid-EnKF are only able to interpolate the entire solution. The Part-EnKF is not entirely able to interpolate the solution with the forecast member discretization.
 Moreover, some distortions observed in the particle distribution are not in line with the analyzed field flow. These remarks are more critical when the forecast step is longer, leading to high errors, or when the size of the support is lower. Moreover, the approximation of Section~\ref{regressionOperator} will introduce the approximation error function of the size of the particles. For instance, the particle will not conserve the total circulation due to a quadrature error, which is the opposite case for the Remesh-EnKF filter.
 
 \begin{figure}[h!]
@@ -214,25 +214,25 @@ Moreover, some distortions observed in the particle distribution are not in line
 	\begin{subfigure}{0.32\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{./images/app2d/assim_member_forecast.png}
-		\caption{Forecast member discretisation.}
+		\caption{Forecast member discretization.}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}{0.32\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{./images/app2d/assim_member_ppf.png}
-		\caption{Part-EnKF analyse discretisation.}
+		\caption{Part-EnKF analyze discretization.}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}{0.32\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{./images/app2d/assim_member_rmf.png}
-		\caption{Remesh-EnKF analyse discretisation.}
+		\caption{Remesh-EnKF analyze discretization.}
 	\end{subfigure}
-	\caption{Assimilation of one member with a forecast discretization unadapted to the analyses solution. From left to right and up to down: the forecast member, the analyses member with the Remesh-EnKF filter, the analyses member with the Part-EnKF filter and finally the analyses member with the Part-Grid-EnKF. The forecast discretization use by the Part-EnKF is not always a well support of approximation for the analyses and introduce discretization errors.}
+	\caption{Assimilation of one member with a forecast discretization unadapted to the analyses solution. The forecast discretization used by the Part-EnKF does not always support approximation for the analyses and introduces discretization errors.}
 	\label{fig:assim_member}
 \end{figure}
 
-To evaluate the effect of the size of the support, we varied the value of $\epsilon_{\omega}$. We have seen in Figure~\ref{fig:eps_effect} that this parameter affects the number of particles and, thus, the size of the support. In the Figure~\ref{fig:cuttoff}, we observe high disparities between the two filters. However, the error stabilizes rapidly by decreasing the threshold. These findings suggest an impact of the thresold and thus the particle support for the Part-EnKF. By contrast, Remesh-EnKF is less sensible as consequence it only thresold low value in the analysed solutions.
+To evaluate the effect of the size of the support, we varied the value of $\epsilon_{\omega}$. We have seen in Figure~\ref{fig:eps_effect} that this parameter affects the number of particles and, thus, the size of the support. In Figure~\ref{fig:cuttoff}, we observe high disparities between the two filters. However, the error stabilizes rapidly by decreasing the threshold. These findings suggest an impact on the threshold and, thus, the particle support for the Part-EnKF. By contrast, Remesh-EnKF is less sensible. As a consequence, it only thresholds low values in the analyzed solutions.
 
 \begin{figure}[h!]
 	\centering
@@ -240,14 +240,14 @@ To evaluate the effect of the size of the support, we varied the value of $\epsi
 	\begin{subfigure}{0.48\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{./images/app2d/final/MSE_cutoff_box.pdf}
-		\caption{state error w.r.t. $\varepsilon_{\omega}$. The High, low and medium cutoff correspond respectively to $\varepsilon_{\omega} = 0.1, 1.e^{-6}$ and $0.01$.}
+		\caption{state error w.r.t. $\varepsilon_{\omega}$. The High, low, and medium cutoff correspond respectively to $\varepsilon_{\omega} = 0.1, 1.e^{-6}$ and $0.01$.}
 		\label{fig:cuttoff}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}{0.48\textwidth}
 		\centering
 		\includegraphics[width=\linewidth]{./images/app2d/final/MSE_size_box.pdf}
-		\caption{state error w.r.t. $d_p$. The large, medium and low size correspond to $d_p = 0.0327, 0.0245$ and $0.0123$.}
+		\caption{state error w.r.t. $d_p$. The large, medium, and low sizes correspond to $d_p = 0.0327, 0.0245$, and $0.0123$.}
 		\label{fig:np}
 	\end{subfigure}
 
@@ -255,11 +255,11 @@ To evaluate the effect of the size of the support, we varied the value of $\epsi
 	\label{fig:simu_parameters_error}
 \end{figure}
 
-In term of particle size $d_p$, we evaluate its effect on the assimilation. In this section we have used the regression operator defined in Section~\ref{regressionOperator} for Part-EnKF. This choice have been motivated for accelerate the update process.
-in Figure \ref{fig:np}. We observe that the error for Part-EnKF and Part-Grid-EnKF increases proportionally with $d_p$ as for the approximation error. This high error confirme in that case the high effect of the particle approximation for Part-EnKF wherease the Remesh-EnKF error is relatively low taking advantages of a high order projection interpolation scheme. Using a regression operator to approximate the analyzed solution should alleviate this effect provided other particle discretization considerations (distortion, support size) as illustrated in Part~\ref{App_1D} and the choice of an adequate penalty coefficient to succeed in approximating the solution.
+In terms of particle size $d_p$, we evaluate its effect on the assimilation. In this section, we have used the regression operator defined in Section~\ref{regressionOperator} for Part-EnKF. This choice has been motivated to accelerate the update process.
+in Figure \ref{fig:np}. We observe that the error for Part-EnKF and Part-Grid-EnKF increases proportionally with $d_p$ as for the approximation error. This high error confirmed, in that case, the high effect of the particle approximation for Part-EnKF. In contrast, the Remesh-EnKF error is relatively low, taking advantage of a high-order projection interpolation scheme. Using a regression operator to approximate the analyzed solution should alleviate this effect provided other particle discretization considerations (distortion, support size) as illustrated in Part~\ref{App_1D} and the choice of an adequate penalty coefficient to succeed in approximating the solution.
 
 
-This discussion pointed out the high dependency of the Part-EnKF on particle discretization. It could be understood that the particle discretization of a member may be too far from the solution support of particles. This opens the question of the choice or modification of the particle discretization. As suggested in Part~\ref{App_1D}, an error estimation could be introduced to choose between the different filters. On the other hand, other approaches could be to select the member with the maximum likelihood estimate to approximate the solution. This proposition has to be evaluated because it could considerably reduce the variance of the ensemble. Finally, an alignment of particle might be introduced to better fit the analysed solution.
+This discussion pointed out the high dependency of the Part-EnKF on particle discretization. The particle discretization of a member may be too far from the solution support of particles. This opens the question of the choice or modification of the particle discretization. As suggested in Part~\ref{App_1D}, an error estimation could be introduced to choose between the different filters. On the other hand, other approaches could be to select the member with the maximum likelihood estimate to approximate the solution. This proposition has to be evaluated because it could considerably reduce the variance of the ensemble. Finally, an alignment of particles might be introduced to better fit the analyzed solution.
 
 \newpage
 
