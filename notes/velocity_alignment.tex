@@ -34,6 +34,10 @@ On réécrit la loi de Bayes avec cette information
     p(\omega,\Phi \mid y) \propto p(y \mid \omega, \Phi) p(\omega \mid \Phi) p(\Phi)
 \end{equation*}
 
+\begin{equation*}
+    p(\omega,u \mid y) \propto p(y \mid \omega,u) p(\omega \mid u) p(u)
+\end{equation*}
+
 Pour les deux premiers termes on retrouve facilement la vraissemblance conditionnée par l'ébauche déformée c'est à dire $\Phi(\omega)$ qui est appliqué sur les coordonnées lagrangienne du champ.
 Le prior est également défini sur le champ déformé. Enfin il faut définir un prior pour $\Phi$. Ce terme est assez arbitraire. On veut simplement qu'il vérifie la condition d'un écoulement incompressible.
 
@@ -43,7 +47,7 @@ Le champ de vorticité est porté par une discrétisation particulaire $\mathcal
     \omega(x) = \sum_{p = 1}^{n_p} \Gamma_p \phi_\varepsilon(x - x_p)
 \end{equation*}
 
-La transformation $\Phi$ est une transformation qui s'applique sur la position des particules de la discrétisation, tel que $\omega_Phi$ le nouveau champ de vorticité est
+La transformation $\Phi$ est une transformation qui s'applique sur la position des particules de la discrétisation, tel que $\omega_\Phi$ le nouveau champ de vorticité est
 
 \begin{equation*}
     \omega_\Phi(x) = \sum_{p = 1}^{n_p} \Gamma_p \phi_\varepsilon(x - \Phi(x_p)).
@@ -72,6 +76,10 @@ Nous obtenons une fonctionnelle à minimiser à partir de la log vraissemblance 
     \mathcal L(\omega, \Phi) = \frac{1}{2}\norm{y - h(\omega_\Phi)}^2_{R^{-1}} + \frac{1}{2} \norm{\omega_{\Phi} - \omega^f}^2_{P(\Phi)^{-1}} + L(\Phi) - \frac{1}{2} \ln(|P(\Phi)|).
 \end{equation*}
 
+\begin{equation*}
+    \mathcal L(\omega, u) = \frac{1}{2}\norm{y - h(\omega_{\Phi(u)})}^2_{R^{-1}} + \frac{1}{2} \norm{\omega_{\Phi(u)} - \omega^f}^2_{P_{\Phi(u)}^{-1}} - \frac{1}{2} \ln(|P(\Phi(u))|) + \frac\lambda 2 \norm{u}^2_{P_u^{-1}} .
+\end{equation*}
+
 En plus de la formule variationnelle habituelle, on observe également le terme lié à la normalisation sur le prior des amplitudes.
 
 Comment dans Ravela 2007, plusieurs méthodes de résolution peuvent être proposées. Une première proposition est de proposer une formulation itérative. L'objectif est de fixer $P$ pour la mise à jour, et d'utiliser ensuite les membres pour mettre à jour cette matrice de covariance. $P^-$ est initialisée à 0 et on défini une nouvelle fonctionnelle
@@ -85,8 +93,8 @@ Celle-ci peut-être minimisée pour $(\omega, \Phi)$ simultanément. Nous propos
 On peut en déduire deux fonctions coût à minimiser
 
 \begin{align*}
-    \mathcal L(\Phi) = \frac{1}{2}\norm{y - h(\omega_\Phi)}^2_{R^{-1}} + L(\Phi) \\
-    \mathcal L(\omega) = \frac{1}{2}\norm{y - h(\omega_\Phi)}^2_{R^{-1}} + \frac{1}{2} \norm{\omega_{\Phi} - \omega^f}^2_{P(\Phi)^{-1}}
+    \mathcal L(\Phi)   & =  \frac{1}{2}\norm{y - h(\omega_\Phi)}^2_{R^{-1}} + L(\Phi)                                                      \\
+    \mathcal L(\omega) & =  \frac{1}{2}\norm{y - h(\omega_\Phi)}^2_{R^{-1}} + \frac{1}{2} \norm{\omega_{\Phi} - \omega^f}^2_{P(\Phi)^{-1}}
 \end{align*}
 
 \section{Correction dans le span des champs de vitesse des membres}
@@ -94,8 +102,12 @@ On peut en déduire deux fonctions coût à minimiser
 On cherche une transformation définie par l'intégration de la position d'un jeu de particule $\mathcal P = \{(x_p, \Gamma_p)\}$ par un champs de vitesse $u$ tel que
 
 \begin{eqnarray*}
-    x(t;u) &=& x_p + \int_{0}^{t} u(x(t')) \mathrm dt' \\
-    \tilde x_p &=& x(1; u).
+    x_p(t;u) &=& x_p^0 + \int_{0}^{t} u(x_p(t')) \mathrm dt' \\
+    \Phi(x_p^0, u) &=& x_p(t=1; u).
+\end{eqnarray*}
+
+\begin{eqnarray*}
+    \Phi(x_p, u)  &=& x_p + \int_{0}^{1} u(x_p(t)) \mathrm dt
 \end{eqnarray*}
 
 On souhaite identifier ce champ de vitesse tel que
@@ -173,7 +185,16 @@ Pour ce faire, on pourra résoudre le problème joint
 On souhaite tenir compte de notre prior dans la fonction coût. En effet, la fonction de coût de la posterior est la suivante
 
 \begin{equation*}
-    \mathcal L_a =  \frac12 \norm{u^{obs} - h_a(\{(x_p, \Gamma_p)\}; x_{obs}, a)}^2_{R^{-1}} + \lambda \frac{1}{2} \norm{u}^2_{P^+}.
+    \mathcal L_a =  \frac12 \norm{u^{obs} - h_a(\{(x_p, \Gamma_p)\}; x_{obs}, a)}^2_{R^{-1}} +  \frac{\lambda}{2} \norm{u}^2_{P^+}.
+\end{equation*}
+
+\begin{align*}
+    \mathcal L_u(u)           & =  \frac12 \norm{u^{obs} - h(\omega_{\Phi(u)})}^2_{R^{-1}} + \frac{\lambda}{2} \norm{u}^2_{P_u^{-1}}                          \\
+    \mathcal L_\omega(\omega) & =  \frac12 \norm{u^{obs} - h(\omega_{\Phi(u)})}^2_{R^{-1}} + \frac{1}{2} \norm{\omega_{\Phi} - \omega^f}^2_{P_{\Phi(u)}^{-1}}
+\end{align*}
+
+\begin{equation*}
+    \mathcal L_a(a)            =  \frac12 \norm{u^{obs} - h(\omega_{a})}^2_{R^{-1}} + \frac{\lambda}{2} \norm{a}^2_2
 \end{equation*}
 
 On a besoin d'introduire un paramètre $\lambda$ car l'intégration est réaliser sur un interval de temps fictif.
@@ -183,6 +204,8 @@ Avec la norme sur $u$ qui est
 \begin{eqnarray*}
     \norm{u}^2_{P^+} = \int_{\omega^2} u(x) P^+(x, x') u(x') \mathrm{d}x\mathrm{d}x' \\
 \end{eqnarray*}
+
+
 
 % Avec $P$ la pseudo-inverse de $P$. Or $P$ est défini à partir de l'ensemble même
 
