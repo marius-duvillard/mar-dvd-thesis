@@ -21,16 +21,16 @@
 \contentsline {section}{\numberline {2.5}Hypothèses et filtres}{11}{}%
 \contentsline {section}{\numberline {2.6}Filtre particulaire}{11}{}%
 \contentsline {section}{\numberline {2.7}Filtre de Kalman}{12}{}%
-\contentsline {subsection}{\numberline {2.7.1}Loïc redaction}{12}{}%
-\contentsline {subsection}{\numberline {2.7.2}My redaction}{13}{}%
-\contentsline {section}{\numberline {2.8}Méthodes Variationnelles d'ensemble}{14}{}%
-\contentsline {section}{\numberline {2.9}Estimation du maximum a posteriori}{14}{}%
-\contentsline {section}{\numberline {2.10}Méthodes de minimisation}{15}{}%
-\contentsline {section}{\numberline {2.11}Méthode 3DVar}{15}{}%
-\contentsline {section}{\numberline {2.12}Equivalence avec la mise à jour de Kalman}{15}{}%
-\contentsline {section}{\numberline {2.13}Filtre de Kalman d'Ensemble (EnKF)}{16}{}%
-\contentsline {section}{\numberline {2.14}Méthode variationnelle d'ensemble}{17}{}%
-\contentsline {section}{\numberline {2.15}Conclusion}{17}{}%
+\contentsline {section}{\numberline {2.8}Méthodes variationnelles}{13}{}%
+\contentsline {subsection}{\numberline {2.8.1}Estimation du maximum a posteriori}{13}{}%
+\contentsline {subsection}{\numberline {2.8.2}Méthodes de minimisation}{15}{}%
+\contentsline {subsection}{\numberline {2.8.3}Méthode 3DVar}{15}{}%
+\contentsline {section}{\numberline {2.9}Equivalence avec la mise à jour de Kalman}{15}{}%
+\contentsline {section}{\numberline {2.10}Filtre de Kalman d'Ensemble (EnKF)}{15}{}%
+\contentsline {section}{\numberline {2.11}Méthode variationnelle d'ensemble}{16}{}%
+\contentsline {subsection}{\numberline {2.11.1}Maximum de vraissemblance échantillonné}{16}{}%
+\contentsline {subsection}{\numberline {2.11.2}Méthode de faible rang}{17}{}%
+\contentsline {section}{\numberline {2.12}Conclusion}{17}{}%
 \contentsline {chapter}{\numberline {3}Simulation du tambour et Assimilation de données}{18}{}%
 \contentsline {section}{\numberline {3.1}Ecoulement granulaire dans un tambour en rotation}{18}{}%
 \contentsline {section}{\numberline {3.2}Méthode des éléments discrets (DEM)}{18}{}%

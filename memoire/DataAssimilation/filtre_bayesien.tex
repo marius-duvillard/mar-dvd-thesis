@@ -256,7 +256,7 @@ De telle sorte que la distribution conditionnelle de $\bm Y_{k+1}$ par $^{\mid k
     \bm P_{k+1} &=& \bV[\bm X^{\mid k}_{k+1} \mid \bm Y_{k+1}^{\mid k}] = \hat{\bm  P}_{k+1} - \bm C_{X,Y} \bm C_{Y,Y}^{-1} \bm C_{X,Y}^T.
 \end{eqnarray*}
 
-Ainsi la distribution a posteriori est définie comme un produit matriciel où l'estimateur a priori $\hat m_X$ et sa variance $\hat{\bm  P}_{k+1}$ sont mis à jour à partir du \texbf{gain de Kalman} $\bm K = \bm C_{X,Y} \bm C_{Y,Y}^{-1} $ et du \textbf{terme d'innovation} $(\bm y_{k+1} - m_Y)$ de telle sorte que les précédentes équations s'écrivent
+Ainsi la distribution a posteriori est définie comme un produit matriciel où l'estimateur a priori $\hat m_X$ et sa variance $\hat{\bm  P}_{k+1}$ sont mis à jour à partir du \textbf{gain de Kalman} $\bm K = \bm C_{X,Y} \bm C_{Y,Y}^{-1} $ et du \textbf{terme d'innovation} $(\bm y_{k+1} - m_Y)$ de telle sorte que les précédentes équations s'écrivent
 
 \begin{eqnarray*}
     m_X &=& \hat m_X + \bm K (\bm y_{k+1} - m_Y), \\
@@ -281,7 +281,7 @@ Finalement, on peut réécrire
 \end{algorithm}
 
 \section{Méthodes variationnelles}~\label{sec:variation}
-\section{Estimation du maximum a posteriori}
+\subsection{Estimation du maximum a posteriori}
 
 La distribution a posteriori précédemment définie permet dans un premier temps de pouvoir définir l'estimateur MAP (\textit{Maximum A Posteriori}). Il est la meilleure estimation de l'état connaissant les données mesurées. Il est défini comme
 
@@ -341,9 +341,9 @@ On peut aussi faire plusieurs remarques :
     \item Si l'opérateur d'observation $h$ est non linéaire alors, le problème n'est pas convexe et une méthode itérative de minimisation est souvent mis en place. Même dans le cas où $h$ est linéaire, le stockage de matrice de grande dimension peut encourager à utiliser ces méthodes itérative,
 \end{itemize}
 
-\section{Méthodes de minimisation}
+\subsection{Méthodes de minimisation}
 
-\section{Méthode 3DVar}
+\subsection{Méthode 3DVar}
 
 La méthode 3DVar est un cas particulier de l'équation précédente qui permet de résoudre le problème de minimisation de la solution itérative à faible coût. Elle consiste à supposer fixe et connu les matrices de covariance $\bP$ et $\bR$. Ainsi, la matrice Hessienne $\bm B$ est donnée par $\bP$
 

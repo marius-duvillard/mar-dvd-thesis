@@ -37,19 +37,61 @@ On réécrit la loi de Bayes avec cette information
 Pour les deux premiers termes on retrouve facilement la vraissemblance conditionnée par l'ébauche déformée c'est à dire $\Phi(\omega)$ qui est appliqué sur les coordonnées lagrangienne du champ.
 Le prior est également défini sur le champ déformé. Enfin il faut définir un prior pour $\Phi$. Ce terme est assez arbitraire. On veut simplement qu'il vérifie la condition d'un écoulement incompressible.
 
-% \section{Correction dans le span des fonctions de courant des membres}
+Le champ de vorticité est porté par une discrétisation particulaire $\mathcal P = \{(x_p, \Gamma_p)\}$ tel que pour tout $x \in \Omega$
 
-% On suppose que l'on veut résoudre le problème dans le span des fonctions courants courant de l'ensemble.
+\begin{equation*}
+    \omega(x) = \sum_{p = 1}^{n_p} \Gamma_p \phi_\varepsilon(x - x_p)
+\end{equation*}
 
-% Pour cela il suffit de supposer que la fonction courant de la correction $\hat \psi$ admet le prior $\mathcal N (\psi_0,  P_\psi)$ avec $\psi_0 = 0$ et $P_\phi =\frac{1}{N - 1}\sum (\psi_i - \bar \psi) (\psi_i - \bar \psi)^T$
+La transformation $\Phi$ est une transformation qui s'applique sur la position des particules de la discrétisation, tel que $\omega_Phi$ le nouveau champ de vorticité est
 
-% \begin{equation*}
-%     \mathcal L(\psi) = \norm{d_v - h_\psi(\psi; \omega_i)}^2_{R^{-1}} + \norm{\psi}^2_{P^{-1}_{\psi}}
-% \end{equation*}
+\begin{equation*}
+    \omega_\Phi(x) = \sum_{p = 1}^{n_p} \Gamma_p \phi_\varepsilon(x - \Phi(x_p)).
+\end{equation*}
+
+A partir de ces définitions, la distribution a posteriori peut être réécrite:
+
+\begin{itemize}
+    \item La vraissemblance devient alors
+          \begin{equation*}
+              p(y \mid \omega, \Phi) \propto \exp\left(-\frac{1}{2}\norm{y - h(\omega_\Phi)}^2_{R^{-1}}\right),
+          \end{equation*}où $R$ la matrice de covariance des observations ;
+    \item Le prior sur les amplitudes d'ébauche devient
+          \begin{equation*}
+              p(\omega \mid \Phi) \propto \frac{1}{\sqrt{|P(\Phi)|}} \exp\left(-\frac{1}{2} \norm{\omega_{\Phi} - \omega^f}^2_{P(\Phi)^{-1}}\right),
+          \end{equation*}où $P(\Phi)$ la matrice (ou fonction) de covariance de l'état après transformation.
+    \item finalement le prior sur le déplacement est défini
+          \begin{equation*}
+              p(\Phi) \propto \exp\left(-L(\Phi)\right),
+          \end{equation*}où $L$ est une fonction à définir.
+\end{itemize}
+
+Nous obtenons une fonctionnelle à minimiser à partir de la log vraissemblance tel que
+
+\begin{equation*}
+    \mathcal L(\omega, \Phi) = \frac{1}{2}\norm{y - h(\omega_\Phi)}^2_{R^{-1}} + \frac{1}{2} \norm{\omega_{\Phi} - \omega^f}^2_{P(\Phi)^{-1}} + L(\Phi) - \frac{1}{2} \ln(|P(\Phi)|).
+\end{equation*}
+
+En plus de la formule variationnelle habituelle, on observe également le terme lié à la normalisation sur le prior des amplitudes.
+
+Comment dans Ravela 2007, plusieurs méthodes de résolution peuvent être proposées. Une première proposition est de proposer une formulation itérative. L'objectif est de fixer $P$ pour la mise à jour, et d'utiliser ensuite les membres pour mettre à jour cette matrice de covariance. $P^-$ est initialisée à 0 et on défini une nouvelle fonctionnelle
+
+\begin{equation*}
+    \mathcal L(\omega, \Phi \mid \Phi^-) = \frac{1}{2}\norm{y - h(\omega_\Phi)}^2_{R^{-1}} + \frac{1}{2} \norm{\omega_{\Phi} - \omega^f}^2_{P(\Phi^-)^{-1}} + L(\Phi) - \frac{1}{2} \ln(|P(\Phi^-)|).
+\end{equation*}
+
+Celle-ci peut-être minimisée pour $(\omega, \Phi)$ simultanément. Nous proposons de séparer l'étape d'alignement et de correction des intensitées. Pour cela, nous faisons une approximation en utilisant les équations d'Euler-Lagrange.
+
+On peut en déduire deux fonctions coût à minimiser
+
+\begin{align*}
+    \mathcal L(\Phi) = \frac{1}{2}\norm{y - h(\omega_\Phi)}^2_{R^{-1}} + L(\Phi) \\
+    \mathcal L(\omega) = \frac{1}{2}\norm{y - h(\omega_\Phi)}^2_{R^{-1}} + \frac{1}{2} \norm{\omega_{\Phi} - \omega^f}^2_{P(\Phi)^{-1}}
+\end{align*}
 
 \section{Correction dans le span des champs de vitesse des membres}
 
-On cherche une transformation définie par l'intégration de la position d'un jeu de particule $P = \{(x_p, \Gamma_p)\}$ par un champs de vitesse $u$ tel que
+On cherche une transformation définie par l'intégration de la position d'un jeu de particule $\mathcal P = \{(x_p, \Gamma_p)\}$ par un champs de vitesse $u$ tel que
 
 \begin{eqnarray*}
     x(t;u) &=& x_p + \int_{0}^{t} u(x(t')) \mathrm dt' \\

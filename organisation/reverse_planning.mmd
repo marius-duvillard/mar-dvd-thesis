@@ -5,11 +5,14 @@ gantt
     axisFormat %d-%m
     section Article
         Fin app2d: done, a0, 01-01-2024,30d
-        Correction Background/Method: active,a1, 15-02-2024, 5d
-        Correction appl:a2,after a1, 15d
+        Correction Background/Method: done,a1, 15-02-2024, 5d
+        Correction appl:done,a2,after a1, 21d
+        Révision: after a2, 60d
+        Article 2: after a5, 160d 
+
     section Dvpt  
-        Bibliographie: active, 01-01-2024, 20-02-2024
-        Align Part Filter: after a2, 300d
+        Bibliographie: done,d1, 01-01-2024, 20-02-2024
+        Align Part Filter: after d1, 310d
     section Formation
         Rédiger Thèse: f1, 19-03-2024,21-03-2024
     section Conf./Pr.
@@ -18,13 +21,13 @@ gantt
         Presentation EC.: p3, 15-05-2024, 03-06-2024
         ECCOMAS: crit, 03-06-2024, 5d
         Café Thésard: crit, 28-06-2024, 1d
+        Soutenance ?: crit, 01-12-2024, 31-12-2024
     section Manuscrit
-        part. Intro:a4,after p3, 30d
-        part. I: a5,after a4, 45d
-        part. II: after a5, 75d
+        part. Intro:a4, 01-03-2024, 80d
+        part. I: a5,after a4, 60d
+        part. II: after a5, 100d
     section Admin.
-        Fin de contract: crit, 01-10-2024,0.5d
         Dépôt du manuscrit: crit, 01-11-2024, 0.5d
-        Fin Prolongation: crit, 31-12-2024, 0.5d
+        Fin de contract: crit, 31-12-2024,0.5d
 
 
