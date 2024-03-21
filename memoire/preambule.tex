@@ -23,6 +23,7 @@
 \usepackage[vlined, french, onelanguage]{algorithm2e}
 \setlength{\columnseprule}{0pt}
 \setlength\columnsep{10pt}
+\usepackage[most]{tcolorbox}
 
 
 \definecolor{mycustomcolor}{RGB}{128, 0, 128}
@@ -44,7 +45,25 @@
 \newcommand{\bK}{\bm{K}}
 
 \DeclareMathOperator{\Tr}{Tr}
+\usepackage[most]{tcolorbox}
 
+% Définition du modèle "boite1"
+\newtcolorbox{ObjectifChap}[1][]{
+    colback=blue!5!white,
+    colframe=blue!75!black,
+    fonttitle=\bfseries,
+    title=Boîte 1,
+    #1
+}
+
+% Définition du modèle "boite2"
+\newtcolorbox[auto counter]{BilanChap}[1][]{
+    colback=red!5!white,
+    colframe=red!75!black,
+    fonttitle=\bfseries,
+    title=Boîte \thetcbcounter,
+    #1
+}
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 
 \usepackage[french]{babel}
