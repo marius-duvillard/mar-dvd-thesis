@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="-Wbh808NGCvlv8KtwM4s" name="global">
-        <mxGraphModel dx="2191" dy="964" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="2573" dy="914" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -54,134 +54,252 @@
         </mxGraphModel>
     </diagram>
     <diagram id="gfkiGDN14ppHE5cRoj3X" name="Introduction">
-        <mxGraphModel dx="1517" dy="668" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1155" dy="1133" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
+                <UserObject label="Introduction est constituée de:&lt;br&gt;- Contexte&lt;br&gt;- Problématique générale&lt;br&gt;- Limite: conséquence négative&lt;br&gt;&lt;br&gt;- Un bilan des connaissance avant la thèse et des limites&amp;nbsp;&lt;br&gt;Une annonce du plan de la démarche&lt;br&gt;&lt;br&gt;Une ébauche dans le document &lt;a href=&quot;C:\Users\md266594\mar-dvd-thesis\formations\rediger\Introduction.docx&quot;&gt;ici&lt;/a&gt;" link="C:\Users\md266594\mar-dvd-thesis\formations\rediger\Introduction.docx" linkTarget="_blank" id="nXsRlehkE_6W33EU3XK9-1">
+                    <mxCell style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="560" height="130" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="1r-p59meHmWD1ErGJYV--2" value="Contexte" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="120" y="250" width="760" height="360" as="geometry"/>
+                </mxCell>
+                <mxCell id="1r-p59meHmWD1ErGJYV--3" value="Dans le cas du procédé MiMas, les poudres, qui constituent le futur combustible MOX, sont mises en forme à travers des opérations de broyage (mélange primaire) et de mélange (mélange secondaire). Ces deux étapes ont pour but de réduire la taille des grains et de les mélanger afin d’assurer une homogénéité de répartition du plutonium acceptable à l’issue du mélange secondaire. (giraud)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1r-p59meHmWD1ErGJYV--2">
+                    <mxGeometry x="30" y="30" width="570" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="1r-p59meHmWD1ErGJYV--6" value="" style="edgeStyle=none;html=1;" edge="1" parent="1r-p59meHmWD1ErGJYV--2" source="1r-p59meHmWD1ErGJYV--4" target="1r-p59meHmWD1ErGJYV--5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="1r-p59meHmWD1ErGJYV--4" value="- but réduire la taille grains et mélange&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1r-p59meHmWD1ErGJYV--2">
+                    <mxGeometry x="30" y="140" width="180" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="1r-p59meHmWD1ErGJYV--8" value="" style="edgeStyle=none;html=1;" edge="1" parent="1r-p59meHmWD1ErGJYV--2" source="1r-p59meHmWD1ErGJYV--5" target="1r-p59meHmWD1ErGJYV--7">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="1r-p59meHmWD1ErGJYV--5" value="Afin d'assurer mélange et répartition du plutonium acceptable" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1r-p59meHmWD1ErGJYV--2">
+                    <mxGeometry x="320" y="135" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="1r-p59meHmWD1ErGJYV--7" value="" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1r-p59meHmWD1ErGJYV--2">
+                    <mxGeometry x="520" y="135" width="120" height="60" as="geometry"/>
+                </mxCell>
             </root>
         </mxGraphModel>
     </diagram>
     <diagram id="G0T9hzaRb7ppQT6BmBIn" name="Etat de l'art">
-        <mxGraphModel dx="2799" dy="868" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1982" dy="1133" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-33" value="" style="swimlane;startSize=0;" vertex="1" collapsed="1" parent="1">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-33" value="" style="swimlane;startSize=0;" parent="1" vertex="1" collapsed="1">
                     <mxGeometry x="200" y="10" width="50" height="40" as="geometry">
                         <mxRectangle x="200" y="10" width="1020" height="710" as="alternateBounds"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-34" value="Obj : Car dans&amp;nbsp; ma thèse je me suis iinteressé à construire un Jumeau Numérique à partir de méthodes d'assimilation. Dans ce chapitre je présente les éléments qui ont été utilisé dans ma démarche." style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-33">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-34" value="Obj : Car dans&amp;nbsp; ma thèse je me suis iinteressé à construire un Jumeau Numérique à partir de méthodes d'assimilation. Dans ce chapitre je présente les éléments qui ont été utilisé dans ma démarche." style="rounded=1;whiteSpace=wrap;html=1;" parent="g0lMUN2PSw8VoyribdKN-33" vertex="1">
                     <mxGeometry x="10" y="630" width="630" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-2" value="Méthodes d'assimilation" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-33">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-2" value="Méthodes d'assimilation" style="rounded=0;whiteSpace=wrap;html=1;" parent="g0lMUN2PSw8VoyribdKN-33" vertex="1">
                     <mxGeometry x="40" y="215" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-4" value="les hypothèses" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-33">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-4" value="les hypothèses" style="whiteSpace=wrap;html=1;rounded=0;" parent="g0lMUN2PSw8VoyribdKN-33" vertex="1">
                     <mxGeometry x="170" y="75" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-5" value="" style="edgeStyle=none;html=1;" edge="1" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-2" target="g0lMUN2PSw8VoyribdKN-4">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-5" value="" style="edgeStyle=none;html=1;" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-2" target="g0lMUN2PSw8VoyribdKN-4" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-7" value="Les filtres séquentiels" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-33">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-7" value="Les filtres séquentiels" style="whiteSpace=wrap;html=1;rounded=0;" parent="g0lMUN2PSw8VoyribdKN-33" vertex="1">
                     <mxGeometry x="250" y="185" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-8" value="" style="edgeStyle=none;html=1;" edge="1" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-2" target="g0lMUN2PSw8VoyribdKN-7">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-8" value="" style="edgeStyle=none;html=1;" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-2" target="g0lMUN2PSw8VoyribdKN-7" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-10" value="Les filtres variationnels" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-33">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-10" value="Les filtres variationnels" style="whiteSpace=wrap;html=1;rounded=0;" parent="g0lMUN2PSw8VoyribdKN-33" vertex="1">
                     <mxGeometry x="220" y="315" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-11" value="" style="edgeStyle=none;html=1;" edge="1" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-2" target="g0lMUN2PSw8VoyribdKN-10">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-11" value="" style="edgeStyle=none;html=1;" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-2" target="g0lMUN2PSw8VoyribdKN-10" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-12" value="MAP" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-33">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-12" value="MAP" style="whiteSpace=wrap;html=1;rounded=0;" parent="g0lMUN2PSw8VoyribdKN-33" vertex="1">
                     <mxGeometry x="420" y="305" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-13" value="" style="edgeStyle=none;html=1;" edge="1" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-10" target="g0lMUN2PSw8VoyribdKN-12">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-13" value="" style="edgeStyle=none;html=1;" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-10" target="g0lMUN2PSw8VoyribdKN-12" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-15" value="filtre de Kalman" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-33">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-15" value="filtre de Kalman" style="whiteSpace=wrap;html=1;rounded=0;" parent="g0lMUN2PSw8VoyribdKN-33" vertex="1">
                     <mxGeometry x="430" y="145" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-16" value="" style="edgeStyle=none;html=1;" edge="1" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-7" target="g0lMUN2PSw8VoyribdKN-15">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-16" value="" style="edgeStyle=none;html=1;" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-7" target="g0lMUN2PSw8VoyribdKN-15" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-17" value="Filtre particulaire" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-33">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-17" value="Filtre particulaire" style="whiteSpace=wrap;html=1;rounded=0;" parent="g0lMUN2PSw8VoyribdKN-33" vertex="1">
                     <mxGeometry x="380" y="25" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-18" value="" style="edgeStyle=none;html=1;" edge="1" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-7" target="g0lMUN2PSw8VoyribdKN-17">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-18" value="" style="edgeStyle=none;html=1;" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-7" target="g0lMUN2PSw8VoyribdKN-17" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-21" value="RML" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-33">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-21" value="RML" style="whiteSpace=wrap;html=1;rounded=0;" parent="g0lMUN2PSw8VoyribdKN-33" vertex="1">
                     <mxGeometry x="360" y="405" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-22" value="" style="edgeStyle=none;html=1;" edge="1" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-10" target="g0lMUN2PSw8VoyribdKN-21">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-22" value="" style="edgeStyle=none;html=1;" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-10" target="g0lMUN2PSw8VoyribdKN-21" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-23" value="EnsVar" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-33">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-23" value="EnsVar" style="whiteSpace=wrap;html=1;rounded=0;" parent="g0lMUN2PSw8VoyribdKN-33" vertex="1">
                     <mxGeometry x="560" y="405" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-24" value="" style="edgeStyle=none;html=1;" edge="1" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-21" target="g0lMUN2PSw8VoyribdKN-23">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-24" value="" style="edgeStyle=none;html=1;" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-21" target="g0lMUN2PSw8VoyribdKN-23" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-25" value="3DVar / 4DVar" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-33">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-25" value="3DVar / 4DVar" style="whiteSpace=wrap;html=1;rounded=0;" parent="g0lMUN2PSw8VoyribdKN-33" vertex="1">
                     <mxGeometry x="620" y="305" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-26" value="" style="edgeStyle=none;html=1;" edge="1" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-12" target="g0lMUN2PSw8VoyribdKN-25">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-26" value="" style="edgeStyle=none;html=1;" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-12" target="g0lMUN2PSw8VoyribdKN-25" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-31" value="EnKF" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-33">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-31" value="EnKF" style="whiteSpace=wrap;html=1;rounded=0;" parent="g0lMUN2PSw8VoyribdKN-33" vertex="1">
                     <mxGeometry x="630" y="145" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-32" value="" style="edgeStyle=none;html=1;" edge="1" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-15" target="g0lMUN2PSw8VoyribdKN-31">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-32" value="" style="edgeStyle=none;html=1;" parent="g0lMUN2PSw8VoyribdKN-33" source="g0lMUN2PSw8VoyribdKN-15" target="g0lMUN2PSw8VoyribdKN-31" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-35" value="" style="swimlane;startSize=0;" vertex="1" collapsed="1" parent="1">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-35" value="" style="swimlane;startSize=0;" parent="1" vertex="1" collapsed="1">
                     <mxGeometry x="-20" y="10" width="50" height="40" as="geometry">
                         <mxRectangle x="-20" y="10" width="360" height="310" as="alternateBounds"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-1" value="Mesures sur Broyeur" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-35">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-1" value="Mesures sur Broyeur" style="rounded=0;whiteSpace=wrap;html=1;" parent="g0lMUN2PSw8VoyribdKN-35" vertex="1">
                     <mxGeometry x="40" y="50" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-36" value="Dans ce focus, je montre les différentes techniques de mesures sur un broyeur à boulets. Je présente cela pour dire qu'elles types de données peuvent être disponible" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-35">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-36" value="Dans ce focus, je montre les différentes techniques de mesures sur un broyeur à boulets. Je présente cela pour dire qu'elles types de données peuvent être disponible" style="rounded=1;whiteSpace=wrap;html=1;" parent="g0lMUN2PSw8VoyribdKN-35" vertex="1">
                     <mxGeometry x="11" y="240" width="340" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-38" value="" style="swimlane;startSize=0;" vertex="1" parent="1">
-                    <mxGeometry x="-430" y="140" width="870" height="415" as="geometry">
-                        <mxRectangle x="-80" y="230" width="50" height="40" as="alternateBounds"/>
+                <mxCell id="g0lMUN2PSw8VoyribdKN-38" value="" style="swimlane;startSize=0;" parent="1" vertex="1" collapsed="1">
+                    <mxGeometry x="-430" y="140" width="50" height="40" as="geometry">
+                        <mxRectangle x="-430" y="140" width="870" height="415" as="alternateBounds"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-42" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="g0lMUN2PSw8VoyribdKN-38" source="g0lMUN2PSw8VoyribdKN-3" target="g0lMUN2PSw8VoyribdKN-40">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-42" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="g0lMUN2PSw8VoyribdKN-38" source="g0lMUN2PSw8VoyribdKN-3" target="g0lMUN2PSw8VoyribdKN-40" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-45" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="g0lMUN2PSw8VoyribdKN-38" source="g0lMUN2PSw8VoyribdKN-3" target="g0lMUN2PSw8VoyribdKN-44">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-45" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="g0lMUN2PSw8VoyribdKN-38" source="g0lMUN2PSw8VoyribdKN-3" target="g0lMUN2PSw8VoyribdKN-44" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-48" value="" style="edgeStyle=none;html=1;" edge="1" parent="g0lMUN2PSw8VoyribdKN-38" source="g0lMUN2PSw8VoyribdKN-3" target="g0lMUN2PSw8VoyribdKN-47">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-48" value="" style="edgeStyle=none;html=1;" parent="g0lMUN2PSw8VoyribdKN-38" source="g0lMUN2PSw8VoyribdKN-3" target="g0lMUN2PSw8VoyribdKN-47" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-3" value="Simulation du broyeur" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-38">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-3" value="Simulation du broyeur" style="rounded=0;whiteSpace=wrap;html=1;" parent="g0lMUN2PSw8VoyribdKN-38" vertex="1">
                     <mxGeometry x="20" y="50" width="110" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-39" value="Obj: Montrer les méthodes de simulation du broyeur à boulets.&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-38">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-39" value="Obj: Montrer les méthodes de simulation du broyeur à boulets.&amp;nbsp;" style="rounded=1;whiteSpace=wrap;html=1;" parent="g0lMUN2PSw8VoyribdKN-38" vertex="1">
                     <mxGeometry x="10" y="350" width="765" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-40" value="Articles qui ont simulé le broyeur&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-38">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-40" value="Articles qui ont simulé le broyeur&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;" parent="g0lMUN2PSw8VoyribdKN-38" vertex="1">
                     <mxGeometry x="200" y="15" width="201" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-44" value="Méthodes DEM" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-38">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-44" value="Méthodes DEM" style="rounded=1;whiteSpace=wrap;html=1;" parent="g0lMUN2PSw8VoyribdKN-38" vertex="1">
                     <mxGeometry x="250" y="190" width="140" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="g0lMUN2PSw8VoyribdKN-47" value="Simulation du broyeur" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="g0lMUN2PSw8VoyribdKN-38">
+                <mxCell id="g0lMUN2PSw8VoyribdKN-47" value="Simulation du broyeur" style="rounded=0;whiteSpace=wrap;html=1;" parent="g0lMUN2PSw8VoyribdKN-38" vertex="1">
                     <mxGeometry x="270" y="110" width="110" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-1" value="Contexte industriel" style="swimlane;" vertex="1" parent="1">
+                    <mxGeometry x="-610" y="230" width="1040" height="600" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-5" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="yoyfnoxFVBS_DwoDerNp-1" source="yoyfnoxFVBS_DwoDerNp-3" target="yoyfnoxFVBS_DwoDerNp-4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-7" value="" style="edgeStyle=none;html=1;" edge="1" parent="yoyfnoxFVBS_DwoDerNp-1" source="yoyfnoxFVBS_DwoDerNp-3" target="yoyfnoxFVBS_DwoDerNp-6">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-3" value="Intérêt du nucléaire pour la société et le climat" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="yoyfnoxFVBS_DwoDerNp-1">
+                    <mxGeometry x="50" y="50" width="230" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-31" value="" style="edgeStyle=none;html=1;" edge="1" parent="yoyfnoxFVBS_DwoDerNp-1" source="yoyfnoxFVBS_DwoDerNp-4" target="yoyfnoxFVBS_DwoDerNp-30">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-4" value="Présentation du combustible" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="yoyfnoxFVBS_DwoDerNp-1">
+                    <mxGeometry x="80" y="280" width="170" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-9" value="" style="edgeStyle=none;html=1;" edge="1" parent="yoyfnoxFVBS_DwoDerNp-1" source="yoyfnoxFVBS_DwoDerNp-6" target="yoyfnoxFVBS_DwoDerNp-8">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-6" value="parc important" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="yoyfnoxFVBS_DwoDerNp-1">
+                    <mxGeometry x="410" y="40" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-8" value="Faible émission par kWh" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="yoyfnoxFVBS_DwoDerNp-1">
+                    <mxGeometry x="615" y="45" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-12" value="objectif 2° accord de Paris" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="yoyfnoxFVBS_DwoDerNp-1">
+                    <mxGeometry x="495" y="120" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-10" style="edgeStyle=none;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="yoyfnoxFVBS_DwoDerNp-1" source="yoyfnoxFVBS_DwoDerNp-3" target="yoyfnoxFVBS_DwoDerNp-12">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="380" y="120" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-20" value="" style="edgeStyle=none;html=1;" edge="1" parent="yoyfnoxFVBS_DwoDerNp-1" source="yoyfnoxFVBS_DwoDerNp-16" target="yoyfnoxFVBS_DwoDerNp-19">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-16" value="enjeux de la fermeture du cycle" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="yoyfnoxFVBS_DwoDerNp-1">
+                    <mxGeometry x="280" y="130" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-14" style="edgeStyle=none;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="yoyfnoxFVBS_DwoDerNp-1" source="yoyfnoxFVBS_DwoDerNp-3" target="yoyfnoxFVBS_DwoDerNp-16">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="293.3333333333335" y="120" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-22" value="" style="edgeStyle=none;html=1;" edge="1" parent="yoyfnoxFVBS_DwoDerNp-1" source="yoyfnoxFVBS_DwoDerNp-19" target="yoyfnoxFVBS_DwoDerNp-21">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-19" value="gestion des déchets" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="yoyfnoxFVBS_DwoDerNp-1">
+                    <mxGeometry x="520" y="210" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-24" value="" style="edgeStyle=none;html=1;" edge="1" parent="yoyfnoxFVBS_DwoDerNp-1" source="yoyfnoxFVBS_DwoDerNp-21" target="yoyfnoxFVBS_DwoDerNp-23">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-21" value="enjeux du MOX voir giraud" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="yoyfnoxFVBS_DwoDerNp-1">
+                    <mxGeometry x="720" y="210" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-23" value="réduire consommation et importation d'uranium fossile" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="yoyfnoxFVBS_DwoDerNp-1">
+                    <mxGeometry x="920" y="210" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-26" value="Rédurie la quantité de déchets radioactifs à entreposer" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="yoyfnoxFVBS_DwoDerNp-1">
+                    <mxGeometry x="904" y="295" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-25" style="edgeStyle=none;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="yoyfnoxFVBS_DwoDerNp-1" source="yoyfnoxFVBS_DwoDerNp-21" target="yoyfnoxFVBS_DwoDerNp-26">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="900" y="310" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-28" value="Utilisation complète à terme dans les RNR" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="yoyfnoxFVBS_DwoDerNp-1">
+                    <mxGeometry x="770" y="340" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-27" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="yoyfnoxFVBS_DwoDerNp-1" source="yoyfnoxFVBS_DwoDerNp-21" target="yoyfnoxFVBS_DwoDerNp-28">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="840" y="340" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-33" value="" style="edgeStyle=none;html=1;" edge="1" parent="yoyfnoxFVBS_DwoDerNp-1" source="yoyfnoxFVBS_DwoDerNp-30" target="yoyfnoxFVBS_DwoDerNp-32">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-35" value="" style="edgeStyle=none;html=1;" edge="1" parent="yoyfnoxFVBS_DwoDerNp-1" source="yoyfnoxFVBS_DwoDerNp-30" target="yoyfnoxFVBS_DwoDerNp-34">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-30" value="présentation du processus de fabrication" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="yoyfnoxFVBS_DwoDerNp-1">
+                    <mxGeometry x="105" y="400" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-32" value="Présentation de MELOX" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="yoyfnoxFVBS_DwoDerNp-1">
+                    <mxGeometry x="305" y="400" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="yoyfnoxFVBS_DwoDerNp-34" value="Enjeux du broyage&lt;br&gt;(à mettre dans l'intro)" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="yoyfnoxFVBS_DwoDerNp-1">
+                    <mxGeometry x="105" y="490" width="120" height="60" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
     </diagram>
     <diagram id="ws8cjvnElxCi8fcKBXkF" name="Demarche">
-        <mxGraphModel dx="986" dy="434" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1680" dy="1647" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -229,7 +347,9 @@
                     <mxGeometry y="138" width="160" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="rg9mqJWHS2C8uoyC0Jkn-66" value="Address" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
-                    <mxGeometry x="1081" y="220" width="160" height="104" as="geometry"/>
+                    <mxGeometry x="1081" y="220" width="160" height="104" as="geometry">
+                        <mxRectangle x="1081" y="220" width="90" height="30" as="alternateBounds"/>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="rg9mqJWHS2C8uoyC0Jkn-67" value="-street: String" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="rg9mqJWHS2C8uoyC0Jkn-66" vertex="1">
                     <mxGeometry y="26" width="160" height="26" as="geometry"/>
@@ -243,34 +363,67 @@
             </root>
         </mxGraphModel>
     </diagram>
-    <diagram id="Da4gG7T3ZDBj81qUEMXR" name="Discussion">
-        <mxGraphModel dx="986" dy="434" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <diagram id="Da4gG7T3ZDBj81qUEMXR" name="Discussion/Perspectives">
+        <mxGraphModel dx="2346" dy="914" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="BZm6Uo20xpNTS0yYNTVB-1" value="Discussion = Analyse critique de l'étude&lt;br&gt;&lt;br&gt;[R1] : a permis de .... // à d'autre W&lt;br&gt;puis limites // à d'autre W&lt;br&gt;[R2] : ...&lt;br&gt;[R3] : ..." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-                    <mxGeometry x="10" y="10" width="330" height="110" as="geometry"/>
+                <mxCell id="BZm6Uo20xpNTS0yYNTVB-1" value="Discussion = Analyse critique de l'étude&lt;br&gt;&lt;br&gt;[R1] : a permis de .... // à d'autre W&lt;br&gt;puis limites // à d'autre W&lt;br&gt;[R2] : ...&lt;br&gt;[R3] : ..." style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="20" y="20" width="330" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="bs2Yl5lETGmGiZELXrjx-3" value="" style="edgeStyle=none;html=1;" parent="1" source="bs2Yl5lETGmGiZELXrjx-1" target="bs2Yl5lETGmGiZELXrjx-2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="bs2Yl5lETGmGiZELXrjx-1" value="Perspective 1: adaptation à MPM --&amp;gt; après R1 et R2" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="160" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="bs2Yl5lETGmGiZELXrjx-6" style="edgeStyle=none;html=1;" parent="1" source="bs2Yl5lETGmGiZELXrjx-2" target="bs2Yl5lETGmGiZELXrjx-5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="bs2Yl5lETGmGiZELXrjx-2" value="Limite à cas scalaire" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="650" y="160" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="bs2Yl5lETGmGiZELXrjx-8" value="" style="edgeStyle=none;html=1;" parent="1" source="bs2Yl5lETGmGiZELXrjx-5" target="bs2Yl5lETGmGiZELXrjx-7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="bs2Yl5lETGmGiZELXrjx-5" value="Extension au cas de champs vectoriser&amp;nbsp;" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="670" y="260" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="bs2Yl5lETGmGiZELXrjx-10" value="" style="edgeStyle=none;html=1;" parent="1" source="bs2Yl5lETGmGiZELXrjx-7" target="bs2Yl5lETGmGiZELXrjx-9" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="bs2Yl5lETGmGiZELXrjx-7" value="Reprendre les formulations du Chapitre 1" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="670" y="360" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="bs2Yl5lETGmGiZELXrjx-12" style="edgeStyle=none;html=1;" parent="1" source="bs2Yl5lETGmGiZELXrjx-9" target="bs2Yl5lETGmGiZELXrjx-11" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="bs2Yl5lETGmGiZELXrjx-9" value="Appliquer à un problème MPM" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="810" y="350" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="bs2Yl5lETGmGiZELXrjx-11" value="Ecrire le problème et décrire les champs à mettre à jour" style="whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="820" y="260" width="120" height="60" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
     </diagram>
     <diagram id="pEChLGVvKbOHm6h8Zc4N" name="Conclusion">
-        <mxGraphModel dx="1409" dy="620" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="2346" dy="914" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="1XoJorRMiS2a0WBbfnWw-1" value="On doit présenter les résultats important puis une perspective&lt;br&gt;&lt;br&gt;&quot;Cette étude met en évidence X résultats principaux&quot;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="1XoJorRMiS2a0WBbfnWw-1" value="On doit présenter les résultats important puis une perspective&lt;br&gt;&lt;br&gt;&quot;Cette étude met en évidence X résultats principaux&quot;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="10" y="10" width="420" height="60" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
     </diagram>
     <diagram id="nkZubDNrmC0rcS4GuCKp" name="résumé général">
-        <mxGraphModel dx="1160" dy="511" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="2346" dy="914" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="Vme3VbUHFHQ8wzf5R5Lk-3" value="Domaine: cette étude s'inscrit dans le domaine&lt;br&gt;Elle consiste à ...&lt;br&gt;L'objectif 1 a d'abord été (Obj1) puis cela a été (Obj2) et enfin...&lt;br&gt;Elle a permis [R1], [R2], [R3]&lt;br&gt;Perspective" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="Vme3VbUHFHQ8wzf5R5Lk-3" value="Domaine: cette étude s'inscrit dans le domaine&lt;br&gt;Elle consiste à ...&lt;br&gt;L'objectif 1 a d'abord été (Obj1) puis cela a été (Obj2) et enfin...&lt;br&gt;Elle a permis [R1], [R2], [R3]&lt;br&gt;Perspective" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="10" y="10" width="500" height="120" as="geometry"/>
                 </mxCell>
             </root>
