@@ -1,44 +1,49 @@
 \babel@toc {french}{}\relax 
 \contentsline {chapter}{\numberline {1}Introduction}{3}{}%
-\contentsline {section}{\numberline {1.1}Contexte industriel}{3}{}%
+\contentsline {paragraph}{energie et broyage}{3}{}%
+\contentsline {paragraph}{Sur le broyage sa définition}{3}{}%
+\contentsline {paragraph}{Sur les appareils de broyage, la comprehension de la physique et le choix des paramètres de contrôle}{3}{}%
+\contentsline {paragraph}{Trouver la même chose sur la coulabilité ? Le mélange chez Giraud ?}{3}{}%
+\contentsline {paragraph}{crucial stage of nuclear fuel manufacture and recycling: the nuclear powders grinding inside ball mills}{3}{}%
+\contentsline {section}{\numberline {1.1}Contexte industriel}{4}{}%
 \contentsline {subsection}{\numberline {1.1.1}Le combustible Nucléaire}{4}{}%
 \contentsline {subsection}{\numberline {1.1.2}La fabrication du combustible}{4}{}%
 \contentsline {subsubsection}{Broyeur à boulets}{4}{}%
-\contentsline {section}{\numberline {1.2}Données mesurées}{4}{}%
-\contentsline {section}{\numberline {1.3}Jumeau Numérique}{5}{}%
-\contentsline {subsection}{\numberline {1.3.1}Apport du jumeau numérique pour le broyeur à boulet}{5}{}%
-\contentsline {subsection}{\numberline {1.3.2}Défis associés à la construction du jumeau numérique}{5}{}%
-\contentsline {section}{\numberline {1.4}Objectif}{6}{}%
-\contentsline {chapter}{\numberline {2}Assimilation de Données}{7}{}%
-\contentsline {section}{\numberline {2.1}Introduction}{7}{}%
-\contentsline {section}{\numberline {2.2}Définition du problème}{7}{}%
-\contentsline {subsection}{\numberline {2.2.1}Définition de l'état}{7}{}%
-\contentsline {subsection}{\numberline {2.2.2}Définition des obervations}{8}{}%
-\contentsline {subsection}{\numberline {2.2.3}Inférence Bayésienne récursive}{8}{}%
-\contentsline {subsection}{\numberline {2.2.4}Estimation des paramètres du modèle par augmentation de l'état}{9}{}%
-\contentsline {section}{\numberline {2.3}Filtrage bayésien}{10}{}%
-\contentsline {section}{\numberline {2.4}Propagation}{10}{}%
-\contentsline {section}{\numberline {2.5}Hypothèses et filtres}{11}{}%
-\contentsline {section}{\numberline {2.6}Filtre particulaire}{11}{}%
-\contentsline {section}{\numberline {2.7}Filtre de Kalman}{12}{}%
-\contentsline {section}{\numberline {2.8}Méthodes variationnelles}{13}{}%
-\contentsline {subsection}{\numberline {2.8.1}Estimation du maximum a posteriori}{13}{}%
-\contentsline {subsection}{\numberline {2.8.2}Méthodes de minimisation}{15}{}%
-\contentsline {subsection}{\numberline {2.8.3}Méthode 3DVar}{15}{}%
-\contentsline {section}{\numberline {2.9}Equivalence avec la mise à jour de Kalman}{15}{}%
-\contentsline {section}{\numberline {2.10}Filtre de Kalman d'Ensemble (EnKF)}{15}{}%
-\contentsline {section}{\numberline {2.11}Méthode variationnelle d'ensemble}{16}{}%
-\contentsline {subsection}{\numberline {2.11.1}Maximum de vraissemblance échantillonné}{16}{}%
-\contentsline {subsection}{\numberline {2.11.2}Méthode de faible rang}{17}{}%
-\contentsline {section}{\numberline {2.12}Conclusion}{17}{}%
-\contentsline {chapter}{\numberline {3}Simulation du tambour et Assimilation de données}{18}{}%
-\contentsline {section}{\numberline {3.1}Ecoulement granulaire dans un tambour en rotation}{18}{}%
-\contentsline {section}{\numberline {3.2}Méthode des éléments discrets (DEM)}{18}{}%
-\contentsline {subsection}{\numberline {3.2.1}DEM et la DA}{19}{}%
-\contentsline {subsubsection}{Limites de la DEM avec les méthodes variationnelles}{19}{}%
-\contentsline {subsubsection}{Limites de la DEM avec EnKF}{19}{}%
-\contentsline {section}{\numberline {3.3}Méthode des points matériaux (material point method, MPM)}{19}{}%
-\contentsline {subsection}{\numberline {3.3.1}La MPM et la DA}{20}{}%
-\contentsline {subsubsection}{MPM et méthodes variationnelles}{20}{}%
-\contentsline {subsubsection}{MPM et EnKF}{20}{}%
-\contentsline {section}{\numberline {3.4}Vortex-In-Cell : un modèle grille-particules simplifié}{20}{}%
+\contentsline {section}{\numberline {1.2}Données mesurées}{5}{}%
+\contentsline {section}{\numberline {1.3}Jumeau Numérique}{6}{}%
+\contentsline {subsection}{\numberline {1.3.1}Apport du jumeau numérique pour le broyeur à boulet}{6}{}%
+\contentsline {subsection}{\numberline {1.3.2}Défis associés à la construction du jumeau numérique}{6}{}%
+\contentsline {section}{\numberline {1.4}Objectif}{7}{}%
+\contentsline {chapter}{\numberline {2}Assimilation de Données}{8}{}%
+\contentsline {section}{\numberline {2.1}Introduction}{8}{}%
+\contentsline {section}{\numberline {2.2}Définition du problème}{8}{}%
+\contentsline {subsection}{\numberline {2.2.1}Définition de l'état}{8}{}%
+\contentsline {subsection}{\numberline {2.2.2}Définition des obervations}{9}{}%
+\contentsline {subsection}{\numberline {2.2.3}Inférence Bayésienne récursive}{9}{}%
+\contentsline {subsection}{\numberline {2.2.4}Estimation des paramètres du modèle par augmentation de l'état}{10}{}%
+\contentsline {section}{\numberline {2.3}Filtrage bayésien}{11}{}%
+\contentsline {section}{\numberline {2.4}Propagation}{11}{}%
+\contentsline {section}{\numberline {2.5}Hypothèses et filtres}{12}{}%
+\contentsline {section}{\numberline {2.6}Filtre particulaire}{12}{}%
+\contentsline {section}{\numberline {2.7}Filtre de Kalman}{13}{}%
+\contentsline {section}{\numberline {2.8}Filtre de Kalman d'Ensemble (EnKF)}{14}{}%
+\contentsline {section}{\numberline {2.9}Méthodes variationnelles}{15}{}%
+\contentsline {subsection}{\numberline {2.9.1}Estimation du maximum a posteriori}{15}{}%
+\contentsline {subsection}{\numberline {2.9.2}Méthodes de minimisation}{16}{}%
+\contentsline {subsection}{\numberline {2.9.3}Méthode 3DVar}{16}{}%
+\contentsline {section}{\numberline {2.10}Equivalence avec la mise à jour de Kalman}{16}{}%
+\contentsline {section}{\numberline {2.11}Méthode variationnelle d'ensemble}{17}{}%
+\contentsline {subsection}{\numberline {2.11.1}Maximum de vraissemblance échantillonné}{17}{}%
+\contentsline {subsection}{\numberline {2.11.2}Méthode de faible rang}{18}{}%
+\contentsline {section}{\numberline {2.12}Conclusion}{18}{}%
+\contentsline {chapter}{\numberline {3}Simulation du tambour et Assimilation de données}{19}{}%
+\contentsline {section}{\numberline {3.1}Ecoulement granulaire dans un tambour en rotation}{19}{}%
+\contentsline {section}{\numberline {3.2}Méthode des éléments discrets (DEM)}{19}{}%
+\contentsline {subsection}{\numberline {3.2.1}DEM et la DA}{20}{}%
+\contentsline {subsubsection}{Limites de la DEM avec les méthodes variationnelles}{20}{}%
+\contentsline {subsubsection}{Limites de la DEM avec EnKF}{20}{}%
+\contentsline {section}{\numberline {3.3}Méthode des points matériaux (material point method, MPM)}{20}{}%
+\contentsline {subsection}{\numberline {3.3.1}La MPM et la DA}{21}{}%
+\contentsline {subsubsection}{MPM et méthodes variationnelles}{21}{}%
+\contentsline {subsubsection}{MPM et EnKF}{21}{}%
+\contentsline {section}{\numberline {3.4}Vortex-In-Cell : un modèle grille-particules simplifié}{21}{}%

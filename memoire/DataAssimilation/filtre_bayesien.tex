@@ -280,6 +280,70 @@ Finalement, on peut réécrire
     }
 \end{algorithm}
 
+\section{Filtre de Kalman d'Ensemble (EnKF)}~\label{sec:enkf}
+
+Pour surmonter les limitations du filtre de Kalman classique et du filtre particulaire, le filtre de Kalman d'ensemble (EnKF) a été développé par Evensen~\cite{evensen_sequential_1994}. L'EnKF est une méthode d'assimilation de données qui utilise un ensemble de prévisions pour estimer l'état et les incertitudes d'un système. Contrairement au filtre de Kalman classique, qui est optimal pour des systèmes linéaires et des erreurs gaussiennes, l'EnKF est plus robuste quant aux non-linéarités et aux distributions non gaussiennes.
+
+L'EnKF fonctionne en générant un ensemble de prévisions  (ou états) $(\bx_i^f)_{i=1}^N$ à partir du modèle. Chaque membre de l'ensemble est ensuite mis à jour indépendamment en utilisant les observations disponibles. A parti de cet ensemble de représentant, supposé identiquement distribué, la matrice de covariance et la moyenne vont pouvoir être estimée.
+
+Pour cela, nous définission la matrice d'état $\X_f = [\state^1, \dots, \state^N]$ et d'annomalies $\annomX_f$ dont les colonnes sont les états de chaque membre normalisé et centré ce que l'on peut écrire de la manière suivante
+
+\begin{equation*}
+    \annomX_f = \frac{1}{\sqrt{N - 1}}(\X_f - \overline{\state}_f \bm{1}^T),
+\end{equation*}où $\bm{1} \in \mathbb{R}^N$ est un vecteur de 1.
+
+Respectivement, la matrice d'observation et les anomalies d'observation sont $\mathcal Y_f = [\mathcal{H}(\state^1_f), \dots, \mathcal{H}(\state^N_f)]$ et $\annomY_f$, où les colonnes sont données par
+
+\begin{equation*}
+    \annomY_f = \frac{1}{\sqrt{N - 1}} \left(\mathcal Y_f - \overline{\obs}_f \bm{1}^T \right) \quad \text{avec} \quad \overline{\obs}f = \frac{1}{N} \sum{j=1}^{N} \mathcal{H}(\state^j_f).
+\end{equation*}
+
+L'ensemble définit la covariance entre les états et les observations $\Cov \bm H^T$, la covariance entre les observations $\Cov \bm H^T$, et $\tilde{\bm{K}}$
+
+\begin{eqnarray*}
+    \Cov \bm H^T &=& \frac{1}{N - 1} \sum_{i = 1}^{N} {(\state^i_f - \overline{\state}_f)}^T {\left[ \mathcal{H}_k(\state^i_f) - \overline{\bm{y}}f\right]}^T = \annomX_f \annomY_f^T, \
+    \bm H \Cov \bm H^T &=& \frac{1}{N -1} \sum{i = 1}^{N}\left[ \mathcal{H}_k(\state^i_f) - \overline{\bm{y}}_f\right] {\left[ \mathcal{H}_k(\state^i_f) - \overline{\bm{y}}_f\right]}^T = \annomY_f \annomY_f^T,\
+    \tilde{\bm{K}} &=& \Cov \bm H^T{(\bm H \Cov \bm H^T + \bm R)}^{-1} = \annomX_f \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}.
+\end{eqnarray*}
+
+Cette implémentation sans matrice d'observation repose sur l'approximation par la méthode des sécantes $\mathcal{H}(\state^i_f - \overline{\state}_f) \approx \predi - \overline{\obs}f$.
+Ensuite, la prévision est mise à jour vers un ensemble a posteriori ${[\state^i_a]}{i=1}^{N}$ tel que
+
+\begin{equation} \label{enkf_formula}
+    \mstate_a = \mstate_f + \tilde{\bm{K}} ( \mdata - \mpred),
+\end{equation}
+où ${[\mdata]}^i = \obs + \bm{\varepsilon}^i$ est l'observation perturbée avec $\bm{\varepsilon}^i \sim \mathcal{N}(\bm{0}, \bm R) $, $\tilde{\bm{K}}$ est la matrice de gain de Kalman ensembliste et $( \mdata - \mpred)$ est le terme d'innovation.
+L'étape de prévision est ensuite appliquée à l'ensemble analysé jusqu'à l'observation suivante.
+Sur la base de cette formulation, nous pouvons déduire une formule de correction basée uniquement sur les prédictions des membres et les observations.
+
+Nous pouvons réécrire la formule de mise à jour du filtre en utilisant les matrices d'anomalies précédentes.
+
+\begin{equation*}
+    \mstate_a = \mstate_f + \annomX_f \annomY_f^T {({\annomY_f \annomY_f^T + \bm R})}^{-1}(\mdata - \Y)
+\end{equation*}
+
+Nous reformulons le terme de correction en remarquant que $ \bm{1}^T \annomY_f^T = \bm{0}$. Nous définissons $\Fcorr$, la matrice de correction qui donne la mise à jour en termes de combinaisons linéaires des états prévisionnels
+
+\begin{equation}
+    \mstate_a = \mstate_f + \mstate_f \Fcorr, \quad \Fcorr = \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred).
+\end{equation}
+
+% Les équations de l'EnKF peuvent être présentées comme suit
+
+% - **Étape de Prédiction** :
+% $$x_i^f = F(x_i^a),$$
+% où $x_{i}^{f}$ est la prévision du i-ème membre de l'ensemble, et $M$ est le modèle du système.
+
+% - **Étape de Mise à Jour** :
+% $$x_{i}^{a} = x_{i}^{f} + K(y_{i} - h_i^f),$$
+% avec $K$ le gain de Kalman, calculé comme :
+% $$K = \text{cov}(x^f, h^f)(\text{cov}(h^f, h^f) + R)^{-1}$$
+% où $\text{cov}$ est l'opérateur de covariance, $(h_i^f)_{i=1}^N$ est l'ensemble d'observations prédites, et $R$ est la covariance du bruit de mesure.
+
+Dans l'EnKF, $x_{i}^{a}$ est l'état analysé (ou mis à jour) pour le i-ème membre de l'ensemble, et $y_i$ représente les observations. Cette méthode permet de capturer la distribution de probabilité de l'état du système de manière plus efficace et avec moins de charge de calcul que le filtre particulaire, surtout dans les systèmes de grande dimension.
+
+Cette version de l'EnKF est parfois appelé EnKF stochastique car les observations $y_i$ correspondent aux données mesurées bruitées, i.e. $y_i = y + \varepsilon_i$ où $\varepsilon_i$ correspond au bruit de mesure. Ce bruit numérique permet de supprimer un biais statistique sur l'estimation de l'état~\cite{van_leeuwen_consistent_2020}. On trouve également d'autre implémentation du filtre de Kalman d'ensemble comme le filtre EnKF déterministe comme le filtre ETKF, qui cherche une mise à jour qui permet d'obtenir une approximation de la matrice de covariance analysée du filtre de Kalman en en cherchant une racine carrée~\cite{bishop_adaptive_2001}.
+
 \section{Méthodes variationnelles}~\label{sec:variation}
 \subsection{Estimation du maximum a posteriori}
 
@@ -382,27 +446,6 @@ De nouveau avec l'identité de SMW
     (\bm{I} - \bK \bH) \bP
 \end{equation*}~qui n'est autre que la mise à jour de la covariance avec le filtre de Kalman.
 
-
-\section{Filtre de Kalman d'Ensemble (EnKF)}~\label{sec:enkf}
-
-Pour surmonter les limitations du filtre de Kalman classique et du filtre particulaire, le filtre de Kalman d'ensemble (EnKF) a été développé. L'EnKF est une méthode d'assimilation de données qui utilise un ensemble de prévisions pour estimer l'état et les incertitudes d'un système. Contrairement au filtre de Kalman classique, qui est optimal pour des systèmes linéaires et des erreurs gaussiennes, l'EnKF est plus robuste quant aux non-linéarités et aux distributions non gaussiennes.
-
-L'EnKF fonctionne en générant un ensemble de prévisions  (ou états) $(x_i^f)_{i=1}^N$ à partir du modèle. Chaque membre de l'ensemble est ensuite mis à jour indépendamment en utilisant les observations disponibles. Les équations de l'EnKF peuvent être présentées comme suit :
-
-- **Étape de Prédiction** :
-$$x_i^f = F(x_i^a),$$
-où $x_{i}^{f}$ est la prévision du i-ème membre de l'ensemble, et $M$ est le modèle du système.
-
-- **Étape de Mise à Jour** :
-$$x_{i}^{a} = x_{i}^{f} + K(y_{i} - h_i^f),$$
-avec $K$ le gain de Kalman, calculé comme :
-$$K = \text{cov}(x^f, h^f)(\text{cov}(h^f, h^f) + R)^{-1}$$
-où $\text{cov}$ est l'opérateur de covariance, $(h_i^f)_{i=1}^N$ est l'ensemble d'observations prédites, et $R$ est la covariance du bruit de mesure.
-
-Dans l'EnKF, $x_{i}^{a}$ est l'état analysé (ou mis à jour) pour le i-ème membre de l'ensemble, et $y_i$ représente les observations. Cette méthode permet de capturer la distribution de probabilité de l'état du système de manière plus efficace et avec moins de charge de calcul que le filtre particulaire, surtout dans les systèmes de grande dimension.
-
-Cette version de l'EnKF est parfois appelé EnKF stochastique car les observations $y_i$ correspondent aux données mesurées bruitées, i.e. $y_i = y + \varepsilon_i$ où $\varepsilon_i$ correspond au bruit de mesure. Ce bruit numérique permet de supprimer un biais statistique sur l'estimation de l'état.
-
 \section{Méthode variationnelle d'ensemble}
 
 \subsection{Maximum de vraissemblance échantillonné}
@@ -413,12 +456,49 @@ Pour cela, nous nous plaçons dans le cas d'un prior d'état Gaussien $\bm x^f$ 
 \begin{equation*}
     \mathcal L_i(\bm x) = \frac12 \norm{\bm x -\bm x^f_i}^2_{\bm P^f} + \frac12 \norm{\bm h(\bm x^f_i) - \bm d_i}_{\bm R}^2,
 \end{equation*}Celles-ci sont indépendantes entre chaque membre et offrent une forme similaire au MAP cette fois autour de la valeur des membres et de la mesure perturbée. Ainsi, les mêmes algorithmes de minimisation peuvent être appliqué pour résoudre ces fonctions coût.
-Par extension nous verrons que la distribution a posteriori peut être approchée dans un cas non Gaussien. Dans ce cas, on prend un linéarisation de la distribution a priori en estimant et ne conservant que les deux premiers moments de la distribution. C'est l'hypothèse qui est appliqué pour le filtre de Kalman d'Ensemble~\ref{sec:enkf}.
+
+Dans le cas linéaire et Gaussien, nous avons précedemment vu dans la Section~\ref{sec:variation} que le MAP pouvait être obtenu grâce au gain de Kalman. De même, connaissant la matrice de covariance d'état $\bm P$ et l'opérateur tangent $\bm G_i = \nabla^T_{\bx} \bm h(\bx_i)$, on obtient un ensemble de mise à jour du filtre de Kalman autour de chaque membre
+
+\begin{equation}~\label{eq:rml-kalman}
+    \bm x ^a_i = \bm x^f_i + \bm P \bm G_i^T (\bm G_i \bP \bm G_i^T + \bR)^{-1} (\bd_i - \bm h(\bx_i^f))
+\end{equation}
+
+Dans un cas non linéaire, nous pourrons traiter des cas non-linéaire pour être approchée dans un cas non Gaussien. Dans ce cas, on nous prendrons un linéarisation de la distribution a priori en estimant et ne conservant que les deux premiers moments de la distribution. C'est l'hypothèse qui est appliqué pour le filtre de Kalman d'Ensemble~\ref{sec:enkf}. De fait, cette résolution est obtenue dans un espace de représentant, offrant une optimisation dans un espace généralement de plus faible dimension.
 
 \subsection{Méthode de faible rang}
-Dans le cas linéaire et Gaussien, nous avons précedemment vu dans la Section~\ref{sec:variation} que le MAP pouvait être obtenu par grâce au gain de Kalman. De même, en approchant les
 
-En utilisant les membres pour échantillonner la matrice de covariance, cela revient à chercher la solution dans l'espace vectoriel engendré par les membres. En effet, en réécrivant $\bm P^f = \sum_{i=1}^{N} (\bx_i - \bar \bx) \otimes (\bx - \bar \bx)$ alors
+Nous utilisons dans cette section la même hypothèse que précédemment évoquée dans la partie sur le filtre EnKF~\ref{sec:enkf}. Il s'agit de considérer que la matrice de covariance peut etre représenté par un ensemble d'état. En fait, tout comme le filtre de Kalman et l'image du filtre 3DVar le filtre EnKF trouve une équivalence avec une approche variationnelle d'ensemble.
+
+En utilisant les membres pour échantillonner la matrice de covariance, cela revient à chercher la solution dans l'espace vectoriel engendré par les membres.
+
+En reprenant la formule~\ref{eq:rml-kalman}, et en remplaçant $\bm P \approx \annomX_f \annomX_f^T$, on obtient d'une part la mise à jour du filtre EnKF~\ref{enkf_formula}, d'autre part que l'on puis reformuler le terme de correction the correction term en définissant $\Fcorr$,
+
+\begin{equation}
+    \mstate_a = \mstate_f + \mstate_f \Fcorr, \quad \Fcorr = \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred).
+\end{equation}.
+
+Ceci nous renseigne sur plusieurs choses:
+\begin{itemize}
+    \item La mise à jour du filtre EnKF est une combinaison linéaire des membres,
+    \item Il suffit de déterminer $N\timesN$ pour résoudre le problème de mise à jour
+    \item La mise à jour est indépendante pour les $N$ fonctions à minimiser ce qui permet de grandement paralléliser les problèmes d'optimisation.
+\end{itemize}
+
+Les $N$ problème de minimisation peuvent être reformulés à l'aide des termes de cette matrice $F$
+
+\begin{equation*}
+    \bm f_i = \argmin_{f \in } \frac12 \norm{\bm d - \bm h(\mstate_f + \mstate_f \Fcorr)}^2_{\bm R^{-1}} + \frac12 \norm{\bm f}_2^2
+\end{equation*}
+
+En effet \mycolor{mettre la formule ici}.
+
+\subsection{Méthodes d'assimilations tenant compte de l'erreur d'alignement}
+Les méthodes du filtre bayésien résolue par des méthodes statistiques comme le filtre de Kalman ou variationnelle se base uniquement sur la correction des intensitées. L'erreur est estimée pour une coordonnée spatiale comme étant distribué normalement autour d'une valeur. Cette hypothèse sur la distribution d'erreur ne tient pas compte de l'erreur issue de l'alignement de champs. Cette correction est classiquement appliqué sur les intensités des champs de l'état. Cependant, celle-ci se trouve faussée par ce que l'on appelle l'effet de \textit{double pénalisation}.
+Cela se produit lorsque les erreurs du modèle et des données observationnelles sont sur-pénalisées, compromettant l'équilibre nécessaire. Par exemple, un léger déplacement de polluants peut entraîner des prédictions élevées là où aucun polluant n'est observé \mycolor{(faire mon propre schéma voir Figure ref{fig:double_penalization_error})} créant des difficultés d'évaluation du modèle. Cette erreur est répandue dans les géosciences, affectant la prévision météorologique, la chimie atmosphérique, la prévision océanique, etc. L'utilisation de l'erreur quadratique moyenne aggrave ce problème, entravant l'apprentissage efficace des modèles. C'est une composante dominante de l'erreur de représentativité. Dans un cas dégénéré, ou la prédiction est un translation de la solution, on observe en \mycolor{(mettre une figure) Figure X que l'erreur quadratique sera plus élevée que si l'erreur prédite est était nulle}.
+
+Pour tenir compte de cette erreur, des métriques tenant compte d'une erreur d'alignement on tpu être introduite.
+- Une première famille de méthodes utilise des métrique basée sur le transport optimal.
+
 \section{Conclusion}
 
 
