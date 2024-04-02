@@ -37,7 +37,7 @@ int init=4;
 - [x] Faire les différents filtre: pour cela fair une classe Mère pour tous les filtres. En commun le calcul de F, la fonction update. Il y aura des attributs différents bien sur. 
 - A revoir demain la partie sur Introduction.
 - Redaction partie Assim
-[x] Je relance le calcul du lambda pour dipole.Il faut aller plus bas en lambda
+- [x] Je relance le calcul du lambda pour dipole.Il faut aller plus bas en lambda
 
 ## 03-27-2023
 
@@ -67,7 +67,14 @@ int init=4;
 
 ## 03-29-2023
 
-- Vérification du l-curve, il faut en effet plus de valeur en faible valeur de lambda pour essayer de faire apparaitre la l curve en log scale
+- Vérification du l-curve, il faut en effet plus de valeur en faible valeur de lambda pour essayer de faire apparaitre la l curve en log scale <!--lambda-->
+
+## 04-01-2023
+ 
+- Lecture intro de Luiza
+- Avancement sur la lecture première partie de Luiza pour Introduction générale <!--redaction-->
+- Prévoir une partie comportement milieu granulaire. Assez général sur les mécanismes d'écoulement, c'est à dire les différents régimes et loi de comportement des régimes.
+- 
   
 ## A FAIRE
 
@@ -77,10 +84,11 @@ int init=4;
 - [ ] Ajout de la visualisation des observations
 - [ ] Lecture des intro de Luiza et Giraud
 - [ ] Faire fonction forward
-- [ ] Faire fonction PartApprox
 - [ ] Faire filtre juste Alignment
 - [ ] Copier github sur le cluster Inria
 - [ ] créer un fichier SLURM
+- [ ] Faire le cas présenté par Olivier --> 2 vortex suffisamment éloigné sur un domaine infini. Mouvement de translation avec déformation des dipoles suffisammment faible intra vortex. J'imagine aussi faire un monome de bessel qui tourne grâce aux effets de bord (cas domaine fini).
+
 
 ## A FAIRE++
 

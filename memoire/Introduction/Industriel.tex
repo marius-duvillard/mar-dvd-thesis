@@ -2,20 +2,6 @@
 
 \chapter{Introduction}
 
-\paragraph{energie et broyage}
-Preambule sur le broyage: De nos jours, une préoccupation majeure est la consommation d'énergie. En effet, la rareté des ressources naturelles motive la recherche de nouvelles sources d'énergie et l'optimisation des processus industriels qui consomment de grandes quantités d'énergie, comme le broyage. Le grand nombre de technologies conçues pour la réduction de la taille des particules est spécialisé pour un type de matériau donné et/ou un mécanisme de broyage donné. Cette spécialisation actuelle a été principalement acquise de manière empirique par des tests de tâtonnement.
-
-\paragraph{Sur le broyage sa définition} naturel et artificiel
-By definition, grinding is a process in which a material is reduced to small particles or powder. The particle breakage can be a desired or undesired process. It is desired when it belongs to a human activity or a chain of processes that have as a main goal to refine a natural source into a product that matches specific conditions, e.g. wheat, cosmetics and cement processing. It is undesired, unexpected or uncontrolled when it takes place during a natural process e.g. rock fall down a slope, landslides, explosions during the eruption of a volcano, earthquakes, etc . . . The forces that cause the rupture of the constitutive particles of the material often have a dynamic character. These forces are highly variable in time, can reach magnitudes much higher than the particle weights, and are therefore comparable to those involved during the impacts inside ball mills.
-
-\paragraph{Sur les appareils de broyage, la comprehension de la physique et le choix des paramètres de contrôle}
-Despite numerous specialized grinding devices, its technological importance, and long past research, there is still a substantial gap between the present fundamental knowledge of the physical mechanisms ruling the grinding process and the present need for its predictive and quantitative modeling in view of its improved engineering applications. Undoubtedly, one of the main reasons is the complexity of the process itself due to the continuous changes of material properties. As a consequence, in current industrial applications, the choice of the grinding device and its optimal values of operational parameters remain basically empirical tasks.
-
-\paragraph{Trouver la même chose sur la coulabilité ? Le mélange chez Giraud ?}
-
-\paragraph{crucial stage of nuclear fuel manufacture and recycling: the nuclear powders grinding inside ball mills}
-
-
 
 \section{Contexte industriel}
 
@@ -31,20 +17,103 @@ Despite numerous specialized grinding devices, its technological importance, and
     \item Outre les questions relatives à la sureté des installations, ou bien le risque de prolifération nucléaire il faut aussi tenir compte des déchets à vie longues et à forte activité. Ceux-ci se forme à l'intérieur des réacteurs durant toute la durée de leur fonctionnement.
     \item Finalement 2kg de déchet par an et par habitant sont généré pour la fabrication de l'électricité. Parmis eux les déchets à vie longue que représente 0.2\% des stocks pour 95\% de l'activité.
     \item De plus on souhaiterait préserver les ressources en combustible.
+    \item Les réacteur 4eme génération par exemple ont pour objectif de transmuter U238 en Pu239 par transmutation permettant d'utiliser plus de 90\% de l'uranium naturel contre 0.5 à 1\% actuellement avec U235 qui est fissile.
     \item Ainsi le retraitement et la fermeture du cycle.
 \end{itemize}
 
-En 2023, l'industrie nucléaire a représenté X\% de la production totale d'électricité en France, avec un parc composé de 56 réacteurs à eau pressurisée (REP) répartis sur 18 centrales. Cette source d'énergie est saluée pour son rapport qualité-prix avantageux et ses faibles émissions de gaz à effet de serre, avec un facteur d'émission estimé à 12 gCO2eq/kWh, une valeur encore plus basse en France. Comparativement à d'autres sources telles que l'éolien et le solaire, les émissions de CO2 du nucléaire sont du même ordre de grandeur, mais jusqu'à 1000 fois inférieures à celles des centrales à énergie fossile. Dans le contexte de l'urgence climatique, l'énergie nucléaire est perçue comme un atout pour la transition énergétique et la réduction des énergies fossiles, bien que des questions subsistent, notamment sur la sûreté des installations et le risque de prolifération nucléaire. De plus, la gestion des déchets radioactifs à vie longue et à forte activité, ainsi que la préservation des ressources en combustible, sont des défis à relever, d'où l'importance du retraitement et de la fermeture du cycle du combustible nucléaire.
+En 2023, l'industrie nucléaire a représenté X\% de la production totale d'électricité en France, avec un parc composé de 56 réacteurs à eau pressurisée (REP) répartis sur 18 centrales ce qui représente X\% de l'énergie totale consommée. Cette source d'énergie est saluée pour son rapport qualité-prix avantageux et ses faibles émissions de gaz à effet de serre, avec un facteur d'émission estimé à 12 gCO2eq/kWh, une valeur encore plus basse en France. Comparativement à d'autres sources telles que l'éolien et le solaire, les émissions de CO2 du nucléaire sont du même ordre de grandeur, mais jusqu'à 1000 fois inférieures à celles des centrales à énergie fossile. Dans le contexte de l'urgence climatique, l'énergie nucléaire est perçue comme un atout pour la transition énergétique et la réduction des énergies fossiles, bien que des questions subsistent, notamment sur la sûreté des installations et le risque de prolifération nucléaire. De plus, la gestion des déchets radioactifs à vie longue et à forte activité, ainsi que la préservation des ressources en combustible, sont des défis à relever, d'où l'importance du retraitement et de la fermeture du cycle du combustible nucléaire.
 
-Le combustible classique utilisé dans les REP est constitué d'oxide uranium enrichi
 \subsection{Le combustible Nucléaire}
+Le combustible classique utilisé dans les REP est constitué d'oxide uranium enrichi
+
+
+\begin{itemize}
+    \item C'est l'élélement qui est consitué des éléments fissibles
+    \item Généralement composé de dioxide d'Uranium qui est composé de 3-5 \% d'uranium enrichi en U235.
+    \item MOX alternative avec mélange PuO2 et UO2
+    \item Utile pour réateur à neutrons rapide mais également pour les tranches actuelles de réacteurs à eau préssurisée
+    \item Dans les deux cas c'est la teneur en PuO2 qui va varier entre 8\% et 30\%
+    \item La fabrication par deux voies: à sec soit humide. En sec c'est la voie de l'ammonium diuranate (ADU) a été la plus intensivement utlisée.
+    \item La poudre de PuO2 est elle issue de recyclage des usines de retraitement. En effet, le Plutonium fait parti des produits de fission de U235.
+    \item Les deux oxydes ont des propriétés qui qui diffèrent par leur surface spécifique (2 contre 6 m^2/g) (air particule moyenne par unité de masse).
+    \item Les particules d'UO2 ont des formes d'agglomérats lorsque l'UPu a des plaquettes submicron.
+\end{itemize}
 
 \subsection{La fabrication du combustible}
+\begin{itemize}
+    \item Le combustible est produit sous forme de pastille cylindrique de diamètre et de hauteur d'1 cm. Elles sont empillées dans des gaines métalique et consititu un élément de crayon d'environ 4 m de haut.
+    \item Il sont réuni ensuite dans un assemblage dans une grille de près de 250 éléments.
+    \item La poudre doit être homogène et la taille de grain ne doit pas dépasser un certain seuil.
+    \item Il faut éviter haute concentration d'aggloméra de Pu car risque d'accident à cause de la concentration en chaleur.
+    \item L'homogénéisation par diffusion étant trop faible entre Pu et UO2 lors du frittage, des étapes préléminaires sont ajoutées.
+    \item Un étape de mélange: pendant 2-4h les oxydes sont mélangé dans un broyeur à boulets. Les corps broyant sont des cylindre de métal d'uranium pour éviter la contamination du mélange.
+    \item L'objectif de cette étape de réduire la taille des agglomérats pour atteindre une taille de poudre cible et un mélange homogène des poudres. En l'occurence on cherche à avoir une poudre de taille inférieur à $5\mu m$ en moyenne.
+    \item Mise en forme des pastilles: le mélange est déchargé dans une matrice où il est cmpacté à température ambiante. La coulabilité est une propriété déterminante pour le replissage des matrices. Ainsi une étape de granulation est nécessaire. Les agglomérats sont alors fragmenté et réarrangés.
+    \item frittage des pastilles: il est réalisé dans un four à 1700 °C pendant 2h. Les particules du mélange se soudent entre elles et atteignent une densité de 95\% de oxyde métallique théorique. La géométrie et les propriétés de la microstructure sont ensuite contrôlé.
+\end{itemize}
 
 \subsubsection{Broyeur à boulets}
 
+Sur l'étape et le dispositif en général
+\begin{itemize}
+    \item On travaille sur l'étape de mélange dans le broyeur à boulet
+    \item Il est étudié en laboratoire sur une maquette de 15cm de diamètre pour trouver la meilleure configuration
+    \item Mais disparité avec le dispositif. Problème de mise à l'échelle. Et donc problématique pour trouver la configuration permettant d'obtenir les bonne propriété.
+    \item Dans Orozco l'objectif a été de déterminer des nombres adimentionnel pour passer d'une echelle à l'autre.
+    \item De même Giraud s'est interessé à la coulabilité des poudres en faisant un lien entre propriétés micro et macro.
+    \item Le dispositif est complexe par les matériaux et le processus utilisé
+    \item Défis du travail expérimental avec des matériaux toxiques
+    \item Quantités limitées de matériau manipulable
+    \item Besoin d'environnements scellés pour éviter la contamination
+    \item Nécessité d'équipements spécialisés et exclusifs
+    \item Besoin de blindage contre les radiations et production de chaleur constante
+    \item Dans cette perspective, des outils complémentaire d'analyse sont nécessaires (JN, Simulations, observations)
+\end{itemize}
+
+Sur le broyeur à boulets
+
+\begin{itemize}
+    \item c'est un dispositif de broyage fin et ultra fin des minerais à l'aide de corps broyants. Très utilisé, mais les mécanismes sont mal compris.
+    \item Complexité:  définis tels que la vitesse de rotation, le degré de remplissage, les proportions d'alimentation et de corps broyants, et la taille du tambour
+    \item Les matériaux évoluent et déclenchent différents mécanismes pendant le processus comme l'agglomération des petites particules.
+    \item Les conditions limites et le caractère discret du milieu détermine une large gamme d'écoulement.
+\end{itemize}
+
+--> A ce niveau prévenir que je m'interesse à étudier uniquement l'écoulement et le mélange dans ma problématique.
+"Parmis tous ces mécanismes, nous observons déjà une difficulté dans la modélisaiton des écoulements. Afin de mieux comprendre la physique on se propose d'étudier dans le prochain paragraphe les principaux phénomènes de mélange et d'écoulement lors du processus.
+
+\subsection{Ecoulement granulaire et régime dans le broyeur}
+Les écoulement granulaire
+
+\begin{itemize}
+    \item Très présent dans la nature et l'industrie, du tas de sable en passant par les avalanches.
+    \item Du fait de la nature discrète, bien moins comprise que l'écoulement des liquide qui se base sur les équations de Navier-Stokes
+    \item On a un écoulement qui est différent de celui d'un fluide classique.
+    \item On distingue trois types d'écoulement que l'on assimile gnéralement au trois état de la matière: solide où où le mouvement des particules est lent et le comportement est presque statique, une couche semblable à un liquide dans laquelle les grains s'écoulent avec une certaine inertie, et une zone semblable à un gaz où les particules se déplacent à des vitesses plus élevées de manière chaotique. Ils interviennents simultanément dans l'écoulement. Ce qui complexifie la caractérisation rhéologique
+\end{itemize}
+
+Définir ensuite les différentes modélisations actuelles des régimes (voir layout pour les articles)
+
+\subsection{Simulation du broyage}
+
+\part{From Orozco}
+\paragraph{energie et broyage}
+Preambule sur le broyage: De nos jours, une préoccupation majeure est la consommation d'énergie. En effet, la rareté des ressources naturelles motive la recherche de nouvelles sources d'énergie et l'optimisation des processus industriels qui consomment de grandes quantités d'énergie, comme le broyage. Le grand nombre de technologies conçues pour la réduction de la taille des particules est spécialisé pour un type de matériau donné et/ou un mécanisme de broyage donné. Cette spécialisation actuelle a été principalement acquise de manière empirique par des tests de tâtonnement.
 
 
-Nous nous intéressons à l'étape de mélange-broyage dans le procédé de fabrication du MOX à l'aide du broyeur à boulet. Un mélange d'oxyde d'uranium, d'oxyde de plutonium et de chamotte est concassé dans un broyeur à boulet. Ce dispositif cylindrique, rempli de boules de broyage, met en oeuvre un processus de rotation pour broyer finement le mélange de poudres d'oxyde. Sa performance est critique pour la qualité du produit final et sa sûreté d'utilisation dans les réacteurs nucléaires.
+% A NE PAR METTRE TROP SUR BROYAGE 
+\paragraph{Sur le broyage sa définition} --> naturel et artificiel
+
+Par définition, le broyage est un processus au cours duquel un matériau est réduit en petites particules ou en poudre. La rupture des particules peut être un processus désiré ou non désiré. Il est souhaité lorsqu'il appartient à une activité humaine ou à une chaîne de processus dont le but principal est de raffiner une source naturelle pour obtenir un produit correspondant à des conditions spécifiques, par exemple le traitement du blé, des cosmétiques et du ciment. Il est non désiré, inattendu ou incontrôlé lorsqu'il se produit au cours d'un processus naturel, par exemple une chute de rochers le long d'une pente, des glissements de terrain, des explosions lors de l'éruption d'un volcan, des tremblements de terre, etc. Les forces qui provoquent la rupture des particules constitutives du matériau ont souvent un caractère dynamique. Ces forces sont très variables dans le temps, peuvent atteindre des magnitudes bien supérieures aux poids des particules, et sont donc comparables à celles impliquées lors des impacts à l'intérieur des broyeurs à boulets. --> Pas le centre de mon sujet qui est plus sur le mélange
+
+\paragraph{Sur les appareils de broyage, la comprehension de la physique et le choix des paramètres de contrôle}
+
+Malgré de nombreux dispositifs de broyage spécialisés, son importance technologique et les recherches antérieures approfondies, il existe encore un écart substantiel entre les connaissances fondamentales actuelles sur les mécanismes physiques régissant le processus de broyage et le besoin actuel de sa modélisation prédictive et quantitative en vue de ses applications d'ingénierie améliorées. Sans aucun doute, l'une des principales raisons est la complexité du processus lui-même due aux changements continus des propriétés des matériaux. Par conséquent, dans les applications industrielles actuelles, le choix du dispositif de broyage et ses valeurs optimales des paramètres opérationnels restent essentiellement des tâches empiriques.
+
+\paragraph{Trouver la même chose sur la coulabilité ? Le mélange chez Giraud ?}
+
+\paragraph{crucial stage of nuclear fuel manufacture and recycling: the nuclear powders grinding and mixing inside ball mills}
+
+
 
 
