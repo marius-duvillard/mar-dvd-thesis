@@ -70,11 +70,12 @@ int init=4;
 - Vérification du l-curve, il faut en effet plus de valeur en faible valeur de lambda pour essayer de faire apparaitre la l curve en log scale <!--lambda-->
 
 ## 04-01-2023
- 
+
 - Lecture intro de Luiza
 - Avancement sur la lecture première partie de Luiza pour Introduction générale <!--redaction-->
 - Prévoir une partie comportement milieu granulaire. Assez général sur les mécanismes d'écoulement, c'est à dire les différents régimes et loi de comportement des régimes.
-- 
+- avancement sur la partie introduction générale à finir cette après midi. Faire une introduction du projet ok. J'ai avancé jusqu'à la problématique il manque introduction assimilation de données.<!--redaction-->
+- Mise en place du fichier run_assimilation.cpp, il y a un problème sur l'hérédité des classes et de la fonction virtuelle. Est ce que je peux pas juste l'enlever ? Regarder comment faire véritablement<!--cpp-->
   
 ## A FAIRE
 
