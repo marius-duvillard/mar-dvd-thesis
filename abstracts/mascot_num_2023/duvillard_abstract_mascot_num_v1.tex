@@ -1,0 +1,110 @@
+\documentclass[a4paper,10pt,oneside]{article}
+%
+% This is a basic set of packages.  Feel free to use as many packages
+% as you want, only the generated PDF will be submitted in the end.
+%
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor,graphicx}
+%
+% Page layout (DO NOT CHANGE)
+%
+\usepackage[margin=32mm]{geometry}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1.3ex plus 0.5ex minus 0.2ex}
+%
+% Size of section titles (DO NOT CHANGE)
+%
+\usepackage{titlesec}
+\titleformat*{\section}{\large\bfseries}
+%
+% MASCOT header (DO NOT CHANGE)
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[L]{MASCOT-NUM 2023}
+\fancyhead[C]{}
+\fancyhead[R]{April 3--6, Le Croisic, France}
+%
+% Well, as you can guess, this is where you must enter the
+% title of your communication:
+%
+\title{%
+  Ensemble-based data assimilation for meshless simulations}
+%
+% Here, as you can guess too, is the place for the list of authors.
+% Since this is a template for the PhD student's day, it is expected
+% that the first author should be a PhD student...
+%
+\author{%
+  M. Duvillard${}^{\dagger,1,2}$, %
+  L. Giraldi${}^{\S,1}$, %
+  O. Le Maître${}^{\S,2}$}%
+%
+\date{\medskip%
+  %
+  % In this block, you only have to indicate the expected PhD duration:
+  % *REMOVE THE RED MARK*
+  %
+  \small %
+  ${}^\dagger$\ PhD student (presenting author). \quad ${}^{\S}$\ PhD supervisors\\[5pt]
+  PhD expected duration: {Oct. 2021 -- Sep. 2023}\\[15pt]
+  %
+  % Of course, edit this:
+  %
+  ${}^1$  CEA, DES, IRESNE, DEC, SESC, LMCP, F-13108 Saint-Paul-lez-Durance, France\\
+  \texttt{\{marius.duvillard,loic.giraldi\}@cea.fr}\\[4pt]
+  ${}^2$ CNRS, INRIA, Centre de Mathématiques Appliquées, Ecole Polytechnique, IPP, Route de Saclay, 91128, Palaiseau Cedex, France\\
+  \texttt{olivier.le-maitre@polytechnique.edu}}
+% rajouter platon.
+%
+\newcommand{\loic}[1]{{\color{red}#1}}
+\newcommand{\marius}[1]{{\color{green}#1}}
+
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\xs}{X^\star}
+
+\begin{document}
+
+\maketitle
+
+\thispagestyle{fancy}
+
+\section*{Abstract}
+
+Meshless methods are simulation methods particularly relevant for Lagrangian type of computations involving very large deformations, changes of topological structure of a continuum\dots
+Those methods are based on the discretization of continuous fields and operator thanks to an ensemble of particles/nodes that move according to a velocity field. The Smooth Particles Hydrodynamics method (SPH) and the Material Point Method (MPM) are two popular simulation techniques of this kind \cite{de_vaucorbeil_material_2020,zhang_smoothed_2022}.
+
+The goal of this work is to propose new data assimilation methods adapted for meshless simulations. Data assimilation is a field dedicated to the dynamic update of a model state based on a sequence of observation \cite{asch_data_2016,evensen_data_2022}. Generally the problem is formulated either through variational approaches, based on a cost function minimization, or through bayesian approches, that estimates the posterior distribution based on some distribution assumptions, or by hybridizing those methods.
+% estimlateur d'un coté et de l'autre on estime la dstribution à partir d'un échantillonnage + méthode
+Generally variational methods find the best possible estimate by a weighted least squares approch (3DVar, 4DVar methods). Bayesian approches approximate distributions usually through a sequential scheme based on the assumption of linear equations and Gaussian noises (Kalman Filter), or Monte-Carlo approximation (Particle filter). Hybrid approches mixed the previous ones to get the benefit of variational analysis and characterize posterior distributions, for instance through ensemble methods.
+
+%enkf approximation est une approximation usuelle du filtre de Kalman .... 
+Ensemble approximations of the Kalman filter are called Ensemble Kalman Filters (EnKF) \cite{evensen_sequential_1994}. Those sequential methods propagate an ensemble of states to build a sample covariance of the Gaussian prior distribution and compute the associate Kalman gain. Those methods can be applied to high-dimensional non-linear cases without suffering from the curse of dimensionality, as with the Particle Filter and avoid to store the entire covariance matrices.
+
+However, all those methods require a representation of the state based on a fixed finite dimensional discretization. For ensemble methods, this constraint is beneficial to estimate the empirical mean and covariance from the ensemble.
+For this reason, usual EnKF methods are not suitable to meshless simulations in a straightforward manner.
+The main challenges are to estimate the background error with differents particles configurations, to generate new sets of position and quantities of particles for each ensemble member, and to incorporate physics constraints during the assimilation.
+
+We propose a hybrid approach in order to perform state estimation for meshless simulations, combining variational and ensemble-based techniques.
+The state estimation is formulated through a Maximum A Posteriori estimation problem for each member using a gaussian process formulation to define the state distribution.
+The mean and covariance functions of the \textit{prior} distribution are approximated with an ensemble. The posterior distribution approximation is computed thanks to the Randomized Maximum Likelihood (RML) method \cite{evensen_data_2022} which yields, for each member $j$ of the ensemble, a minimization problem of the form
+
+% min rho
+\begin{equation*}
+  f_{j} = \min_{\hat{f} \in \mathcal{V}} \quad \|y_j - H(\hat{f})\|_{R^{-1}}^2 + \frac{1}{N} \sum_{i=1}^N \|\hat{f}(\xs_i)- f^p_{j}(\xs_i)\|^2_{k(\xs_i,\xs_i)^{-1}}
+\end{equation*}where $y_j$ denotes perturbed observations, $R^{-1}$ the observation accuracy matrix, $H$ the observation operator, $\xs_i$ are error control vector points, $f^p_{j}$ the $j^{th}$ member state, $k$ the covariance function of the prior gaussian process and finally $\mathcal{V}$ the particle discretization space.
+
+We will discuss the choice of the error control points $\xs_i$ and potential strategies to reduce the cost of the optimization problem. The update and generation of sets of particles will be also discuss in the way to construct the search space $\mathcal{V}$. Moreover, we will introduce constraints related to the  properties of the physicial model within the variational formulation of the data assimilation problem, such as positivity or conservations of quantities as suggested by \cite{janjic_conservation_2014,albers_ensemble_2019}.
+
+Finally, we will present our results on one or two dimensional transport problems.
+
+
+\section*{Short biography (PhD student)}
+
+I'm a PhD student in CEA center of Cadarache and the Platon team in the Inria Saclay Lab. I'm currently working on the development of assimilation methods that would be adapted to a grinding mill facilities involved in the fuel manufacturing process.
+
+\bibliographystyle{plain}
+\bibliography{mascotnum2023-template}
+
+\end{document}

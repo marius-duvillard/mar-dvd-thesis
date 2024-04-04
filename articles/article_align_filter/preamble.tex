@@ -1,0 +1,72 @@
+% !TEX root = main.tex
+
+\usepackage{xcolor}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{bm}
+\usepackage{a4wide}
+\usepackage{hyperref}
+\usepackage{authblk}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[ruled,vlined]{algorithm2e}
+\setlength\parindent{0pt}
+% \setcounter{algocf}{1}
+
+
+\newtheorem{proposition}{Proposition}
+\definecolor{mycustomcolor}{RGB}{128, 0, 128}
+\newcommand{\mycolor}[1]{\textcolor{mycustomcolor}{#1}}
+\newcommand{\lgcolor}[1]{\textcolor{red}{#1}}
+\newcommand{\olmcolor}[1]{\textcolor{blue}{#1}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\nens}{N_{\text{ens}}}
+\newcommand{\state}{\bm{x}}
+\newcommand{\proj}{\bm{\Pi}}
+\newcommand{\mstate}{\bm{X}}
+\newcommand{\obs}{\bm{y}}
+\newcommand{\z}{\bm{z}}
+\newcommand{\ngrid}{$N_{grid} = 100$}
+\newcommand{\npart}{$N_{part} = 100$}
+\newcommand{\predi}{\mathcal{H} (\bm{x}^i_f)}
+\newcommand{\annomX}{\bm A}
+\newcommand{\annomY}{\bm Y}
+\newcommand{\data}{\bm{d}}
+\newcommand{\mdata}{\bm{D}}
+\newcommand{\Fcorr}{\bm{F}}
+\newcommand{\mpred}{\bm{Y}}
+\newcommand{\sigmaY}{0.05}
+\newcommand{\sigmaZm}{0.5}
+\newcommand{\meanZm}{\pi/2 + 0.6}
+\newcommand{\smLow}{0.8}
+\newcommand{\smUp}{1.2}
+\newcommand{\tid}{k}
+\newcommand{\visc}{D}
+\newcommand{\GP}{\mathcal{GP}}
+\newcommand{\bR}{\mathbb{R}}
+\newcommand{\xs}{X^*}
+\newcommand{\map}{\hat{f}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\pxs}{\pi^\star}
+\newcommand{\bE}{\mathbb{E}}
+\newcommand{\Om}{\Omega}
+\newcommand{\cN}{\mathcal N}
+\newcommand{\cU}{\mathcal U}
+\newcommand{\cV}{\mathcal V}
+\newcommand{\cP}{\mathcal P}
+\newcommand{\refv}{1.0}
+\newcommand{\refvisc}{0.05}
+\newcommand{\Dlow}{0.02}
+\newcommand{\Dup}{0.08}
+\newcommand{\vmean}{0.9}
+\newcommand{\vstd}{1.2}
+\newcommand{\X}{\bm{X}}
+\newcommand{\Y}{\bm{Y}}
+\newcommand{\Cov}{\bm{P}}
+\newcommand{\sigz}{\sigma_0^2 = 0.5}
+\newcommand{\zz}{z_0 = 0.02}

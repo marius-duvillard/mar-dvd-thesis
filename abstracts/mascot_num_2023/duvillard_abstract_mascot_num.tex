@@ -1,0 +1,93 @@
+\documentclass[a4paper,10pt,oneside]{article}
+%
+% This is a basic set of packages.  Feel free to use as many packages
+% as you want, only the generated PDF will be submitted in the end.
+%
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor,graphicx}
+%
+% Page layout (DO NOT CHANGE)
+%
+\usepackage[margin=32mm]{geometry}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1.3ex plus 0.5ex minus 0.2ex}
+%
+% Size of section titles (DO NOT CHANGE)
+%
+\usepackage{titlesec}
+\titleformat*{\section}{\large\bfseries}
+%
+% MASCOT header (DO NOT CHANGE)
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[L]{MASCOT-NUM 2023}
+\fancyhead[C]{}
+\fancyhead[R]{April 3--6, Le Croisic, France}
+%
+% Well, as you can guess, this is where you must enter the
+% title of your communication:
+%
+\title{%
+  Ensemble data assimilation for lagrangian meshless simulations.}
+%
+% Here, as you can guess too, is the place for the list of authors.
+% Since this is a template for the PhD student's day, it is expected
+% that the first author should be a PhD student...
+%
+\author{%
+  M. Duvillard Student${}^{\dagger,1}$, %
+  L. Giraldi${}^{\S,1}$, %
+  O. Le Maître${}^{\S,2}$}%
+%
+\date{\medskip%
+  %
+  % In this block, you only have to indicate the expected PhD duration:
+  % *REMOVE THE RED MARK*
+  %
+  \small %
+  ${}^\dagger$\ PhD student (presenting author). \quad ${}^{\S}$\ PhD supervisors\\[5pt]
+  PhD expected duration: {Oct. 2021 -- Sep. 2023}\\[15pt]
+  %
+  % Of course, edit this:
+  %
+  ${}^1$  LMCP/SESC/DEC, CEA Cadarache\\
+  \texttt{\{marius.duvillard,loic.giraldi\}@cea.fr}\\[4pt]
+  ${}^2$  CMAP, École polytechnique, blah blah affiliation bis\\
+  \texttt{olivier.le-maitre@polytechnique.edu}}
+
+%
+\begin{document}
+
+\maketitle
+
+\thispagestyle{fancy}
+
+\section*{Abstract}
+
+Data assimilation is a field dedicate to the dynamic update of a model state based on the a sequence of observation \cite{asch_data_2016,evensen_data_2022}. Generally the problem is formulated either through variational approaches, based on a cost function minimization, or bayesian approaches, that estimates the posterior distribution based on some distribution assumptions or by hybridizing those methods.
+
+Popular methods under the label Ensemble Kalman Filter (EnKF) are hybrid methods between the Kalman filter and the particle filter that estimate the model covariance error through an ensemble of state \cite{evensen_sequential_1994}. Those methods shown good results even for high-dimensional non-linear cases .
+
+However, all those methods usually used a fixed representation of the state based an a grid discretisation which is particularly beneficial to compare state in ensemble formulations.
+For this reason, classic EnKF methods are, for now, not adaptable to meshless simulations.
+
+Meshless methods are simulation methods particularly relevant for lagrangian type of computations involving very large deformations, changes of topological structure of a continuum\dots
+Those methods are based on the discretization of continuous fields and operator thanks to an ensemble of particles/nodes that move according to a velocity field. Among those methods one of the oldest and famous one is the SPH formulation.
+
+Thus, we propose some kind of ensemble variational methods to assimilate through those type of simulations.
+The main challenges was first to estimate the background error with differents particles configurations, and then to generate new sets of position and quantities of particles for each ensemble member.
+
+To alleviate the first issue, we consider the ensemble distribution as a gaussian process and propose a variational ensemble formulation based on a weak formulation to estimate the background error.
+Then we propose either to generate the new set of particles by remeshing methods or by optimization methods.
+Finally, we will present our results on one or two dimensional transport problem.
+
+\section*{Short biography (PhD student)}
+
+I'm a PhD student in the CEA center of Cadarache. I'm working on the development of assimilation methods that would be adapted to a grinding mill facilities involved in the fuel manufacturing process.
+
+\bibliographystyle{plain}
+\bibliography{mascotnum2023-template}
+
+\end{document}

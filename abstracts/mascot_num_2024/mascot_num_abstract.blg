@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2022)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: mascot_num_abstract.aux
+The style file: plain.bst
+Database file #1: mascotnum2024-duvillard.bib
+Warning--I'm ignoring feyeu2016's extra "note" field
+--line 513 of file mascotnum2024-duvillard.bib
+Warning--empty publisher in book_vortex
+Warning--empty school in feyeu2016
+You've used 4 entries,
+            2118 wiz_defined-function locations,
+            522 strings with 4816 characters,
+and the built_in function-call counts, 1141 in all, are:
+= -- 108
+> -- 56
+< -- 0
++ -- 22
+- -- 18
+* -- 80
+:= -- 207
+add.period$ -- 14
+call.type$ -- 4
+change.case$ -- 18
+chr.to.int$ -- 0
+cite$ -- 6
+duplicate$ -- 44
+empty$ -- 86
+format.name$ -- 18
+if$ -- 227
+int.to.chr$ -- 0
+int.to.str$ -- 4
+missing$ -- 5
+newline$ -- 24
+num.names$ -- 8
+pop$ -- 25
+preamble$ -- 1
+purify$ -- 17
+quote$ -- 0
+skip$ -- 26
+stack$ -- 0
+substring$ -- 45
+swap$ -- 4
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 12
+warning$ -- 2
+while$ -- 10
+width$ -- 5
+write$ -- 45
+(There were 3 warnings)
