@@ -20,11 +20,11 @@
 
 \begin{abstract}
 
-    % This study presents a novel approach for integrating data assimilation techniques into meshless simulations using the Ensemble Kalman Filter. If data assimilation methods have been applied to Eulerian simulations for a long, they have never been properly used in the context of a Lagrangian solution discretization. Two specific methodologies are introduced to complete the analysis. The first one is based on the use of an intermediary Eulerian transformation combining a projection and a remeshing process. The second is a purely Lagrangian scheme that is applicable when remeshing is not adapted. These methods are evaluated using a one-dimensional advection-diffusion model with periodic boundaries. Subsequently, assimilation schemes are applied to a non-linear two-dimensional inviscid flow problem, solved via the Vortex-In-Cell method. In the one-dimensional scenario, the performance of these filters is benchmarked against a grid-based assimilation filter. In the two-dimensional case, the study demonstrates the feasibility of applying these methods in more intricate scenarios.
+    This study introduces a novel approach to data assimilation tailored to meshless simulations, particularly addressing scenarios where positional errors are prevalent. We propose a formulation centered on correcting particle discretization errors in terms of both positions and intensities. The methodology employs a sequential implementation strategy, comprising a dynamic alignment step integrating a correction velocity field followed by an intensity correction utilizing Ensemble Kalman correction techniques. Leveraging an ensemble formulation, our approach minimizes a suite of cost functions, rendering it computationally tractable. Importantly, our method offers a viable solution for correcting meshless simulations in situations where remeshing is impractical. To demonstrate the efficacy of the proposed method, we apply it to a nonlinear two-dimensional inviscid flow problem using Vortex Simulation.
 
 \end{abstract}
 
-{\bf Keywords:} Meshless Methods, Particle-based Method, Data Assimilation, Alignment Filter, Ensemble Methods, Vortex Methods.
+{\bf Keywords:} Meshless Methods, Particle-based Method, Data Assimilation, Position Correction, Ensemble Methods, Vortex Methods.
 
 
 \tableofcontents

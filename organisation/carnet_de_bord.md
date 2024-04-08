@@ -101,9 +101,31 @@ int init=4;
 ## 04-04-2024
 
 - La structure des objets ne doit pas changer, ce qui doit être communiqué c'est uniquement ce qui change. Par exemple les particules, c'est à dire position x, y, et intensité. Les trois sont des `double`. On peut créer une fonction qui va exporter les données dans un format. Trouver la meilleure fonction dans le doc idriss.
-- Rédiger l'abstract du dernier article. S'inspirer de l'abstract et de ma dernière présentation.
-- 
-  
+- [x] Rédiger l'abstract du dernier article. S'inspirer de l'abstract et de ma dernière présentation.
+- [x] Copier github sur le cluster Inria
+- [x] Correction de la fonction `EvaluateFieldOnParti`.
+- Debuggage de PartFilter
+- Il faut maintenant faire la version MPI. Prévoir une fonction pour diffuser le calcul du processus 0 après le Forward et faire le Forward uniquement pour le processus 0. 
+
+## 05-04-2024
+
+- [x] écrire les fichiers de résultat au cours du temps.Mettre la fonction en question dans `utils.cpp`.
+- [x] Ajouter une petite implémentation MPI pour cela.
+- [x] Faire le transfert vectoriel avec Forward. Il faut pour cela.
+- [ ] Rédiger le début de la première partie de la démarche. C'est à dire celle lié à mon premier article.
+- Il faut bien faire attention que chaque processus ait la meme longueur de vecteur. Pour cela, il est plus simple de prendre comme taille de message la longueur du plus grand nombre de particule. On fait donc des messages de NpartMax * 3 elements, le message final fait du NpartMax * 3 *nens, finalement... Ca ne marche que si tous les processus envoie le meme nombre de membres.
+- L'autre possiblité c'est de calculer la longueur de chaque.
+- La solution a été faite d'utiliser `MPI_Allgatherv`. Je définie les longueurs de chaque vecteur, le déplacement assolcié dans le vecteur de rassemblement. Il faut non seulement changer les propriétés des particules mais également le pas de temps (test du transfert).
+
+## 07-04-2024
+
+- [x] Vérifier que t est bien transféré
+- [x] Implémenter la version MPI de l'alignement. Utiliser les fonctions de sérialisation précédemment défini.
+- faire la visualisation 
+  - [x] faire la création des dataframes, pour cela faire un grand dataframe par membre.
+  - [x] Pour les membres, créer nstep `go.Trace` à afficher, pour ensuite les afficher avec la méthode défini [ici](https://plotly.com/python/sliders/).
+- faire visualisaiton de l'erreur
+  - [x] faire l'export dans le fichier .cpp, début ok mais atteintion au trace. Il faut simplement mettre fig en paramètre.
 ## A FAIRE
 
 - Redaction
@@ -119,9 +141,10 @@ int init=4;
 - [ ] Corriger MPI. Proposer des structures de données adéquates. ou alors en sauvegardant les fichiers sans utiliser le Message passing
 
 - Cluster Inria
-- [ ] Copier github sur le cluster Inria
-- [ ] créer un fichier SLURM
 
+- [ ] créer un fichier SLURM. Test pour lambda program
+- [ ] Faire la visualisation
+- [ ] Faire le calcul d'erreur au cours du temps et faire l'affichage sur 1 seul graph. Cote à cote forward et assim. S'inspirer de ce que j'avais fait pour l'analyse paramétrique.
 
 ## A FAIRE++
 

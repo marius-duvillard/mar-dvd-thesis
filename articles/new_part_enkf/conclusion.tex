@@ -1,0 +1,17 @@
+% !TEX root = main.tex
+
+\section{Conclusion}
+In this study, we introduce a novel framework that combines a sequential ensemble data assimilation approach with particle-based models. Specifically, we have developed two novel Ensemble Kalman Filter schemes dedicated to meshfree simulations. These formulations depend either on updating the particle quantities or on remeshing the particle discretization on a common ensemble grid.
+
+We proposed two update strategies relying on an update matrix that does not directly depend on the state discretization. The first strategy, Remesh-EnKF, is based on the projection of every member onto a new common discretization of particles. The second strategy, Part-EnKF, evaluates the analysis field at particle locations to update the particle quantities.
+
+The different classes have been initially tested on a one-dimensional example and compared with an Eulerian representation of the solution. The results show comparability among the different filters, except for some configurations of the Part-EnKF. It has been demonstrated that provided the support of the particles is consistent with the analysis solution, the filters yield similar results. However, in cases where the support deviates from the analysis field, members diverge. Increasing the support for the solution is necessary.
+
+A two-dimensional case has also been tested, particularly to assess nonlinear advection schemes with various configurations. We observe good agreement among the different filters. However, this time, the particle approximation is predominant in the Part-EnKF.
+Both strategies offer several derivations. Remesh-EnKF is mainly dependent on the redistribution kernel to obtain the new regularly spaced particle set. Part-EnKF could be extended because it is highly flexible when defining the new set of particles for each member. This tuning is essential, as we have highlighted the issue of the non-conforming support of the forward particle position with the analysis.
+
+Several methodologies to introduce new particles or change the previous ones could be explored, particularly at the edge of the distribution.
+For the sake of simplicity, we advocate generating a new set of particles with a regular spacing for any member encountering difficulties in accurately reconstructing the analysis field.
+Another alternative is to update the positions of the particles in addition to the intensities instead of only changing the intensities. In this way, the error due to a misfit of alignment or approximation could be avoided. These type of adaptation could be derived from optimal transport scheme~\cite{bocquet_bridging_2023} or correction of the background ensemble alignment with the observation~\cite{ravela_data_2007,rosenthal_displacement_2017}.
+
+\newpage

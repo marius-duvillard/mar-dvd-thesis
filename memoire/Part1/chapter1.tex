@@ -1,0 +1,37 @@
+% !TEX root = main.tex
+
+\section{Développement de méthodes permettant l'adaptation du filtre de Kalman d'ensemble avec des simulations sans maillage}
+
+\subsection{Objectif}
+e filtre de Kalman présenté en Section~\ref*{sec:enkf} est un filtre séquentiel adéquat pour appliquer des méthodes d'assimilation pour des modèles de grande dimension et non-linéaire. D'autre part, dans la Section~\ref{sec:method_part}, nous avons montré la compatibilité des méthodes sans maillage pour l'assimilation de données séquentiel. Nous avons montré alors que les méthodes sans maillage discrétisant un milieu continu pouvait être mis à jour lors de l'assimilation en modifiant positions et intensités des particules.
+
+Toutefois, la mise à jour du filtre de Kalman d'Ensemble est dépendante de la discrétisation de l'état de ses membres pour le calcul du gain de Kalman d'ensemble. De plus, la mise à jour du filtre de Kalman d'Ensemble est basé sur une combinaison linéaire des membres au travers du gain de Kalman d'ensemble, celle-ci entraîne une explosion du nombre de particules dans la définition de la solution analysée.
+
+L'objectif de ce chapitre est donc de présenter un certain nombre d'adaptation du filtre de Kalman d'Ensemble qui puisse être appliquées à des simulations sans maillage.
+
+Pour cela, nous reformulons tout d'abord l'expression de la mise à jour afin qu'elle soit indépendante de la définition de l'état.
+Enfin, les solutions analysées étant des combinaisons linéaires des particules de l'ensemble des membres, nous proposons de développer des méthodes pour réduire l'augmentation exponentielle des particules.
+
+\subsection{Formulation de la correction dans l'espace des membres}
+
+\subsection{Filtre Remesh-EnKF}
+\subsubsection{Méthode de remaillage}
+\subsubsection{Définition du Filtre}
+\subsection{Filtre Part-EnKF}
+\subsubsection{Méthode de régression}
+\subsubsection{Définition du Filtre}
+
+\subsubsection{}
+
+\subsection{Bilan}
+
+Nous avons développé deux adaptations du filtre EnKF adaptées au cas des simulations particulaires. Celle-ci tienne compte d'une augmentation exponentielle de particules.
+Ces deux adaptations Remesh-EnKF et Part-EnKF correspondent à deux paradigmes. Dans le premier cas, le choix a été fait de regénérer complètement la discrétisation à l'aide de méthode de transfert particule à grille et de remaillage. Dans le second cas, le choix a été fait de conserver la position des particules de chaque membre et d'approcher la solution analysée.
+Si ces filtres offre des adaptations du filtre de Kalman d'Ensemble, ils semblent souffrir de plusieurs limitations inhérante à leur schéma. Dans la prochaine section, leur capacité d'assimilation va être vérifié sur plusieurs applications données.
+
+\section{Evaluation de la capacité des méthodes développées à assimiler les données sur plusieurs applications}
+
+Deux filtres dérivée de EnKF ont été développés. A l'aide deux deux applications basées sur une méthode
+
+
+\subsection{Bilan}

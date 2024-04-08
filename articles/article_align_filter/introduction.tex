@@ -1,0 +1,24 @@
+% !TEX root = main.tex
+
+\section{Introduction}
+
+Data assimilation is a process used in many scientific fields (such as meteorology, oceanography, and hydrology) to integrate observed data with output from a numerical model.  This process aims to provide more accurate and consistent information about the state of a system. These data assimilation methods aim to refine model predictions iteratively using observed data~\cite{bocquet_introduction_2014}. Intensive efforts have been made to apply these methods to high-dimensional and non-linear problems.
+Particularly the Ensemble Kalman Filter (EnKF) introduced by Evensen~\cite{evensen_sequential_1994} offer a adequate implementation based on an ensemble of realisation to update apply sequential data assimilation for those conditions.
+
+While these methods have been naturally applied to problems defined on solutions within Eulerian grids, their applications to Lagrangian (or meshless) simulations have been limited. Meshless methods discretize continuous fields and operators using a set of particles that move according to a velocity field~\cite{s_li_meshfree_2004}.
+
+% FAIRE LA PROBLEMATISATION
+
+% INTRODUIRE CE QUI A ETE FAIT PAR MOI
+
+% INTRODUIRE UNE PROBLEMATIQUE SUPPLEMENTAIRE
+- La position des particules joue évidement un role dans l'étape d'assimilaiton obtenue.
+- En particulier, dans \mycolor{citer mon article} la correction de intensité sans changer la position des particules peut entraîner une mauvaise représentation de la solution analysée.
+- De plus, la génération d'une nouvelle discrétisation ou sa mise à jour n'est pas toujours possible. En particulier avec des méthodes des éléments discrets (DEM) où les particules représentent une entitée physique. Dans ce cas, la mise à jour ne peux se faire que par une étape cinématiquement admissible.
+
+% SOLUTION PROPOSEE
+- En fait, cela peut en particulier être du à une erreur d'alignement de la solution avec la référence.
+- Nos objectifs sont de proposer un schéma d'assimilation qui tient compte de l’erreur d’alignement des membres, de proposer ainsi de modifier la position des particules et leur intensité, dans un cadre qui soit plus adapté à des contexte où la mise à jour ne peux se faire que par une étape cinématiquement admissible
+
+% FAIRE ETAT DE L'ART SUR LES METHODES D'ASSIMILATION PAR ALLIGNEMENT --> Voir petite note
+

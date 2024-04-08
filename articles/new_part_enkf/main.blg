@@ -2,50 +2,51 @@ This is BibTeX, Version 0.99d (TeX Live 2022)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: plain.bst
-Database file #1: C:/Users/md266594/mar-dvd-thesis/articles/new_part_enkf/biblio.bib
+Database file #1: ./biblio.bib
 Warning--empty journal in bocquet_introduction_2014
+Warning--empty publisher in bocquet_bridging_2023
 Warning--empty publisher in cottet_vortex_2000
 Warning--empty publisher in le_provost_low-rank_2021
 Warning--empty journal in sulsky_particle_1994
-You've used 28 entries,
+You've used 31 entries,
             2118 wiz_defined-function locations,
-            674 strings with 8678 characters,
-and the built_in function-call counts, 9014 in all, are:
-= -- 894
-> -- 389
+            691 strings with 9127 characters,
+and the built_in function-call counts, 10119 in all, are:
+= -- 997
+> -- 458
 < -- 3
-+ -- 162
-- -- 125
-* -- 683
-:= -- 1528
-add.period$ -- 85
-call.type$ -- 28
-change.case$ -- 142
++ -- 189
+- -- 149
+* -- 779
+:= -- 1717
+add.period$ -- 94
+call.type$ -- 31
+change.case$ -- 162
 chr.to.int$ -- 0
-cite$ -- 32
-duplicate$ -- 326
-empty$ -- 706
-format.name$ -- 125
-if$ -- 1839
+cite$ -- 36
+duplicate$ -- 360
+empty$ -- 781
+format.name$ -- 149
+if$ -- 2056
 int.to.chr$ -- 0
-int.to.str$ -- 28
-missing$ -- 29
-newline$ -- 143
-num.names$ -- 58
-pop$ -- 118
+int.to.str$ -- 31
+missing$ -- 33
+newline$ -- 158
+num.names$ -- 64
+pop$ -- 140
 preamble$ -- 1
-purify$ -- 117
+purify$ -- 135
 quote$ -- 0
-skip$ -- 220
+skip$ -- 240
 stack$ -- 0
-substring$ -- 644
-swap$ -- 43
+substring$ -- 709
+swap$ -- 46
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 108
-warning$ -- 4
-while$ -- 95
-width$ -- 30
-write$ -- 306
-(There were 4 warnings)
+type$ -- 118
+warning$ -- 5
+while$ -- 105
+width$ -- 33
+write$ -- 337
+(There were 5 warnings)

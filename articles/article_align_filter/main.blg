@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2022)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: plain.bst
+Database file #1: C:/Users/md266594/mar-dvd-thesis/articles/new_part_enkf/biblio.bib
+Warning--I didn't find a database entry for "s_li_meshfree_2004"
+Warning--empty journal in bocquet_introduction_2014
+You've used 2 entries,
+            2118 wiz_defined-function locations,
+            511 strings with 4406 characters,
+and the built_in function-call counts, 621 in all, are:
+= -- 62
+> -- 14
+< -- 1
++ -- 6
+- -- 4
+* -- 39
+:= -- 105
+add.period$ -- 6
+call.type$ -- 2
+change.case$ -- 8
+chr.to.int$ -- 0
+cite$ -- 3
+duplicate$ -- 27
+empty$ -- 54
+format.name$ -- 4
+if$ -- 130
+int.to.chr$ -- 0
+int.to.str$ -- 2
+missing$ -- 2
+newline$ -- 13
+num.names$ -- 4
+pop$ -- 9
+preamble$ -- 1
+purify$ -- 6
+quote$ -- 0
+skip$ -- 19
+stack$ -- 0
+substring$ -- 51
+swap$ -- 6
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 8
+warning$ -- 1
+while$ -- 7
+width$ -- 3
+write$ -- 23
+(There were 2 warnings)
