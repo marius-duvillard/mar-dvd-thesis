@@ -126,6 +126,7 @@ int init=4;
   - [x] Pour les membres, créer nstep `go.Trace` à afficher, pour ensuite les afficher avec la méthode défini [ici](https://plotly.com/python/sliders/).
 - faire visualisaiton de l'erreur
   - [x] faire l'export dans le fichier .cpp, début ok mais atteintion au trace. Il faut simplement mettre fig en paramètre.
+- Il semble qu'il y ait un problème dans le forecast au vu des résultats A priori c'est un problème dans le forward.
 ## A FAIRE
 
 - Redaction
@@ -136,9 +137,7 @@ int init=4;
 - Code
 - [ ] Faire un fichier pour lancer les filtres
 - [ ] Ajout de la visualisation des observations
-- [ ] Faire la sauvegarde des solutions au cours du temps.
 - [ ] Faire le cas présenté par Olivier --> 2 vortex suffisamment éloigné sur un domaine infini. Mouvement de translation avec déformation des dipoles suffisammment faible intra vortex. J'imagine aussi faire un monome de bessel qui tourne grâce aux effets de bord (cas domaine fini).
-- [ ] Corriger MPI. Proposer des structures de données adéquates. ou alors en sauvegardant les fichiers sans utiliser le Message passing
 
 - Cluster Inria
 
