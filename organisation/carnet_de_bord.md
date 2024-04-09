@@ -126,15 +126,27 @@ int init=4;
   - [x] Pour les membres, créer nstep `go.Trace` à afficher, pour ensuite les afficher avec la méthode défini [ici](https://plotly.com/python/sliders/).
 - faire visualisaiton de l'erreur
   - [x] faire l'export dans le fichier .cpp, début ok mais atteintion au trace. Il faut simplement mettre fig en paramètre.
+
+## 08-04-2024 
+
+- [x] Faire le cas de Bessel un peu décalé
 - Il semble qu'il y ait un problème dans le forecast au vu des résultats A priori c'est un problème dans le forward.
+- Finalement, il y avait un problème dans le forward, le dernier pas de temps était mal calculé
+- [x] Calcul de l'erreur 
+- Faire attention au Remaillage, ça change le nombre de particules et donc complexifie les choses pour le MPI !!!
+- [x] paralléliser calcul de l'erreur.
+- [x] corriger alignment function
+- MPI a l'air de bien marcher, on pourrait néanmoins tester de lancer le forecast uniquement avec le proc 0
 ## A FAIRE
 
 - Redaction
 - [ ] Reprendre le docx introduction et compléter les trous, les manques de justif avec les thèse de Luiza et Giraud
 - [ ] Faire début abstract nouvel article
 - [ ] Faire début chapitre 1 de ma démarche
+- [ ] Faire partie méthodes de simulation du tambour.
 
 - Code
+- [ ] Ajouter du bruit aux mesures !!!
 - [ ] Faire un fichier pour lancer les filtres
 - [ ] Ajout de la visualisation des observations
 - [ ] Faire le cas présenté par Olivier --> 2 vortex suffisamment éloigné sur un domaine infini. Mouvement de translation avec déformation des dipoles suffisammment faible intra vortex. J'imagine aussi faire un monome de bessel qui tourne grâce aux effets de bord (cas domaine fini).
