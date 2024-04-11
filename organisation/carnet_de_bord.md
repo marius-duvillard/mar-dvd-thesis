@@ -141,7 +141,7 @@ int init=4;
 ## 10-04-2024 
 
 - Il semble y avoir une erreur avec le calcul d'erreur. Sur le plot néanmoins on observe que : le forward a bien lieu sur chaque membre, que l'assimilation a aussi bien lieu sur chaque membre. Mais l'erreur ne correspond pas au résultat. On peut se demander pourquoi, à cause du calcul de l'erreur ? Est ce que les membres sont bien rassemblé sur chaque membre ? C'est important pour le calcul de l'erreur mais surtout pour savoir si chaque ensemble a bien tous les membres avec lui. C'est **ok**, en fait ref n'était pas calculé de partout
-- J'ai pu load les modules, par contre pour ajouter les installations des headers package je n'y arrive pas 
+- J'ai pu load les modules, par contre pour ajouter les installations des headers package je n'y arrive pas
 
 ## Réunion 10-04-2024
 
@@ -162,6 +162,11 @@ int init=4;
 1) Rédiger partie alignement pur
 2) Cas même circulation mais distribution différente ? (taille de core (core size) différent) --> possiblement un cas ou ça peut justifier correction intensité en plus.
   - cas core size différent (mais même position), assimilation, centre ? surement ok, mais sur l'étallement des vortex --> regarder les moments d'ordre 2 de la vorticité -> est ce que l'on peut l'améliorer (matrice \sum \Gamma_i x_i**2, \sum \Gamma_i y_i**2, \sum \Gamma_i x_i y_i), montrer que l'on ne peut pas réduire pour l'ordre 1.
+
+## 11-04-2024
+
+- Afficher observations. **ok**.
+- Il faut régler une histoire de seg fault, apparemment non lié aux affichages....
 
 ## A FAIRE
 
