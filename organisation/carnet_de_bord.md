@@ -117,7 +117,7 @@ int init=4;
 - L'autre possiblité c'est de calculer la longueur de chaque.
 - La solution a été faite d'utiliser `MPI_Allgatherv`. Je définie les longueurs de chaque vecteur, le déplacement assolcié dans le vecteur de rassemblement. Il faut non seulement changer les propriétés des particules mais également le pas de temps (test du transfert).
 
-## 07-04-2024
+## 08-04-2024
 
 - [x] Vérifier que t est bien transféré
 - [x] Implémenter la version MPI de l'alignement. Utiliser les fonctions de sérialisation précédemment défini.
@@ -127,7 +127,7 @@ int init=4;
 - faire visualisaiton de l'erreur
   - [x] faire l'export dans le fichier .cpp, début ok mais atteintion au trace. Il faut simplement mettre fig en paramètre.
 
-## 08-04-2024 
+## 09-04-2024 
 
 - [x] Faire le cas de Bessel un peu décalé
 - Il semble qu'il y ait un problème dans le forecast au vu des résultats A priori c'est un problème dans le forward.
@@ -137,6 +137,32 @@ int init=4;
 - [x] paralléliser calcul de l'erreur.
 - [x] corriger alignment function
 - MPI a l'air de bien marcher, on pourrait néanmoins tester de lancer le forecast uniquement avec le proc 0
+
+## 10-04-2024 
+
+- Il semble y avoir une erreur avec le calcul d'erreur. Sur le plot néanmoins on observe que : le forward a bien lieu sur chaque membre, que l'assimilation a aussi bien lieu sur chaque membre. Mais l'erreur ne correspond pas au résultat. On peut se demander pourquoi, à cause du calcul de l'erreur ? Est ce que les membres sont bien rassemblé sur chaque membre ? C'est important pour le calcul de l'erreur mais surtout pour savoir si chaque ensemble a bien tous les membres avec lui. C'est **ok**, en fait ref n'était pas calculé de partout
+- J'ai pu load les modules, par contre pour ajouter les installations des headers package je n'y arrive pas 
+
+## Réunion 10-04-2024
+
+- Cas à tester:
+  - Alignement avec forecast + grand
+  - Alignement avec erreur d'intensité -> juste alignement ? Quel est le meilleur estimateur pour une erreur d'intensité donné ? --> mettre une distribution de membre.
+
+- Cas des tourbillons ponctuel --> petit support assez séparé (core size \circa 0.2 3 ou 4 équidistant sur un cercle) erreur position initial.
+- Le faire sur un pas de temps suffisement long pour voir la divergence
+- [ ] afficher la variance
+- [ ] Faire le suivi de position des vortex pour pouvoir faire un affichage.
+- [ ] Ajouter les erreurs
+
+1) On boucle pour que ça marche pour le cas variation de position sur 3 corps. Juste un problème d'alignement
+2) Erreur de position reconstruite, position sur un seul graph. Afficher la position au cours du temps (calcul dans le forcast). Par exemple donner des attributs supplémentaires. Colorer les maillages, puis donner la couleur NN.
+- On peut faire centre de chaque membre et ellipsoïde de confiance
+
+1) Rédiger partie alignement pur
+2) Cas même circulation mais distribution différente ? (taille de core (core size) différent) --> possiblement un cas ou ça peut justifier correction intensité en plus.
+  - cas core size différent (mais même position), assimilation, centre ? surement ok, mais sur l'étallement des vortex --> regarder les moments d'ordre 2 de la vorticité -> est ce que l'on peut l'améliorer (matrice \sum \Gamma_i x_i**2, \sum \Gamma_i y_i**2, \sum \Gamma_i x_i y_i), montrer que l'on ne peut pas réduire pour l'ordre 1.
+
 ## A FAIRE
 
 - Redaction
