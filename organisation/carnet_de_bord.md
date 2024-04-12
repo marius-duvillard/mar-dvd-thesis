@@ -166,8 +166,14 @@ int init=4;
 ## 11-04-2024
 
 - Afficher observations. **ok**.
-- Il faut régler une histoire de seg fault, apparemment non lié aux affichages....
+- Il faut régler une histoire de seg fault, apparemment non lié aux affichages.... **ok**
 
+## 12-04-2024
+
+- Fait le cas 3 vortex
+- Fait l'affichage de la variance
+- Fait le suivi de la position d'un vortex
+- Début de la coloration des particules. Mais il semble que la couleur ne reste pas, donc pas encore de résultats pour 3 vortex
 ## A FAIRE
 
 - Redaction
