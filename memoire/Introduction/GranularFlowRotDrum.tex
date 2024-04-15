@@ -2,8 +2,98 @@
 
 \section{Ecoulement granulaire dans un tambour en rotation}
 
+\subsection{Ecoulement granulaire et régime dans le broyeur}
+Les écoulement granulaire
+
+\begin{itemize}
+    \item Très présent dans la nature et l'industrie, du tas de sable en passant par les avalanches.
+    \item Du fait de la nature discrète, bien moins comprise que l'écoulement des liquide qui se base sur les équations de Navier-Stokes
+    \item On a un écoulement qui est différent de celui d'un fluide classique.
+    \item On distingue trois types d'écoulement que l'on assimile gnéralement au trois état de la matière: solide où où le mouvement des particules est lent et le comportement est presque statique, une couche semblable à un liquide dans laquelle les grains s'écoulent avec une certaine inertie, et une zone semblable à un gaz où les particules se déplacent à des vitesses plus élevées de manière chaotique. Ils interviennents simultanément dans l'écoulement. Ce qui complexifie la caractérisation rhéologique
+\end{itemize}
+
+Définir ensuite les différentes modélisations actuelles des régimes (voir layout pour les articles)
+
+\subsection{Rhéologie des milieux granualire sous conditions homogènes}
+
+Les travaux récents convergent vers une loi de comportement viscoplastique pour modéliser les milieux granulaires défini sous le nom de loi $\mu(I)$ \cite{gdr_midi_dense_2004,jop_constitutive_2006}.
+C'ets tout d'abord dans \cite{POULIQUEN_FORTERRE_2002} que le coefficient de friction $\mu$ suit la loi suivante
+
+\begin{equation*}
+    \mu(I) = \mu_1 + \frac{\mu_2- \mu_1}{I_0/I + 1},
+\end{equation*}où $mu_2, \mu_1$ sont deux constantes liés au matériau et $I_0$ une constante qui dépend de la configuration de l'écoulement. Finalement $I$ est appelé le nombrre inertiel. Ce nombre adimentionnel est défini comme le rapport entre le temps de relaxation $\tau_r = \sqrt{m/P}$ et le temps de cisaillement $\tau_c = 1 / \dot \gamma$
+
+\begin{equation*}
+    I = \frac \tau_i \tau_c = \frac{\dot \gamma d}{\sqrt{P/\rho_g}},
+\end{equation*}où $\dot \gamma$ est le taux de cisaillement, $P$ la pression de confinement, $d$ la taille caractéristique des particules, et $\rho_g$ la densité du grain.
+
+Cette loi été étendu au cas tri-dimentionnel et testé sur un certain nombre de cas en particulier celui du tambour en rotation \cite{Cortet_2009} et montre une bonne correspondance pour le cas d'écoulement avec surface libre \cite{chou_cross-sectional_2009}. Toutefois, cette loi trouve certaines limites dans le cas d'écoulement confiné où le coefficient de tassement change et où le mouvement de chaque grain entraîne des modifications significatives dans les chaînes de force. Si la prédiction est bonne au niveau des bords, elle reste toutefois insufisante au niveau des parois \cite{Rognon_Miller_Metzger_Einav_2015}.
+De plus, elle ne permet pas de prendre en compte les régimes cinétiques, c'est à dire le régime gaz. Ainsi, le développement de nouvelles loi rhéologique est un sujet de recherche constant.
+
+\subsection{Ecoulement dans le tambour en rotation}
+
+Dans le tambour en rotation l'ensemble des trois zones d'écoulement sont présentes. Une diversité de six régimes d'écoulement est généralement étudié: glissement, ballotement, éboulement, roulement, en cascade, cataracte,  centrifuge \cite{MELLMANN2001251}.
+Ces différents régimes déterminent la qualité du mélange, du broyage.
+C'est le régime en cascade qui est nécessaire pour la réduction de taille de grain dans le broyeur à boulets. C'est dans ce régime que la surface libre prend la forme caractéristique d'un \textit{S}.
+
+
+\subsection{Simulation du broyage}
 
 \section{Simulation de l'écoulement dans un tambour en rotation}
+
+\subsection{Approche continue}
+
+\begin{itemize}
+
+
+    \item Approches basées sur une description continue du milieu granulaire.
+    \item Utilisation en ingénierie, notamment pour la modélisation des instabilités dans les sols et la rhéologie des poudres dans les procédés.
+    \item Description du comportement à partir de lois constitutives et d'équations de bilan.
+    \item Formulation des problèmes sous forme de problèmes aux dérivées partielles.
+    \item Capacité à intégrer des conditions aux limites complexes.
+    \item Simulation des problèmes à "grande échelle".
+    \item Limitation à fournir des informations sur le lien entre la physique des phénomènes à l'échelle des particules et le comportement à l'échelle macroscopique.
+    \item Méthodes permettant de simuler le comportement continu.
+    \item Méthodes en Éléments Finis (MEF).
+    \item Adaptations pour prendre en compte le comportement granulaire.
+    \item Modèles poro-elasto-plastiques.
+    \item Minimisation de l'erreur introduite en remplaçant le problème continu par un problème discrétisé.
+    \item Prise en compte des conditions aux limites complexes et fortement non-linéaires.
+    \item Difficultés à rendre compte des grandes déformations.
+    \item Nécessité de processus de remaillage coûteux en temps de calcul.
+    \item Alternatives plus récentes comme le Material Point Method (MPM).
+    \item Description Lagrangienne de points matériels.
+    \item Domaine Eulérien maillé pour le calcul des lois de comportement.
+    \item Algorithme itératif pour le transfert des informations.
+    \item Interpolation des variables entre points matériels et maillage.
+\end{itemize}
+\subsection{Approche discrète}
+\begin{itemize}
+    \item Méthodes discrètes traitant les particules comme des objets solides indépendants.
+    \item Caractérisation des particules par leur géométrie.
+    \item Interaction des particules à travers des lois de contact, de frottement et de cohésion.
+    \item Résolution du problème mécanique en décrivant toutes les trajectoires des particules.
+    \item Méthode des Éléments Discrets (DEM).
+    \item Méthode de Dynamique des Contacts (CD).
+    \item Caractère numérique élégant de la méthode CD.
+    \item Particularité des particules considérées comme parfaitement rigides dans la méthode CD.
+    \item Stabilité du système dans la méthode CD.
+    \item Description des vitesses discontinues dans la dynamique des contacts.
+    \item Avantages de l'approche DEM en termes de détails des déformations dans les contacts.
+    \item Complexité algorithmique de la mise en œuvre de la méthode CD.
+    \item Choix d'utiliser la méthode DEM dans la thèse.
+    \item Simplicité de programmation de la méthode DEM.
+    \item Extension des approches lagrangiennes à "N-corps".
+    \item Flexibilité de la méthode DEM dans l'introduction d'interactions complexes entre particules.
+    \item Traitement des forces entre particules par des fonctions régulières de la déflexion au contact dans la méthode DEM.
+    \item Nécessité parfois d'introduire un terme dissipatif dans la méthode DEM.
+    \item Difficulté à justifier le sens physique du terme dissipatif dans certains problèmes.
+    \item La première mise en pratique d'une approche par éléments discrets pour les matériaux granulaires a été réalisée par Cundall à la fin des années soixante.
+    \item Les approches par éléments discrets reposent sur deux familles de méthodes numériques : les méthodes régulières (Smooth Methods) et les méthodes non-régulières (Nonsmooth Methods).
+    \item La méthode dite classique et la méthode de dynamique des contacts (Contact Dynamics ou CD) sont respectivement les méthodes régulière et non-régulière les plus employées à ce jour.
+\end{itemize}
+
+\subsection{Méthodes discrètes}
 
 L'écoulement d'un milieu granulaire a des comportements complexe sachant qu'il a différents régimes d'écoulement.
 De plus, il s'agit d'un milieu soumis à de grandes transformations d'un milieu qui est discret.

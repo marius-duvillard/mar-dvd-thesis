@@ -9,6 +9,32 @@ Nous avons vu dans le chapitre précédent que l'assimilation dépendait de la d
 
 \section{Méthode des éléments discrets (DEM)}
 
+\subsection{Schéma}
+
+La méthode consiste à considérer le moouvement d'un ensemble de $N$ grains composant le milieu. Celui-ci est décrit par l'équation de la dynamique qui peut s'écrire sous la forme
+
+\begin{equation*}
+    \left\{
+    \begin{aligned}
+         & m_{i} \frac{ d^{2}\vec{r}_i }{dt^2}=\vec{f}_{i},\; i=1\ldots N      \\
+         & I_{i} \frac{d \vec{\omega}_{i}}{dt}=\vec{\Gamma}_{i},\; i=1\ldots N
+    \end{aligned}
+    \right.
+\end{equation*}où $`N`$ est le nombre de grains, $`m_{i}`$ est la masse, $`I_i`$ est le moment d'inertie, $`\vec{r}_{i}`$ est la position, $`\vec{\omega_{i}}`$ est la rotation, $`\vec{f}_{i}`$ est la force exercée sur le grain considéré et $`\vec{\Gamma_{i}}`$ le moment associé à la force $`\vec{f}_{i}`$.
+
+La force $`\vec{f}_{i}`$ peut être décomposée de la manière suivante
+
+\begin{equation*}
+    \vec{f}_{i}=\underset{{\scriptstyle j\neq i}}{\sum}\vec{f}^{c}_{ij}+\vec{f}_{ext}
+\end{equation*}
+
+où $`\underset{{\scriptstyle j\neq i}}{\sum}\vec{f}^{c}_{ij}`$ représente les forces de contact qui s'exercent à la surface de la particule $i$ et les forces externes $`\vec{f}_{ext}`$ sont celles appliquées au centre de la particule $`i`$ (par exemple la force de gravité).
+
+Les forces de contact sont décrite par des loi de contact entre les grains ainsi qu'entre les grains et la paroi. Dans le cas élastique, la modèle de Hertz est adapté pour décrire l'intéraction normale. Le modèle Hertz-Mindlin permet de déterminer les interactions tangentielles élastiques. Ces loi sont fonctions de l'interpénétration inter-particule et de la vitesse relative interpaticules. Par exemple, dans le cas de particules sphérique l'interpénétration est défini comme $\delta_{ij} = \norm{\bm x_i - \bm x_j} - (R_i - R_j)$ où $x$  est la position et $R$ le rayon d'une particule.
+
+La force de contact tend à pénaliser l'interpénétration via des coefficients de raideur $k$ et d'amortissement $\gamma$ qui dépendent des propriétés mécaniques des grains de de la paroi. Il existe plusieurs algorithme pour résoudre numériquement les équations de la dynamique. Le plus utilisé est l'algorithme de Verlet en vitesse.
+
+
 La méthode des éléments discrets (DEM, pour Discrete Element Method) est une technique de simulation numérique utilisée pour étudier le comportement des systèmes de particules, tels que lors du mélange broyage à l'intérieur du broyeur à boulets. Cette approche est particulièrement pertinente pour modéliser les interactions complexes entre les particules dans ces systèmes, où la dynamique individuelle de chaque particule peut avoir un impact significatif sur le processus global.
 
 Dans un mélangeur-broyeur, les particules interagissent entre elles, avec les parois du broyeur, et avec le corps broyant. La DEM modélise chaque particule individuellement, en tenant compte de ses propriétés physiques telles que la taille, la forme, la masse, la rigidité, et le modèle de fragmentation. Les interactions incluent les forces de contact, les forces de frottement, et les forces de cohésion.
@@ -19,8 +45,8 @@ L'un des principaux avantages de la DEM est sa capacité à fournir des informat
 
 Cependant, l'utilisation de la DEM pour la simulation de mélangeurs-broyeurs peut être exigeante en termes de ressources informatiques, en particulier pour les systèmes avec un grand nombre de particules.
 
-\subsection{DEM et la DA}
 
+\subsection{DEM et la DA}
 
 L'assimilation de données, lorsqu'appliquée à des systèmes simulés par la méthode des éléments discrets (DEM), se heurte à plusieurs limites importantes présentées ci-dessous en plus du temps de calculs élevé pour des systèmes de grande taille.
 
