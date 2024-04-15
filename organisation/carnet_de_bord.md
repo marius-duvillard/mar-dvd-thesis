@@ -151,9 +151,9 @@ int init=4;
 
 - Cas des tourbillons ponctuel --> petit support assez séparé (core size \circa 0.2 3 ou 4 équidistant sur un cercle) erreur position initial.
 - Le faire sur un pas de temps suffisement long pour voir la divergence
-- [ ] afficher la variance
-- [ ] Faire le suivi de position des vortex pour pouvoir faire un affichage.
-- [ ] Ajouter les erreurs
+- [x] afficher la variance
+- [x] Faire le suivi de position des vortex pour pouvoir faire un affichage.
+- [x] Ajouter les erreurs
 
 1) On boucle pour que ça marche pour le cas variation de position sur 3 corps. Juste un problème d'alignement
 2) Erreur de position reconstruite, position sur un seul graph. Afficher la position au cours du temps (calcul dans le forcast). Par exemple donner des attributs supplémentaires. Colorer les maillages, puis donner la couleur NN.
@@ -174,6 +174,18 @@ int init=4;
 - Fait l'affichage de la variance
 - Fait le suivi de la position d'un vortex
 - Début de la coloration des particules. Mais il semble que la couleur ne reste pas, donc pas encore de résultats pour 3 vortex
+- Correction sur la coloration des 3 vortex. Le problème venait de la sérialisation. Petit problème d'affichage avec plotly... mais on vera cela plus tard
+- Test sur un alignement, pas de remaillage pour l'instant.
+- [ ] faire la coloration après remaillage. Pour cela, il faut projeter la couleur sur la grille, puis faire une interpolation de la couleur. Un nearest neighbor doit suffire.
+
+## 15-04-2024
+
+- avancement rédaction mémoire sur écoulement dans le tambour et DEM.
+- [ ] Afficher particules
+- [x] Faire le remeshing
+- [ ] Calcul de l'erreur d'observation et sur les positions.
+- [x] Pour les couleurs: faire une moyenne. Faire 3 couleurs pour 0.
+
 ## A FAIRE
 
 - Redaction
