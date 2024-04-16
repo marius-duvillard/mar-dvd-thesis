@@ -186,6 +186,11 @@ int init=4;
 - [ ] Calcul de l'erreur d'observation et sur les positions.
 - [x] Pour les couleurs: faire une moyenne. Faire 3 couleurs pour 0.
 
+## 16-04-2024
+
+- Commencer la rédaction partie Vortex Méthod.
+- 
+
 ## A FAIRE
 
 - Redaction

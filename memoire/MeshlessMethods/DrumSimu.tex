@@ -6,6 +6,9 @@ Nous avons vu dans le chapitre précédent que l'assimilation dépendait de la d
 
 \section{Ecoulement granulaire dans un tambour en rotation}
 
+\part{Méthodes particulaires et assimilation de données}
+
+- Les méthodes particulaires sont variées, nous présentons les versions discrètes et continues. Nous les présentons dans la perspective de l'assimilation de données.
 
 \section{Méthode des éléments discrets (DEM)}
 
@@ -77,6 +80,141 @@ Cette approche hybride permet à la MPM de capturer efficacement les déformatio
 
 En termes de temps de calculs, la MPM est plus efficace que la DEM.
 
+\subsection{Méthodes particulaires continues}
+\subsection{Méthodes basées sur les particules}~\label{Background_Part}
+Nous envisageons des méthodes par particules pour résoudre des problèmes continus en mécanique des fluides ou des solides. Cela inclut des méthodes telles que l'hydrodynamique par particules lissées (SPH) \cite{lucy_1977gingold_monaghan_sph_1977} et la méthode des vortex (VM) \cite{cottet_vortex_2000}, et s'étend à d'autres méthodes comme la méthode des points de matériau (MPM) \cite{sulsky_particle_1994}. Elles partagent toutes de décomposer cette fois le domaine en un ensemble $\mathcal{P}$ de particules qui suivent la dynamique du problème. Ainsi, la discrétisation suit la transformation appliquée au milieu en transportant des quantités attachées à chaque particule. Elles sont en cela des méthodes Lagrangienne.
+
+\subsubsection{Discrétisation par particules}
+
+La solution représentée par le jeu de particule est obtenue grâce à deux éléments: une appproximation grâce à un noyau de lissage et l'approximation particulaire d'un opérateur intégral. Si la représentation de la solution peut évoluer suivant la méthode (en particulier avec la méthode MPM), la solution peut toujours être exprimé de cette manière suivant le choix du noyau.
+
+Tout champ relativement régulier $\bm{u}$ sur $\Omega$ peut être écrit grâce à la propriété de filtrage de Dirac
+
+\begin{equation*}
+    \bm{u}(\bm{z}) = \int_{\Omega} \bm{u}(\bm{z'}) \delta(\bm{z'} - \bm{z})  d\bm{z'},
+\end{equation*}avec $\delta$ la distribution de Dirac.
+
+Une fonction de noyau $\phi_\varepsilon$ est introduite pour obtenir une estimation moyenne $\langle \bm{u} \rangle$ de $\bm{u}$ telle que
+
+\begin{equation*}
+    \langle \bm{u}(\bm{z}) \rangle = \int_{\Omega} \bm{u}(\bm{z'}) \phi_\varepsilon(\bm{z}-\bm{z'}) d\bm{z},
+\end{equation*}où $\varepsilon$ est la longueur de lissage. Le noyau lisse doit au moins respecter les propriétés suivantes
+
+\begin{eqnarray*}
+    && \int_{\Omega} \phi_\varepsilon(\bm{z}) d\bm{z} = 1,      \\
+    && \phi_\varepsilon(\bm{z}) \to \delta(z), \quad \varepsilon \to 0, \\
+    && \phi_\varepsilon(\bm{z}) \in C^k,  \quad k \geq 1,
+\end{eqnarray*} où les deux premières propriétés sont des propriétés résiduelles de la distribution de Dirac et la dernière est une exigence de différentiabilité nécessaire pour approcher les opérateurs différentielles.
+
+La fonction moyenne $\langle \bm{u} \rangle$ est ensuite utilisée pour approximer la fonction d'origine.
+
+Dans un second temps, le domaine d'origine $\Omega$ est subdivisé avec $N_p$ sous-domaines $\Omega_p$ associés à une particule Lagrangienne à l'emplacement $z_p \in \Omega_p$. Nous notons $V_p$ le volume de $\Omega_p$. Cette discrétisation est ensuite utilisée pour approximer la fonction moyenne de telle sorte que
+
+\begin{eqnarray*}~\label{part_approx}
+    \langle \bm{u}(\bm{z}) \rangle &=& \sum_p \int_{\Omega_p} \bm{u}(\bm{z'}) \phi_\varepsilon(\bm{z}-\bm{z'}) d\bm{z'} \\
+    &\approx& \sum_p \bm{u}(\bm{z}_p) V_p \phi_\varepsilon (\bm{z}-\bm{z}_p) \\
+    &\approx& \sum_p \bm{U}_p \phi_\varepsilon (\bm{z}-\bm{z}_p).
+\end{eqnarray*}
+
+Ainsi, toute fonction définie sur une discrétisation par particules est définie par un ensemble de positions de particules $\bm{z}_p$ associées à une valeur de particule $\bm{U}_p = \bm{u}(z_p) V_p$ et un noyau lisse $\phi_\varepsilon$.
+
+Sur la base de cette discrétisation, l'opérateur différentiel peut être dérivé à travers cette formulation.
+
+Tout comme le champ $\bm u$, la même interpolation et obtenir
+
+\begin{equation*}
+    \nabla \bm{u}(\bm{z}) = \sum_p \bm{U}_p \nabla \phi_\varepsilon (\bm{z}-\bm{z}_p).
+\end{equation*}
+
+Ils existent toutefois une grande variété de formule pour approximer l'opérateur gradient. Dans ces cas, ce sont les propriétés de conservation associées au champ qui sont privilégiées.
+Généralement, un terme additionnel est introduit lorsque le champ est évalué à la position d'une particule $q$ tel que
+
+\begin{equation*}
+    \nabla \bm{u}(\bm{z}_p) = \sum_q (\bm{U}_q - \bm{U}_p) \nabla \phi_\varepsilon (\bm{z_q}-\bm{z}_p)
+\end{equation*}, où \sum_q \bm{U}_p \nabla \phi_\varepsilon (\bm{z_q}-\bm{z}_p) est nul par propriété de localisation du noyau $\phi_\varepsilon$.
+
+\subsubsection{Exemple de fonctions de noyau}
+
+Plusieurs noyaux ont été utilisés en fonction de la méthode. La formulation originale de la MPM n'utilisait pas de noyau de substitution et écrivait la densité comme suit
+
+\begin{equation*}
+    \bm{u}(\bm{z}) = \sum_p \bm{U}_p \phi_\varepsilon (\bm{z}-\bm{z}_p)
+\end{equation*}
+
+Et la résolution est basée sur une projection sur une grille de fond associée à certaines fonctions de forme \cite{sulsky_particle_1994}.
+
+La méthode GIMP est une formulation différente qui utilise la fonction de Heaviside \cite{bardenhagen_generalized_2004} et associe donc un volume autour de chaque particule
+
+\begin{equation*}
+    M_1(r) = \frac{\alpha}{\varepsilon}\left\{\begin{aligned}
+         & 1; & r \leq \varepsilon \\
+         & 0; & \text{sinon}
+    \end{aligned}
+    \right.
+\end{equation*}où $r = \norm{\bm{z}}_2$.
+
+Cette méthode a été introduite pour éviter le problème de passage de cellule lorsque une particule se déplace d'une cellule à une autre à travers la grille de fond.
+
+Dans la méthode SPH, comme son nom l'indique, un noyau lisse est associé pour approximer la solution. Théoriquement, il pourrait s'agir de la fonction de noyau gaussien
+
+\begin{equation*}
+    \phi_g(r) = \frac{1}{{(\pi \varepsilon^2)}^{d/2}} \exp(-r^2/\varepsilon^2)
+\end{equation*}.
+
+Ce noyau est infiniment différentiable mais défini sur un support non compact. En pratique, nous utilisons une coupure pour supprimer les valeurs négligeables pour une grande distance par rapport à une particule.
+
+D'autres noyaux, basés sur des fonctions B-Spline pour travailler sur un support compact. Ces fonctions sont également positives, ce qui est une exigence pour certains champs comme la densité.
+
+Par exemple, le B-spline quadratique, que nous appelons $M_3$, est défini avec
+\begin{equation}~\label{quadratic_kernel}
+    M_3(r) = \frac{\alpha}{\varepsilon^d}\left\{ \begin{aligned}
+         & \frac{3}{4} - |q|^2                            & 0 \leq           & |q| < \frac{1}{2} \\
+         & \frac{1}{2} {\left(\frac{3}{2} - |q|\right)}^2 & \frac{1}{2} \leq & |q| < \frac{3}{2} \\
+         & 0                                              & \frac{3}{2} \leq & |q|
+    \end{aligned}
+    \right.
+\end{equation}avec $r = \norm{z}_2 $ et $q = r / \varepsilon$ et $\alpha$ la condition de normalisation et $d$ la dimension spatiale.
+
+Ce noyau garantit la continuité $C^1$.
+Le noyau cubique est un autre noyau B-Spline qui est
+\begin{eqnarray}~\label{cubic_kernel}
+    M_4(r) &=&  \frac{\alpha}{\varepsilon^d} \left\{ \begin{aligned}
+         & \frac{1}{6}{(-|q|+2)}^3 - \frac{4}{6}{(-|q|+1)}^3 & 0 \leq      & |q| \leq  1 & \\
+         & \frac{1}{6}{(- |q|+2)}^3                          & 1      \leq & |q| \leq 2  & \\
+         & 0                                                 & 2 \leq      & |q|
+    \end{aligned}
+    \right.
+\end{eqnarray}
+
+Dans ce dernier cas, le facteur de normalisation $\alpha$ est
+
+\begin{equation*}
+    \alpha = \left\{ \begin{aligned}
+         & 1;    \quad      & 1\text{ d} \\
+         & 30/14 \pi; \quad & 2\text{ d} \\
+         & 3/ 2\pi; \quad   & 3\text{ d}
+    \end{aligned}
+    \right.
+\end{equation*}
+
+Notez que ces noyaux ont été définis avec la coordonnée radiale $r$. Une autre possibilité serait de définir le noyau multidimensionnel comme le produit tensoriel du noyau 1D
+
+\subsection{SPH}
+
+La méthode SPH a étét développée indépendemment par Lucy~\cite{lucy_1977}, et Gingold et Monhagan~\cite{gingold_monaghan_sph_1977}. Elle a été formulé initialement pour dess problème de formation et d'évolution des systèmes stellaires. Tout comme en mécanique quantique sont but est de réprésenter le système discret en le lissant pour obtenir un milieu continu discrétisé par un ensemble de particules. En mécanique, cette méthode est vu comme une méthode de discrétisation sans maillage d'un milieu continu.
+Elle consiste à résoudre la forme forte des équations de la dynamique en approchant les champs et les opérateurs différentiels à l'aide de l'approximation particulaire et l'approximation par noyau précédemment évoqué.
+
+Les équations résoluent sont l'équation de continuité et l'équation de conservation de la quantité de mouvement
+
+\begin{eqnarray*}
+    \frac{d\rho}{dt} + \rho \nabla \cdot \bm{v} = 0, \\
+    \frac{d\bm v}{dt} = \frac1\rho \nabla \cdot \bm \sigma,
+\end{eqnarray*}où $\rho$ est la densité, $\bm v$ la vitesse, $\bm \sigma$ la contraite de Cauchy.
+
+% continuer un peu avec p.37 et 38
+
+
+
 \subsection{La MPM et la DA}
 La MPM offre un cadre exploitable pour mettre en place une méthode de DA.
 La structure de grille sous-jacente à la MPM permet une modélisation l'utilisation des méthodes variationnelles ou des méthodes d'ensemble. La structure de particules est aussi plus flexible dans le sens où elles représentent une densité de matière : elles peuvent donc s'interpénétrer.
@@ -94,9 +232,15 @@ Cependant, l'intégration de la MPM avec l'EnKF soulève plusieurs questions imp
 
 2. **Remaillage de Particules pour Représenter l'État Mécanique** : Une autre question clé est de savoir comment effectuer un remaillage des particules pour représenter fidèlement l'état mécanique du système après assimilation. Cela est crucial pour maintenir la cohérence et l'exactitude du modèle MPM, en particulier après des mises à jour successives de l'état du système.
 
+Au travers des précédentes méthodes particulaires, nous constatons que l'application des méthodes d'assimilation sont innégalement applicable.En particulier, les méthodes discrètes n'offre pas la possibilité de corriger directement l'état de la discrétisation, mais nécessite une correction au travers du schémas d'intégration. D'autre part, les méthodes particulaires continues (par exemple MPM, SPH), permettent de modifier et faire varier dans son intégralité la discrétisation particulaire. En effet, chaque particule est définie en un point, ce qui annule tout problème d'interpénétration. Toutefois, un certains nombre de questions évoqué et mise en suspens doivent être évoqué.
+Afin de facilité le développement de nouveaux filtres, une autre méthode particulaire a été utilisée la méthode Vortex. Elle a été choisi car elle offre une modélisation plus simple que les méthodes SPH et MPM. En effet, chaque particule ne transporte qu'une quantité scalaire. Cependant, elle dispose de toutes les caractéristiques d'une méthode particulaire continue.
+
+\section{Méthode Vortex}
+
+La méthode Vortex (VM) est une méthode particulaire utilisé pour résoudre  dans le cas d'écoulements incompressibles~\cite{Cottet_Koumoutsakos_2000}. Elle a été pour la première fois développé indépendemment par Prager~\cite{prager1928druckverteilung} et Rosenhead~\cite{rosenhead1931formation}. Elle se base sur la discrétisation du champ de vorticité par un ensemble de particules, et résoud la formulation vorticité-vitesse des équations de Navier-Stokes.
 \section{Vortex-In-Cell : un modèle grille-particules simplifié}
 
-La méthode Vortex-In-Cell (VIC) est une technique de simulation numérique, considérée ici comme une version simplifiée de la MPM. Cette méthode est particulièrement utilisée pour simuler les écoulements de fluides et les dynamiques de vortex. La VIC combine l'utilisation d'une grille de calcul avec des particules pour modéliser le mouvement des fluides.
+La méthode Vortex-In-Cell (VIC) est une technique de simulation numérique, considérée ici comme une version simplifiée de la MPM. Cette méthode est particulièrement utilisée pour simuler les écoulements de fluides et La VIC combine l'utilisation d'une grille de calcul avec des particules pour modéliser le mouvement des fluides.
 
 Dans la méthode VIC, la grille sert de structure pour effectuer les calculs numériques liés à la dynamique des fluides, tandis que les particules, dispersées dans le fluide, transportent une quantité scalaire, la vorticité. Cette approche diffère de la MPM dans le sens où les particules portent des informations complexes sur les propriétés mécaniques du matériau.
 
