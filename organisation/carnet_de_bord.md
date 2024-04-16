@@ -188,8 +188,13 @@ int init=4;
 
 ## 16-04-2024
 
-- Commencer la rédaction partie Vortex Méthod.
-- 
+- Commencer la rédaction partie Vortex Méthod. J'ai commencé la partie SPH aussi. Reprendre p37 et 38.
+- Attention sur le include, ils faut mettre dans external les autres headrers !
+- [x] Refaire correctement le cmake
+- [x] Faire un enregistrement des paramètres directement avec un json
+- Je viens de finaliser l'enregistrement des données d'expérience, il reste à mener les expérience maintenant.
+- 2galement on prendra le temps de calculer l'erreru sur les positions ainsi que sur les observations. Pour les positions, je propose de le faire directement dans le python ?? et Pour les observations ca se questionne, en particulier dans le cas où le nombre vari. Donc dans ce second cas faire différemment.
+- Egalement faire la mesure des moments d'ordre plus élevé.
 
 ## A FAIRE
 
