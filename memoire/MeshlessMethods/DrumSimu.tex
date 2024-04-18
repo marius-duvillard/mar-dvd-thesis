@@ -120,7 +120,7 @@ Ainsi, toute fonction définie sur une discrétisation par particules est défin
 
 Sur la base de cette discrétisation, l'opérateur différentiel peut être dérivé à travers cette formulation.
 
-Tout comme le champ $\bm u$, la même interpolation et obtenir
+Tout comme le champ $\bm u$, la même interpolation peut être appliquée pour obtenir
 
 \begin{equation*}
     \nabla \bm{u}(\bm{z}) = \sum_p \bm{U}_p \nabla \phi_\varepsilon (\bm{z}-\bm{z}_p).
@@ -204,14 +204,28 @@ Notez que ces noyaux ont été définis avec la coordonnée radiale $r$. Une aut
 La méthode SPH a étét développée indépendemment par Lucy~\cite{lucy_1977}, et Gingold et Monhagan~\cite{gingold_monaghan_sph_1977}. Elle a été formulé initialement pour dess problème de formation et d'évolution des systèmes stellaires. Tout comme en mécanique quantique sont but est de réprésenter le système discret en le lissant pour obtenir un milieu continu discrétisé par un ensemble de particules. En mécanique, cette méthode est vu comme une méthode de discrétisation sans maillage d'un milieu continu.
 Elle consiste à résoudre la forme forte des équations de la dynamique en approchant les champs et les opérateurs différentiels à l'aide de l'approximation particulaire et l'approximation par noyau précédemment évoqué.
 
-Les équations résoluent sont l'équation de continuité et l'équation de conservation de la quantité de mouvement
+Les équations résoluent sont l'équation de continuité et l'équation de conservation de la quantité de mouvement à travers l'équation d'Euler
 
 \begin{eqnarray*}
     \frac{d\rho}{dt} + \rho \nabla \cdot \bm{v} = 0, \\
     \frac{d\bm v}{dt} = \frac1\rho \nabla \cdot \bm \sigma,
 \end{eqnarray*}où $\rho$ est la densité, $\bm v$ la vitesse, $\bm \sigma$ la contraite de Cauchy.
 
-% continuer un peu avec p.37 et 38
+En utilisant la règle d'approximation du gradient le terme $\rho \nabla \cdot \bm{v}$ peut être approximé pour chaque particule, ce qui donne pour l'équation de continuité
+
+\begin{equation*}
+    \frac{d\rho_p}{\sum_{q} m_j (\bm v_j - \bm v_i) \cdot \nabla \phi_\varepsilon(\bm z_p - \bm z_q)}.
+\end{equation*}
+
+De la même manière, l'équation d'équilibre des quantités de mouvement peut êter discrétisé. La forme suivante est généralement utilisée
+
+\begin{equation*}
+    m_p \frac{d \bm v}{dt} = \sum_{q} m_p m_q \left(\frac{\bm \sigma_p}{\rho_p^2} + \frac{\bm \sigma_q}{\rho_q^2} \right) \cdot \nabla \phi_\varepsilon(\bm z_p - \bm z_q).
+\end{equation*}
+
+Cette version est symétrique par rapport aux indices $p$ et $q$ ce qui favorise les propriétés de conservation.
+
+Finalement, les équations de la dynamique sont intégrées dans le temps généralement à l'aide d'un algorithme dit \textit{leap-frog}.
 
 
 

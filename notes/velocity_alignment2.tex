@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage{graphicx} % Pour inclure des images
+\usepackage{amsmath} % Pour les environnements mathématiques
+\usepackage{amssymb} % Pour les symboles mathématiques
+\usepackage{bm} % Pour les symboles gras en mathématiques
+\usepackage{geometry}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand{\bv}{\bm{v}}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+
+
+\graphicspath{ {images} }
+
+\bibliographystyle{plain}
+\begin{document}
+
+\title{Alignement par application d'un champ de vitesse}
+\author{Marius Duvillard}
+\date{\today}
+\maketitle
+
+\section{Définition du problème}
+
+On suppose $\omega$ un champ de vorticité défini sur $\Omega$. On suppose que le champ est incertain à cause d'une erreur d'alignement.
+Nous supposons que cette erreur est issue d'une erreur dans l'intégration du champ de vitesse lors de l'étape de propagation.
+Lors de l'étape d'analyse, nous souhaitons réduire cette erreur de position. Pour cela, nous introduisons une variable de contrôle au travers d'un déplacement défini par une transformation $\Phi(\bm u)$, paramétrée par un champ de vitessse de correction $\bm u$ de telle sorte que pour tout point $\bm z \in Omega$
+
+\begin{equation*}
+    \Phi(\bm x, \bm u) = X(u) = x + \int_{0}^{1} u(x(t)) \mathrm dt.
+\end{equation*}
+
+Puisque l'erreur est supposée issue de perturbation dans la position du champ, la correction doit préserver la propriété d'incompressibilité de l'écoulement. Pour cela, nous supposons que $\bm u$ est un champ de vitesse à divergence nulle. Pour des observations, et un champs de vorticité donnée, nous cherchons à déterminer $\bm u$ la distribution a posteriori $p(\bm u \mid \omega, y) \propto p(y \mid \bm u, \omega) p(u)$.
+
+\textbf{transition vers la forme variationnelle d'ensemble}
+
+Ainsi, on obtient un ensemble de $N$ fonction coût à minimiser
+
+\begin{equation*}
+    \mathcal L_i (\bm u) = \frac{1}{2}\norm{y - h(\omega, \Phi(u))}^2_{R^{-1}} + \frac \lambda 2 \norm{u}^2_{P^{\dag}},
+\end{equation*}où $P^{\dag}$ est l'opérateur pseudo-inverse de
+
+\end{document}

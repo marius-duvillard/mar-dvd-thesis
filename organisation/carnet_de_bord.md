@@ -112,7 +112,6 @@ int init=4;
 - [x] écrire les fichiers de résultat au cours du temps.Mettre la fonction en question dans `utils.cpp`.
 - [x] Ajouter une petite implémentation MPI pour cela.
 - [x] Faire le transfert vectoriel avec Forward. Il faut pour cela.
-- [ ] Rédiger le début de la première partie de la démarche. C'est à dire celle lié à mon premier article.
 - Il faut bien faire attention que chaque processus ait la meme longueur de vecteur. Pour cela, il est plus simple de prendre comme taille de message la longueur du plus grand nombre de particule. On fait donc des messages de NpartMax * 3 elements, le message final fait du NpartMax * 3 *nens, finalement... Ca ne marche que si tous les processus envoie le meme nombre de membres.
 - L'autre possiblité c'est de calculer la longueur de chaque.
 - La solution a été faite d'utiliser `MPI_Allgatherv`. Je définie les longueurs de chaque vecteur, le déplacement assolcié dans le vecteur de rassemblement. Il faut non seulement changer les propriétés des particules mais également le pas de temps (test du transfert).
@@ -195,6 +194,23 @@ int init=4;
 - Je viens de finaliser l'enregistrement des données d'expérience, il reste à mener les expérience maintenant.
 - 2galement on prendra le temps de calculer l'erreru sur les positions ainsi que sur les observations. Pour les positions, je propose de le faire directement dans le python ?? et Pour les observations ca se questionne, en particulier dans le cas où le nombre vari. Donc dans ce second cas faire différemment.
 - Egalement faire la mesure des moments d'ordre plus élevé.
+- Il faut aussi tester sur Plafrim
+
+## 17-04-2024
+
+- [x] Reprise de la partie SPH (description). S'aider des p.37-38 + wiki.
+- Erreur de position ok !
+- Il faudrait faire plot de lambda pour différents sigma, différent lambda, différent nens et voir comment ça se comporte.
+- Je peux lancer sur Plafrim mais... très lent encore. On doit bien choisir le type de noeud.
+
+## 18-04-2024
+
+- Retester sur Plafrim
+- Refaire une rédaction de l'alignement
+- lancer des l_curve en faisant varier sigma et nens pour le cas 3 vortex.
+- Exporter et visualiser la position des particules
+- Faire export des erreurs de vitesse. Faire une représentation des erreurs dans l'espace ? 
+- Si j'ai le temps proposer le filtre alignement incrémental ?
 
 ## A FAIRE
 
