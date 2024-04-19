@@ -212,6 +212,20 @@ int init=4;
 - Faire export des erreurs de vitesse. Faire une représentation des erreurs dans l'espace ? 
 - Si j'ai le temps proposer le filtre alignement incrémental ?
 
+## 19-04-2024
+
+- [x] revoir plot assimilation, sur le chargement des fichiers (update df), enlever le point au centre
+- [x] Refaire initialisation des trois vortex
+- [x] faire varier la référence en changeant le poids de chaque vortex. Faire des test sur la référence seulement (nens=1, assimilate=0)
+- [x] Mettre des bornes pour la recherche de paramètres a. Pour cela utiliser une première évaluation de la fonction cout.
+- [ ] Ajouter une recherche multi-point (MLSL).
+- [ ] Faire une calibration du lambda.
+- [ ] Faire le calcul du déplacement max et mettre une contrainte. Dans la partie intégration faire l'intégration du champ de vitesse pour chaque particule et faire le max ? le mean ?
+- [ ] Proposer un optimiseur qui prennent en compte les contraintes. Par exemple MMA ? Combiner avec MLSL ?
+- L'assimilation marche bien (meme sans pénalisation mais avec des bornes.). Mais ça prend du temps, voir pour augmenter le dt forward pour que ça soit plus visuel sur la divergence
+
+- Faire conversion animation vers mp4.
+
 ## A FAIRE
 
 - Redaction
@@ -221,15 +235,14 @@ int init=4;
 - [ ] Faire partie méthodes de simulation du tambour.
 
 - Code
-- [ ] Ajouter du bruit aux mesures !!!
-- [ ] Faire un fichier pour lancer les filtres
-- [ ] Ajout de la visualisation des observations
+- [x] Ajouter du bruit aux mesures !!!
+- [x] Faire un fichier pour lancer les filtres
+- [x] Ajout de la visualisation des observations
 - [ ] Faire le cas présenté par Olivier --> 2 vortex suffisamment éloigné sur un domaine infini. Mouvement de translation avec déformation des dipoles suffisammment faible intra vortex. J'imagine aussi faire un monome de bessel qui tourne grâce aux effets de bord (cas domaine fini).
 
 - Cluster Inria
 
-- [ ] créer un fichier SLURM. Test pour lambda program
-- [ ] Faire la visualisation
+- [x] créer un fichier SLURM. Test pour lambda program
 - [ ] Faire le calcul d'erreur au cours du temps et faire l'affichage sur 1 seul graph. Cote à cote forward et assim. S'inspirer de ce que j'avais fait pour l'analyse paramétrique.
 
 ## A FAIRE++
