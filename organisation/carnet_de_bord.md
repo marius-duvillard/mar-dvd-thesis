@@ -224,7 +224,28 @@ int init=4;
 - [ ] Proposer un optimiseur qui prennent en compte les contraintes. Par exemple MMA ? Combiner avec MLSL ?
 - L'assimilation marche bien (meme sans pénalisation mais avec des bornes.). Mais ça prend du temps, voir pour augmenter le dt forward pour que ça soit plus visuel sur la divergence
 
-- Faire conversion animation vers mp4.
+
+## 22-04-2024
+
+- [ ] Save les vitesses de correction.
+- Faire une sortie des optimizations pour voir si il y a fail. Pas si facile à faire avec le mpi.
+- A priori il est bon de mettre une pénalisation car en mettant juste des bornes on a toujours un problème... Deux composantes 1) toujours des trajectoires fermées, 2) sensibilité au bruit ?
+- Le deuxième point est à vérifier.
+- Sans bruit et sans lambda :2024-04-22-10:35:36. Dans ce cas nens=8, il semble y avoir des compensation entre membre (un gro + et un gros -) --> en fait ça peut être juste pour faire un dipole.
+- Dans le cas 2024-04-22-11:51:01, on a des cas extreme ou la vitesse est très importante. Bien que en moyenne on ait bien reduction de l'erreur sur la position des vortex et sur le champ de vorticité.
+- Dans le cas assim_three_vortex/2024-04-22-16:37:40 --> avec le lambda on a plus les champs qui partent dans tous les sens. Par contre on empeche trop le déplacement.
+- Dans assim_three_vortex/2024-04-22-16:52:05 --> super mais que 5 assim.
+- Dans assim_three_vortex/2024-04-22-17:01:40 : on a fait 10 assim, on voit que à la fin problème, soit le temps de forecast trop long soit, nombre de membre trop faible. ou alors lambda encore trop faible ?
+- Dans assim_three_vortex/2024-04-22-17:29:59: on a bien fait 5 assim mais avec des données bruitées et tout va bien.
+- Dans /DISK2/md266594/part_enkf/outputs/assim_three_vortex/2024-04-22-17:40:24: Ca marche bien avec 12 membres et 5 assim et le bruit.
+- J'ai relancé un dernier cas pour voir si ça marche bien sur 10assim.
+
+- On fait une assim sans bruit d'obs et avec un lambda
+- [ ] faire export des a ?
+- [x] faire un cas avec sans assim pour montrer l'évolution. Avec peu de membre (8)
+- [x] Faire un cas avec moins de membre juste pour que ça aille plus vite.
+- [x] Faire conversion animation vers mp4.
+- [ ] Faire image champ de vitesse et vorticité pour l'initialisation
 
 ## A FAIRE
 
