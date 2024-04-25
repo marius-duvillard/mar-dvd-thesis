@@ -7,26 +7,30 @@ gantt
         Fin app2d: done, a0, 01-01-2024,30d
         Correction Background/Method: done,a1, 15-02-2024, 5d
         Correction appl:done,a2,after a1, 21d
-        Révision: after a2, 60d
+        Révision: active, after a2, 60d
         Article 2: after a5, 160d 
 
     section Dvpt  
         Bibliographie: done,d1, 01-01-2024, 20-02-2024
-        Align Part Filter: after d1, 310d
+        Align Part Filter: active, d2,after d1, 01-06-2024
+        Align-EnKF: after d2, 01-10-2024
+
     section Formation
-        Rédiger Thèse: f1, 19-03-2024,21-03-2024
+        Rédiger Thèse: done, f1, 19-03-2024,21-03-2024
+
     section Conf./Pr.
-        Présentation 3 minutes: p1, 17-03-2024, 10d
-        Journée des doctorants IRESNE:crit, after p1, 27-03-2024, 3d
-        Presentation EC.: p3, 15-05-2024, 03-06-2024
+        Présentation 3 minutes: done, p1, 17-03-2024, 10d
+        Journée des doctorants IRESNE:done, crit, after p1, 27-03-2024, 3d
+        Presentation EC.: crit, p3, 15-05-2024, 03-06-2024
         ECCOMAS: crit, 03-06-2024, 5d
         Café Thésard: crit, 28-06-2024, 1d
         Soutenance ?: crit, 01-12-2024, 31-12-2024
     section Manuscrit
-        part. Intro:a4, 01-03-2024, 80d
-        part. I: a5,after a4, 60d
+        part. I: active,a4, 01-03-2024, 80d
+        part. Intro: a5,after a4, 60d
         part. II: after a5, 100d
     section Admin.
+        Congés: &d1, 26-04-2024, 12-05-2024
         Dépôt du manuscrit: crit, 01-11-2024, 0.5d
         Fin de contract: crit, 31-12-2024,0.5d
 

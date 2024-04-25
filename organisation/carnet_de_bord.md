@@ -233,12 +233,13 @@ int init=4;
 - Le deuxième point est à vérifier.
 - Sans bruit et sans lambda :2024-04-22-10:35:36. Dans ce cas nens=8, il semble y avoir des compensation entre membre (un gro + et un gros -) --> en fait ça peut être juste pour faire un dipole.
 - Dans le cas 2024-04-22-11:51:01, on a des cas extreme ou la vitesse est très importante. Bien que en moyenne on ait bien reduction de l'erreur sur la position des vortex et sur le champ de vorticité.
-- Dans le cas assim_three_vortex/2024-04-22-16:37:40 --> avec le lambda on a plus les champs qui partent dans tous les sens. Par contre on empeche trop le déplacement.
-- Dans assim_three_vortex/2024-04-22-16:52:05 --> super mais que 5 assim.
-- Dans assim_three_vortex/2024-04-22-17:01:40 : on a fait 10 assim, on voit que à la fin problème, soit le temps de forecast trop long soit, nombre de membre trop faible. ou alors lambda encore trop faible ?
-- Dans assim_three_vortex/2024-04-22-17:29:59: on a bien fait 5 assim mais avec des données bruitées et tout va bien.
-- Dans /DISK2/md266594/part_enkf/outputs/assim_three_vortex/2024-04-22-17:40:24: Ca marche bien avec 12 membres et 5 assim et le bruit.
+- Dans le cas `assim_three_vortex/2024-04-22-16:37:40` --> avec le lambda on a plus les champs qui partent dans tous les sens. Par contre on empeche trop le déplacement.
+- Dans `assim_three_vortex/2024-04-22-16:52:05` --> super mais que 5 assim.
+- Dans `assim_three_vortex/2024-04-22-17:01:40` : on a fait 10 assim, on voit que à la fin problème, soit le temps de forecast trop long soit, nombre de membre trop faible. ou alors lambda encore trop faible ?
+- Dans `assim_three_vortex/2024-04-22-17:29:59`: on a bien fait 5 assim mais avec des données bruitées et tout va bien.
+- Dans `/DISK2/md266594/part_enkf/outputs/assim_three_vortex/2024-04-22-17:40:24`: Ca marche bien avec 12 membres et 5 assim et le bruit.
 - J'ai relancé un dernier cas pour voir si ça marche bien sur 10assim.
+
 
 - On fait une assim sans bruit d'obs et avec un lambda
 - [ ] faire export des a ?
@@ -247,6 +248,46 @@ int init=4;
 - [x] Faire conversion animation vers mp4.
 - [ ] Faire image champ de vitesse et vorticité pour l'initialisation
 
+## 23-04-2024
+
+- Il faut indubitablement de la régularisation. Introduire un prior sur u.
+- Sur le cas `assim_three_vortex/2024-04-22-17:52:14`, on a rajouter le nombre de membres et toujours le même problème... Peut être le lambda est trop grand aussi ? Je teste avec moins de membres (n=8) mais un lambda plus petit.
+- Dans `assim_three_vortex/2024-04-23-09:20:49`: J'ai repris un ensemble plus faible et un lambda moins fort mais toujours les meme problèmes. En regardant le membre 0, on observe que la vitesse du vortex problématique semble diminuer. Donc peut être concentration de tourbillon a diminué ?
+- Je propose maintenant de modifier la fréquence de forecast: faire 20 assim de 5 unité de temps -> voir si c'est juste le déplacement le problème. (Ou alors augmenter le nombre de mesure ?)
+- on a encore un problème meme en augmentant le nombre d'assimilation. En fait certain des membres disparaissent complètement...
+
+- O peut etre reprendre le cas (1,1,1) mais
+- J'ai repris un cs test plus gentil avec (1,1,1)
+- Dans `forward_three_vortex/2024-04-23-15:57:48`: on a un forward sympa pour faire de l'assimilation.
+- Dans assim_three_vortex/2024-04-23-17:00:10 on a un exemple qui marche bien avec peu de membres. Il y a toujours une petit bruit. Je vais donc augmenter le nobs pour voir si ça marche mieux. Mais en changeant le nobs, je change la taille du vecteur... donc normaliser ? On va changer le bruit pour l'instant. 
+- Dans `assim_three_vortex/2024-04-23-17:48:38`: je fais un cas sans bruit de mesure. Alors l'erreur sur les centres diminu !
+- Dans `assim_three_vortex/2024-04-23-18:02:17` : je fais avec un nombre de obs plus important. Mais pas de pondération, donc y'a une différence relative dans le lambda. Mais on voit bien une diminution de l'erreur !
+- [x] régler le scaling sur nobs. changer le lambda en conséquence.
+
+## 24-04-2024
+
+- Dans  assim_three_vortex/2024-04-23-18:39:53 : on a refait avec plus de membres, mais on constate toujours autant de distorsions... Pas assez de régularisation ? En soit meme pour les cas précédent, il y avait pas assez de régularisation. Je vais donc reprendre des cas avec plus de régularisation pour voir l'effet. 
+- Dans `/DISK2/md266594/part_enkf/outputs/assim_three_vortex/2024-04-24-09:52:15` :  lambda = 1.e-6, on a aug le lambda. L'erreur est moins réduit, mais pas trop d'écart, on peut plutot le diminuer
+- Dans `/DISK2/md266594/part_enkf/outputs/assim_three_vortex/2024-04-24-10:08:27` : on a lambda = 1.0e-7, on est pas si mal, pas mal de distorsion. quand meme.
+- En fait jusqu'à présent pas de remeshing.... Je refais un test en forward pour voir si ça marche maintenant.
+- remeshing is fixed
+- Je fais 1 seul remesh pendant le forward
+- J'ai réussi à faire une bonne coloration après le remesh. Correction d'un petit bug dans la recherche dans la matrice.
+- Test de l'assimilation après avoir refait le forward sans problème.
+- [x] export des membres sans assim, export du champ de vorticité initial et les champs de vitesse initiaux.
+
+## 25-04-2024
+
+- Correction sur la base des champs de vitesse. En fait jusqu'à présent on corrigeait que grâce à la base initiale... En utilisant la vraie base on corrige beaucoup moins bien les retards.
+- Dans `assim_three_vortex/2024-04-25-10:54:40` on a mis à jour la base, dans ce cas précis, on arrive à corriger au début convenablement, mais finalement on n'arrive plus à corriger les déphasage sur la trajectoire, car vitesse pas assez riche...
+- Peut être enrichir au fur et à mesure la base ? la mettre à jour mettre celle au début du forecast puis à la fin ?
+- Dans `assim_three_vortex/2024-04-25-11:16:23`, je propose déjà d'enlever le champ moyen. Y'à une amélioration mais je pense que c'est juste du au rapport à la régularisaiton... On assimile bien mais juste parce que l'on peut toujours compenser en norme de vitesse
+- Dans `assim_three_vortex/2024-04-25-11:28:28` un premier temps je vais utiliser à chaque fois le champ de vitesse qui précède
+- Dans , on garde donc la base de vitesse précédente, on centre bien par le champ moyen.
+- [x] Correct basis print
+- Dans `assim_three_vortex/2024-04-25-17:25:02` J'ai proposé une nouvelle façon d'écrire la base. On peut enrichir avec les modes précédents.
+- Dans `/DISK2/md266594/part_enkf/outputs/assim_three_vortex/2024-04-25-17:40:08` Je propose de faire un test avec uniquement le champ courant mais cette fois avec moins de régularisation. On a un résultat acceptable ^^. On test  avec l'enrichissement ?
+- Pour la rentrer finir moment 2
 ## A FAIRE
 
 - Redaction
