@@ -287,7 +287,60 @@ int init=4;
 - [x] Correct basis print
 - Dans `assim_three_vortex/2024-04-25-17:25:02` J'ai proposé une nouvelle façon d'écrire la base. On peut enrichir avec les modes précédents.
 - Dans `/DISK2/md266594/part_enkf/outputs/assim_three_vortex/2024-04-25-17:40:08` Je propose de faire un test avec uniquement le champ courant mais cette fois avec moins de régularisation. On a un résultat acceptable ^^. On test  avec l'enrichissement ?
-- Pour la rentrer finir moment 2
+- Pour la rentrer finir moment 2.
+
+## 13-05-2024
+
+- [x] après discussion avec Olivier, ajouter le terme moyen dans la base comme un terme supplémentaire, c'est à dire écrire correction comme $v = \sum_{i=1}^N \alpha_i u_{i}' + \alpha_0 \bar u$ où les $u'_i$ sont les membres centrés.
+- [x] voir sur ADUM formation DD --> Rien pour l'instant
+- [x] faire slides PLATON --> reprendre dernière slide peut être mettre à jour le dernier cas test ?
+- Réécrire la mise à jour
+- 
+## Team Meeting
+
+Nina Delette (PhD), Vittero Piro (Intern).
+Concours CRCN
+Hausdorff distance
+Bootstrapping for confidence intervals
+
+## 14-05-2024
+
+- Relancer cas test avec la vraie base, bien réécrire pour voir le noeud du problème.
+- Prendre en main la présentation Beamer du CEA
+- [ ] préparer plan ECCOMAS
+- [x] Faire le calcul de l'erreur de moment 2
+- [x] Faire la normalisation de la norme du champ de vitesse --> ca avait déjà été fait
+- Dans `outputs/assim_three_vortex/2024-05-14-09:57:22`: j'ajoute le champ de vitesse moyen, ça semble bien marcher, mais au regard du champ d'alignement, il semble que la composante moyenne soit trop exprimée.
+
+## 15-05-2024
+
+- Dans , je double la fréquence d'assimilation --> meilleursrésultat.
+- Dans `assim_three_vortex/2024-05-15-10:30:00`, je double le nombre de membre --> meilleurs résultat.
+- Peut être suffisant de ne faire que 5 assimilations ?
+- J'ai retiré l'export de la position des centres juste à la fin pour éviter une superposition avec l'analyse.
+- J'ai changé la définition de la base. Je reprends tous les membres de manière équitable
+- Dans la présentation justifaction de la pénalisation --> on pénalise les coefficients. L'idée c'est d'éviter un déplacement de particules moyens trop élevé. Donc on pénalise le champ de vitesse u. Comment en pénalisant les composantes ?
+  
+# 16-05-2024
+
+- Faire les slides sur la dernière partie. Dire comment on souhaite corriger sur la première slide (hypothèse, but, moyens). Puis slide qui présente la transformation avec qq notations, puis le problème d'optimisation. Phrase de transition sur le choix de l'espace de recherche. Après définition de l'espace, on reformule le problème d'optimisation dans la base.
+- [x] Faire un cas avec des *core size* différents (ajouter une distribution, cas 311).
+- [x] Répondre aux mails perso.
+- Dans `/DISK2/md266594/part_enkf/outputs/assim_three_vortex/2024-05-15-18:08:02`, avec 32 membres et pas dans l'espace de perturbation. Ca marche assez bien. Donc on pénalise de la meme manière chaque membre.
+- [ ] Faire l'export des coeffients a du champ de correction. Faire visualisation des différents champs. Faire l'orthogonalisaiton en python.
+- [x] Faire la slide EnKF en affichant progressivement forecast - Observation - analyses...
+- [ ] représenter la distribution de vorticité suivant l'initialisation.
+- [x] Faire les cas sans assimilation
+
+# 17-05-2024
+
+- Hier ai fait les cas sans assimilaiton du problème et avec assimilation. On observe que arpès un réaligment, la différence de position est une erreur d'avance ou de retard sur la trajectoire totale. Penser à faire un cas différent pour voir le comportement ? Par exemple le dipole ?
+- Faire les slides --> voir idées carnet de note. D'abord sur la partie alignement.
+
+# 21-05-2024
+
+- 
+
 ## A FAIRE
 
 - Redaction
