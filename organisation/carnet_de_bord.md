@@ -338,8 +338,8 @@ Bootstrapping for confidence intervals
 - Faire les slides --> voir idées carnet de note. D'abord sur la partie alignement.
 
 # 21-05-2024
-
-- 
+- avancement sur les slides
+- Faire la mise à jour avec champs avant après pour la mise à jour.
 
 ## A FAIRE
 

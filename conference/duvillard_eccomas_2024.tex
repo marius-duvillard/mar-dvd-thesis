@@ -180,9 +180,9 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
     \end{block}
     \vfill
 
-    \only<3->{\textbf{Update}}:
+    \only<3->{\textbf{Update}:}
     \begin{itemize}
-        \item<3->  \only<1>{Intensities} \only<4->{\textcolor{ceared}{Intensities}}
+        \item<3->  \only<3>{Intensities} \only<4->{\textcolor{ceared}{Intensities}}
         \item<3-> Particle Positions
         \item<3-> both
     \end{itemize}
@@ -190,12 +190,13 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
 
 \section{Intensity correction}
 \begin{frame}{Intensity correction}
-    $\mathcal{P}_i = \left\{x_p, \textcolor{ceared}{\hat \Gamma_{p, i}}\right\}_{p=1}^{N_p} \mapsto \left\{x_p, \textcolor{ceared}{?} \right\}_{p=1}^{\textcolor{?}}$
+    $\mathcal{P}_i = \left\{x_p, \textcolor{ceared}{\hat \Gamma_{p, i}}\right\}_{p=1}^{N_p} \mapsto \left\{x_p, \textcolor{ceared}{?} \right\}_{p=1}^{\textcolor{ceared}{?}}$
 
     \begin{block}<2->{First case: same particles positions}
         Linear combinaison of intensity $\Gamma_{p,i}$ with the same positions $x_p$\\
         $\left\{x_{p,i}, \hat \Gamma_{p,i}\right\}_{p=1}^{N_p} \mapsto \left\{x_p, \hat \Gamma_{p, i} + \sum_{j=1}^{N_p^j} F_{ij} \hat \Gamma_{p,j} \right\}_{p=1}^{N_p}$
     \end{block}
+
     \begin{block}<3->{General case: Different particles configurations}
         Combinaison of \textbf{all particles}! \\
         $ \left\{x_{p,i}, \hat \Gamma_{p,i}\right\}_{p=1}^{N^i_p} \mapsto \left\{x_{p,i}, \hat \Gamma_{p,i} + F_{ii}\Gamma_{p,i} \right\}_{p=1}^{N_p^i} + \left[\left\{x_{p,i}, F_{ij} \hat \Gamma_{p,j}\right\}_{p=1}^{N_p^j}\right]_{j\neq i}$ \\
@@ -289,7 +290,7 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
 \begin{frame}{Formulation}
 
     \begin{block}{Searching space}
-        Need to be an incompressible field to be physically consistent $\Rightarrow \nabla $ \\
+        Need to be an incompressible field to be physically consistent $\Rightarrow \nabla \cdots v_c = 0$ \\
         We search the velocity as a linear combination of member velocity field  \\
         $\Rightarrow v_c \in \mathrm{Span}\left(\{v_i\}_{i=1}^{N}\right) \Rightarrow$ $v_c = \sum_{i=1}^N a_i v_i, \quad a_i \in \mathbb{R}$.
     \end{block}
@@ -307,8 +308,8 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
 \begin{frame}{Problem}
     \begin{itemize}
         \item We solve the Euler equation for incompressible fluid flow with the \textbf{Vortex Method}~\footnotemark[1]
-        \item The particle set discretizes the vorticity field $\omega = \nabla \cdot v$
-        \item Three vortex(body) problem: chaotic trajectory~\footnotemark[2]
+        \item The particle set discretizes the vorticity field $\omega = \nabla \wedge v$
+        \item Three vortex(body) problem: chaotic trajectories~\footnotemark[2]
         \item Ensemble: perturbed position, amplitude, core-size of vortex
     \end{itemize}
 
@@ -339,7 +340,7 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
         \begin{column}{0.5\textwidth}
             \begin{figure}[t]
                 \centering
-                \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/non_assim_traj/f534a289c8aa420ab3f6d5c7d5f2214583FIwJoqDx6i0hPj-}{0}{73}
+                \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/non_assim_traj_good.png/a48dcf0a64ca45a6aeb8bc91b8cab709qQ7hWOIQS9YfBx4r-}{0}{73}
                 % \caption*{Vortex center trajectories}
             \end{figure}
         \end{column}
@@ -348,12 +349,12 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
                 \centering
                 \begin{subfigure}{\textwidth}
                     \centering
-                    \includegraphics[width=0.8\textwidth]{images/vorticity_field.png}
+                    \includegraphics[width=0.75\textwidth]{images/error_position_wo_assim.pdf}
                     % \caption*{Vortex position error}
                 \end{subfigure}
                 \begin{subfigure}{\textwidth}
                     \centering
-                    \includegraphics[width=0.8\textwidth]{images/vorticity_field.png}
+                    \includegraphics[width=0.75\textwidth]{images/error_vorticity_wo_assim.pdf}
                     % \caption*{Vorticity error}
                 \end{subfigure}
             \end{figure}
@@ -362,18 +363,24 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
 \end{frame}
 
 \begin{frame}{With assimilation}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{images/part_velo_cor.pdf}
+        \caption*{field alignment of the first member at first assimilation step.}
+    \end{figure}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\textwidth]{images/mean_vorticity.pdf}
+        \caption*{Vorticity field correction at first assimilation step.}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{With assimilation}
     \begin{columns}
         \begin{column}{0.5\textwidth}
             \begin{figure}
                 \centering
-                \begin{subfigure}{\textwidth}
-                    \centering
-                    \includegraphics[width=\textwidth]{images/vorticity_field.png}
-                \end{subfigure}
-                \begin{subfigure}{\textwidth}
-                    \centering
-                    \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/assim_trajectories/3651ba82007d4ae5e7ae2e592eed1014BZkA9i3epEQadmQl-}{0}{73}
-                \end{subfigure}
+                \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/assim_trajectories_good.png/20715cd1b35d4fce9348da1439eea9c9S2mpHIHr3P6oQ4FS-}{0}{73}
             \end{figure}
             % \caption*{Vortex center trajectories}
         \end{column}
@@ -382,12 +389,12 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
                 \centering
                 \begin{subfigure}{\textwidth}
                     \centering
-                    \includegraphics[width=\textwidth]{images/vorticity_field.png}
+                    \includegraphics[width=\textwidth]{images/error_position_w_assim.pdf}
                     % \caption*{Vortex position error}
                 \end{subfigure}
                 \begin{subfigure}{\textwidth}
                     \centering
-                    \includegraphics[width=\textwidth]{images/vorticity_field.png}
+                    \includegraphics[width=\textwidth]{images/error_vorticity_w_assim.pdf}
                     % \caption*{Vorticity error}
                 \end{subfigure}
             \end{figure}
@@ -400,7 +407,7 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
     \begin{block}{Discussions}
         \begin{itemize}
             \item Adapted the EnKF update for meshless simulations based on intensity update
-            \item Introduce a formulation to correct particle position
+            \item Introduce a formulation to correct particle position when particles are misaligned
         \end{itemize}
     \end{block}
 
