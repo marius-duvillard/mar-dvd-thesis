@@ -84,7 +84,7 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
         Update the field $u$ each time an observation $y$ is made, given a prediction $\hat u$.
     \end{block}
     \vfill
-    \begin{block}{Ensemble Kalman Filter}
+    \begin{block}<2->{Ensemble Kalman Filter}
         \begin{itemize}
             \item Generalization of the \textbf{Kalman Filter} where the state distribution is represented by an \textbf{ensemble} of state in order to estimate statistics and propagate uncertainty~\cite{evensen_sequential_1994}.
             \item Adapted to \textbf{non-linear} and \textbf{high-dimansional} state space.
@@ -105,7 +105,8 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
                     $\hat u^i_{k+1} = \mathcal M(u_k^i), \quad i = 1, \dots, N$
                     \vfill
                 \item<3-> \textbf{Measurement and prediction} at $t_{k+1}$\\
-                    measure $y_{k+1}$, prediction $h^i_{k+1} = \mathcal H (\hat u^i_{k+1}) \quad i = 1, \dots, N$
+                    measure $y_{k+1}$, \\
+                    prediction $h^i_{k+1} = \mathcal H (\hat u^i_{k+1}) \quad i = 1, \dots, N$
                     \vfill
                 \item<4-> \textbf{Analysis} A weighted linear combination of $\hat u_{k+1}^i$ \\
                     $u^i_{k+1} = \hat u^i_{k+1} + \sum_{j=1}^N \bm F_{ij} \hat u^i_{k+1}$, \\ where $\bm F$ depends on $\left(y_{k+1}, \left\{h^i_{k+1}\right\}_{i=1}^N\right)$\footnotemark[1]
@@ -124,7 +125,7 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
             \end{figure}
         \end{column}
     \end{columns}
-    \footnotetext[1]{\tiny equivalent formulation of the original formulation see~\cite{siripatana_combining_2019}}
+    \footnotetext[1]{\tiny equivalent formulation of the original formulation, see~\cite{siripatana_combining_2019}}
 \end{frame}
 
 \subsection{Meshless simulation}
@@ -172,33 +173,32 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
 \begin{frame}{EnKF Update with meshless simulation}
     \begin{block}{EnKF Update at $t=t_a$:}
         \begin{itemize}
-            \item $u_i(x, t_a) = \hat u_i(x, t_a) + \sum_{l=1}^{N} F_{ij}~\hat u_j(x, t_a), \quad i = 1, \dots, N$
-            \item Find : $u_i(x, t_a) \approx \sum_p \Gamma_{p, j}(t_a)~\phi_h (x - x_{p, j}(t_a)), \quad i = 1, \dots, N$\\
-                  $\Leftrightarrow \mathcal P_i = \left\{x_p, \Gamma_p\right\}_{p=1}^{N_p} \rightarrow \mathcal P_i^a = \left\{x_p^a, \Gamma^a_p\right\}_{p=1}^{N^a_p}, \quad i = 1, \dots, N$
+            \item $u_i(x, t_a) = \hat u_i(x, t_a) + \sum_{l=1}^{N} F_{ij}~\hat u_j(x, t_a), \quad i = 1, \dots, N$ \\
+            \item<2-> Find : $u_i(x, t_a) \approx \sum_p \textcolor{ceared}{\Gamma_{p, j}(t_a)}~\phi_h (x - \textcolor{ceared}{x_{p, j}(t_a)}), \quad i = 1, \dots, N$\\
+                $\Leftrightarrow$ update the particule discretization: $\mathcal P_i = \left\{x_p, \Gamma_p\right\}_{p=1}^{N_p} \mapsto \mathcal P_i^a = \left\{x_p^a, \Gamma^a_p\right\}_{p=1}^{N^a_p}, \quad i = 1, \dots, N$
         \end{itemize}
     \end{block}
     \vfill
 
-    \textbf{Update}:
+    \only<3->{\textbf{Update}}:
     \begin{itemize}
-        \item<1->  \only<1>{Intensities} \only<2->{\textcolor{ceared}{Intensities}}
-        \item<1-> Particle Positions
-        \item<1-> both
+        \item<3->  \only<1>{Intensities} \only<4->{\textcolor{ceared}{Intensities}}
+        \item<3-> Particle Positions
+        \item<3-> both
     \end{itemize}
 \end{frame}
 
 \section{Intensity correction}
-
 \begin{frame}{Intensity correction}
-    $\mathcal{P}_i = \left\{x_p, \textcolor{ceared}{\hat \Gamma_{p, i}}\right\}_{p=1}^{N_p} \mapsto \left\{x_p, ? \right\}_{p=1}^{?}$
+    $\mathcal{P}_i = \left\{x_p, \textcolor{ceared}{\hat \Gamma_{p, i}}\right\}_{p=1}^{N_p} \mapsto \left\{x_p, \textcolor{ceared}{?} \right\}_{p=1}^{\textcolor{?}}$
 
-    \begin{block}<1->{First case: same particles positions}
+    \begin{block}<2->{First case: same particles positions}
         Linear combinaison of intensity $\Gamma_{p,i}$ with the same positions $x_p$\\
         $\left\{x_{p,i}, \hat \Gamma_{p,i}\right\}_{p=1}^{N_p} \mapsto \left\{x_p, \hat \Gamma_{p, i} + \sum_{j=1}^{N_p^j} F_{ij} \hat \Gamma_{p,j} \right\}_{p=1}^{N_p}$
     \end{block}
-    \begin{block}<2->{General case: Different particles configurations}
+    \begin{block}<3->{General case: Different particles configurations}
         Combinaison of \textbf{all particles}! \\
-        $ \left\{x_{p,i}, \hat \Gamma_{p,i}\right\}_{p=1}^{N^i_p} \mapsto \left\{x_{p,i}, \hat \Gamma_{p,i} \right\}_{p=1}^{N_p^i} + \left[\left\{x_{p,i}, F_{ij} \hat \Gamma_{p,j}\right\}_{p=1}^{N_p^j}\right]_{j=1}^N$ \\
+        $ \left\{x_{p,i}, \hat \Gamma_{p,i}\right\}_{p=1}^{N^i_p} \mapsto \left\{x_{p,i}, \hat \Gamma_{p,i} + F_{ii}\Gamma_{p,i} \right\}_{p=1}^{N_p^i} + \left[\left\{x_{p,i}, F_{ij} \hat \Gamma_{p,j}\right\}_{p=1}^{N_p^j}\right]_{j\neq i}$ \\
     \end{block}
 \end{frame}
 
@@ -235,13 +235,15 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
 \begin{frame}{Intensity correction - limitation}
     \begin{itemize}
         \item Previous filter only update intensities
-        \item Confined to the particle support $\rightarrow$ might be unadequat to the analysis solution
-              \begin{figure}
-                  \centering
-                  \includegraphics[width=0.5\textwidth]{images/unalign_discretization.png}
-                  \caption{Left: forecast particle set, Right: Updated particle set.}
-              \end{figure}
+        \item Confined to the particle support $\rightarrow$ might be inadequate to the analysis solution
+
     \end{itemize}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\textwidth]{images/unalign_discretization.png}
+        \caption{Left: forecasted particle set, Right: updated particle set.}
+    \end{figure}
 
     \only<2->{\textbf{Update}:}
     \begin{itemize}
@@ -258,46 +260,48 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
         \item should be in the Span($\hat u^i$)
         \item non-linear problem of dimension $N_p^i$
     \end{itemize}
+
+    \begin{block}<2->{Our hypothesis}
+        Error in the velocity field $v$ lead to error in the integration of the particles position: $\frac{d x_p}{d t} = v(x_p; \mathcal P)$
+    \end{block}
+
+    \begin{block}<3->{Goal}
+        Correct the particles position $x_p$ of the forecast field $\hat u$ by integrating a velocity field to reduce directly the discrepency between \textbf{prediction} and the \textbf{observations}
+    \end{block}
 \end{frame}
 
 \begin{frame}{Position correction}
-    % \begin{block}{Hypothesis}
-    %     Error in the velocity field $v$ lead to error in the integration of the particles position: $\frac{d x_p}{d t} = v(x_p; \mathcal P)$
-    % \end{block}
     \begin{block}{Goal}
         Correct the particles position $x_p$ of the forecast field $\hat u$ by integrating a velocity field to reduce directly the discrepency between \textbf{prediction} and the \textbf{observations}:
         \begin{equation*}
             \min_{v_c \in \mathcal V} \left\|d - h_{v_c}(\hat u(\cdot); v_c) \right\|^2 \only<2->{\textcolor{ceared}{+ R(v_c)}}, \quad i = 1, \dots, N
         \end{equation*}
     \end{block}
-    \only<2->{$R(v_c)$ is a regularisation term.} (avoid non-unicity and ill-condition)
+    \only<2->{$\textcolor{ceared}{R(v_c)}$ is a regularisation term. (avoid non-unicity and ill-conditioning)}
 
-    \begin{block}{Position transformation $\Phi$: integration of the correction field $v_c$}
+    \begin{block}<3->{Position transformation $\Phi$: integration of the correction field $v_c$}
         \begin{equation*}
-            \Phi(x_p; v_c) = x_p + \int_{0}^{1} v_c(x_p(t))~\mathrm{d}t \Rightarrow \left\{x_{p,i}, \hat \Gamma_{p,i}\right\}_{p=1}^{N^i_p} \mapsto \mathcal{P}_{i, \Phi} = \left\{\Phi(x_{p,i}; v_c), \hat \Gamma_{p,i}\right\}_{p=1}^{N^i_p}
+            \Phi(x_p; v_c) = x_p + \int_{0}^{1} v_c(x_p(t))~\mathrm{d}t \Rightarrow \left\{\textcolor{ceared}{x_{p,i}}, \hat \Gamma_{p,i}\right\}_{p=1}^{N^i_p} \mapsto \mathcal{P}_{i, \Phi} = \left\{\textcolor{ceared}{\Phi(x_{p,i}; v_c)}, \hat \Gamma_{p,i}\right\}_{p=1}^{N^i_p}
         \end{equation*}
     \end{block}
 \end{frame}
 
 \begin{frame}{Formulation}
 
-    \begin{block}{Hypothesis}
-        Error in the velocity field $v$ lead to error in the integration of the particles position: $\frac{d x_p}{d t} = v(x_p; \mathcal P)$
-    \end{block}
-
     \begin{block}{Searching space}
-        Need to be an incompressible field to be physically consistent \\
+        Need to be an incompressible field to be physically consistent $\Rightarrow \nabla $ \\
         We search the velocity as a linear combination of member velocity field  \\
-        $\Rightarrow v_c \in \mathrm{Span}(\{v_i\}_{i=1}^{N}) \Rightarrow$ We define $v_c = \sum_{i=1}^N a_i v_i$
+        $\Rightarrow v_c \in \mathrm{Span}\left(\{v_i\}_{i=1}^{N}\right) \Rightarrow$ $v_c = \sum_{i=1}^N a_i v_i, \quad a_i \in \mathbb{R}$.
     \end{block}
 
-    Finally $N$ independant problems of dimension $N$ to solve:  \\
+    \vfill
+    \only<2->{Finally $N$ independant problems of dimension $N$ to solve:  \\
 
-    \begin{equation*}
-        \mathcal L_i (a) = \min{a \in \mathbb{R}^N} \left\|d - h_a(\hat u_i(\cdot); a) \right\|^2 + \lambda \|a\|^2, \quad i = 1, \dots, N
-    \end{equation*}
-
-    By estimating $\nabla_a h_a$ we deduce $\nabla_a \mathcal L_i \rightarrow$ local gradient optimizer (BFGS).
+        \begin{equation*}
+            \mathcal L_i (a) = \min{a \in \mathbb{R}^N} \left\|d - h_a(\hat u_i(\cdot); a) \right\|^2 + \lambda \|a\|^2, \quad i = 1, \dots, N
+        \end{equation*}
+        \vfill
+        By estimating $\nabla_a h_a$ we deduce $\nabla_a \mathcal L_i \rightarrow$ local gradient optimizer (BFGS).}
 \end{frame}
 
 \begin{frame}{Problem}
@@ -333,23 +337,23 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
 \begin{frame}{Without assimilation}
     \begin{columns}
         \begin{column}{0.5\textwidth}
-            \begin{figure}
+            \begin{figure}[t]
                 \centering
-                \includegraphics[width=\textwidth]{images/vorticity_field.png}
+                \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/non_assim_traj/f534a289c8aa420ab3f6d5c7d5f2214583FIwJoqDx6i0hPj-}{0}{73}
                 % \caption*{Vortex center trajectories}
             \end{figure}
         \end{column}
-        \begin{column}{0.6\textwidth}
+        \begin{column}{0.5\textwidth}
             \begin{figure}
                 \centering
                 \begin{subfigure}{\textwidth}
                     \centering
-                    \includegraphics[width=\textwidth]{images/vorticity_field.png}
+                    \includegraphics[width=0.8\textwidth]{images/vorticity_field.png}
                     % \caption*{Vortex position error}
                 \end{subfigure}
                 \begin{subfigure}{\textwidth}
                     \centering
-                    \includegraphics[width=\textwidth]{images/vorticity_field.png}
+                    \includegraphics[width=0.8\textwidth]{images/vorticity_field.png}
                     % \caption*{Vorticity error}
                 \end{subfigure}
             \end{figure}
@@ -357,7 +361,7 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
     \end{columns}
 \end{frame}
 
-\begin{frame}{with assimilation}
+\begin{frame}{With assimilation}
     \begin{columns}
         \begin{column}{0.5\textwidth}
             \begin{figure}
@@ -368,7 +372,7 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
                 \end{subfigure}
                 \begin{subfigure}{\textwidth}
                     \centering
-                    \includegraphics[width=\textwidth]{images/vorticity_field.png}
+                    \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/assim_trajectories/3651ba82007d4ae5e7ae2e592eed1014BZkA9i3epEQadmQl-}{0}{73}
                 \end{subfigure}
             \end{figure}
             % \caption*{Vortex center trajectories}
@@ -391,13 +395,19 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
     \end{columns}
 \end{frame}
 
-\begin{frame}{Discussions & Perspectives}
+\begin{frame}{Discussions and Perspectives}
+
     \begin{block}{Discussions}
+        \begin{itemize}
+            \item Adapted the EnKF update for meshless simulations based on intensity update
+            \item Introduce a formulation to correct particle position
+        \end{itemize}
+    \end{block}
 
-    \end{block}{Perspectives}
-
-    \begin{block}
-
+    \begin{block}{Perspectives}
+        \begin{itemize}
+            \item Proposed a combined formulation
+        \end{itemize}
     \end{block}
 \end{frame}
 
