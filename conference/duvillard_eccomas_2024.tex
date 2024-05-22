@@ -29,8 +29,10 @@
 \date[06-03-2024]  %optional
 {June the 3\textsuperscript{rd} 2024}
 \author[M. Duvillard]  %optionam
-{Marius Duvillard \inst{1} \texttt{(\small marius.duvillard\myat cea.fr)} \\
-Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat polytechnique.edu)}}
+{Marius Duvillard \inst{1} \inst{2} \texttt{(\small marius.duvillard\myat cea.fr)} \\
+Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat polytechnique.edu)} \\
+Loïc Giraldi \inst{1} \\
+}
 
 \institute[short-inst]{
   \inst{1} CEA DES/IRESNE/DEC/SESC Cadarache 
@@ -63,7 +65,7 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
     \tableofcontents
 \end{frame}
 
-\section{Introduction and Background}
+\section{Background}
 \subsection{Data assimilation}
 \begin{frame}{Data assimilation}
     \begin{Definition}
@@ -81,7 +83,7 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
     \small
     We note $u(x, t)$ a field (state) and $y(t)$ the observation with $x$ a spatial variable and $t$ the time.
     \begin{block}{Sequential Filtering}
-        Update the field $u$ each time an observation $y$ is made, given a prediction $\hat u$.
+        Update the predicted field $\hat u$ each time an observation $y$ is made to have a better estimate of $u$.
     \end{block}
     \vfill
     \begin{block}<2->{Ensemble Kalman Filter}
@@ -130,6 +132,7 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
 
 \subsection{Meshless simulation}
 \begin{frame}{Meshless simulation}
+    \vspace{-0.5cm}
     \small
     \begin{columns}[t]
         \begin{column}{0.7\textwidth}
@@ -157,25 +160,25 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
                 \begin{subfigure}[t]{\textwidth}
                     \centering
                     \includegraphics[width=0.5\textwidth]{images/kernel.png}
-                    \caption{\tiny kernel function}
+                    \caption*{\tiny kernel function}
                 \end{subfigure}
                 \centering
                 \begin{subfigure}[b]{\textwidth}
                     \centering
                     \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/lag_representation/b1da922d43984958b92c8b71e90b82a600e60cucwjbaqV5A-}{0}{35}
-                    \caption{\tiny Dipole simulation with Vortex Method.}
+                    \caption*{\tiny Dipole simulation with Vortex Method.}
                 \end{subfigure}
             \end{figure}
         \end{column}
     \end{columns}
 \end{frame}
-
+\subsection{EnKF update with meshless simulation}
 \begin{frame}{EnKF Update with meshless simulation}
     \begin{block}{EnKF Update at $t=t_a$:}
         \begin{itemize}
             \item $u_i(x, t_a) = \hat u_i(x, t_a) + \sum_{l=1}^{N} F_{ij}~\hat u_j(x, t_a), \quad i = 1, \dots, N$ \\
             \item<2-> Find : $u_i(x, t_a) \approx \sum_p \textcolor{ceared}{\Gamma_{p, j}(t_a)}~\phi_h (x - \textcolor{ceared}{x_{p, j}(t_a)}), \quad i = 1, \dots, N$\\
-                $\Leftrightarrow$ update the particule discretization: $\mathcal P_i = \left\{x_p, \Gamma_p\right\}_{p=1}^{N_p} \mapsto \mathcal P_i^a = \left\{x_p^a, \Gamma^a_p\right\}_{p=1}^{N^a_p}, \quad i = 1, \dots, N$
+                $\Leftrightarrow$ update the particle discretization: $\mathcal P_i = \left\{x_p, \Gamma_p\right\}_{p=1}^{N_p} \mapsto \mathcal P_i^a = \left\{x_p^a, \Gamma^a_p\right\}_{p=1}^{N^a_p}, \quad i = 1, \dots, N$
         \end{itemize}
     \end{block}
     \vfill
@@ -203,6 +206,7 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
     \end{block}
 \end{frame}
 
+\subsection{Remesh EnKF}
 \begin{frame}{Remesh EnKF}
     \subtitle{Regrid on a common particle configuration}
     \begin{itemize}
@@ -212,17 +216,18 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
                   \includegraphics[width=0.5\textwidth]{images/remesh_enkf.png}
                   \caption{remeshing operation. Generate a new regular particle set.}
               \end{figure}
-        \item Apply the intensity update on the commun configuration
+        \item Apply the intensity update on the common configuration
     \end{itemize}
 
     \footnotetext[1]{\tiny used by particles-in-cell methods (MPM, VIC,...).}
 \end{frame}
 
+\subsection{Part EnKF}
 \begin{frame}{Part EnKF}
     \subtitle{Project solution on each forecast configuration}
     \begin{itemize}
         \item Keep the previous particles positions $x_{p, i}$
-        \item Project the analysed solution on those particles: \\
+        \item Project the analyzed solution on those particles: \\
               \begin{equation*}
                   \Gamma_{p, i} = \langle u, \phi_h(\cdot,x_{p,i})\rangle_{L_2}, \quad p = 1, \dots, N_p^i.
               \end{equation*}
@@ -232,10 +237,11 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
     $\left\{x_{p,i}, \hat \Gamma_{p,i}\right\}_{p=1}^{N_p} \mapsto \left\{x_{p,i}, \langle u, \phi_h(\cdot,x_{p,i})\rangle_{L_2} \right\}_{p=1}^{N_p}$
 \end{frame}
 
-\section{Position update}
+\section{Position correction}
+\subsection{Intensity correction - limitations}
 \begin{frame}{Intensity correction - limitation}
     \begin{itemize}
-        \item Previous filter only update intensities
+        \item Previous filter only updates intensities
         \item Confined to the particle support $\rightarrow$ might be inadequate to the analysis solution
 
     \end{itemize}
@@ -263,19 +269,19 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
     \end{itemize}
 
     \begin{block}<2->{Our hypothesis}
-        Error in the velocity field $v$ lead to error in the integration of the particles position: $\frac{d x_p}{d t} = v(x_p; \mathcal P)$
+        Error in the velocity field $v$ leads to error in the integration of the particles position: $\frac{d x_p}{d t} = v(x_p; \mathcal P)$
     \end{block}
 
     \begin{block}<3->{Goal}
-        Correct the particles position $x_p$ of the forecast field $\hat u$ by integrating a velocity field to reduce directly the discrepency between \textbf{prediction} and the \textbf{observations}
+        Correct the particles position $x_p$ of the forecast field $\hat u$ by integrating a velocity field to reduce directly the discrepancy between \textbf{prediction} and the \textbf{observations}
     \end{block}
 \end{frame}
 
 \begin{frame}{Position correction}
     \begin{block}{Goal}
-        Correct the particles position $x_p$ of the forecast field $\hat u$ by integrating a velocity field to reduce directly the discrepency between \textbf{prediction} and the \textbf{observations}:
+        Correct the particles position $x_p$ of the forecast field $\hat u$ by integrating a velocity field to reduce directly the discrepancy between \textbf{prediction} and the \textbf{observations}:
         \begin{equation*}
-            \min_{v_c \in \mathcal V} \left\|d - h_{v_c}(\hat u(\cdot); v_c) \right\|^2 \only<2->{\textcolor{ceared}{+ R(v_c)}}, \quad i = 1, \dots, N
+            \min_{v_c \in \mathcal V} \left\|d - \mathcal H_{v_c}(\hat u(\cdot); v_c) \right\|^2 \only<2->{\textcolor{ceared}{+ R(v_c)}}, \quad i = 1, \dots, N
         \end{equation*}
     \end{block}
     \only<2->{$\textcolor{ceared}{R(v_c)}$ is a regularisation term. (avoid non-unicity and ill-conditioning)}
@@ -287,32 +293,46 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
     \end{block}
 \end{frame}
 
+\subsection{Formulation}
 \begin{frame}{Formulation}
 
     \begin{block}{Searching space}
-        Need to be an incompressible field to be physically consistent $\Rightarrow \nabla \cdots v_c = 0$ \\
+        Need to be an incompressible field to be physically consistent $\Rightarrow \nabla \cdot v_c = 0$ \\
         We search the velocity as a linear combination of member velocity field  \\
         $\Rightarrow v_c \in \mathrm{Span}\left(\{v_i\}_{i=1}^{N}\right) \Rightarrow$ $v_c = \sum_{i=1}^N a_i v_i, \quad a_i \in \mathbb{R}$.
     \end{block}
 
     \vfill
-    \only<2->{Finally $N$ independant problems of dimension $N$ to solve:  \\
+    \only<2->{Reduce to $N$ independent problems of dimension $N$  \\
 
         \begin{equation*}
-            \mathcal L_i (a) = \min{a \in \mathbb{R}^N} \left\|d - h_a(\hat u_i(\cdot); a) \right\|^2 + \lambda \|a\|^2, \quad i = 1, \dots, N
+            \mathcal L_i (a) = \min{a \in \mathbb{R}^N} \left\|d - \mathcal H_a(\hat u_i(\cdot); a) \right\|^2 + \lambda \|a\|^2, \quad i = 1, \dots, N
         \end{equation*}
         \vfill
-        By estimating $\nabla_a h_a$ we deduce $\nabla_a \mathcal L_i \rightarrow$ local gradient optimizer (BFGS).}
+        By estimating $\nabla_a \mathcal H_a$ we deduce $\nabla_a \mathcal L_i \rightarrow$ local gradient optimizer (BFGS).}
 \end{frame}
 
+\subsection{Application}
 \begin{frame}{Problem}
-    \begin{itemize}
-        \item We solve the Euler equation for incompressible fluid flow with the \textbf{Vortex Method}~\footnotemark[1]
-        \item The particle set discretizes the vorticity field $\omega = \nabla \wedge v$
-        \item Three vortex(body) problem: chaotic trajectories~\footnotemark[2]
-        \item Ensemble: perturbed position, amplitude, core-size of vortex
-    \end{itemize}
-
+    \vspace{-0.8cm}
+    \begin{columns}
+        \begin{column}{0.66\textwidth}
+            \begin{itemize}[]
+                \item We solve the Euler equation with the \textbf{Vortex Method}~\footnotemark[1]
+                \item The particle set discretizes the vorticity field $\omega = \nabla \wedge v$
+                \item Three vortex(body) problem: chaotic trajectories~\footnotemark[2]
+                \item Ensemble: perturbed position, amplitude, core size of vortex
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            \centering
+            \begin{figure}
+                \includegraphics[width=0.55\textwidth]{images/init_part.pdf}
+                \caption*{\tiny Particle positions}
+            \end{figure}
+        \end{column}
+    \end{columns}
+    \vspace{-0.5cm}
     \begin{figure}
         \begin{subfigure}[t]{0.32\textwidth}
             \centering
@@ -336,11 +356,12 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
 \end{frame}
 
 \begin{frame}{Without assimilation}
+    \vspace{-0.5cm}
     \begin{columns}
         \begin{column}{0.5\textwidth}
             \begin{figure}[t]
                 \centering
-                \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/non_assim_traj_good.png/a48dcf0a64ca45a6aeb8bc91b8cab709qQ7hWOIQS9YfBx4r-}{0}{73}
+                \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/wo_assim_trajectories_good.png/wo_assim_trajectories_good-}{0}{36}
                 % \caption*{Vortex center trajectories}
             \end{figure}
         \end{column}
@@ -365,22 +386,23 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
 \begin{frame}{With assimilation}
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{images/part_velo_cor.pdf}
-        \caption*{field alignment of the first member at first assimilation step.}
+        \includegraphics[width=0.6\textwidth]{images/part_velo_cor.pdf}
+        \caption*{\tiny Field alignment of the first member at first assimilation step.}
     \end{figure}
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{images/mean_vorticity.pdf}
-        \caption*{Vorticity field correction at first assimilation step.}
+        \includegraphics[width=0.6\textwidth]{images/mean_vorticity.pdf}
+        \caption*{\tiny Vorticity field correction at first assimilation step.}
     \end{figure}
 \end{frame}
 
 \begin{frame}{With assimilation}
+    \vspace{-0.5cm}
     \begin{columns}
         \begin{column}{0.5\textwidth}
             \begin{figure}
                 \centering
-                \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/assim_trajectories_good.png/20715cd1b35d4fce9348da1439eea9c9S2mpHIHr3P6oQ4FS-}{0}{73}
+                \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/assim_trajectories_good.png/20715cd1b35d4fce9348da1439eea9c9S2mpHIHr3P6oQ4FS-}{0}{36}
             \end{figure}
             % \caption*{Vortex center trajectories}
         \end{column}
@@ -389,12 +411,12 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
                 \centering
                 \begin{subfigure}{\textwidth}
                     \centering
-                    \includegraphics[width=\textwidth]{images/error_position_w_assim.pdf}
+                    \includegraphics[width=0.75\textwidth]{images/error_position_w_assim.pdf}
                     % \caption*{Vortex position error}
                 \end{subfigure}
                 \begin{subfigure}{\textwidth}
                     \centering
-                    \includegraphics[width=\textwidth]{images/error_vorticity_w_assim.pdf}
+                    \includegraphics[width=0.75\textwidth]{images/error_vorticity_w_assim.pdf}
                     % \caption*{Vorticity error}
                 \end{subfigure}
             \end{figure}
@@ -413,6 +435,7 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat poly
 
     \begin{block}{Perspectives}
         \begin{itemize}
+            \item Enriched the correction velocity basis
             \item Proposed a combined formulation
         \end{itemize}
     \end{block}

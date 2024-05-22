@@ -341,6 +341,14 @@ Bootstrapping for confidence intervals
 - avancement sur les slides
 - Faire la mise à jour avec champs avant après pour la mise à jour.
 
+# 22-05-2024
+- [ ] Fin des slides pour l'instant. Envoie à Michel et Olivier
+- [ ] Faire un cas de dipole avec initialisation seulement un ecart sur Amplitude et Rayon mais pas position. Faire une seule assimilation pour commencer.
+- [ ] Pour le dipole, coloré suivant que le tourbillon soit positif ou négatif.
+- [ ] Faire une meilleur calibration du lambda.
+- [ ] revoir le calcul de la projection avec noyaux gaussien.
+- [ ] Voir pour faire l'export des coefficients, regarder les champs de vitesse.
+- Avancer sur l'article ou sur la partie vortex method du manuscrit.
 ## A FAIRE
 
 - Redaction
