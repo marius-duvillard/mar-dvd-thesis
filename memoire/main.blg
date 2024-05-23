@@ -4,58 +4,62 @@ The top-level auxiliary file: main.aux
 The style file: plain.bst
 Database file #1: C:/Users/md266594/mar-dvd-thesis/biblio.bib
 Warning--I'm ignoring gordon_1993's extra "author" field
---line 5 of file C:/Users/md266594/mar-dvd-thesis/biblio.bib
+--line 91 of file C:/Users/md266594/mar-dvd-thesis/biblio.bib
 Warning--I'm ignoring gordon_1993's extra "author" field
---line 7 of file C:/Users/md266594/mar-dvd-thesis/biblio.bib
+--line 93 of file C:/Users/md266594/mar-dvd-thesis/biblio.bib
+Warning--I didn't find a database entry for "aiea2023"
 Warning--I didn't find a database entry for "Adepu"
 Warning--I didn't find a database entry for "Owusu"
 Warning--I didn't find a database entry for "almond"
 Warning--I didn't find a database entry for "Wang"
 Warning--I didn't find a database entry for "Davey"
 Warning--I didn't find a database entry for "kalman_filter"
+Warning--I didn't find a database entry for "lucy_1977gingold_monaghan_sph_1977"
+Warning--I didn't find a database entry for "cottet_vortex_2000"
+Warning--I didn't find a database entry for "sulsky_particle_1994"
 Warning--to sort, need author or key in jazwinski_4_1970
 Warning--empty author in jazwinski_4_1970
 Warning--empty journal in schlomer_technology-specific_nodate
 Warning--empty year in schlomer_technology-specific_nodate
-You've used 9 entries,
+You've used 28 entries,
             2118 wiz_defined-function locations,
-            572 strings with 5735 characters,
-and the built_in function-call counts, 3050 in all, are:
-= -- 300
-> -- 131
+            705 strings with 9166 characters,
+and the built_in function-call counts, 8822 in all, are:
+= -- 882
+> -- 358
 < -- 2
-+ -- 53
-- -- 43
-* -- 252
-:= -- 507
-add.period$ -- 27
-call.type$ -- 9
-change.case$ -- 48
++ -- 150
+- -- 115
+* -- 673
+:= -- 1494
+add.period$ -- 85
+call.type$ -- 28
+change.case$ -- 142
 chr.to.int$ -- 0
-cite$ -- 13
-duplicate$ -- 109
-empty$ -- 239
-format.name$ -- 43
-if$ -- 621
+cite$ -- 32
+duplicate$ -- 308
+empty$ -- 711
+format.name$ -- 115
+if$ -- 1797
 int.to.chr$ -- 0
-int.to.str$ -- 9
-missing$ -- 9
-newline$ -- 47
-num.names$ -- 18
-pop$ -- 40
+int.to.str$ -- 28
+missing$ -- 26
+newline$ -- 143
+num.names$ -- 56
+pop$ -- 107
 preamble$ -- 1
-purify$ -- 39
+purify$ -- 113
 quote$ -- 0
-skip$ -- 71
+skip$ -- 205
 stack$ -- 0
-substring$ -- 221
-swap$ -- 17
+substring$ -- 672
+swap$ -- 34
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 36
+type$ -- 110
 warning$ -- 4
-while$ -- 30
-width$ -- 10
-write$ -- 99
-(There were 12 warnings)
+while$ -- 90
+width$ -- 30
+write$ -- 309
+(There were 16 warnings)

@@ -344,10 +344,15 @@ Bootstrapping for confidence intervals
 # 22-05-2024
 - [ ] Fin des slides pour l'instant. Envoie à Michel et Olivier
 - [ ] Faire un cas de dipole avec initialisation seulement un ecart sur Amplitude et Rayon mais pas position. Faire une seule assimilation pour commencer.
-- [ ] Pour le dipole, coloré suivant que le tourbillon soit positif ou négatif.
-- [ ] Faire une meilleur calibration du lambda.
+- [x] Pour le dipole, coloré suivant que le tourbillon soit positif ou négatif.
+- [x] Faire une meilleur calibration du lambda.
+- J'ai refait des initialisation pour le dipole. J'ai des résultats interessant pour les test 21, 22, 23. Je trouve le cas 23 assez interessant. Dans cette situation définir la base avec le début et la fin me semble interessant.
 - [ ] revoir le calcul de la projection avec noyaux gaussien.
-- [ ] Voir pour faire l'export des coefficients, regarder les champs de vitesse.
+- [ ] Faire le calcul de l'erreur sur les observations de la vitesse. Pour cela il faudrait la vitesse débruité ?
+- [ ] Voir pour faire l'export des coefficients, regarder les champs de vitesse. Analyse des champs dans le fichier `velocity_analyzer.py`
+
+# 23-05-2024
+
 - Avancer sur l'article ou sur la partie vortex method du manuscrit.
 ## A FAIRE
 

@@ -286,10 +286,10 @@ Pour surmonter les limitations du filtre de Kalman classique et du filtre partic
 
 L'EnKF fonctionne en générant un ensemble de prévisions  (ou états) $(\bx_i^f)_{i=1}^N$ à partir du modèle. Chaque membre de l'ensemble est ensuite mis à jour indépendamment en utilisant les observations disponibles. A parti de cet ensemble de représentant, supposé identiquement distribué, la matrice de covariance et la moyenne vont pouvoir être estimée.
 
-Pour cela, nous définission la matrice d'état $\X_f = [\state^1, \dots, \state^N]$ et d'annomalies $\annomX_f$ dont les colonnes sont les états de chaque membre normalisé et centré ce que l'on peut écrire de la manière suivante
+Pour cela, nous définission la matrice d'état $\mstate_f = [\state^1, \dots, \state^N]$ et d'annomalies $\annomX_f$ dont les colonnes sont les états de chaque membre normalisé et centré ce que l'on peut écrire de la manière suivante
 
 \begin{equation*}
-    \annomX_f = \frac{1}{\sqrt{N - 1}}(\X_f - \overline{\state}_f \bm{1}^T),
+    \annomX_f = \frac{1}{\sqrt{N - 1}}(\bm X_f - \overline{\state}_f \bm{1}^T),
 \end{equation*}où $\bm{1} \in \mathbb{R}^N$ est un vecteur de 1.
 
 Respectivement, la matrice d'observation et les anomalies d'observation sont $\mathcal Y_f = [\mathcal{H}(\state^1_f), \dots, \mathcal{H}(\state^N_f)]$ et $\annomY_f$, où les colonnes sont données par
@@ -301,8 +301,8 @@ Respectivement, la matrice d'observation et les anomalies d'observation sont $\m
 L'ensemble définit la covariance entre les états et les observations $\Cov \bm H^T$, la covariance entre les observations $\Cov \bm H^T$, et $\tilde{\bm{K}}$
 
 \begin{eqnarray*}
-    \Cov \bm H^T &=& \frac{1}{N - 1} \sum_{i = 1}^{N} {(\state^i_f - \overline{\state}_f)}^T {\left[ \mathcal{H}_k(\state^i_f) - \overline{\bm{y}}f\right]}^T = \annomX_f \annomY_f^T, \
-    \bm H \Cov \bm H^T &=& \frac{1}{N -1} \sum{i = 1}^{N}\left[ \mathcal{H}_k(\state^i_f) - \overline{\bm{y}}_f\right] {\left[ \mathcal{H}_k(\state^i_f) - \overline{\bm{y}}_f\right]}^T = \annomY_f \annomY_f^T,\
+    \Cov \bm H^T &=& \frac{1}{N - 1} \sum_{i = 1}^{N} {(\state^i_f - \overline{\state}_f)}^T {\left[ \mathcal{H}_k(\state^i_f) - \overline{\bm{y}}f\right]}^T = \annomX_f \annomY_f^T, \\
+    \bm H \Cov \bm H^T &=& \frac{1}{N -1} \sum{i = 1}^{N}\left[ \mathcal{H}_k(\state^i_f) - \overline{\bm{y}}_f\right] {\left[ \mathcal{H}_k(\state^i_f) - \overline{\bm{y}}_f\right]}^T = \annomY_f \annomY_f^T,\\
     \tilde{\bm{K}} &=& \Cov \bm H^T{(\bm H \Cov \bm H^T + \bm R)}^{-1} = \annomX_f \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}.
 \end{eqnarray*}
 
@@ -319,7 +319,7 @@ Sur la base de cette formulation, nous pouvons déduire une formule de correctio
 Nous pouvons réécrire la formule de mise à jour du filtre en utilisant les matrices d'anomalies précédentes.
 
 \begin{equation*}
-    \mstate_a = \mstate_f + \annomX_f \annomY_f^T {({\annomY_f \annomY_f^T + \bm R})}^{-1}(\mdata - \Y)
+    \mstate_a = \mstate_f + \annomX_f \annomY_f^T {({\annomY_f \annomY_f^T + \bm R})}^{-1}(\mdata - \mpred)
 \end{equation*}
 
 Nous reformulons le terme de correction en remarquant que $ \bm{1}^T \annomY_f^T = \bm{0}$. Nous définissons $\Fcorr$, la matrice de correction qui donne la mise à jour en termes de combinaisons linéaires des états prévisionnels
@@ -407,7 +407,7 @@ On peut aussi faire plusieurs remarques :
 
 \subsection{Méthodes de minimisation}
 
-\subsection{Méthode 3DVar}
+\subsection{Méthode 3DVar}~\label{subsec:3dvar}
 
 La méthode 3DVar est un cas particulier de l'équation précédente qui permet de résoudre le problème de minimisation de la solution itérative à faible coût. Elle consiste à supposer fixe et connu les matrices de covariance $\bP$ et $\bR$. Ainsi, la matrice Hessienne $\bm B$ est donnée par $\bP$
 
@@ -479,8 +479,8 @@ En reprenant la formule~\ref{eq:rml-kalman}, et en remplaçant $\bm P \approx \a
 
 Ceci nous renseigne sur plusieurs choses:
 \begin{itemize}
-    \item La mise à jour du filtre EnKF est une combinaison linéaire des membres,
-    \item Il suffit de déterminer $N\timesN$ pour résoudre le problème de mise à jour
+    \item La mise à jour du filtre EnKF est une combinaison linéaire des membres ;
+    \item Il suffit de déterminer $N \times N$ pour résoudre le problème de mise à jour ;
     \item La mise à jour est indépendante pour les $N$ fonctions à minimiser ce qui permet de grandement paralléliser les problèmes d'optimisation.
 \end{itemize}
 
@@ -494,9 +494,9 @@ En effet \mycolor{mettre la formule ici}.
 
 \subsection{Méthodes d'assimilations tenant compte de l'erreur d'alignement}
 Les méthodes du filtre bayésien résolue par des méthodes statistiques comme le filtre de Kalman ou variationnelle se base uniquement sur la correction des intensitées. L'erreur est estimée pour une coordonnée spatiale comme étant distribué normalement autour d'une valeur. Cette hypothèse sur la distribution d'erreur ne tient pas compte de l'erreur issue de l'alignement de champs. Cette correction est classiquement appliqué sur les intensités des champs de l'état. Cependant, celle-ci se trouve faussée par ce que l'on appelle l'effet de \textit{double pénalisation}.
-Cela se produit lorsque les erreurs du modèle et des données observationnelles sont sur-pénalisées, compromettant l'équilibre nécessaire. Par exemple, un léger déplacement de polluants peut entraîner des prédictions élevées là où aucun polluant n'est observé \mycolor{(faire mon propre schéma voir Figure ref{fig:double_penalization_error})} créant des difficultés d'évaluation du modèle. Cette erreur est répandue dans les géosciences, affectant la prévision météorologique, la chimie atmosphérique, la prévision océanique, etc. L'utilisation de l'erreur quadratique moyenne aggrave ce problème, entravant l'apprentissage efficace des modèles. C'est une composante dominante de l'erreur de représentativité. Dans un cas dégénéré, ou la prédiction est un translation de la solution, on observe en \mycolor{(mettre une figure) Figure X que l'erreur quadratique sera plus élevée que si l'erreur prédite est était nulle}.
+Cela se produit lorsque les erreurs du modèle et des données observationnelles sont sur-pénalisées, compromettant l'équilibre nécessaire. Par exemple, un léger déplacement de polluants peut entraîner des prédictions élevées là où aucun polluant n'est observé \mycolor{(faire mon propre schéma voir Figure \ref{fig:double_penalization_error})} créant des difficultés d'évaluation du modèle. Cette erreur est répandue dans les géosciences, affectant la prévision météorologique, la chimie atmosphérique, la prévision océanique, etc. L'utilisation de l'erreur quadratique moyenne aggrave ce problème, entravant l'apprentissage efficace des modèles. C'est une composante dominante de l'erreur de représentativité. Dans un cas dégénéré, ou la prédiction est un translation de la solution, on observe en \mycolor{(mettre une figure) Figure X que l'erreur quadratique sera plus élevée que si l'erreur prédite est était nulle}.
 
-Pour tenir compte de cette erreur, des métriques tenant compte d'une erreur d'alignement on tpu être introduite.
+Pour tenir compte de cette erreur, des métriques tenant compte d'une erreur d'alignement ont pu être introduite.
 - Une première famille de méthodes utilise des métrique basée sur le transport optimal.
 
 \section{Conclusion}

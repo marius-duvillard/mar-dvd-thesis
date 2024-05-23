@@ -13,3 +13,8 @@ La première approche, nommée **Remesh-EnKF** (Remeshing Ensemble Kalman Filter
 Part-EnKF
 
 La seconde approche, appelée **Part-EnKF** (Particle Ensemble Kalman Filter), propose une stratégie différente en effectuant l'assimilation directement sur les intensités des particules, sans nécessiter de remaillage. Cette méthode met l'accent sur la mise à jour des caractéristiques des particules individuelles, en tenant compte de leurs intensités et positions. Contrairement à la Remesh-EnKF, la Part-EnKF évite les difficultés liées au remaillage de particules, en se concentrant uniquement sur la mise à jour des attributs des particules existantes.
+
+Dans un second temps, une méthode d'alignement a été développées pour mettre à jour la position des particules
+Part-Align
+
+Cette dernière corrige la position des particules en imposant un champ de vitesse pour rapprocher observations et prédiction.

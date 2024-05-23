@@ -14,7 +14,7 @@ Les écoulement granulaire
 
 Définir ensuite les différentes modélisations actuelles des régimes (voir layout pour les articles)
 
-\subsection{Rhéologie des milieux granualire sous conditions homogènes}
+\subsection{Rhéologie des milieux granulaire sous conditions homogènes}
 
 Les travaux récents convergent vers une loi de comportement viscoplastique pour modéliser les milieux granulaires défini sous le nom de loi $\mu(I)$ \cite{gdr_midi_dense_2004,jop_constitutive_2006}.
 C'ets tout d'abord dans \cite{POULIQUEN_FORTERRE_2002} que le coefficient de friction $\mu$ suit la loi suivante
@@ -24,7 +24,7 @@ C'ets tout d'abord dans \cite{POULIQUEN_FORTERRE_2002} que le coefficient de fri
 \end{equation*}où $mu_2, \mu_1$ sont deux constantes liés au matériau et $I_0$ une constante qui dépend de la configuration de l'écoulement. Finalement $I$ est appelé le nombrre inertiel. Ce nombre adimentionnel est défini comme le rapport entre le temps de relaxation $\tau_r = \sqrt{m/P}$ et le temps de cisaillement $\tau_c = 1 / \dot \gamma$
 
 \begin{equation*}
-    I = \frac \tau_i \tau_c = \frac{\dot \gamma d}{\sqrt{P/\rho_g}},
+    I = \frac{\tau_i}{\tau_c} = \frac{\dot \gamma d}{\sqrt{P/\rho_g}},
 \end{equation*}où $\dot \gamma$ est le taux de cisaillement, $P$ la pression de confinement, $d$ la taille caractéristique des particules, et $\rho_g$ la densité du grain.
 
 Cette loi été étendu au cas tri-dimentionnel et testé sur un certain nombre de cas en particulier celui du tambour en rotation \cite{Cortet_2009} et montre une bonne correspondance pour le cas d'écoulement avec surface libre \cite{chou_cross-sectional_2009}. Toutefois, cette loi trouve certaines limites dans le cas d'écoulement confiné où le coefficient de tassement change et où le mouvement de chaque grain entraîne des modifications significatives dans les chaînes de force. Si la prédiction est bonne au niveau des bords, elle reste toutefois insufisante au niveau des parois \cite{Rognon_Miller_Metzger_Einav_2015}.
