@@ -224,7 +224,130 @@ Cette version est symétrique par rapport aux indices $p$ et $q$ ce qui favorise
 Finalement, les équations de la dynamique sont intégrées dans le temps généralement à l'aide d'un algorithme dit \textit{leap-frog}.
 
 \section{Méthode des points matériaux (material point method, MPM)}
+\subsection{Material Point Method (MPM)}
 
+La méthode MPM est une version de FLIP pour résoudre le problème de mécanique des solides.
+Elle consiste, comme en élément finis, à résoudre le problème aux valeurs sous sa forme faible, en utilisant conjointement deux discrétisations, une grille et des particules.
+
+Le problème aux conditions limites, sous sa forme forte, se composent des équations d'équilibre, des lois matériaux, de l'équation cinématiqu et des conditions limites et initiales donnant
+
+\begin{equation*}
+    \begin{cases}
+        \begin{aligned}
+             & \frac{D \rho}{Dt} + \rho \nabla \cdot \bm v  =  0                          ,                                                                         & \quad \text{(conservation de la masse)}                  \\
+             & \rho \frac{D \bm v}{Dt}                      =  \nabla \cdot \bm \sigma + \rho \bm b,                                                                & \quad  \text{(conservation de la quantité de mouvement)} \\
+             & \bm \sigma = LdC(\bm F),                                                                                                                             & \quad  \text{(loi de comportement)}                      \\
+             & \bm u(\bm z, t) = \bar{\bm u}, \quad \forall \bm z \in \Gamma_u,    \quad  \bm \sigma (\bm z) \cdot \bm n = \bm t, \quad \forall \bm z \in \Gamma_t, & \quad  \text{(conditions limites)}                       \\&\bm v(\bm z, t = 0), \quad \bm \sigma(\bm z, t= 0) = \bm \sigma_0. & \quad  \text{(conditions initiales)} \\
+        \end{aligned}
+    \end{cases}
+\end{equation*}
+
+La forme faible de l'équation de conservation du moment est, en introduisant une fonction test $\bm q$
+
+\begin{equation*}
+    \int_\Omega \rho \bm a \cdot \bm q d\bm z + \int_\Omega \bm \sigma : \nabla \cdot \bm q d\bm z = \int_\Omega \rho \bm b d\bm z + \int_{\partial \Omega_t} \bm t dS.
+\end{equation*}
+
+Le schéma MPM peut être obtenu en utilisant une discrétisation particulaire de la densité sur les particules et en utilisant un  $\Omega = \bigcup_p \Omega_p$.
+
+En concentrant la masse sur la position de chaque particule, on peut représenter la densité comme un somme de dirac tel que
+
+\begin{equation*}
+    \rho(\bm z) = \sum_p V_p~\rho_p \delta(\bm z - \bm z_p) = \sum_p m_p \delta(\bm z - \bm z_p)
+\end{equation*}
+
+De même, on discrétise la contrainte $\bm \sigma$
+
+\begin{equation*}
+    \bm \sigma(x) = \sum_p \bm \sigma_p \delta(\bm z - \bm z_p).
+\end{equation*}
+Une généralisation a été proposée avec la méthode GIMP \cite{bardenhagen_generalized_2004} en définissant une représentation particulaire de la densité en attroduisant une fonction caractéristique $\chi_p$ tel que
+
+\begin{equation*}
+    \rho(\bm z) = \sum_p m_p \chi(\bm z - \bm z_p)
+\end{equation*}
+
+Ce qui donne en choisissant $i$ comme indice de dimension d'espace
+
+\begin{equation*}
+    \sum_p m_p q_i(\bm z_p) a_i(\bm z_p) + \sum_p \sigma_{ij} \partial_j u_i + \int_{\partial \Omega_t} t_i q_i dS.
+\end{equation*}
+
+
+\subsubsection{Interprétation 1}
+
+\subsubsection{Interprétation 2}
+
+\subsubsection{Schéma classique}
+
+La méthode MPM est implémentée généralement en trois phases. Dans un premier temps, les quantités définies sur les particules sont transférés sur les noeuds de la grille \textit{p2g}. Le principe fondementale de la dynamique est alors résolu permettant de déterminer une grille déformée. Finalement, les nouvelles quantités nodales permettent de mettre à jour les quantités particulaires dans une phase de transfert grille à particule (\textit{g2p}).
+
+\paragraph*{p2g}
+
+La grille de positions de noeuds $x_I$ est initialisée avec des valeurs nulles.
+
+La masse $m_p$,la quantité de mouvement $m_p \bm v_p$ et les forces $\bm f_p$ sont transférées à la grille à l'aide des fonctions de forme $\phi_I$ associé à chaque noeuds
+
+\begin{eqnarray*}
+    m_I = \sum_p \varphi_{Ip}~ m_p, \\
+    m_I \bm v_I  =  \sum_p \varphi_{Ip}~ m_p \bm v_p, \\
+    \bm f_I  =  \sum_p \varphi_{Ip}~  \bm f_p. \\
+\end{eqnarray*}
+
+Des transferts plus complexes capable de préserver les moments angulaires ont été développé comme APIC~\cite{jiang_affine_2015}, Poly-PIC~\cite{fu_polynomial_2017}, et MLS-MPM~\cite{hu_moving_2018}.
+
+\paragraph*{Mise à jour sur la grille}
+La grille à chaque étape est initialisée dans un état non déformée. A l'aide du principe fondamentale de la dynamique, la vitesse sur la grille est mise à jour de manière explicite tel que
+
+\begin{eqnarray*}
+    m_I \bm a_I &=& \bm f_I + \bm f_g, \\
+    m_I \bm v^{n+1} &=& \bm v^{n} + \Delta t~ (\bm f_I + \bm f_g) / m_I, \\
+    \bm x_I^{n+1} &=& \bm x_I^{n} + \Delta t~\bm v^{n+1}.
+\end{eqnarray*}
+
+C'est durant cette étape que les conditions limites ou les collisions avec un objet peuvent être prise en compte.
+
+\paragraph{g2p}
+
+Les particules vont suivre la déformation de la grille. Cela aura deux conséquence : La mise à jour de la matrice de déformation $\bm F_p$ et de leurs positions $\bm x_p$ et leur vitesses $\bm v_p$.
+
+La mise à jour de $\bm F_p$ est réalisé avec la déformée de la grille $ x_I^{n+1}$ de manière implicite en utilisant $\bm v^{n+1}$ de telle sorte que
+
+\begin{equation*}
+    \bm F_p^{n+1} = \left( \bm I + \Delta t \sum_I \bm v_I^{n+1} (\nabla \varphi_{Ip}^T)\right) \bm  F_p^{n}.
+\end{equation*}
+
+En ce qui concerne l'étape d'advection des particules, le schéma PIC suggérait l'interpolation des vitesses tel que
+
+\begin{equation*}
+    \bm v_{PIC}^{n+1} = \sum_I \varphi_{Ip} \bm v_I^{n+1}
+\end{equation*}.
+
+Si ce schéma est stable, il est toutefois dissipatif. Inversement la mise à jour FLIP propose de mettre à jour la vitesse $\bm v_{PIC}^{n}$ en interpolant l'accélération tel que
+
+\begin{equation*}
+    \bm v_{FLIP}^{n+1} = \bm v_{p}^{n} \sum_I \varphi_{Ip} (\bm v_I^{n+1} - \bm v_I^{n})
+\end{equation*}.
+
+Dans ce cas, le transfert est concervatif mais instable. Ainsi, il est recommandé d'utiliser pour mettre à jour la vitesse $\bm v^{n+1}$ une combinaison linéaire des deux formulations tel que
+
+\begin{equation*}
+    \bm v_{p}^{n+1} = \alpha \left(\bm v_{p}^{n} \sum_I \varphi_{Ip} (\bm v_I^{n+1} - \bm v_I^{n})\right) + (1- \alpha)\sum_I \varphi_{Ip} \bm v_I^{n+1}
+\end{equation*}~avec $\alpha \in [0, 1]$.
+
+Les schémas de type APIC,PolyPIC ou MLS-MPM, utilisant de plus un transfert du gradient de $v$, utilise une mise à jour PIC tout en restant conservatif.
+
+La position est elle mise jour en interpolant la déformation de la grille de telle sorte que
+
+\begin{equation*}
+    \bm x_p^{n+1} = \bm x_p^{n} + \sum_I \varphi_{Ip}~\bm v^{n+1}
+\end{equation*}
+
+Finalement, la grille de calcule peut être effacée et réinitialisée.
+
+La force interne de la particule $\bm f_p$ dépend de la loi de comportement qui lui est associée.
+
+Elle dépends généralement de la contrainte $\bm \sigma_p$ qui peut être mise à jour au début ou à la fin du schéma donnant deux formulations différence USF (\textit{Update Stress First}) et USL (\textit{Update Stress Last}).
 La méthode des points matériaux (MPM) est une technique de simulation numérique innovante, particulièrement adaptée à la modélisation de phénomènes complexes comme ceux rencontrés dans les mélangeurs-broyeurs. Cette méthode représente un compromis entre les approches par éléments finis et par particules, offrant ainsi une modélisation efficace des interactions matérielles dans des environnements dynamiques et déformables.
 
 Dans la MPM, l'intérieur du tambour d'un mélangeur-broyeur est conceptualisé comme un milieu continu, adoptant une perspective macroscopique. La réponse du milieu est alors représenté par une loi de comportement mécanique telle que la loi de Drucker-Prager. Cela contraste avec la méthode des éléments discrets (DEM), qui se concentrent sur les interactions particule-par-particule.

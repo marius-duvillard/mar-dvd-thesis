@@ -353,7 +353,17 @@ Bootstrapping for confidence intervals
 
 # 23-05-2024
 
-- Avancer sur l'article ou sur la partie vortex method du manuscrit.
+- Avancer sur l'article ou sur la partie vortex method du manuscrit $\rightarrow$. J'ai revu VM et maintenant il faut voir MPM
+- Revu velocity analyzer. Une svd semble assez interessante
+- Voir pour faire de la pénalisation avec le prior, est ce que ça peut marcher ???
+- J'ai vu que jusqu'à présent je ne mettais pas à jour la base avec le fichier json... Donc à retester pour `extended`.
+- Avancement sur le filtre d'alignement en prenant le prior mais aussi avec la version incrémentale à tester toutes deux. 
+
+# 24-05-2024
+
+- Avancer jusqu'à MPM et faire un peu d'article 
+- Faire la version prior de l'alignement
+- Voir pour faire la version incrémentale aussi ? Petit test ?? Il faut alors refaire la fonction MemberAlign, peut être memberALignInc
 ## A FAIRE
 
 - Redaction
