@@ -5,72 +5,67 @@
 \headcommand {\beamer@sectionpages {1}{2}}
 \headcommand {\beamer@subsectionpages {1}{2}}
 \headcommand {\sectionentry {1}{Background}{3}{Background}{0}}
-\headcommand {\beamer@subsectionpages {3}{2}}
-\headcommand {\beamer@subsectionentry {0}{1}{1}{3}{Data assimilation}}
-\headcommand {\slideentry {1}{1}{1}{3/3}{Data assimilation}{0}}
+\headcommand {\slideentry {1}{0}{1}{3/3}{}{0}}
 \headcommand {\beamer@framepages {3}{3}}
-\headcommand {\beamer@subsubsectionentry {0}{1}{1}{1}{4}{Sequential Filtering - Ensemble Kalman Filter}}
-\headcommand {\slideentry {1}{1}{2}{4/5}{Data assimilation}{0}}
-\headcommand {\beamer@framepages {4}{5}}
-\headcommand {\slideentry {1}{1}{3}{6/12}{Data assimilation}{0}}
-\headcommand {\beamer@framepages {6}{12}}
-\headcommand {\beamer@subsectionpages {3}{12}}
-\headcommand {\beamer@subsectionentry {0}{1}{2}{13}{Meshless simulation}}
-\headcommand {\slideentry {1}{2}{1}{13/13}{Meshless simulation}{0}}
-\headcommand {\beamer@framepages {13}{13}}
-\headcommand {\beamer@subsectionpages {13}{13}}
-\headcommand {\beamer@subsectionentry {0}{1}{3}{14}{EnKF update with meshless simulation}}
-\headcommand {\slideentry {1}{3}{1}{14/17}{EnKF update with meshless simulation}{0}}
-\headcommand {\beamer@framepages {14}{17}}
-\headcommand {\beamer@sectionpages {3}{17}}
-\headcommand {\beamer@subsectionpages {14}{17}}
-\headcommand {\sectionentry {2}{Intensity correction}{18}{Intensity correction}{0}}
-\headcommand {\slideentry {2}{0}{1}{18/20}{}{0}}
-\headcommand {\beamer@framepages {18}{20}}
-\headcommand {\beamer@subsectionpages {18}{20}}
-\headcommand {\beamer@subsectionentry {0}{2}{1}{21}{Remesh EnKF}}
-\headcommand {\slideentry {2}{1}{1}{21/21}{Remesh EnKF}{0}}
+\headcommand {\beamer@subsectionpages {3}{3}}
+\headcommand {\beamer@subsectionentry {0}{1}{1}{4}{Meshless simulations}}
+\headcommand {\slideentry {1}{1}{1}{4/4}{Meshless simulations}{0}}
+\headcommand {\beamer@framepages {4}{4}}
+\headcommand {\slideentry {1}{1}{2}{5/5}{Meshless simulations}{0}}
+\headcommand {\beamer@framepages {5}{5}}
+\headcommand {\slideentry {1}{1}{3}{6/7}{Meshless simulations}{0}}
+\headcommand {\beamer@framepages {6}{7}}
+\headcommand {\beamer@subsectionpages {4}{7}}
+\headcommand {\beamer@subsectionentry {0}{1}{2}{8}{Data assimilation}}
+\headcommand {\slideentry {1}{2}{1}{8/10}{Data assimilation}{0}}
+\headcommand {\beamer@framepages {8}{10}}
+\headcommand {\slideentry {1}{2}{2}{11/18}{Data assimilation}{0}}
+\headcommand {\beamer@framepages {11}{18}}
+\headcommand {\slideentry {1}{2}{3}{19/19}{Data assimilation}{0}}
+\headcommand {\beamer@framepages {19}{19}}
+\headcommand {\beamer@sectionpages {3}{19}}
+\headcommand {\beamer@subsectionpages {8}{19}}
+\headcommand {\sectionentry {2}{Data assimilation for meshless simulations}{20}{Data assimilation for meshless simulations}{0}}
+\headcommand {\beamer@subsectionpages {20}{19}}
+\headcommand {\beamer@subsectionentry {0}{2}{1}{20}{Strength correction}}
+\headcommand {\slideentry {2}{1}{1}{20/20}{Strength correction}{0}}
+\headcommand {\beamer@framepages {20}{20}}
+\headcommand {\slideentry {2}{1}{2}{21/21}{Strength correction}{0}}
 \headcommand {\beamer@framepages {21}{21}}
-\headcommand {\beamer@subsectionpages {21}{21}}
-\headcommand {\beamer@subsectionentry {0}{2}{2}{22}{Part EnKF}}
-\headcommand {\slideentry {2}{2}{1}{22/22}{Part EnKF}{0}}
+\headcommand {\slideentry {2}{1}{3}{22/22}{Strength correction}{0}}
 \headcommand {\beamer@framepages {22}{22}}
-\headcommand {\beamer@sectionpages {18}{22}}
-\headcommand {\beamer@subsectionpages {22}{22}}
-\headcommand {\sectionentry {3}{Position correction}{23}{Position correction}{0}}
-\headcommand {\beamer@subsectionpages {23}{22}}
-\headcommand {\beamer@subsectionentry {0}{3}{1}{23}{Intensity correction - limitations}}
-\headcommand {\slideentry {3}{1}{1}{23/24}{Intensity correction - limitations}{0}}
-\headcommand {\beamer@framepages {23}{24}}
-\headcommand {\slideentry {3}{1}{2}{25/27}{Intensity correction - limitations}{0}}
-\headcommand {\beamer@framepages {25}{27}}
-\headcommand {\slideentry {3}{1}{3}{28/30}{Intensity correction - limitations}{0}}
-\headcommand {\beamer@framepages {28}{30}}
-\headcommand {\beamer@subsectionpages {23}{30}}
-\headcommand {\beamer@subsectionentry {0}{3}{2}{31}{Formulation}}
-\headcommand {\slideentry {3}{2}{1}{31/32}{Formulation}{0}}
-\headcommand {\beamer@framepages {31}{32}}
-\headcommand {\beamer@subsectionpages {31}{32}}
-\headcommand {\beamer@subsectionentry {0}{3}{3}{33}{Application}}
-\headcommand {\slideentry {3}{3}{1}{33/33}{Application}{0}}
-\headcommand {\beamer@framepages {33}{33}}
-\headcommand {\slideentry {3}{3}{2}{34/34}{Application}{0}}
+\headcommand {\beamer@subsectionpages {20}{22}}
+\headcommand {\beamer@subsectionentry {0}{2}{2}{23}{Position correction}}
+\headcommand {\slideentry {2}{2}{1}{23/25}{Position correction}{0}}
+\headcommand {\beamer@framepages {23}{25}}
+\headcommand {\slideentry {2}{2}{2}{26/26}{Position correction}{0}}
+\headcommand {\beamer@framepages {26}{26}}
+\headcommand {\slideentry {2}{2}{3}{27/28}{Position correction}{0}}
+\headcommand {\beamer@framepages {27}{28}}
+\headcommand {\beamer@sectionpages {20}{28}}
+\headcommand {\beamer@subsectionpages {23}{28}}
+\headcommand {\sectionentry {3}{Application}{29}{Application}{0}}
+\headcommand {\slideentry {3}{0}{1}{29/30}{}{0}}
+\headcommand {\beamer@framepages {29}{30}}
+\headcommand {\slideentry {3}{0}{2}{31/31}{}{0}}
+\headcommand {\beamer@framepages {31}{31}}
+\headcommand {\slideentry {3}{0}{3}{32/33}{}{0}}
+\headcommand {\beamer@framepages {32}{33}}
+\headcommand {\slideentry {3}{0}{4}{34/34}{}{0}}
 \headcommand {\beamer@framepages {34}{34}}
-\headcommand {\slideentry {3}{3}{3}{35/35}{Application}{0}}
+\headcommand {\slideentry {3}{0}{5}{35/35}{}{0}}
 \headcommand {\beamer@framepages {35}{35}}
-\headcommand {\slideentry {3}{3}{4}{36/36}{Application}{0}}
+\headcommand {\slideentry {3}{0}{6}{36/36}{}{0}}
 \headcommand {\beamer@framepages {36}{36}}
-\headcommand {\slideentry {3}{3}{5}{37/37}{Application}{0}}
+\headcommand {\beamer@sectionpages {29}{36}}
+\headcommand {\beamer@subsectionpages {29}{36}}
+\headcommand {\sectionentry {4}{References}{37}{References}{0}}
+\headcommand {\slideentry {4}{0}{0}{37/37}{}{0}}
 \headcommand {\beamer@framepages {37}{37}}
-\headcommand {\slideentry {3}{3}{6}{38/38}{Application}{0}}
-\headcommand {\beamer@framepages {38}{38}}
-\headcommand {\beamer@sectionpages {23}{38}}
-\headcommand {\beamer@subsectionpages {33}{38}}
-\headcommand {\sectionentry {4}{References}{39}{References}{0}}
-\headcommand {\slideentry {4}{0}{0}{39/39}{Application}{0}}
-\headcommand {\beamer@framepages {39}{39}}
-\headcommand {\beamer@partpages {1}{39}}
-\headcommand {\beamer@subsectionpages {33}{39}}
-\headcommand {\beamer@sectionpages {23}{39}}
-\headcommand {\beamer@documentpages {39}}
-\headcommand {\gdef \inserttotalframenumber {20}}
+\headcommand {\slideentry {4}{0}{0}{37/38}{}{0}}
+\headcommand {\beamer@framepages {37}{38}}
+\headcommand {\beamer@partpages {1}{38}}
+\headcommand {\beamer@subsectionpages {29}{38}}
+\headcommand {\beamer@sectionpages {29}{38}}
+\headcommand {\beamer@documentpages {38}}
+\headcommand {\gdef \inserttotalframenumber {21}}

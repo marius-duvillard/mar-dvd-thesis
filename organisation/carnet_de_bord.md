@@ -363,7 +363,50 @@ Bootstrapping for confidence intervals
 
 - Avancer jusqu'à MPM et faire un peu d'article 
 - Faire la version prior de l'alignement
-- Voir pour faire la version incrémentale aussi ? Petit test ?? Il faut alors refaire la fonction MemberAlign, peut être memberALignInc
+- Voir pour faire la version incrémentale aussi ? Petit test ?? Il faut alors refaire la fonction MemberAlign, peut être memberALignInc.
+- Ok ça a l'air de marcher, à voir pour modifier le Inc pour avoir l'enriched. l'inversion de P prend trop de temps.
+
+# 27-05-2024
+
+- Présentation blanche ce matin. Voici quelques modifications à faire:
+  - [x] Rajouter le logo polytechnique
+  - Dans les premières slides éviter les répétitions. En particulier celles qui parlent de l'assimilation de données EnKF est répété (use abbréviation), Sequential filtering, Data assimilation.
+  - [ ] Sur la slide intensity correction limitation, illustrer le problem du support de particules en colorant la position des autres particules --> Fonction pour faire export du support et du convexe des particules.
+  - Dans la slide application define clearly what is illustrate
+  - Présenter le cas où les amplitudes sont incertaines, présenter le cas où elles ne sont pas.
+  - Peut être faire l'animation du cas de référence avec les particules --> done with `export_particles_frame`
+  - Présenter le cas où les intensités ne sont pas aléatoire.
+- Après avoir fini les slides, reprendre le cas part EnKf avec le dernier exemple, coder le code en question en cpp.
+- Dans part enkf faire mise à jour des quantités particulaires.
+
+# 28-05-2024
+
+- Reprise du part enkf 
+- Faire les slides mise à jour
+- Donner un code couleur pour intensité et position
+
+# 29-05-2024
+
+- Modifications posible à faire:
+  - Slide "position update à Goal, mettre directement l'image d'un des vortex qui se fait corriger la position. Pour cela, je propose de montrer les particules avant, les particules après avec le champ de vitesse. Peut être mettre deux images successives. Dans ce cas enlever le texte de cette slide et le garder uniquement dans la slide suivante.
+  - Du coup retirer position transformation.
+  - Laisser la slide searching space.
+  - Rajouter le cas test où juste la position est incertaine.
+
+# 30-05-2024
+
+- [x] Faire le run avec PartEnKF
+- [x] Faire le code pour Part-Align-EnKF
+  
+# 31-05-2024
+
+- Continuer la présentation. Reprendre note de la réunion avec Olivier.
+- [ ] Faire l'export du champ d'alignement
+- [ ] Faire les test Part-EnKF, Align-EnKF, Part-Align-EnKF
+
+- [ ] Tester de faire le Remesh-ENKF
+
+
 ## A FAIRE
 
 - Redaction

@@ -2345,23 +2345,38 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">./biblio.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1">asch_data_2016</bcf:citekey>
-    <bcf:citekey order="2">evensen_sequential_1994</bcf:citekey>
+    <bcf:citekey order="1">cottet_vortex_2000</bcf:citekey>
+    <bcf:citekey order="2">cottet_vortex_2000</bcf:citekey>
     <bcf:citekey order="3">evensen_sequential_1994</bcf:citekey>
     <bcf:citekey order="4">siripatana_combining_2019</bcf:citekey>
-    <bcf:citekey order="5">siripatana_combining_2019</bcf:citekey>
+    <bcf:citekey order="5">evensen_sequential_1994</bcf:citekey>
     <bcf:citekey order="6">siripatana_combining_2019</bcf:citekey>
-    <bcf:citekey order="7">siripatana_combining_2019</bcf:citekey>
+    <bcf:citekey order="7">evensen_sequential_1994</bcf:citekey>
     <bcf:citekey order="8">siripatana_combining_2019</bcf:citekey>
-    <bcf:citekey order="9">siripatana_combining_2019</bcf:citekey>
+    <bcf:citekey order="9">evensen_sequential_1994</bcf:citekey>
     <bcf:citekey order="10">siripatana_combining_2019</bcf:citekey>
-    <bcf:citekey order="11">cottet_vortex_2000</bcf:citekey>
-    <bcf:citekey order="12">aref_motion_1979</bcf:citekey>
-    <bcf:citekey order="13">asch_data_2016</bcf:citekey>
-    <bcf:citekey order="14">evensen_sequential_1994</bcf:citekey>
-    <bcf:citekey order="15">siripatana_combining_2019</bcf:citekey>
-    <bcf:citekey order="16">cottet_vortex_2000</bcf:citekey>
-    <bcf:citekey order="17">aref_motion_1979</bcf:citekey>
+    <bcf:citekey order="11">evensen_sequential_1994</bcf:citekey>
+    <bcf:citekey order="12">siripatana_combining_2019</bcf:citekey>
+    <bcf:citekey order="13">evensen_sequential_1994</bcf:citekey>
+    <bcf:citekey order="14">siripatana_combining_2019</bcf:citekey>
+    <bcf:citekey order="15">evensen_sequential_1994</bcf:citekey>
+    <bcf:citekey order="16">siripatana_combining_2019</bcf:citekey>
+    <bcf:citekey order="17">evensen_sequential_1994</bcf:citekey>
+    <bcf:citekey order="18">siripatana_combining_2019</bcf:citekey>
+    <bcf:citekey order="19">ravela_data_2007</bcf:citekey>
+    <bcf:citekey order="19">rosenthal_displacement_2017</bcf:citekey>
+    <bcf:citekey order="20">ravela_data_2007</bcf:citekey>
+    <bcf:citekey order="20">rosenthal_displacement_2017</bcf:citekey>
+    <bcf:citekey order="21">ravela_data_2007</bcf:citekey>
+    <bcf:citekey order="21">rosenthal_displacement_2017</bcf:citekey>
+    <bcf:citekey order="22">aref_motion_1979</bcf:citekey>
+    <bcf:citekey order="23">aref_motion_1979</bcf:citekey>
+    <bcf:citekey order="24">cottet_vortex_2000</bcf:citekey>
+    <bcf:citekey order="25">evensen_sequential_1994</bcf:citekey>
+    <bcf:citekey order="26">siripatana_combining_2019</bcf:citekey>
+    <bcf:citekey order="27">ravela_data_2007</bcf:citekey>
+    <bcf:citekey order="28">rosenthal_displacement_2017</bcf:citekey>
+    <bcf:citekey order="29">aref_motion_1979</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">

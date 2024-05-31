@@ -6,13 +6,15 @@
 \usepackage{bm}
 \usepackage{graphicx}
 \usepackage{animate}
+\usepackage{amsmath}
 \usepackage{subcaption}
+\usepackage{tikz}
 \captionsetup[figure]{font=footnotesize}
 % import citation package
 \usepackage[backend=biber, style=authoryear]{biblatex}
 \addbibresource{./biblio.bib}
 \AtBeginBibliography{\small}
-
+\DeclareMathOperator*{\argmin}{\arg\!\min}
 % footnote without number
 \newcommand\blfootnote[1]{
 \begingroup
@@ -25,7 +27,7 @@
 \setlength{\columnsep}{0.05cm}
 \title[Data Assimilation for Meshless Simulation]  %optional
 {Ensemble Data Assimilation Method Applied to Meshless Simulations}
-% \subtitle{Using the CEA beamer template}
+\subtitle{ECCOMAS 2024 - Lisbon}
 \date[06-03-2024]  %optional
 {June the 3\textsuperscript{rd} 2024}
 \author[M. Duvillard]  %optionam
@@ -47,11 +49,11 @@ Loïc Giraldi \inst{1} \\
 % use your thanks-message in the last frame
 \setvalue{\ThxMessage}{Thanks! Any questions?}
 % Change the logo 
-\titlegraphic{logos/IRESNE_redred.png}
+\titlegraphic{logos/LOGO_CEA_ORIGINAL.png}
 
 % introduce another logo for a second author or affiliation
 % secondlogo applies to the first page only
-% \setvalue{\secondlogo}{MyLogo.png}
+\setvalue{\secondlogo}{logos/Polytechnique_logo.pdf}
 
 \begin{document}
 
@@ -66,357 +68,409 @@ Loïc Giraldi \inst{1} \\
 \end{frame}
 
 \section{Background}
-\subsection{Data assimilation}
-\begin{frame}{Data assimilation}
-    \begin{Definition}
-        Data assimilation is an \textcolor{macaron}{analysis} that combines, in some optimal fashion, the time-distributed \textcolor{yellow}{observations} with the \textcolor{darkblue}{dynamic model}, tacking into account the \textcolor{darkblue}{background} (prior) information to approximate the true state of some physical system through time~\cite{asch_data_2016}.
-    \end{Definition}
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.5\textwidth]{images/data_assimilation_scheme.png}
-    \end{figure}
-\end{frame}
+\transition[1]{Background}{Meshless simulations and data assimilation}
 
-\subsubsection{Sequential Filtering - Ensemble Kalman Filter}
-
-\begin{frame}{Sequential Filtering - Ensemble Kalman Filter}
-    \small
-    We note $u(x, t)$ a field (state) and $y(t)$ the observation with $x$ a spatial variable and $t$ the time.
-    \begin{block}{Sequential Filtering}
-        Update the predicted field $\hat u$ each time an observation $y$ is made to have a better estimate of $u$.
-    \end{block}
+\subsection{Meshless simulations}
+\begin{frame}{Meshless simulations}
+    \begin{itemize}
+        \item Class of methods that \textbf{do not} rely on a fixed Eulerian mesh
+        \item Dedicated to situations where using a mesh is \textbf{challenging}: \\
+              \begin{itemize}
+                  \item complex geometries, large deformations, fragmentation, free-surface flow,...
+              \end{itemize}
+        \item In fluid and solid mechanics:
+              \begin{itemize}
+                  \item fluid-structure interaction, geotechnical engineering, biomechanics, fuel manufacturing,...
+              \end{itemize}
+    \end{itemize}
     \vfill
-    \begin{block}<2->{Ensemble Kalman Filter}
-        \begin{itemize}
-            \item Generalization of the \textbf{Kalman Filter} where the state distribution is represented by an \textbf{ensemble} of state in order to estimate statistics and propagate uncertainty~\cite{evensen_sequential_1994}.
-            \item Adapted to \textbf{non-linear} and \textbf{high-dimansional} state space.
-        \end{itemize}
-    \end{block}
-\end{frame}
-
-\begin{frame}{Ensemble Kalman Filter}
-    \begin{columns}
-        \begin{column}{0.6\textwidth}
-            \small
-            we note $u(\cdot, t_{k}) = u_k(\cdot)$,
-            \begin{itemize}
-                \item<1-> \textbf{Initialization} \\
-                    Sample $N$ fields $\left\{u^i_0\right\}_{i=1}^N \stackrel{iid}{\sim} U_0$
-                    \vfill
-                \item<2-> \textbf{Forecast} from $t$ to $t_{k+1}$ (e.g. with numerical simulation code) \\
-                    $\hat u^i_{k+1} = \mathcal M(u_k^i), \quad i = 1, \dots, N$
-                    \vfill
-                \item<3-> \textbf{Measurement and prediction} at $t_{k+1}$\\
-                    measure $y_{k+1}$, \\
-                    prediction $h^i_{k+1} = \mathcal H (\hat u^i_{k+1}) \quad i = 1, \dots, N$
-                    \vfill
-                \item<4-> \textbf{Analysis} A weighted linear combination of $\hat u_{k+1}^i$ \\
-                    $u^i_{k+1} = \hat u^i_{k+1} + \sum_{j=1}^N \bm F_{ij} \hat u^i_{k+1}$, \\ where $\bm F$ depends on $\left(y_{k+1}, \left\{h^i_{k+1}\right\}_{i=1}^N\right)$\footnotemark[1]
-            \end{itemize}
-        \end{column}
-        \begin{column}{0.4\textwidth}
-            \begin{figure}
-                \centering
-                \only<1>{\includegraphics[width=\textwidth]{images/initialization.png}}
-                \only<2>{\includegraphics[width=\textwidth]{images/propagation.png}}
-                \only<3>{\includegraphics[width=\textwidth]{images/obs_analasis.png}}
-                \only<4>{\includegraphics[width=\textwidth]{images/obs_analasis2.png}}
-                \only<5>{\includegraphics[width=\textwidth]{images/obs_analasis3.png}}
-                \only<6>{\includegraphics[width=\textwidth]{images/obs_analasis4.png}}
-                \only<7>{\includegraphics[width=\textwidth]{images/obs_analasis5.png}}
-            \end{figure}
-        \end{column}
-    \end{columns}
-    \footnotetext[1]{\tiny equivalent formulation of the original formulation, see~\cite{siripatana_combining_2019}}
-\end{frame}
-
-\subsection{Meshless simulation}
-\begin{frame}{Meshless simulation}
+    \begin{figure}
+        \begin{subfigure}{0.32\textwidth}
+            \animategraphics[loop, autoplay, width=0.75\textwidth]{5}{images/rot_drum_part/rot_drum_part-}{0}{1}%{150}
+            \caption*{\tiny Particle discretization}
+        \end{subfigure}
+        \begin{subfigure}{0.32\textwidth}
+            \animategraphics[loop, autoplay, width=0.8\textwidth]{5}{images/rot_drum_grid/rot_drum_grid -}{0}{1}%{150}
+            \caption*{\tiny  Continuous velocity field}
+        \end{subfigure}
+        \begin{subfigure}{0.32\textwidth}
+            \animategraphics[loop, autoplay, width=0.8\textwidth]{5}{images/rot_drum_mix/rot_drum_mix-}{0}{1}%{149}
+            \caption*{\tiny Mixing with ball interactions}
+        \end{subfigure}
+        \vspace{-0.5cm}
+        \caption*{\footnotesize Granular flow inside a rotation drum using Material Point Method}
+    \end{figure}
     \vspace{-0.5cm}
-    \small
+\end{frame}
+
+\begin{frame}{Meshless simulations - Continuous formulation}
+    %     \vspace{-0.5cm}
+    %     \small
     \begin{columns}[t]
         \begin{column}{0.7\textwidth}
             \begin{Definition}
-                Meshfree methods - Discretization of $u(x,t)$ thanks to a particle representation \\
-                = \textbf{Lagrangian method}
+                Particle representation of a continuous field $u(x,t)$\\
             \end{Definition}
             \begin{itemize}
-
-                \item Particles $p$ : a position $\bm x_p$, an intensity $\Gamma_p$ and a kernel $\phi_h$
-
-                \item The field $u(x, t)$ is discretize with $N_p$ particles such as
+                \item The field $u(x, t)$ discretized with $N_p$ particles:
                       \begin{equation*}
-                          u(x, t) \approx \sum_{p \in \mathcal P} \Gamma_p(t)~\phi_h(x - x_p(t)), \quad \mathcal P = \left\{x_p, \Gamma_p\right\}_{p=1}^{N_p}
+                          u(x, t) \approx \sum_{p \in \mathcal P} \Gamma_p(t)~\phi_h(x - x_p(t)), \quad \mathcal P = \left\{x_p(t), \Gamma_p(t)\right\}_{p=1}^{N_p}
                       \end{equation*}
-                \item The model evolution
+                \item Particle $p$: a \textbf{position} $x_p(t)$, an \textbf{strength} $\Gamma_p(t)$ and a \textbf{smoothing kernel} $\phi_h$
+
+                \item Model evolution of the \textbf{intensities} and \textbf{positions}:
                       \begin{eqnarray*}
-                          \frac{d\Gamma_p}{dt} = 0, \quad \frac{d x_p}{d t} = v(x_p; \mathcal P)
+                          \frac{d\Gamma_p}{dt} = M_\Gamma(\Gamma_p; \mathcal P), \quad \frac{d x_p}{d t} = M_x(x_p; \mathcal P)
                       \end{eqnarray*}
-                      $\Rightarrow u_{k+1} = \mathcal M(u_{k})$
             \end{itemize}
         \end{column}
         \begin{column}{0.3\textwidth}
             \begin{figure}
-                \begin{subfigure}[t]{\textwidth}
-                    \centering
-                    \includegraphics[width=0.5\textwidth]{images/kernel.png}
-                    \caption*{\tiny kernel function}
-                \end{subfigure}
-                \centering
-                \begin{subfigure}[b]{\textwidth}
-                    \centering
-                    \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/lag_representation/b1da922d43984958b92c8b71e90b82a600e60cucwjbaqV5A-}{0}{35}
-                    \caption*{\tiny Dipole simulation with Vortex Method.}
-                \end{subfigure}
+                \includegraphics[width=\textwidth]{images/kernel.png}
+                \caption*{ kernel function $\phi_h$}
             \end{figure}
         \end{column}
     \end{columns}
 \end{frame}
-\subsection{EnKF update with meshless simulation}
-\begin{frame}{EnKF Update with meshless simulation}
-    \begin{block}{EnKF Update at $t=t_a$:}
-        \begin{itemize}
-            \item $u_i(x, t_a) = \hat u_i(x, t_a) + \sum_{l=1}^{N} F_{ij}~\hat u_j(x, t_a), \quad i = 1, \dots, N$ \\
-            \item<2-> Find : $u_i(x, t_a) \approx \sum_p \textcolor{ceared}{\Gamma_{p, j}(t_a)}~\phi_h (x - \textcolor{ceared}{x_{p, j}(t_a)}), \quad i = 1, \dots, N$\\
-                $\Leftrightarrow$ update the particle discretization: $\mathcal P_i = \left\{x_p, \Gamma_p\right\}_{p=1}^{N_p} \mapsto \mathcal P_i^a = \left\{x_p^a, \Gamma^a_p\right\}_{p=1}^{N^a_p}, \quad i = 1, \dots, N$
-        \end{itemize}
-    \end{block}
+
+\begin{frame}{An example: Vortex Method~\footnotemark[1]}
+    \begin{columns}[t]
+        \begin{column}{0.4\textwidth}
+            \begin{itemize}
+                \item incompressible Euler equation: particles discretize the \textbf{vorticity field} $\omega(x, t)$
+                \item Particule strength $\Gamma_p$ is a local \textbf{circulation}
+                \item Model evolution: \\
+                      \begin{eqnarray*}
+                          \frac{d\Gamma_p}{dt} &=& 0, \\
+                          \frac{d x_p}{d t} &=& v(x_p; \mathcal P) \\
+                          &=& \sum_{p' \in \mathcal P} \Gamma_{p'} \vec{V}(x_p - x_{p'}) + u_{BC} \\
+                      \end{eqnarray*}
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.6\textwidth}
+            \begin{figure}
+                \centering
+                \alt<2>{%
+                    \animategraphics[loop, autoplay, width=0.7\textwidth]{10}{images/particles_ref/particles_ref_}{0}{2}%{20}
+                }{%
+                    \includegraphics[width=0.7\textwidth]{images/particles_ref/particles_ref_0}%
+                }
+                \caption*{Three vortex problem}
+            \end{figure}
+        \end{column}
+    \end{columns}
+    \footnotetext[1]{\tiny \cite{cottet_vortex_2000}}
+\end{frame}
+
+\subsection{Data assimilation}
+\begin{frame}{Data assimilation}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\textwidth]{images/source_of_uncertainties.png}
+    \end{figure}
+
+    \textbf{Goal:} Incorporate observations to reduce prediction error and uncertainties
+    \begin{figure}
+        \centering
+        \only<2>{%
+            \includegraphics[width=0.8\textwidth]{images/da_scheme1.png}}%
+        \only<3>{%
+            \includegraphics[width=0.8\textwidth]{images/da_scheme2.png}%
+        }
+    \end{figure}
+
     \vfill
-
-    \only<3->{\textbf{Update}:}
-    \begin{itemize}
-        \item<3->  \only<3>{Intensities} \only<4->{\textcolor{ceared}{Intensities}}
-        \item<3-> Particle Positions
-        \item<3-> both
-    \end{itemize}
 \end{frame}
 
-\section{Intensity correction}
-\begin{frame}{Intensity correction}
-    $\mathcal{P}_i = \left\{x_p, \textcolor{ceared}{\hat \Gamma_{p, i}}\right\}_{p=1}^{N_p} \mapsto \left\{x_p, \textcolor{ceared}{?} \right\}_{p=1}^{\textcolor{ceared}{?}}$
+\begin{frame}{Ensemble Kalman Filter}
 
-    \begin{block}<2->{First case: same particles positions}
-        Linear combinaison of intensity $\Gamma_{p,i}$ with the same positions $x_p$\\
-        $\left\{x_{p,i}, \hat \Gamma_{p,i}\right\}_{p=1}^{N_p} \mapsto \left\{x_p, \hat \Gamma_{p, i} + \sum_{j=1}^{N_p^j} F_{ij} \hat \Gamma_{p,j} \right\}_{p=1}^{N_p}$
-    \end{block}
+    \begin{itemize}
+        \item \textbf{Kalman Filter} extensition with \textbf{ensemble} of members to estimate and propagate uncertainty of the state~\cite{evensen_sequential_1994}
+        \item Adapted to \textbf{non-linear} and \textbf{high-dimensional} state space
+    \end{itemize}
+    \vspace{-0.5cm}
+    \begin{columns}[t]
+        \begin{column}{0.6\textwidth}
+            \small
 
-    \begin{block}<3->{General case: Different particles configurations}
-        Combinaison of \textbf{all particles}! \\
-        $ \left\{x_{p,i}, \hat \Gamma_{p,i}\right\}_{p=1}^{N^i_p} \mapsto \left\{x_{p,i}, \hat \Gamma_{p,i} + F_{ii}\Gamma_{p,i} \right\}_{p=1}^{N_p^i} + \left[\left\{x_{p,i}, F_{ij} \hat \Gamma_{p,j}\right\}_{p=1}^{N_p^j}\right]_{j\neq i}$ \\
-    \end{block}
+            \textbf{EnKF steps} (we note $u(\cdot, t_{k}) = u_k(\cdot)$):
+            \begin{itemize}
+                \item \textbf{Initialization}: \\
+                      Sample $N_{\text{ens}}$ fields $\textcolor{darkblue}{\left\{u_{i,0}\right\}_{i=1}^{N_{\text{ens}}}} \stackrel{iid}{\sim} U_0$
+                \item \textbf{Forecast}: from $t$ to $t_{k+1}$: \\
+                      $\textcolor{darkblue}{ u^f_{i, k+1}} = \mathcal M(u_{i, k}), \quad i = 1, \dots, N_{\text{ens}}$
+                \item \textbf{Measurement and prediction} at $t_{k+1}$:\\
+                      measure $\textcolor{glycine}{y_{k+1}}$, \\
+                      prediction $\textcolor{glycine}{h^i_{k+1}} = \mathcal H (\textcolor{darkblue}{  u^f_{i, k+1}}) \quad i = 1, \dots, N_{\text{ens}}$
+                \item \textbf{Analysis}: a weighted linear combination of $u^f_{i,k+1}$ \\
+                      $\textcolor{macaron}{u^a_{i, k+1}} = \textcolor{darkblue}{ u^f_{i, k+1}} + \sum_{j=1}^{N_{\text{ens}}} \textcolor{glycine}{\bm F_{ij}} \textcolor{darkblue}{ u^f_{j,k+1}}$, \\ where $\textcolor{glycine}{\bm F}$ depends on $\left(\textcolor{glycine}{y_{k+1}, \left\{h_{i, k+1}\right\}_{i=1}^{N_{\text{ens}}}}\right)$\footnotemark[1]
+            \end{itemize}
+            \vspace{0.25cm}
+
+        \end{column}
+        \begin{column}{0.4\textwidth}
+
+            \begin{figure}[t]
+                \centering
+                \only<1>{\includegraphics[width=\textwidth]{images/enkf_traj/enkf_lorenz_init.pdf}}
+                \only<2>{\includegraphics[width=\textwidth]{images/enkf_traj/enkf_lorenz_prop.pdf}}
+                \only<3>{\includegraphics[width=\textwidth]{images/enkf_traj/enkf_lorenz_measure.pdf}}
+                \only<4>{\includegraphics[width=\textwidth]{images/enkf_traj/enkf_lorenz_assim.pdf}}
+                \only<5>{\includegraphics[width=\textwidth]{images/enkf_traj/enkf_lorenz_prop2.pdf}}
+                \only<6>{\includegraphics[width=\textwidth]{images/enkf_traj/enkf_lorenz_assim2.pdf}}
+                \only<7->{\includegraphics[width=\textwidth]{images/enkf_traj/enkf_lorenz_final.pdf}}
+            \end{figure}
+            \only<8->{\textcolor{ceared}{\large How to apply this correction to meshless simulations ?}}
+        \end{column}
+    \end{columns}
+    \vfill
+    \footnotetext[1]{\tiny equivalent formulation of the original formulation, see~\cite{siripatana_combining_2019}}
 \end{frame}
 
-\subsection{Remesh EnKF}
-\begin{frame}{Remesh EnKF}
-    \subtitle{Regrid on a common particle configuration}
-    \begin{itemize}
-        \item Generate a new regular particle set based on particle-grid operator$\footnotemark[1]$.
-              \begin{figure}
-                  \centering
-                  \includegraphics[width=0.5\textwidth]{images/remesh_enkf.png}
-                  \caption{remeshing operation. Generate a new regular particle set.}
-              \end{figure}
-        \item Apply the intensity update on the common configuration
-    \end{itemize}
+\transition[2]{Data assimilation for meshless simulations}{Strength correction}
+\section{Data assimilation for meshless simulations}
+\subsection{Strength correction}
+\begin{frame}{EnKF Update for meshless simulations}
 
+    \begin{columns}[t]
+        \begin{column}{0.7\textwidth}
+            Members correction $i = 1, \dots, N_{\text{ens}}$: \\
+            \vspace{-0.50cm}
+            \begin{eqnarray*}
+                u_i^a(x) &=& u^f_i(x) + \sum_{j=1}^{N_{\text{ens}}} F_{ij}~u^f_j(x), \\
+                &=& \sum_{p \in \mathcal{P}^f_i} \Gamma^f_p \phi_h(x - x_p) + \sum_{j=1}^{N_{\text{ens}}} F_{ij} \sum_{{p'} \in \mathcal{P}_j^f} \Gamma^f_{p'} \phi_h(x - x_{p'}), \\
+                &=& \sum_{j=1}^{N_{\text{ens}}} \sum_{ p \in \mathcal{P}^f_i} \Gamma^a_p \phi_h (x - x_p)
+            \end{eqnarray*}
+            \vspace{-0.10cm}
+            $\Rightarrow u_i^a$ is a combinaison of \textbf{all particles}! \\
+            \vspace{-0.10cm}
+            \begin{equation*}\text{Card}(\mathcal P^a_i) = \sum_{j=1}^{N_{\text{ens}}}\text{Card}(\mathcal P^f_j)
+            \end{equation*}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+            \vspace{-1cm}
+            \begin{figure}
+                \centering
+                \begin{subfigure}{\textwidth}
+                    \centering
+                    \includegraphics[width=0.7\textwidth]{images/memb_particles.pdf}
+                \end{subfigure}
+                \begin{subfigure}{\textwidth}
+                    \centering
+                    \includegraphics[width=0.7\textwidth]{images/all_particles.pdf}
+                \end{subfigure}
+                \caption*{Particle support before and after the correction}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Strength correction}
+    \small
+    \textbf{Solution 1} \\
+    Generate a new regular particle set with particle-grid operator~\footnotemark[1] \\
+    \vspace{0.5cm}
+    \textbf{Solution 2} \\
+    \begin{columns}[t]
+        \begin{column}{0.5\textwidth}
+            Keep the same particle set of positions
+            \begin{eqnarray*}
+                u_i^f(x) &=& \sum_{p \in \mathcal P_i} \textcolor{ceared}{\Gamma^f_p} \phi_h(x - x_p^f),\\
+                u_i^a(x) &\approx& \sum_{p \in \mathcal P_i} \textcolor{ceared}{\Gamma^a_p} \phi_h(x - x_p^f), \\
+                % \left\{x^f_{p}, \hat \Gamma^f_{p}\right\}_{p=1}^{N^i_p} \mapsto \left\{x_{p}, \textcolor{ceared}{\langle u^i, \phi_h(\cdot,x_{p})\rangle} \right\}_{p=1}^{N_p^i}
+            \end{eqnarray*}where $\textcolor{ceared}{\Gamma^a_p} = \langle u^a_i, \phi_h(\cdot,x_{p})\rangle$
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            Confined to the particle support $\rightarrow$ might be inadequate to the analysed solution
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.6\textwidth]{./images/ens_particles.pdf}
+            \end{figure}
+        \end{column}
+    \end{columns}
+    \vfill
     \footnotetext[1]{\tiny used by particles-in-cell methods (MPM, VIC,...).}
 \end{frame}
 
-\subsection{Part EnKF}
-\begin{frame}{Part EnKF}
-    \subtitle{Project solution on each forecast configuration}
-    \begin{itemize}
-        \item Keep the previous particles positions $x_{p, i}$
-        \item Project the analyzed solution on those particles: \\
-              \begin{equation*}
-                  \Gamma_{p, i} = \langle u, \phi_h(\cdot,x_{p,i})\rangle_{L_2}, \quad p = 1, \dots, N_p^i.
-              \end{equation*}
-    \end{itemize}
-    \vfill
-    \centering
-    $\left\{x_{p,i}, \hat \Gamma_{p,i}\right\}_{p=1}^{N_p} \mapsto \left\{x_{p,i}, \langle u, \phi_h(\cdot,x_{p,i})\rangle_{L_2} \right\}_{p=1}^{N_p}$
-\end{frame}
-
-\section{Position correction}
-\subsection{Intensity correction - limitations}
-\begin{frame}{Intensity correction - limitation}
-    \begin{itemize}
-        \item Previous filter only updates intensities
-        \item Confined to the particle support $\rightarrow$ might be inadequate to the analysis solution
-
-    \end{itemize}
-
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.5\textwidth]{images/unalign_discretization.png}
-        \caption{Left: forecasted particle set, Right: updated particle set.}
-    \end{figure}
-
-    \only<2->{\textbf{Update}:}
-    \begin{itemize}
-        \item<2->Intensities
-        \item<2-> \textcolor{ceared}{Particle Positions}
-        \item<2-> both
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Position update}
-    Fitting $u_a$ by changing $x_p$ not an easy task:
-    \begin{itemize}
-        \item fit an intensity correction with position correction
-        \item should be in the Span($\hat u^i$)
-        \item non-linear problem of dimension $N_p^i$
-    \end{itemize}
-
-    \begin{block}<2->{Our hypothesis}
-        Error in the velocity field $v$ leads to error in the integration of the particles position: $\frac{d x_p}{d t} = v(x_p; \mathcal P)$
-    \end{block}
-
-    \begin{block}<3->{Goal}
-        Correct the particles position $x_p$ of the forecast field $\hat u$ by integrating a velocity field to reduce directly the discrepancy between \textbf{prediction} and the \textbf{observations}
-    \end{block}
-\end{frame}
-
+\transition[3]{Data assimilation by alignment}{Position correction}
+\subsection{Position correction}
 \begin{frame}{Position correction}
-    \begin{block}{Goal}
-        Correct the particles position $x_p$ of the forecast field $\hat u$ by integrating a velocity field to reduce directly the discrepancy between \textbf{prediction} and the \textbf{observations}:
-        \begin{equation*}
-            \min_{v_c \in \mathcal V} \left\|d - \mathcal H_{v_c}(\hat u(\cdot); v_c) \right\|^2 \only<2->{\textcolor{ceared}{+ R(v_c)}}, \quad i = 1, \dots, N
-        \end{equation*}
-    \end{block}
-    \only<2->{$\textcolor{ceared}{R(v_c)}$ is a regularisation term. (avoid non-unicity and ill-conditioning)}
+    \vspace{-0.9cm}
+    \begin{eqnarray*}
+        u_i^f(x) &=& \sum_{p \in \mathcal P_i} \Gamma^f_p \phi_h(x - \textcolor{ceared}{x_p^f}), \quad u^a_i(x) = u_i^f(x) + \sum_{j=1}^{N_{\text{ens}}} F_{ij} u_j^f(x), \\
+        u_i^a(x) &\approx& \sum_{p \in \mathcal P_i} \Gamma^f_p \phi_h(x - \textcolor{ceared}{A_i(x_p^f)}), \\
+    \end{eqnarray*}
+    \vspace{-0.7cm}
 
-    \begin{block}<3->{Position transformation $\Phi$: integration of the correction field $v_c$}
-        \begin{equation*}
-            \Phi(x_p; v_c) = x_p + \int_{0}^{1} v_c(x_p(t))~\mathrm{d}t \Rightarrow \left\{\textcolor{ceared}{x_{p,i}}, \hat \Gamma_{p,i}\right\}_{p=1}^{N^i_p} \mapsto \mathcal{P}_{i, \Phi} = \left\{\textcolor{ceared}{\Phi(x_{p,i}; v_c)}, \hat \Gamma_{p,i}\right\}_{p=1}^{N^i_p}
-        \end{equation*}
-    \end{block}
+    \begin{columns}[t]
+        \begin{column}{0.6\textwidth}
+            $A_i$ is a mapping such as $x^a_{p} = A_i(x^f_{p})$. \\
+            Here we choose~\footnotemark[1] to write $A(x)$ as the solution of\\
+            \begin{equation*}
+                \begin{cases}
+                    x'(\tau = 0) = x,                                           \\
+                    \frac{d x'}{d \tau} = w_i (x'), \quad A_i(x) = x'(\tau = 1) \\
+                \end{cases}
+            \end{equation*}with $w_i$ a velocity field \textbf{to determined}.
+        \end{column}
+        \begin{column}{0.4\textwidth}
+            \vspace{-2cm}
+            \begin{figure}
+                \centering
+                \only<1>{\includegraphics[width=0.8\textwidth]{images/align_member_0.pdf}}
+                \only<2>{\includegraphics[width=0.8\textwidth]{images/align_member_1.pdf}}
+                \only<3>{\includegraphics[width=0.8\textwidth]{images/align_member_2_1.pdf}}
+            \end{figure}
+        \end{column}
+    \end{columns}
+    \vfill
+    \footnotetext[1]{\tiny Other hypothesis have been made see~\cite{ravela_data_2007,rosenthal_displacement_2017}}
 \end{frame}
 
-\subsection{Formulation}
+\begin{frame}{Chose of $w_i$}
+    % For member $i$, we seek to reduce the discrepancy between \textbf{predictions} and the \textbf{observations}:
+    % \begin{equation*}
+    %     w_i = \argmin_{w \in \mathcal V} \left\|y - \mathcal H_{v_c}(\hat u^i; v_c) \right\|^2 \only<2->{\textcolor{ceared}{+ R(v_c)}}, \quad i = 1, \dots, N_{\text{ens}}
+    % \end{equation*}with $\mathcal V$ the velocity search space, $\mathcal H_{v_c}(\hat u^i; v_c)$ the observation of $\hat u$ after correction with velocity field $v_c$.
+    % \only<2->{$\textcolor{ceared}{R(v_c)}$ is a regularisation term. (avoid non-uniqueness and ill-conditioning)}
+    % \end{block}
+
+    % \begin{block}<3->{Position transformation $\Phi$}
+    %     Integration of the correction field $v_c$ over an arbitrary time
+    %     \begin{equation*}
+    %         \Phi(x_p; v_c) = x_p + \int_{0}^{1} v_c(x_p(t))~\mathrm{d}t \Rightarrow \left\{\textcolor{ceared}{x_{p,i}}, \hat \Gamma_{p,i}\right\}_{p=1}^{N^i_p} \mapsto \mathcal{P}_{i, \Phi} = \left\{\textcolor{ceared}{\Phi(x_{p,i}; v_c)}, \hat \Gamma_{p,i}\right\}_{p=1}^{N^i_p}
+    %     \end{equation*}
+    % \end{block}
+    % \vfil
+    test
+\end{frame}
+
 \begin{frame}{Formulation}
 
     \begin{block}{Searching space}
-        Need to be an incompressible field to be physically consistent $\Rightarrow \nabla \cdot v_c = 0$ \\
-        We search the velocity as a linear combination of member velocity field  \\
-        $\Rightarrow v_c \in \mathrm{Span}\left(\{v_i\}_{i=1}^{N}\right) \Rightarrow$ $v_c = \sum_{i=1}^N a_i v_i, \quad a_i \in \mathbb{R}$.
+        \begin{itemize}
+            \item Physical consistency: divergence-free velocity field $\Rightarrow \nabla \cdot v_c = 0$ \\
+            \item We search the velocity as a linear combination of member velocity field  \\
+                  $\Rightarrow v_c \in \mathrm{Span}\left(\{v_i\}_{i=1}^{N}\right) \Rightarrow$ $v_c = \sum_{i=1}^N a_i v_i, \quad a_i \in \mathbb{R}$.
+        \end{itemize}
     \end{block}
-
     \vfill
-    \only<2->{Reduce to $N$ independent problems of dimension $N$  \\
-
+    \only<2->{Leads to $N_{\text{ens}}$ independent problems of dimension $N_{\text{ens}}$  \\
         \begin{equation*}
-            \mathcal L_i (a) = \min{a \in \mathbb{R}^N} \left\|d - \mathcal H_a(\hat u_i(\cdot); a) \right\|^2 + \lambda \|a\|^2, \quad i = 1, \dots, N
+            \mathcal L_i (a) = \min{a \in \mathbb{R}^N} \left\|d - \mathcal H_a(\hat u^i; a) \right\|^2 + \lambda \|a\|^2, \quad i = 1, \dots, N_{\text{ens}}
         \end{equation*}
-        \vfill
         By estimating $\nabla_a \mathcal H_a$ we deduce $\nabla_a \mathcal L_i \rightarrow$ local gradient optimizer (BFGS).}
+    \vfill
+
 \end{frame}
 
-\subsection{Application}
-\begin{frame}{Problem}
-    \vspace{-0.8cm}
-    \begin{columns}
-        \begin{column}{0.66\textwidth}
-            \begin{itemize}[]
-                \item We solve the Euler equation with the \textbf{Vortex Method}~\footnotemark[1]
-                \item The particle set discretizes the vorticity field $\omega = \nabla \wedge v$
-                \item Three vortex(body) problem: chaotic trajectories~\footnotemark[2]
-                \item Ensemble: perturbed position, amplitude, core size of vortex
+\section{Application}
+
+
+\begin{frame}{Test problem}
+    \vspace{-0.5cm}
+    \begin{columns}[t]
+        \begin{column}{0.45\textwidth}
+            \begin{itemize}
+                \item \scriptsize Three vortex(body) problems: \textbf{chaotic trajectories}~\footnotemark[1]
+                \item \scriptsize Initial Uncertainties: vortex positions, strength, core-size,...
+                \item \scriptsize Variables of interest: positions of vortex centers
             \end{itemize}
-        \end{column}
-        \begin{column}{0.33\textwidth}
-            \centering
             \begin{figure}
-                \includegraphics[width=0.55\textwidth]{images/init_part.pdf}
-                \caption*{\tiny Particle positions}
+                \centering
+                \vspace{-0.25cm}
+                % \only<2->{\caption*{\tiny Vortex normalized position error}}
+                \includegraphics<2->[width=\textwidth]{images/error_position_wo_assim.pdf}
             \end{figure}
+            \vfill
         \end{column}
-    \end{columns}
-    \vspace{-0.5cm}
-    \begin{figure}
-        \begin{subfigure}[t]{0.32\textwidth}
+        \begin{column}{0.55\textwidth}
             \centering
-            \includegraphics[width=\textwidth]{images/vortex_distribution.pdf}
-            \caption*{\tiny Reference and samples set of one vortex}
-        \end{subfigure}
-        \begin{subfigure}[t]{0.32\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{images/vorticity_field.png}
-            \caption*{\tiny Vorticity field of the three vortex at $t=0$}
-        \end{subfigure}
-        \begin{subfigure}[t]{0.32\textwidth}
-            \centering
-            \includegraphics[width=0.8\textwidth]{images/obs_velocity.png}
-            \caption*{\tiny Observed induced velocity field at $t=0$}
-        \end{subfigure}
-    \end{figure}
-
-    \footnotetext[1]{\tiny \cite{cottet_vortex_2000}}
-    \footnotetext[2]{\tiny \cite{aref_motion_1979}}
-\end{frame}
-
-\begin{frame}{Without assimilation}
-    \vspace{-0.5cm}
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
+            \vspace{-1.0cm}
             \begin{figure}[t]
                 \centering
-                \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/wo_assim_trajectories_good.png/wo_assim_trajectories_good-}{0}{36}
-                % \caption*{Vortex center trajectories}
+                \caption*{\tiny Vortex center trajectories for perturbed inputs}
+                \alt<2->{%
+                    \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/wo_assim_trajectories_good.png/wo_assim_trajectories_good-}{0}{3}%{36}%
+                }{%
+                    \includegraphics[width=0.8\textwidth]{images/wo_assim_trajectories_good.png/wo_assim_trajectories_good-0}%
+                }
             \end{figure}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-            \begin{figure}
-                \centering
-                \begin{subfigure}{\textwidth}
-                    \centering
-                    \includegraphics[width=0.75\textwidth]{images/error_position_wo_assim.pdf}
-                    % \caption*{Vortex position error}
-                \end{subfigure}
-                \begin{subfigure}{\textwidth}
-                    \centering
-                    \includegraphics[width=0.75\textwidth]{images/error_vorticity_wo_assim.pdf}
-                    % \caption*{Vorticity error}
-                \end{subfigure}
-            \end{figure}
+            \vfill
+
         \end{column}
     \end{columns}
+    \vspace{-0.5cm}
+
+    \footnotetext[1]{\tiny \cite{aref_motion_1979}}
 \end{frame}
 
-\begin{frame}{With assimilation}
+\begin{frame}{Three vortex problem: position alignment}
     \begin{figure}
         \centering
         \includegraphics[width=0.6\textwidth]{images/part_velo_cor.pdf}
-        \caption*{\tiny Field alignment of the first member at first assimilation step.}
+        \caption*{\tiny Field alignment of member 0 at first assimilation step.}
     \end{figure}
+    \vspace{-0.25cm}
     \begin{figure}
         \centering
-        \includegraphics[width=0.6\textwidth]{images/mean_vorticity.pdf}
+        \includegraphics[width=0.7\textwidth]{images/mean_vorticity.pdf}
         \caption*{\tiny Vorticity field correction at first assimilation step.}
     \end{figure}
+    \vspace{-0.25cm}
 \end{frame}
 
-\begin{frame}{With assimilation}
+% \begin{frame}{Three vortex problem: positions uncertainty}
+%     \vspace{-0.5cm}
+%     \begin{columns}
+%         \begin{column}{0.5\textwidth}
+%             \begin{figure}
+%                 \centering
+%                 \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/assim_trajectories_good.png/20715cd1b35d4fce9348da1439eea9c9S2mpHIHr3P6oQ4FS-}{0}{3}%{36}
+%                 \caption*{Vortex center trajectories}
+%             \end{figure}
+%             Put conclusion here
+%         \end{column}
+%         \begin{column}{0.5\textwidth}
+%             \begin{figure}
+%                 \centering
+%                 \begin{subfigure}{\textwidth}
+%                     \centering
+%                     \includegraphics<2->[width=0.75\textwidth]{images/error_position_w_assim.pdf}
+%                     % \caption*{Vortex position error}
+%                 \end{subfigure}
+%                 \begin{subfigure}{\textwidth}
+%                     \centering
+%                     \includegraphics<2->[width=0.75\textwidth]{images/error_vorticity_w_assim.pdf}
+%                     % \caption*{Vorticity error}
+%                 \end{subfigure}
+%             \end{figure}
+%         \end{column}
+%     \end{columns}
+% \end{frame}
+
+\begin{frame}{Three vortex problem: positions and, intensities uncertainties}
     \vspace{-0.5cm}
     \begin{columns}
         \begin{column}{0.5\textwidth}
             \begin{figure}
                 \centering
-                \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/assim_trajectories_good.png/20715cd1b35d4fce9348da1439eea9c9S2mpHIHr3P6oQ4FS-}{0}{36}
+                \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/assim_trajectories_good.png/20715cd1b35d4fce9348da1439eea9c9S2mpHIHr3P6oQ4FS-}{0}{3}%{36}
+                % \caption*{Vortex center trajectories}
             \end{figure}
-            % \caption*{Vortex center trajectories}
+            Assimilation correct position, but keep strength uncertainties
         \end{column}
         \begin{column}{0.5\textwidth}
             \begin{figure}
                 \centering
                 \begin{subfigure}{\textwidth}
                     \centering
-                    \includegraphics[width=0.75\textwidth]{images/error_position_w_assim.pdf}
+                    \includegraphics<2->[width=0.75\textwidth]{images/error_position_w_assim.pdf}
                     % \caption*{Vortex position error}
                 \end{subfigure}
                 \begin{subfigure}{\textwidth}
                     \centering
-                    \includegraphics[width=0.75\textwidth]{images/error_vorticity_w_assim.pdf}
+                    \includegraphics<2->[width=0.75\textwidth]{images/error_vorticity_w_assim.pdf}
                     % \caption*{Vorticity error}
                 \end{subfigure}
             \end{figure}
@@ -424,19 +478,22 @@ Loïc Giraldi \inst{1} \\
     \end{columns}
 \end{frame}
 
-\begin{frame}{Discussions and Perspectives}
+\transition[4]{Conclusion}{}
 
-    \begin{block}{Discussions}
-        \begin{itemize}
-            \item Adapted the EnKF update for meshless simulations based on intensity update
-            \item Introduce a formulation to correct particle position when particles are misaligned
-        \end{itemize}
-    \end{block}
+\begin{frame}{Data assimilation for meshless simulations}{Strength and position correction}
+
+    \begin{itemize}
+        \item Data assimilation technics mean to have a better estimate by integrating observations
+        \item Correct meshless simulations strength could be not sufficient
+        \item We introduce a formulation to correct particle position
+        \item Correct position by integrating a velocity correction
+    \end{itemize}
 
     \begin{block}{Perspectives}
         \begin{itemize}
-            \item Enriched the correction velocity basis
-            \item Proposed a combined formulation
+            \item Enriched the search space $\mathcal V$
+            \item Correct position does not reduce variability due to strength error:\\
+                  $\rightarrow$ Proposed a combined formulation: \textbf{strength} and \textbf{position} correction
         \end{itemize}
     \end{block}
 \end{frame}
