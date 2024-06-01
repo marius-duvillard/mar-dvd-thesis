@@ -86,15 +86,15 @@ Loïc Giraldi \inst{1} \\
     \vfill
     \begin{figure}
         \begin{subfigure}{0.32\textwidth}
-            \animategraphics[loop, autoplay, width=0.75\textwidth]{5}{images/rot_drum_part/rot_drum_part-}{0}{1}%{150}
+            \animategraphics[loop, autoplay, width=0.75\textwidth]{10}{images/rot_drum_part/rot_drum_part-}{0}{150}
             \caption*{\tiny Particle discretization}
         \end{subfigure}
         \begin{subfigure}{0.32\textwidth}
-            \animategraphics[loop, autoplay, width=0.8\textwidth]{5}{images/rot_drum_grid/rot_drum_grid -}{0}{1}%{150}
+            \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/rot_drum_grid/rot_drum_grid -}{0}{150}
             \caption*{\tiny  Continuous velocity field}
         \end{subfigure}
         \begin{subfigure}{0.32\textwidth}
-            \animategraphics[loop, autoplay, width=0.8\textwidth]{5}{images/rot_drum_mix/rot_drum_mix-}{0}{1}%{149}
+            \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/rot_drum_mix/rot_drum_mix-}{0}{149}
             \caption*{\tiny Mixing with ball interactions}
         \end{subfigure}
         \vspace{-0.5cm}
@@ -118,7 +118,7 @@ Loïc Giraldi \inst{1} \\
                       \end{equation*}
                 \item Particle $p$: a \textbf{position} $x_p(t)$, an \textbf{strength} $\Gamma_p(t)$ and a \textbf{smoothing kernel} $\phi_h$
 
-                \item Model evolution of the \textbf{intensities} and \textbf{positions}:
+                \item Model evolution of the \textbf{strengths} and \textbf{positions}:
                       \begin{eqnarray*}
                           \frac{d\Gamma_p}{dt} = M_\Gamma(\Gamma_p; \mathcal P), \quad \frac{d x_p}{d t} = M_x(x_p; \mathcal P)
                       \end{eqnarray*}
@@ -151,7 +151,7 @@ Loïc Giraldi \inst{1} \\
             \begin{figure}
                 \centering
                 \alt<2>{%
-                    \animategraphics[loop, autoplay, width=0.7\textwidth]{10}{images/particles_ref/particles_ref_}{0}{2}%{20}
+                    \animategraphics[loop, autoplay, width=0.7\textwidth]{5}{images/particles_ref/particles_ref_}{0}{20}
                 }{%
                     \includegraphics[width=0.7\textwidth]{images/particles_ref/particles_ref_0}%
                 }
@@ -172,11 +172,7 @@ Loïc Giraldi \inst{1} \\
     \textbf{Goal:} Incorporate observations to reduce prediction error and uncertainties
     \begin{figure}
         \centering
-        \only<2>{%
-            \includegraphics[width=0.8\textwidth]{images/da_scheme1.png}}%
-        \only<3>{%
-            \includegraphics[width=0.8\textwidth]{images/da_scheme2.png}%
-        }
+        \alt<2>{\includegraphics[width=0.8\textwidth]{images/da_scheme2.png}}{\includegraphics[width=0.8\textwidth]{images/da_scheme1.png}}
     \end{figure}
 
     \vfill
@@ -188,7 +184,7 @@ Loïc Giraldi \inst{1} \\
         \item \textbf{Kalman Filter} extensition with \textbf{ensemble} of members to estimate and propagate uncertainty of the state~\cite{evensen_sequential_1994}
         \item Adapted to \textbf{non-linear} and \textbf{high-dimensional} state space
     \end{itemize}
-    \vspace{-0.5cm}
+    \vspace{-0.4cm}
     \begin{columns}[t]
         \begin{column}{0.6\textwidth}
             \small
@@ -196,14 +192,14 @@ Loïc Giraldi \inst{1} \\
             \textbf{EnKF steps} (we note $u(\cdot, t_{k}) = u_k(\cdot)$):
             \begin{itemize}
                 \item \textbf{Initialization}: \\
-                      Sample $N_{\text{ens}}$ fields $\textcolor{darkblue}{\left\{u_{i,0}\right\}_{i=1}^{N_{\text{ens}}}} \stackrel{iid}{\sim} U_0$
+                      Sample $N_{\text{ens}}$ fields $\textcolor{blue}{\left\{u_{i,0}\right\}_{i=1}^{N_{\text{ens}}}} \stackrel{iid}{\sim} U_0$
                 \item \textbf{Forecast}: from $t$ to $t_{k+1}$: \\
-                      $\textcolor{darkblue}{ u^f_{i, k+1}} = \mathcal M(u_{i, k}), \quad i = 1, \dots, N_{\text{ens}}$
+                      $\textcolor{blue}{ u^f_{i, k+1}} = \mathcal M(u_{i, k}), \quad i = 1, \dots, N_{\text{ens}}$
                 \item \textbf{Measurement and prediction} at $t_{k+1}$:\\
                       measure $\textcolor{glycine}{y_{k+1}}$, \\
-                      prediction $\textcolor{glycine}{h^i_{k+1}} = \mathcal H (\textcolor{darkblue}{  u^f_{i, k+1}}) \quad i = 1, \dots, N_{\text{ens}}$
+                      prediction $\textcolor{glycine}{h^i_{k+1}} = \mathcal H (\textcolor{blue}{  u^f_{i, k+1}}) \quad i = 1, \dots, N_{\text{ens}}$
                 \item \textbf{Analysis}: a weighted linear combination of $u^f_{i,k+1}$ \\
-                      $\textcolor{macaron}{u^a_{i, k+1}} = \textcolor{darkblue}{ u^f_{i, k+1}} + \sum_{j=1}^{N_{\text{ens}}} \textcolor{glycine}{\bm F_{ij}} \textcolor{darkblue}{ u^f_{j,k+1}}$, \\ where $\textcolor{glycine}{\bm F}$ depends on $\left(\textcolor{glycine}{y_{k+1}, \left\{h_{i, k+1}\right\}_{i=1}^{N_{\text{ens}}}}\right)$\footnotemark[1]
+                      $\textcolor{ceared}{u^a_{i, k+1}} = \textcolor{blue}{ u^f_{i, k+1}} + \sum_{j=1}^{N_{\text{ens}}} \textcolor{glycine}{\bm F_{ij}} \textcolor{blue}{ u^f_{j,k+1}}$, \\ where $\textcolor{glycine}{\bm F}$ depends on $\left(\textcolor{glycine}{y_{k+1}, \left\{h_{i, k+1}\right\}_{i=1}^{N_{\text{ens}}}}\right)$\footnotemark[1]
             \end{itemize}
             \vspace{0.25cm}
 
@@ -220,7 +216,7 @@ Loïc Giraldi \inst{1} \\
                 \only<6>{\includegraphics[width=\textwidth]{images/enkf_traj/enkf_lorenz_assim2.pdf}}
                 \only<7->{\includegraphics[width=\textwidth]{images/enkf_traj/enkf_lorenz_final.pdf}}
             \end{figure}
-            \only<8->{\textcolor{ceared}{\large How to apply this correction to meshless simulations ?}}
+            \visible<8->{\textcolor{ceared}{\large How to apply this correction to meshless simulations ?}}
         \end{column}
     \end{columns}
     \vfill
@@ -273,7 +269,7 @@ Loïc Giraldi \inst{1} \\
     \textbf{Solution 2} \\
     \begin{columns}[t]
         \begin{column}{0.5\textwidth}
-            Keep the same particle set of positions
+            Keep the same set of particle positions
             \begin{eqnarray*}
                 u_i^f(x) &=& \sum_{p \in \mathcal P_i} \textcolor{ceared}{\Gamma^f_p} \phi_h(x - x_p^f),\\
                 u_i^a(x) &\approx& \sum_{p \in \mathcal P_i} \textcolor{ceared}{\Gamma^a_p} \phi_h(x - x_p^f), \\
@@ -330,13 +326,12 @@ Loïc Giraldi \inst{1} \\
 \begin{frame}{Choose of $w_i$}
     For member $i$, we seek to reduce the discrepancy between \textbf{predictions} and the \textbf{observations}:
     \begin{equation*}
-        w_i = \argmin_{w_i \in \mathcal V} \left\|y - \mathcal H(\mathcal{P}_i^f \mid w_i) \right\|^2 \only<2->{\textcolor{ceared}{+ R(w)}}, \quad i = 1, \dots, N_{\text{ens}}
+        w_i = \argmin_{w_i \in \mathcal V} \left\|y - \mathcal H(\mathcal{P}_i^f \mid w_i) \right\|^2 \visible<2->{\textcolor{ceared}{+ R(w)}}, \quad i = 1, \dots, N_{\text{ens}}
     \end{equation*}with $\mathcal V$ the velocity search space, $\mathcal H(\mathcal{P}_i^f \mid w_i)$ the observation operator conditioned by $w_i$\\
     \vfill
-    \textcolor{ceared}{$R(w)$} is a regularisation term (avoid non-uniqueness and ill-conditioning)\\
-    %\only<2->{
+    \visible<2->{\textcolor{ceared}{$R(w)$} is a regularisation term (avoid non-uniqueness and ill-conditioning)\\}
     \vfill
-    \textbf{Infinite}-dimensional problem
+    \visible<2->{\textbf{Infinite}-dimensional problem}
     \vfill
 \end{frame}
 
@@ -347,7 +342,7 @@ Loïc Giraldi \inst{1} \\
         w_i = \sum_{j=1}^{N_{\text{ens}}} a_{i,j} v_j (x) = \sum_{j=1}^{N_{\text{ens}}}  a^i_j \left(\sum_{p \in \mathcal P_j} \Gamma_p^f \vec{V}(x - x_p) + u_{j,BC} \right)
     \end{equation*}
     \vfill
-    \only<2->{Leads to $N_{\text{ens}}$ independent problems of dimension $N_{\text{ens}}$  \\
+    \visible<2->{Leads to $N_{\text{ens}}$ independent problems of dimension $N_{\text{ens}}$  \\
         \begin{equation*}
             \mathcal L_i (a) = \min{a \in \mathbb{R}^N} \left\|d - \mathcal H_a(\hat u^i; a) \right\|^2 + \lambda \|a\|^2, \quad i = 1, \dots, N_{\text{ens}}
         \end{equation*}
@@ -383,13 +378,13 @@ Loïc Giraldi \inst{1} \\
                 \centering
                 \visible<2->{\tiny Vortex center trajectories for perturbed inputs}
                 \only<3->{%
-                    \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/vortex_centers_disperse/vortex_centers_}{0}{3}%{36}%
+                    \animategraphics[loop, autoplay, width=0.85\textwidth]{10}{images/vortex_centers_disperse/vortex_centers_}{0}{36}%
                 }
                 \only<2>{%
-                    \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/vortex_centers_ref/vortex_centers_}{0}{3}%{36}
+                    \animategraphics[loop, autoplay, width=0.85\textwidth]{10}{images/vortex_centers_ref/vortex_centers_}{0}{36}
                 }
                 \only<1>{%
-                    \animategraphics[loop, autoplay, width=0.7\textwidth]{10}{images/particles_ref/particles_ref_}{0}{2}%{20}
+                    \animategraphics[loop, autoplay, width=0.7\textwidth]{5}{images/particles_ref/particles_ref_}{0}{20}
                 }
             \end{figure}
 
@@ -401,40 +396,63 @@ Loïc Giraldi \inst{1} \\
 \end{frame}
 
 \begin{frame}{Strength correction}
-    \begin{columns}
+    \begin{columns}[t]
         \begin{column}{0.5\textwidth}
-            \begin{itemize}
-                \item \textbf{not convinent case} for the strength correction filter due to disperse particle
-            \end{itemize}
-
             \begin{figure}
                 \centering
-                \animategraphics[loop, autoplay, width=0.9\textwidth]{10}{images/assim_trajectories_good.png/20715cd1b35d4fce9348da1439eea9c9S2mpHIHr3P6oQ4FS-}{0}{3}%{36}
+                \animategraphics[loop, autoplay, width=\textwidth]{10}{images/vortex_centers_part_enkf/vortex_centers_}{0}{36}
             \end{figure}
         \end{column}
         \begin{column}{0.5\textwidth}
             \begin{figure}
 
                 \centering
-                \includegraphics[width=\textwidth]{images/error_position_w_assim.pdf}
-                % \caption*{Vortex position error}
+                \includegraphics[width=\textwidth]{images/part_enkf_error.pdf}
             \end{figure}
+
+            \begin{itemize}
+                \item \textbf{not a convinent case} to apply strength correction
+            \end{itemize}
         \end{column}
     \end{columns}
 \end{frame}
 
 \begin{frame}{Alignment correction}
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.6\textwidth]{images/part_velo_cor.pdf}
-        \caption*{\tiny Field alignment of member 0 at first assimilation step.}
-    \end{figure}
+    \vspace{-0.5cm}
+    \begin{columns}[c]
+        \begin{column}{0.45\textwidth}
+            \begin{figure}
+                \centering
+                \caption*{\tiny Field alignment of member 1 at first assimilation step.}
+                \includegraphics<1>[width=\textwidth]{images/align_member/align_member_prior.pdf}
+                \includegraphics<2>[width=\textwidth]{images/align_member/align_member_prior_field.pdf}
+                \includegraphics<3->[width=\textwidth]{images/align_member/align_member_final.pdf}
+            \end{figure}
+
+        \end{column}
+        \begin{column}{0.55\textwidth}
+            \begin{figure}[c]
+                \centering
+                \caption*{\tiny Vorticity field correction at first assimilation step.}
+                \begin{subfigure}{0.49\textwidth}
+                    \centering
+                    \includegraphics<1-2>[width=\textwidth]{images/vorticity_prior.pdf}
+                    \only<1-2>{\caption*{\tiny Before alignment}}
+                    \includegraphics<3>[width=\textwidth]{images/vorticity_align.pdf}
+                    \only<3>{\caption*{\tiny After alignment}}
+                \end{subfigure}
+                \begin{subfigure}{0.49\textwidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{images/vorticity_ref.pdf}
+                    \caption*{\tiny Reference}
+
+                \end{subfigure}
+            \end{figure}
+        \end{column}
+    \end{columns}
+
     \vspace{-0.25cm}
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.7\textwidth]{images/mean_vorticity.pdf}
-        \caption*{\tiny Vorticity field correction at first assimilation step.}
-    \end{figure}
+
     \vspace{-0.25cm}
 \end{frame}
 
@@ -443,24 +461,22 @@ Loïc Giraldi \inst{1} \\
     \vspace{-0.5cm}
     \begin{columns}
         \begin{column}{0.5\textwidth}
-            \begin{itemize}
-                \item Corrects the position
-                \item But variability due to uncertainty in strength
-            \end{itemize}
-
             \begin{figure}
                 \centering
-                \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/assim_trajectories_good.png/20715cd1b35d4fce9348da1439eea9c9S2mpHIHr3P6oQ4FS-}{0}{3}%{36}
+                \animategraphics[loop, autoplay, width=\textwidth]{10}{images/vortex_centers_align/vortex_centers_}{0}{36}
                 % \caption*{Vortex center trajectories}
             \end{figure}
         \end{column}
         \begin{column}{0.5\textwidth}
             \begin{figure}
-
                 \centering
-                \includegraphics[width=0.75\textwidth]{images/error_position_w_assim.pdf}
+                \includegraphics[width=\textwidth]{images/align_error.pdf}
                 % \caption*{Vortex position error}
             \end{figure}
+            \begin{itemize}
+                \item Corrects the position error at each assimilation step
+                \item But variability due to uncertainty in strength
+            \end{itemize}
         \end{column}
     \end{columns}
 \end{frame}
@@ -471,19 +487,21 @@ Loïc Giraldi \inst{1} \\
         \begin{column}{0.5\textwidth}
             \begin{figure}
                 \centering
-                \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/assim_trajectories_good.png/20715cd1b35d4fce9348da1439eea9c9S2mpHIHr3P6oQ4FS-}{0}{3}%{36}
+                \animategraphics[loop, autoplay, width=\textwidth]{10}{images/vortex_centers_part_align/vortex_centers_}{0}{36}
                 % \caption*{Vortex center trajectories}
             \end{figure}
-            Assimilation correct position, but keep strength uncertainties
+
         \end{column}
         \begin{column}{0.5\textwidth}
 
             \begin{figure}
-
                 \centering
-                \includegraphics[width=\textwidth]{images/error_position_w_assim.pdf}
-                % \caption*{Vortex position error}
+                \includegraphics[width=\textwidth]{images/align_part_error.pdf}
             \end{figure}
+
+            \begin{itemize}
+                \item Assimilation correct position and reduce strength variability
+            \end{itemize}
         \end{column}
     \end{columns}
 \end{frame}
@@ -497,17 +515,17 @@ Loïc Giraldi \inst{1} \\
         \item Propose two assimilations approches
               \begin{itemize}
                   \item Strength correction when member discretization overlap
-                  \item Position correciton achieve alignment of ensemble particles set
+                  \item Position correction to align ensemble of particle sets
                   \item Two methods can be combined
               \end{itemize}
         \item Strength correction is explicit %but computationally intensive
-        \item Position correction require solving low-dimentional non-linear optimization problem
+        \item Position correction require solving low-dimensional non-linear optimization problem
     \end{itemize}
     \vfill
     \begin{block}{Perspectives}
         \begin{itemize}
             \item Improve computational efficiency
-            \item Apply these filters to other modelization
+            \item Apply these filters to other meshless modelization
         \end{itemize}
     \end{block}
 \end{frame}
