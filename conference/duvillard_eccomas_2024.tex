@@ -311,7 +311,7 @@ Loïc Giraldi \inst{1} \\
                     x'(\tau = 0) = x,                                           \\
                     \frac{d x'}{d \tau} = w_i (x'), \quad A_i(x) = x'(\tau = 1) \\
                 \end{cases}
-            \end{equation*}with $w_i$ a velocity field \textbf{to determined}.
+            \end{equation*}with $w_i$ a velocity field \textbf{to determined}
         \end{column}
         \begin{column}{0.4\textwidth}
             \vspace{-2cm}
@@ -327,76 +327,71 @@ Loïc Giraldi \inst{1} \\
     \footnotetext[1]{\tiny Other hypothesis have been made see~\cite{ravela_data_2007,rosenthal_displacement_2017}}
 \end{frame}
 
-\begin{frame}{Chose of $w_i$}
-    % For member $i$, we seek to reduce the discrepancy between \textbf{predictions} and the \textbf{observations}:
-    % \begin{equation*}
-    %     w_i = \argmin_{w \in \mathcal V} \left\|y - \mathcal H_{v_c}(\hat u^i; v_c) \right\|^2 \only<2->{\textcolor{ceared}{+ R(v_c)}}, \quad i = 1, \dots, N_{\text{ens}}
-    % \end{equation*}with $\mathcal V$ the velocity search space, $\mathcal H_{v_c}(\hat u^i; v_c)$ the observation of $\hat u$ after correction with velocity field $v_c$.
-    % \only<2->{$\textcolor{ceared}{R(v_c)}$ is a regularisation term. (avoid non-uniqueness and ill-conditioning)}
-    % \end{block}
-
-    % \begin{block}<3->{Position transformation $\Phi$}
-    %     Integration of the correction field $v_c$ over an arbitrary time
-    %     \begin{equation*}
-    %         \Phi(x_p; v_c) = x_p + \int_{0}^{1} v_c(x_p(t))~\mathrm{d}t \Rightarrow \left\{\textcolor{ceared}{x_{p,i}}, \hat \Gamma_{p,i}\right\}_{p=1}^{N^i_p} \mapsto \mathcal{P}_{i, \Phi} = \left\{\textcolor{ceared}{\Phi(x_{p,i}; v_c)}, \hat \Gamma_{p,i}\right\}_{p=1}^{N^i_p}
-    %     \end{equation*}
-    % \end{block}
-    % \vfil
-    test
+\begin{frame}{Choose of $w_i$}
+    For member $i$, we seek to reduce the discrepancy between \textbf{predictions} and the \textbf{observations}:
+    \begin{equation*}
+        w_i = \argmin_{w_i \in \mathcal V} \left\|y - \mathcal H(\mathcal{P}_i^f \mid w_i) \right\|^2 \only<2->{\textcolor{ceared}{+ R(w)}}, \quad i = 1, \dots, N_{\text{ens}}
+    \end{equation*}with $\mathcal V$ the velocity search space, $\mathcal H(\mathcal{P}_i^f \mid w_i)$ the observation operator conditioned by $w_i$\\
+    \vfill
+    \textcolor{ceared}{$R(w)$} is a regularisation term (avoid non-uniqueness and ill-conditioning)\\
+    %\only<2->{
+    \vfill
+    \textbf{Infinite}-dimensional problem
+    \vfill
 \end{frame}
 
-\begin{frame}{Formulation}
+\begin{frame}{Reduced order formulation}
 
-    \begin{block}{Searching space}
-        \begin{itemize}
-            \item Physical consistency: divergence-free velocity field $\Rightarrow \nabla \cdot v_c = 0$ \\
-            \item We search the velocity as a linear combination of member velocity field  \\
-                  $\Rightarrow v_c \in \mathrm{Span}\left(\{v_i\}_{i=1}^{N}\right) \Rightarrow$ $v_c = \sum_{i=1}^N a_i v_i, \quad a_i \in \mathbb{R}$.
-        \end{itemize}
-    \end{block}
+    We search the velocity as a linear combination of member velocity field, find $\bm a_i \in \mathbb{R}^{N_{\text{ens}}}$  \\
+    \begin{equation*}
+        w_i = \sum_{j=1}^{N_{\text{ens}}} a_{i,j} v_j (x) = \sum_{j=1}^{N_{\text{ens}}}  a^i_j \left(\sum_{p \in \mathcal P_j} \Gamma_p^f \vec{V}(x - x_p) + u_{j,BC} \right)
+    \end{equation*}
     \vfill
     \only<2->{Leads to $N_{\text{ens}}$ independent problems of dimension $N_{\text{ens}}$  \\
         \begin{equation*}
             \mathcal L_i (a) = \min{a \in \mathbb{R}^N} \left\|d - \mathcal H_a(\hat u^i; a) \right\|^2 + \lambda \|a\|^2, \quad i = 1, \dots, N_{\text{ens}}
         \end{equation*}
-        By estimating $\nabla_a \mathcal H_a$ we deduce $\nabla_a \mathcal L_i \rightarrow$ local gradient optimizer (BFGS).}
+        Optimize with a local gradient optimizer (BFGS)}
     \vfill
 
 \end{frame}
 
+\transition[3]{Application}{Three vortex problem}
+
 \section{Application}
 
-
-\begin{frame}{Test problem}
+\begin{frame}{Test problem - Three vortex(body) problem}
     \vspace{-0.5cm}
     \begin{columns}[t]
         \begin{column}{0.45\textwidth}
             \begin{itemize}
-                \item \scriptsize Three vortex(body) problems: \textbf{chaotic trajectories}~\footnotemark[1]
-                \item \scriptsize Initial Uncertainties: vortex positions, strength, core-size,...
-                \item \scriptsize Variables of interest: positions of vortex centers
+                \item \scriptsize \textbf{Initial Uncertainties}: vortex mean positions, strength, core-size,...
+                \item \scriptsize \textbf{Variables of interest}: positions of vortex centers
+                \item \scriptsize \textbf{chaotic trajectories}~\footnotemark[1]
             \end{itemize}
             \begin{figure}
                 \centering
                 \vspace{-0.25cm}
                 % \only<2->{\caption*{\tiny Vortex normalized position error}}
-                \includegraphics<2->[width=\textwidth]{images/error_position_wo_assim.pdf}
+                \includegraphics<3->[width=\textwidth]{images/error_position_wo_assim.pdf}
             \end{figure}
             \vfill
         \end{column}
         \begin{column}{0.55\textwidth}
             \centering
-            \vspace{-1.0cm}
             \begin{figure}[t]
                 \centering
-                \caption*{\tiny Vortex center trajectories for perturbed inputs}
-                \alt<2->{%
-                    \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/wo_assim_trajectories_good.png/wo_assim_trajectories_good-}{0}{3}%{36}%
-                }{%
-                    \includegraphics[width=0.8\textwidth]{images/wo_assim_trajectories_good.png/wo_assim_trajectories_good-0}%
+                \visible<2->{\tiny Vortex center trajectories for perturbed inputs}
+                \only<3->{%
+                    \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/vortex_centers_disperse/vortex_centers_}{0}{3}%{36}%
+                }
+                \only<2>{%
+                    \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/vortex_centers_ref/vortex_centers_}{0}{3}%{36}
+                }
+                \only<1>{%
+                    \animategraphics[loop, autoplay, width=0.7\textwidth]{10}{images/particles_ref/particles_ref_}{0}{2}%{20}
                 }
             \end{figure}
-            \vfill
 
         \end{column}
     \end{columns}
@@ -405,7 +400,30 @@ Loïc Giraldi \inst{1} \\
     \footnotetext[1]{\tiny \cite{aref_motion_1979}}
 \end{frame}
 
-\begin{frame}{Three vortex problem: position alignment}
+\begin{frame}{Strength correction}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}
+                \item \textbf{not convinent case} for the strength correction filter due to disperse particle
+            \end{itemize}
+
+            \begin{figure}
+                \centering
+                \animategraphics[loop, autoplay, width=0.9\textwidth]{10}{images/assim_trajectories_good.png/20715cd1b35d4fce9348da1439eea9c9S2mpHIHr3P6oQ4FS-}{0}{3}%{36}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+
+                \centering
+                \includegraphics[width=\textwidth]{images/error_position_w_assim.pdf}
+                % \caption*{Vortex position error}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Alignment correction}
     \begin{figure}
         \centering
         \includegraphics[width=0.6\textwidth]{images/part_velo_cor.pdf}
@@ -420,36 +438,34 @@ Loïc Giraldi \inst{1} \\
     \vspace{-0.25cm}
 \end{frame}
 
-% \begin{frame}{Three vortex problem: positions uncertainty}
-%     \vspace{-0.5cm}
-%     \begin{columns}
-%         \begin{column}{0.5\textwidth}
-%             \begin{figure}
-%                 \centering
-%                 \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/assim_trajectories_good.png/20715cd1b35d4fce9348da1439eea9c9S2mpHIHr3P6oQ4FS-}{0}{3}%{36}
-%                 \caption*{Vortex center trajectories}
-%             \end{figure}
-%             Put conclusion here
-%         \end{column}
-%         \begin{column}{0.5\textwidth}
-%             \begin{figure}
-%                 \centering
-%                 \begin{subfigure}{\textwidth}
-%                     \centering
-%                     \includegraphics<2->[width=0.75\textwidth]{images/error_position_w_assim.pdf}
-%                     % \caption*{Vortex position error}
-%                 \end{subfigure}
-%                 \begin{subfigure}{\textwidth}
-%                     \centering
-%                     \includegraphics<2->[width=0.75\textwidth]{images/error_vorticity_w_assim.pdf}
-%                     % \caption*{Vorticity error}
-%                 \end{subfigure}
-%             \end{figure}
-%         \end{column}
-%     \end{columns}
-% \end{frame}
 
-\begin{frame}{Three vortex problem: positions and, intensities uncertainties}
+\begin{frame}{Alignment correction}
+    \vspace{-0.5cm}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}
+                \item Corrects the position
+                \item But variability due to uncertainty in strength
+            \end{itemize}
+
+            \begin{figure}
+                \centering
+                \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/assim_trajectories_good.png/20715cd1b35d4fce9348da1439eea9c9S2mpHIHr3P6oQ4FS-}{0}{3}%{36}
+                % \caption*{Vortex center trajectories}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+
+                \centering
+                \includegraphics[width=0.75\textwidth]{images/error_position_w_assim.pdf}
+                % \caption*{Vortex position error}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Alignment/Strength correction}
     \vspace{-0.5cm}
     \begin{columns}
         \begin{column}{0.5\textwidth}
@@ -461,39 +477,37 @@ Loïc Giraldi \inst{1} \\
             Assimilation correct position, but keep strength uncertainties
         \end{column}
         \begin{column}{0.5\textwidth}
+
             \begin{figure}
+
                 \centering
-                \begin{subfigure}{\textwidth}
-                    \centering
-                    \includegraphics<2->[width=0.75\textwidth]{images/error_position_w_assim.pdf}
-                    % \caption*{Vortex position error}
-                \end{subfigure}
-                \begin{subfigure}{\textwidth}
-                    \centering
-                    \includegraphics<2->[width=0.75\textwidth]{images/error_vorticity_w_assim.pdf}
-                    % \caption*{Vorticity error}
-                \end{subfigure}
+                \includegraphics[width=\textwidth]{images/error_position_w_assim.pdf}
+                % \caption*{Vortex position error}
             \end{figure}
         \end{column}
     \end{columns}
 \end{frame}
 
 \transition[4]{Conclusion}{}
-
+\section{Conclusion}
 \begin{frame}{Data assimilation for meshless simulations}{Strength and position correction}
 
     \begin{itemize}
-        \item Data assimilation technics mean to have a better estimate by integrating observations
-        \item Correct meshless simulations strength could be not sufficient
-        \item We introduce a formulation to correct particle position
-        \item Correct position by integrating a velocity correction
+        \item Improve prediction in the context of meshless simulation
+        \item Propose two assimilations approches
+              \begin{itemize}
+                  \item Strength correction when member discretization overlap
+                  \item Position correciton achieve alignment of ensemble particles set
+                  \item Two methods can be combined
+              \end{itemize}
+        \item Strength correction is explicit %but computationally intensive
+        \item Position correction require solving low-dimentional non-linear optimization problem
     \end{itemize}
-
+    \vfill
     \begin{block}{Perspectives}
         \begin{itemize}
-            \item Enriched the search space $\mathcal V$
-            \item Correct position does not reduce variability due to strength error:\\
-                  $\rightarrow$ Proposed a combined formulation: \textbf{strength} and \textbf{position} correction
+            \item Improve computational efficiency
+            \item Apply these filters to other modelization
         \end{itemize}
     \end{block}
 \end{frame}

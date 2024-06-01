@@ -2371,12 +2371,13 @@
     <bcf:citekey order="21">rosenthal_displacement_2017</bcf:citekey>
     <bcf:citekey order="22">aref_motion_1979</bcf:citekey>
     <bcf:citekey order="23">aref_motion_1979</bcf:citekey>
-    <bcf:citekey order="24">cottet_vortex_2000</bcf:citekey>
-    <bcf:citekey order="25">evensen_sequential_1994</bcf:citekey>
-    <bcf:citekey order="26">siripatana_combining_2019</bcf:citekey>
-    <bcf:citekey order="27">ravela_data_2007</bcf:citekey>
-    <bcf:citekey order="28">rosenthal_displacement_2017</bcf:citekey>
-    <bcf:citekey order="29">aref_motion_1979</bcf:citekey>
+    <bcf:citekey order="24">aref_motion_1979</bcf:citekey>
+    <bcf:citekey order="25">cottet_vortex_2000</bcf:citekey>
+    <bcf:citekey order="26">evensen_sequential_1994</bcf:citekey>
+    <bcf:citekey order="27">siripatana_combining_2019</bcf:citekey>
+    <bcf:citekey order="28">ravela_data_2007</bcf:citekey>
+    <bcf:citekey order="29">rosenthal_displacement_2017</bcf:citekey>
+    <bcf:citekey order="30">aref_motion_1979</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">
