@@ -1,15 +1,15 @@
 [0] Config.pm:307> INFO - This is Biber 2.17
 [0] Config.pm:310> INFO - Logfile is 'duvillard_eccomas_2024.blg'
-[143] biber-MSWIN32:340> INFO - === 
-[213] Biber.pm:418> INFO - Reading 'duvillard_eccomas_2024.bcf'
-[367] Biber.pm:972> INFO - Found 6 citekeys in bib section 0
-[386] Biber.pm:4383> INFO - Processing section 0
-[401] Biber.pm:4574> INFO - Looking for bibtex file './biblio.bib' for section 0
-[469] bibtex.pm:1713> INFO - LaTeX decoding ...
-[490] bibtex.pm:1518> INFO - Found BibTeX data source './biblio.bib'
-[585] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[585] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[586] Biber.pm:4203> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'en-US'
-[586] Biber.pm:4209> INFO - No sort tailoring available for locale 'en-US'
-[593] bbl.pm:654> INFO - Writing 'duvillard_eccomas_2024.bbl' with encoding 'UTF-8'
-[598] bbl.pm:757> INFO - Output to duvillard_eccomas_2024.bbl
+[240] biber-MSWIN32:340> INFO - === 
+[314] Biber.pm:418> INFO - Reading 'duvillard_eccomas_2024.bcf'
+[556] Biber.pm:972> INFO - Found 6 citekeys in bib section 0
+[590] Biber.pm:4383> INFO - Processing section 0
+[617] Biber.pm:4574> INFO - Looking for bibtex file './biblio.bib' for section 0
+[697] bibtex.pm:1713> INFO - LaTeX decoding ...
+[732] bibtex.pm:1518> INFO - Found BibTeX data source './biblio.bib'
+[902] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[902] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[902] Biber.pm:4203> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'en-US'
+[903] Biber.pm:4209> INFO - No sort tailoring available for locale 'en-US'
+[917] bbl.pm:654> INFO - Writing 'duvillard_eccomas_2024.bbl' with encoding 'UTF-8'
+[925] bbl.pm:757> INFO - Output to duvillard_eccomas_2024.bbl

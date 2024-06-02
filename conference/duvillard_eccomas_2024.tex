@@ -1,5 +1,5 @@
 \documentclass[aspectratio=169]{beamer} %% for 16:9 use this line
-%%\documentclass{beamer}  %% For 4:3 ratio use this line
+%%\documentclass{beamer} %% For 4:3 ratio use this line
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lipsum} 
@@ -25,21 +25,21 @@
 
 \usetheme{CEA2023}
 \setlength{\columnsep}{0.05cm}
-\title[Data Assimilation for Meshless Simulation]  %optional
+\title[Data Assimilation for Meshless Simulation] %optional
 {Ensemble Data Assimilation Method Applied to Meshless Simulations}
 \subtitle{ECCOMAS 2024 - Lisbon}
-\date[06-03-2024]  %optional
+\date[06-03-2024] %optional
 {June the 3\textsuperscript{rd} 2024}
-\author[M. Duvillard]  %optionam
+\author[M. Duvillard] %optionam
 {Marius Duvillard \inst{1} \inst{2} \texttt{(\small marius.duvillard\myat cea.fr)} \\
 Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat polytechnique.edu)} \\
 Loïc Giraldi \inst{1} \\
 }
 
 \institute[short-inst]{
-  \inst{1} CEA DES/IRESNE/DEC/SESC Cadarache 
-  \inst{2} Centre de Mathématiques Appliquées, Ecole Polytechnique 
-  \inst{3} CNRS, Inria
+ \inst{1} CEA DES/IRESNE/DEC/SESC Cadarache 
+ \inst{2} Centre de Mathématiques Appliquées, Ecole Polytechnique 
+ \inst{3} CNRS, Inria
 }
 
 % uncomment the following lines if you do not want dedicated outlines before
@@ -63,7 +63,7 @@ Loïc Giraldi \inst{1} \\
     \titlepage
 \end{frame}
 
-\begin{frame}[righttransition]{Outline}  % or Table of Contents
+\begin{frame}[righttransition]{Outline} % or Table of Contents
     \tableofcontents
 \end{frame}
 
@@ -91,7 +91,7 @@ Loïc Giraldi \inst{1} \\
         \end{subfigure}
         \begin{subfigure}{0.32\textwidth}
             \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/rot_drum_grid/rot_drum_grid -}{0}{150}
-            \caption*{\tiny  Continuous velocity field}
+            \caption*{\tiny Continuous velocity field}
         \end{subfigure}
         \begin{subfigure}{0.32\textwidth}
             \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{images/rot_drum_mix/rot_drum_mix-}{0}{149}
@@ -104,8 +104,8 @@ Loïc Giraldi \inst{1} \\
 \end{frame}
 
 \begin{frame}{Meshless simulations - Continuous formulation}
-    %     \vspace{-0.5cm}
-    %     \small
+    %   \vspace{-0.5cm}
+    %   \small
     \begin{columns}[t]
         \begin{column}{0.7\textwidth}
             \begin{Definition}
@@ -181,7 +181,7 @@ Loïc Giraldi \inst{1} \\
 \begin{frame}{Ensemble Kalman Filter}
 
     \begin{itemize}
-        \item \textbf{Kalman Filter} extensition with \textbf{ensemble} of members to estimate and propagate uncertainty of the state~\cite{evensen_sequential_1994}
+        \item \textbf{Kalman Filter} extension with \textbf{ensemble} of members to estimate and propagate uncertainty of the state~\cite{evensen_sequential_1994}
         \item Adapted to \textbf{non-linear} and \textbf{high-dimensional} state space
     \end{itemize}
     \vspace{-0.4cm}
@@ -197,7 +197,7 @@ Loïc Giraldi \inst{1} \\
                       $\textcolor{blue}{ u^f_{i, k+1}} = \mathcal M(u_{i, k}), \quad i = 1, \dots, N_{\text{ens}}$
                 \item \textbf{Measurement and prediction} at $t_{k+1}$:\\
                       measure $\textcolor{glycine}{y_{k+1}}$, \\
-                      prediction $\textcolor{glycine}{h^i_{k+1}} = \mathcal H (\textcolor{blue}{  u^f_{i, k+1}}) \quad i = 1, \dots, N_{\text{ens}}$
+                      prediction $\textcolor{glycine}{h^i_{k+1}} = \mathcal H (\textcolor{blue}{ u^f_{i, k+1}}) \quad i = 1, \dots, N_{\text{ens}}$
                 \item \textbf{Analysis}: a weighted linear combination of $u^f_{i,k+1}$ \\
                       $\textcolor{ceared}{u^a_{i, k+1}} = \textcolor{blue}{ u^f_{i, k+1}} + \sum_{j=1}^{N_{\text{ens}}} \textcolor{glycine}{\bm F_{ij}} \textcolor{blue}{ u^f_{j,k+1}}$, \\ where $\textcolor{glycine}{\bm F}$ depends on $\left(\textcolor{glycine}{y_{k+1}, \left\{h_{i, k+1}\right\}_{i=1}^{N_{\text{ens}}}}\right)$\footnotemark[1]
             \end{itemize}
@@ -277,7 +277,7 @@ Loïc Giraldi \inst{1} \\
             \end{eqnarray*}where $\textcolor{ceared}{\Gamma^a_p} = \langle u^a_i, \phi_h(\cdot,x_{p})\rangle$
         \end{column}
         \begin{column}{0.5\textwidth}
-            Confined to the particle support $\rightarrow$ might be inadequate to the analysed solution
+            Confined to the particle support $\rightarrow$ might be inadequate for the analyzed solution
             \begin{figure}
                 \centering
                 \includegraphics[width=0.6\textwidth]{./images/ens_particles.pdf}
@@ -337,12 +337,13 @@ Loïc Giraldi \inst{1} \\
 
 \begin{frame}{Reduced order formulation}
 
-    We search the velocity as a linear combination of member velocity field, find $\bm a_i \in \mathbb{R}^{N_{\text{ens}}}$  \\
+    We search the velocity as a linear combination of member velocity fields,\\
+    find $\bm a_i \in \mathbb{R}^{N_{\text{ens}}}$ \\
     \begin{equation*}
-        w_i = \sum_{j=1}^{N_{\text{ens}}} a_{i,j} v_j (x) = \sum_{j=1}^{N_{\text{ens}}}  a^i_j \left(\sum_{p \in \mathcal P_j} \Gamma_p^f \vec{V}(x - x_p) + u_{j,BC} \right)
+        w_i = \sum_{j=1}^{N_{\text{ens}}} a_{i,j} v_j (x) = \sum_{j=1}^{N_{\text{ens}}} a^i_j \left(\sum_{p \in \mathcal P_j} \Gamma_p^f \vec{V}(x - x_p) + u_{j,BC} \right)
     \end{equation*}
     \vfill
-    \visible<2->{Leads to $N_{\text{ens}}$ independent problems of dimension $N_{\text{ens}}$  \\
+    \visible<2->{Leads to $N_{\text{ens}}$ independent problems of dimension $N_{\text{ens}}$ \\
         \begin{equation*}
             \mathcal L_i (a) = \min{a \in \mathbb{R}^N} \left\|d - \mathcal H_a(\hat u^i; a) \right\|^2 + \lambda \|a\|^2, \quad i = 1, \dots, N_{\text{ens}}
         \end{equation*}
@@ -423,7 +424,7 @@ Loïc Giraldi \inst{1} \\
         \begin{column}{0.45\textwidth}
             \begin{figure}
                 \centering
-                \caption*{\tiny Field alignment of member 1 at first assimilation step.}
+                \caption*{\tiny Field alignment of member one at first assimilation step.}
                 \includegraphics<1>[width=\textwidth]{images/align_member/align_member_prior.pdf}
                 \includegraphics<2>[width=\textwidth]{images/align_member/align_member_prior_field.pdf}
                 \includegraphics<3->[width=\textwidth]{images/align_member/align_member_final.pdf}
@@ -519,13 +520,13 @@ Loïc Giraldi \inst{1} \\
                   \item Two methods can be combined
               \end{itemize}
         \item Strength correction is explicit %but computationally intensive
-        \item Position correction require solving low-dimensional non-linear optimization problem
+        \item Position correction requires solving a low-dimensional non-linear optimization problem
     \end{itemize}
     \vfill
     \begin{block}{Perspectives}
         \begin{itemize}
             \item Improve computational efficiency
-            \item Apply these filters to other meshless modelization
+            \item Apply these filters to other meshless modelizations
         \end{itemize}
     \end{block}
 \end{frame}
@@ -539,7 +540,7 @@ Loïc Giraldi \inst{1} \\
 
 % \section*{Addendum}
 % \begin{frame}{EnKF update}
-%     \emph{Be successful with your presentation!}
+%   \emph{Be successful with your presentation!}
 % \end{frame}
 
 \end{document}
