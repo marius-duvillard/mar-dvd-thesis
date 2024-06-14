@@ -25,7 +25,7 @@
 
 \usetheme{CEA2023}
 \setlength{\columnsep}{0.05cm}
-\title[Data Assimilation for Meshless Simulation] %optional
+\title[ECCOMAS2024 - Data Assimilation for Meshless Simulation] %optional
 {Ensemble Data Assimilation Method Applied to Meshless Simulations}
 \subtitle{ECCOMAS 2024 - Lisbon}
 \date[06-03-2024] %optional
@@ -143,9 +143,10 @@ Loïc Giraldi \inst{1} \\
                       \begin{eqnarray*}
                           \frac{d\Gamma_p}{dt} &=& 0, \\
                           \frac{d x_p}{d t} &=& v(x_p; \mathcal P) \\
-                          &=& \sum_{p' \in \mathcal P} \Gamma_{p'} \vec{V}(x_p - x_{p'}) + u_{BC} \\
+                          &=& \sum_{p' \in \mathcal P} \Gamma_{p'} \vec{V}(x_p - x_{p'}) + v_{BC} \\
                       \end{eqnarray*}
             \end{itemize}
+            \footnotetext[1]{\tiny \cite{cottet_vortex_2000}}
         \end{column}
         \begin{column}{0.6\textwidth}
             \begin{figure}
@@ -159,7 +160,7 @@ Loïc Giraldi \inst{1} \\
             \end{figure}
         \end{column}
     \end{columns}
-    \footnotetext[1]{\tiny \cite{cottet_vortex_2000}}
+
 \end{frame}
 
 \subsection{Data assimilation}
@@ -340,12 +341,12 @@ Loïc Giraldi \inst{1} \\
     We search the velocity as a linear combination of member velocity fields,\\
     find $\bm a_i \in \mathbb{R}^{N_{\text{ens}}}$ \\
     \begin{equation*}
-        w_i = \sum_{j=1}^{N_{\text{ens}}} a_{i,j} v_j (x) = \sum_{j=1}^{N_{\text{ens}}} a^i_j \left(\sum_{p \in \mathcal P_j} \Gamma_p^f \vec{V}(x - x_p) + u_{j,BC} \right)
+        w_i = \sum_{j=1}^{N_{\text{ens}}} a_{i,j} v_j (x) = \sum_{j=1}^{N_{\text{ens}}} a^i_j \left(\sum_{p \in \mathcal P_j} \Gamma_p^f \vec{V}(x - x_p) + v_{j,BC} \right)
     \end{equation*}
     \vfill
     \visible<2->{Leads to $N_{\text{ens}}$ independent problems of dimension $N_{\text{ens}}$ \\
         \begin{equation*}
-            \mathcal L_i (a) = \min{a \in \mathbb{R}^N} \left\|d - \mathcal H_a(\hat u^i; a) \right\|^2 + \lambda \|a\|^2, \quad i = 1, \dots, N_{\text{ens}}
+            \mathcal L_i (a) = \min_{a \in \mathbb{R}^{N_{\text{ens}}}} \left\|d - \mathcal H_a(\hat u^f_i; a)_2 \right\|^2 + \lambda \|a\|_2^2, \quad i = 1, \dots, N_{\text{ens}}
         \end{equation*}
         Optimize with a local gradient optimizer (BFGS)}
     \vfill
@@ -361,9 +362,10 @@ Loïc Giraldi \inst{1} \\
     \begin{columns}[t]
         \begin{column}{0.45\textwidth}
             \begin{itemize}
-                \item \scriptsize \textbf{Initial Uncertainties}: vortex mean positions, strength, core-size,...
                 \item \scriptsize \textbf{Variables of interest}: positions of vortex centers
+                \item \scriptsize \textbf{Initial Uncertainties}: vortex mean positions, strength, core-size,...
                 \item \scriptsize \textbf{chaotic trajectories}~\footnotemark[1]
+                \item \scriptsize \textbf{observations}: a noisy coarse velocity grid
             \end{itemize}
             \begin{figure}
                 \centering
@@ -399,6 +401,7 @@ Loïc Giraldi \inst{1} \\
 \begin{frame}{Strength correction}
     \begin{columns}[t]
         \begin{column}{0.5\textwidth}
+            \vspace{-0.5cm}
             \begin{figure}
                 \centering
                 \animategraphics[loop, autoplay, width=\textwidth]{10}{images/vortex_centers_part_enkf/vortex_centers_}{0}{36}
@@ -406,7 +409,6 @@ Loïc Giraldi \inst{1} \\
         \end{column}
         \begin{column}{0.5\textwidth}
             \begin{figure}
-
                 \centering
                 \includegraphics[width=\textwidth]{images/part_enkf_error.pdf}
             \end{figure}

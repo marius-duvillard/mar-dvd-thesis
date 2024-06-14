@@ -22,45 +22,45 @@ Warning--to sort, need author or key in jazwinski_4_1970
 Warning--empty author in jazwinski_4_1970
 Warning--empty journal in schlomer_technology-specific_nodate
 Warning--empty year in schlomer_technology-specific_nodate
-You've used 30 entries,
+You've used 33 entries,
             2118 wiz_defined-function locations,
-            721 strings with 9579 characters,
-and the built_in function-call counts, 9477 in all, are:
-= -- 949
-> -- 384
+            738 strings with 10118 characters,
+and the built_in function-call counts, 10748 in all, are:
+= -- 1067
+> -- 478
 < -- 2
-+ -- 160
-- -- 123
-* -- 725
-:= -- 1603
-add.period$ -- 91
-call.type$ -- 30
-change.case$ -- 152
++ -- 200
+- -- 157
+* -- 847
+:= -- 1825
+add.period$ -- 100
+call.type$ -- 33
+change.case$ -- 178
 chr.to.int$ -- 0
-cite$ -- 34
-duplicate$ -- 330
-empty$ -- 764
-format.name$ -- 123
-if$ -- 1932
+cite$ -- 37
+duplicate$ -- 363
+empty$ -- 836
+format.name$ -- 157
+if$ -- 2173
 int.to.chr$ -- 0
-int.to.str$ -- 30
-missing$ -- 28
-newline$ -- 153
-num.names$ -- 60
-pop$ -- 113
+int.to.str$ -- 33
+missing$ -- 31
+newline$ -- 168
+num.names$ -- 66
+pop$ -- 133
 preamble$ -- 1
-purify$ -- 121
+purify$ -- 144
 quote$ -- 0
-skip$ -- 221
+skip$ -- 242
 stack$ -- 0
-substring$ -- 728
-swap$ -- 36
+substring$ -- 794
+swap$ -- 39
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 118
+type$ -- 130
 warning$ -- 4
-while$ -- 97
-width$ -- 32
-write$ -- 331
+while$ -- 109
+width$ -- 35
+write$ -- 364
 (There were 17 warnings)

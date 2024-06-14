@@ -49,22 +49,27 @@
 \contentsline {subsubsection}{Exemple de fonctions de noyau}{28}{}%
 \contentsline {subsection}{\numberline {2.2.2}SPH}{29}{}%
 \contentsline {section}{\numberline {2.3}Méthode des points matériaux (material point method, MPM)}{30}{}%
-\contentsline {subsection}{\numberline {2.3.1}La MPM et la DA}{30}{}%
-\contentsline {subsubsection}{MPM et méthodes variationnelles}{30}{}%
-\contentsline {subsubsection}{MPM et EnKF}{30}{}%
-\contentsline {section}{\numberline {2.4}Méthode Vortex}{31}{}%
-\contentsline {subsection}{\numberline {2.4.1}Vortex-In-Cell, VIC}{32}{}%
-\contentsline {subsection}{\numberline {2.4.2}Similarité avec les méthodes SPH et MPM}{33}{}%
-\contentsline {section}{\numberline {2.5}Développement de méthodes permettant l'adaptation du filtre de Kalman d'ensemble avec des simulations sans maillage}{33}{}%
-\contentsline {subsection}{\numberline {2.5.1}Objectif}{33}{}%
-\contentsline {subsection}{\numberline {2.5.2}Formulation de la correction dans l'espace des membres}{34}{}%
-\contentsline {subsection}{\numberline {2.5.3}Filtre Remesh-EnKF}{34}{}%
-\contentsline {subsubsection}{Méthode de remaillage}{34}{}%
-\contentsline {subsubsection}{Définition du Filtre}{34}{}%
-\contentsline {subsection}{\numberline {2.5.4}Filtre Part-EnKF}{34}{}%
-\contentsline {subsubsection}{Méthode de régression}{34}{}%
-\contentsline {subsubsection}{Définition du Filtre}{34}{}%
-\contentsline {subsubsection}{}{34}{}%
-\contentsline {subsection}{\numberline {2.5.5}Bilan}{34}{}%
-\contentsline {section}{\numberline {2.6}Evaluation de la capacité des méthodes développées à assimiler les données sur plusieurs applications}{34}{}%
-\contentsline {subsection}{\numberline {2.6.1}Bilan}{34}{}%
+\contentsline {subsection}{\numberline {2.3.1}Material Point Method (MPM)}{30}{}%
+\contentsline {subsubsection}{Interprétation 1}{31}{}%
+\contentsline {subsubsection}{Interprétation 2}{31}{}%
+\contentsline {subsubsection}{Schéma classique}{31}{}%
+\contentsline {paragraph}{g2p}{31}{}%
+\contentsline {subsection}{\numberline {2.3.2}La MPM et la DA}{33}{}%
+\contentsline {subsubsection}{MPM et méthodes variationnelles}{33}{}%
+\contentsline {subsubsection}{MPM et EnKF}{33}{}%
+\contentsline {section}{\numberline {2.4}Méthode Vortex}{33}{}%
+\contentsline {subsection}{\numberline {2.4.1}Vortex-In-Cell, VIC}{35}{}%
+\contentsline {subsection}{\numberline {2.4.2}Similarité avec les méthodes SPH et MPM}{35}{}%
+\contentsline {section}{\numberline {2.5}Développement de méthodes permettant l'adaptation du filtre de Kalman d'ensemble avec des simulations sans maillage}{35}{}%
+\contentsline {subsection}{\numberline {2.5.1}Objectif}{35}{}%
+\contentsline {subsection}{\numberline {2.5.2}Formulation de la correction dans l'espace des membres}{36}{}%
+\contentsline {subsection}{\numberline {2.5.3}Filtre Remesh-EnKF}{36}{}%
+\contentsline {subsubsection}{Méthode de remaillage}{36}{}%
+\contentsline {subsubsection}{Définition du Filtre}{36}{}%
+\contentsline {subsection}{\numberline {2.5.4}Filtre Part-EnKF}{36}{}%
+\contentsline {subsubsection}{Méthode de régression}{36}{}%
+\contentsline {subsubsection}{Définition du Filtre}{36}{}%
+\contentsline {subsubsection}{}{36}{}%
+\contentsline {subsection}{\numberline {2.5.5}Bilan}{36}{}%
+\contentsline {section}{\numberline {2.6}Evaluation de la capacité des méthodes développées à assimiler les données sur plusieurs applications}{36}{}%
+\contentsline {subsection}{\numberline {2.6.1}Bilan}{36}{}%

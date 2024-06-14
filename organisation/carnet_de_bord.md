@@ -406,6 +406,38 @@ Bootstrapping for confidence intervals
 
 - [ ] Tester de faire le Remesh-ENKF
 
+# 02-06-2024
+
+- Présentation à ECCOMAS2024
+- Machine Learning for the Inverse Design of Architected Materials: interessant présente des cas de méthodes inverses pour des designs. Utilise stable diffusion.
+- Parameterized hyperelastic material modeling and multiscale topology optimization with physics-augmented neural networks: Utilise des PolyConvex Neural network. Ajoute une paramétrisation.
+- Idée: tester le cas de vortex de taylor
+
+# 03-06-2024
+
+- Initialization du green vortex
+- benchmark_nproc.cpp to launch
+- Presentation on hard constraints algo
+- GENERIC: Ottinger 2005 and ROmero 2009 for Computational Mechanicss. With this system conservation of energy and increase of entropy
+- Y.Zhu Particle optimization to find a global optimizer ? With graident free method with consensus based optimization.
+- Beaucoup de méthode CBO (consensus based optimization)
+- Elisa Incomini: Multiobj with filtering methods. Case of inverse problem setting. Multiobjective = several inverse problem (best machine to cut diff materials).
+
+# 13-06-2024
+
+- Formation sur les débouchés du doctorat
+- Voir les [notes](../formations/dvlp_pro/notes.md)
+
+# 14-06-2024
+
+- [x] Faire ADUM
+- Présentation Café thésard --> todo
+- Réservation train --> in progress
+- Envoyer un mail pour récupérer le certificat cours particles --> in progress
+- Faire la liste du jury potentiel --> in progress
+
+- Commencer présentation CSI --> power point ?
+- Commencer présentation  --> en latex. S'inspirer de la conf.
 
 ## A FAIRE
 
