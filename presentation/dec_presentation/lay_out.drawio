@@ -1,0 +1,115 @@
+<mxfile host="65bd71144e">
+    <diagram id="wITkrWa1GkOROaFGFeJD" name="Page-1">
+        <mxGraphModel dx="2763" dy="3711" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="3" value="Plan" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="10" y="-1280" width="1390" height="1620" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="Introduction" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="3">
+                    <mxGeometry x="15" y="40" width="785" height="650" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="" style="edgeStyle=none;html=1;" edge="1" parent="5" source="4" target="6">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="Slide 1-: Contexte Industriel:&lt;br&gt;Fabrication du combustible --&amp;gt; présenter le cycle, présenter l'étape de broyage, dire en quoi cela est déterminant&lt;br&gt;Dire problématique industrielle --&amp;gt; favoriser homogénéité, réduire taille des grains,..." style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="5">
+                    <mxGeometry x="60" y="40" width="470" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="" style="edgeStyle=none;html=1;" edge="1" parent="5" source="6" target="12">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="Slide 2: &lt;br&gt;- Faire une slide SIFCO avec Bro-IA-ge (voir slides Bastien). Insister sur les travaux de Lhassan, Chung, Luisa (simulaiton) de Bastien (Mesures), reprendre slide de réu de lancement ?" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="5">
+                    <mxGeometry x="80" y="140" width="430" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="" style="edgeStyle=none;html=1;" edge="1" parent="5" source="12" target="14">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="Slide 3:&amp;nbsp;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(251, 251, 251); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;Problématique de thèse: Jumeau numérique:&lt;br&gt;&lt;/span&gt;Reprendre définition ? Lors du congrès ou simplement slide habituelle ?&lt;br&gt;- Dire l'objectif dans notre cas:&lt;br&gt;-&amp;gt; Intégration de données au cours du temps&lt;br&gt;-&amp;gt; améliorer la prédictabilité&lt;br&gt;-&amp;gt; Quantification de l'incertitude&lt;br&gt;-&amp;gt; reste une méthode physique&lt;br&gt;= Utilisation de méthode d'assimilation de données" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="5">
+                    <mxGeometry x="70" y="220" width="450" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="" style="edgeStyle=none;html=1;" edge="1" parent="5" source="14" target="16">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="Slide 4: Assimilation de données (recyclage de slide...)" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="5">
+                    <mxGeometry x="120" y="400" width="350" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="Slide 4bis: Ingrédients ? voir slide présentation sifco janvier 2023 ?&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="5">
+                    <mxGeometry x="127" y="465" width="340" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" value="Présenter la recette macro --&amp;gt; Simulation sans maillage --&amp;gt; prédiction des mesures (champ de vitesse)--&amp;gt; confrontation &amp;lt;-- observation&amp;nbsp;&lt;br&gt;confrontation --&amp;gt; mise à jour de l'état&amp;nbsp;&lt;br&gt;&lt;br&gt;Problématique scientifique de ma thèse: comment mettre à jour les simulaitons de mélange ?&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="5">
+                    <mxGeometry x="120" y="540" width="600" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="voir présentation 230123" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="3">
+                    <mxGeometry x="840" y="525" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="3" source="16" target="22">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="voir présentation ECCOMAS" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="3">
+                    <mxGeometry x="840" y="450" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="" style="edgeStyle=none;html=1;" edge="1" parent="3" source="14" target="28">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="voir enclenchement/ slide Bastien" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="3">
+                    <mxGeometry x="860" y="100" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="DA for Meshless Simulation" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="3">
+                    <mxGeometry x="40" y="770" width="790" height="890" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="Slide 5: EnKF ? (recyclage ECCOMAS)&lt;br&gt;Accentuer sur la définition de l'état ? Ajout des paramètres pour la calibration ?" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="32">
+                    <mxGeometry x="90" y="40" width="490" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="EnKF et méthode sans maillage --&amp;gt; recyclage ECCOMAS" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="32">
+                    <mxGeometry x="150" y="180" width="405" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" value="Méthodes sans maillages --&amp;gt; recyclage ECCOMAS" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="32">
+                    <mxGeometry x="90" y="110" width="640" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" value="Première solution: Remesh EnKF&lt;br&gt;- Générer une nouvelle distribution particulaire&lt;br&gt;- mettre le schéma + les fonction de distribution&lt;br&gt;- Dire que c'est alors directement une mise à jours sur les intensités&lt;br&gt;Les + :&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="32">
+                    <mxGeometry x="20" y="310" width="350" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="50" value="Deuxième solution: Part EnKF&lt;br&gt;- Projeter la solution sur les précédentes positions de particules&lt;br&gt;- Dire que c'est alors directement une mise à jours sur les intensités&lt;br&gt;- 2 façons : définir opérateur de projection&lt;br&gt;Les + : méthode purement particulaire&lt;br&gt;Les - :&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="32">
+                    <mxGeometry x="390" y="320" width="350" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="51" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="32">
+                    <mxGeometry x="680" y="20" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="40" value="Perspectives" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="3">
+                    <mxGeometry x="880" y="650" width="400" height="690" as="geometry"/>
+                </mxCell>
+                <mxCell id="42" value="Application aux méthodes sans maillages continues&lt;br&gt;- Application directe" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="40">
+                    <mxGeometry x="20" y="40" width="350" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="47" value="" style="edgeStyle=none;html=1;" edge="1" parent="40" source="45" target="46">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="45" value="Application aux méthodes DEM ?" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="40">
+                    <mxGeometry x="10" y="170" width="350" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="46" value="- On ne peut faire que du align-DA" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="40">
+                    <mxGeometry x="25" y="250" width="320" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="49" value="Réduire le temps de calcul&lt;br&gt;--&amp;gt; Surrogate du modèle physique ou de l'assimilation" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="40">
+                    <mxGeometry x="30" y="420" width="330" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" style="edgeStyle=none;html=1;" edge="1" parent="1" source="4">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="890" y="-975" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="37" style="edgeStyle=none;html=1;" edge="1" parent="1" source="34">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="250" y="-200" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="38" style="edgeStyle=none;html=1;" edge="1" parent="1" source="34">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="580" y="-200" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

@@ -1,0 +1,100 @@
+\documentclass[aspectratio=169]{beamer} %% for 16:9 use this line
+%%\documentclass{beamer} %% For 4:3 ratio use this line
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lipsum} 
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{animate}
+\usepackage{amsmath}
+\usepackage{subcaption}
+\usepackage{tikz}
+\captionsetup[figure]{font=footnotesize}
+% import citation package
+\usepackage[backend=biber, style=authoryear]{biblatex}
+\addbibresource{./biblio.bib}
+\AtBeginBibliography{\small}
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+% footnote without number
+\newcommand\blfootnote[1]{
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}
+\addtocounter{footnote}{-1}
+\endgroup
+}
+
+\usetheme{CEA2023}
+\setlength{\columnsep}{0.05cm}
+\title[ECCOMAS2024 - Data Assimilation for Meshless Simulation] %optional
+{Ensemble Data Assimilation Method Applied to Meshless Simulations}
+\subtitle{ECCOMAS 2024 - Lisbon}
+\date[06-03-2024] %optional
+{June the 3\textsuperscript{rd} 2024}
+\author[M. Duvillard] %optionam
+{Marius Duvillard \inst{1} \inst{2} \texttt{(\small marius.duvillard\myat cea.fr)} \\
+Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre\myat polytechnique.edu)} \\
+Loïc Giraldi \inst{1} \\
+}
+
+\institute[short-inst]{
+ \inst{1} CEA DES/IRESNE/DEC/SESC Cadarache 
+ \inst{2} Centre de Mathématiques Appliquées, Ecole Polytechnique 
+ \inst{3} CNRS, Inria
+}
+
+% uncomment the following lines if you do not want dedicated outlines before
+% each section
+\AtBeginSection{}
+
+% use your thanks-message in the last frame
+\setvalue{\ThxMessage}{Thanks! Any questions?}
+% Change the logo 
+\titlegraphic{logos/LOGO_CEA_ORIGINAL.png}
+
+% introduce another logo for a second author or affiliation
+% secondlogo applies to the first page only
+\setvalue{\secondlogo}{logos/Polytechnique_logo.pdf}
+
+\begin{document}
+
+% info: the plain removes the footline from the titlepage; noframenumbering
+% neglects it from the total count of the slides
+\begin{frame}[decorated] %Decorated bring the logo and corner
+    \titlepage
+\end{frame}
+
+\begin{frame}[righttransition]{Outline} % or Table of Contents
+    \tableofcontents
+\end{frame}
+
+\section{Introduction}
+\subsection{Contexte}
+\subsection{Bro-IA-ge}
+\subsection{Assimilation de données}
+\subsection{Méthodes particulaire}
+
+\section{Assimilation appliquée à des méthodes sans maillage}
+\subsection{Mise à jour à la EnKF}
+\subsection{Correction d'intensité}
+\subsection{Correction de la position}
+\subsection{Correction conjointe}
+\section{Application}
+\subsection{Méthode vortex}
+
+\section{Conclusion et perspective}
+\subsection{Et le tambour ? la DEM ?}
+% Présenter le cas de MPM
+% Présenter le cas DEM
+\closingframe
+
+\begin{frame}[allowframebreaks, noframenumbering]
+    \frametitle{References}
+    \printbibliography % Print the bibliography
+\end{frame}
+
+% \section*{Addendum}
+% \begin{frame}{EnKF update}
+%   \emph{Be successful with your presentation!}
+% \end{frame}
+
+\end{document}

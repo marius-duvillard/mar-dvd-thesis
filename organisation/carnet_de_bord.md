@@ -439,6 +439,15 @@ Bootstrapping for confidence intervals
 - Commencer présentation CSI --> power point ?
 - Commencer présentation  --> en latex. S'inspirer de la conf.
 
+
+# 17-06-2024
+
+- Faire plan Café thésard
+- Faire plan CSI
+- [x] Faire résumé Jumeau numérique à partir de la conf pour le manuscrit
+- [ ] Vérifier la parallélisation du calcul du gradient. Revoir le calcul du gradient.
+
+- Open mp ne semble pas efficace... 
 ## A FAIRE
 
 - Redaction

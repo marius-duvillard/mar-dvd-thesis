@@ -1,0 +1,424 @@
+\documentclass[aspectratio=169]{beamer} %% for 16:9 use this line
+%%\documentclass{beamer}  %% For 4:3 ratio use this line
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lipsum} 
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{animate}
+\usepackage{subcaption}
+% import citation package
+\usepackage[backend=biber, style=authoryear]{biblatex}
+\addbibresource{./biblio.bib}
+\AtBeginBibliography{\small}
+
+% footnote without number
+\newcommand\blfootnote[1]{
+\begingroup
+\renewcommand\thefootnote{}\footnote{#1}
+\addtocounter{footnote}{-1}
+\endgroup
+}
+
+\usetheme{CEA2023}
+\setlength{\columnsep}{0.05cm}
+\title{CSI 2024, 3A Marius Duvillard}
+% \subtitle{Using the CEA beamer template}
+\date[06-03-2024]  %optional
+{21 juin 2024}
+\author[M. Duvillard]  %optionam
+{Marius Duvillard \inst{1} \texttt{(\small marius.duvillard\myat cea.fr)} \\
+Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre \myat polytechnique.edu)}}
+
+\institute[short-inst]{
+  \inst{1} CEA DES/IRESNE/DEC/SESC Cadarache 
+  \inst{2} Centre de Mathématiques Appliquées, Ecole Polytechnique 
+  \inst{3} CNRS, Inria
+}
+
+% uncomment the following lines if you do not want dedicated outlines before
+% each section
+\AtBeginSection{}
+
+% use your thanks-message in the last frame
+\setvalue{\ThxMessage}{Thanks! Any questions?}
+% Change the logo 
+\titlegraphic{logos/IRESNE_redred.png}
+
+% introduce another logo for a second author or affiliation
+% secondlogo applies to the first page only
+% \setvalue{\secondlogo}{MyLogo.png}
+
+\begin{document}
+
+% info: the plain removes the footline from the titlepage; noframenumbering
+% neglects it from the total count of the slides
+\begin{frame}[decorated] %Decorated bring the logo and corner
+    \titlepage
+\end{frame}
+
+\begin{frame}[righttransition]{Outline}  % or Table of Contents
+    \tableofcontents
+\end{frame}
+
+\section{Presentation}
+\begin{frame}{Presentation}
+    \begin{itemize}
+        \item 3A de thèse dans l'équipe PLATON (X/Inria) encadré par Olivier Le Maître
+        \item \textbf{Sujet} : Construction d’un système expert ou jumeau numérique pour une étape d’un procédé de fabrication du combustible
+        \item Financement CEA pour le projet Projet : SImulation de la Fabrication du Combustible (SIFCO)
+    \end{itemize}
+    \begin{block}{Organisation de 3e année}
+        \begin{itemize}
+            \item September 2023 - Fevrier 2024 : localisé au CEA de Cadarache au DEC/SESC
+            \item Mars 2023 : Départ de mon encadrant principal
+            \item Mars -
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\section{Contexte Industriel}
+\begin{frame}{Problématique Industrielle}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Fabrication du combustible MOX}
+                Combustible nucléaire à base de $PuO_2$ + $UO_2$
+                \begin{figure}
+                    \includegraphics[width=\textwidth]{image/fuel_cycle.png}
+                    \caption*{procédé MiMas mis en œuvre à l’usine MELOX pour la préparation du combustible MOX [Orano, 2017]}
+                \end{figure}
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            Etude de l'étape de broyage et de mélange des poudres
+
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Problématique scientifique}
+\begin{frame}{Problématique scientifique}
+    Proposer des méthodes pour la construction de jumeau numérique afin de valorisé la confrontation entre \textbf{simulation} et \textbf{expérience}
+\end{frame}
+
+\begin{frame}{Meshless simulations}
+    \begin{itemize}
+        \item Class of methods that \textbf{do not} rely on a fixed Eulerian mesh
+        \item Dedicated to situations where using a mesh is \textbf{challenging}: \\
+              \begin{itemize}
+                  \item complex geometries, large deformations, fragmentation, free-surface flow,...
+              \end{itemize}
+        \item In fluid and solid mechanics:
+              \begin{itemize}
+                  \item fluid-structure interaction, geotechnical engineering, biomechanics, fuel manufacturing,...
+              \end{itemize}
+    \end{itemize}
+    \vfill
+    \begin{figure}
+        \begin{subfigure}{0.32\textwidth}
+            \animategraphics[loop, autoplay, width=0.75\textwidth]{10}{../../conference/images/rot_drum_part/rot_drum_part-}{0}{150}
+            \caption*{\tiny Particle discretization}
+        \end{subfigure}
+        \begin{subfigure}{0.32\textwidth}
+            \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{../../conference/images/rot_drum_grid/rot_drum_grid -}{0}{150}
+            \caption*{\tiny Continuous velocity field}
+        \end{subfigure}
+        \begin{subfigure}{0.32\textwidth}
+            \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{../../conference/images/rot_drum_mix/rot_drum_mix-}{0}{149}
+            \caption*{\tiny Mixing with ball interactions}
+        \end{subfigure}
+        \vspace{-0.5cm}
+        \caption*{\footnotesize Granular flow inside a rotation drum using Material Point Method}
+    \end{figure}
+    \vspace{-0.5cm}
+\end{frame}
+
+\begin{frame}{Meshless simulations - Continuous formulation}
+    %   \vspace{-0.5cm}
+    %   \small
+    \begin{columns}[t]
+        \begin{column}{0.7\textwidth}
+            \begin{Definition}
+                Particle representation of a continuous field $u(x,t)$\\
+            \end{Definition}
+            \begin{itemize}
+                \item The field $u(x, t)$ discretized with $N_p$ particles:
+                      \begin{equation*}
+                          u(x, t) \approx \sum_{p \in \mathcal P} \Gamma_p(t)~\phi_h(x - x_p(t)), \quad \mathcal P = \left\{x_p(t), \Gamma_p(t)\right\}_{p=1}^{N_p}
+                      \end{equation*}
+                \item Particle $p$: a \textbf{position} $x_p(t)$, an \textbf{strength} $\Gamma_p(t)$ and a \textbf{smoothing kernel} $\phi_h$
+
+                \item Model evolution of the \textbf{strengths} and \textbf{positions}:
+                      \begin{eqnarray*}
+                          \frac{d\Gamma_p}{dt} = M_\Gamma(\Gamma_p; \mathcal P), \quad \frac{d x_p}{d t} = M_x(x_p; \mathcal P)
+                      \end{eqnarray*}
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+            \begin{figure}
+                \includegraphics[width=\textwidth]{../../conference/images/kernel.png}
+                \caption*{ kernel function $\phi_h$}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+\begin{frame}{Data assimilation}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\textwidth]{../../conference/images/source_of_uncertainties.png}
+    \end{figure}
+
+    \textbf{Goal:} Incorporate observations to reduce prediction error and uncertainties
+    \begin{figure}
+        \centering
+        \alt<2>{\includegraphics[width=0.8\textwidth]{../../conference/images/da_scheme2.png}}{\includegraphics[width=0.8\textwidth]{../../conference/images/da_scheme1.png}}
+    \end{figure}
+
+    \vfill
+\end{frame}
+
+\begin{frame}{Ensemble Kalman Filter}
+
+    \begin{itemize}
+        \item \textbf{Kalman Filter} extension with \textbf{ensemble} of members to estimate and propagate uncertainty of the state~\cite{evensen_sequential_1994}
+        \item Adapted to \textbf{non-linear} and \textbf{high-dimensional} state space
+    \end{itemize}
+    \vspace{-0.4cm}
+    \begin{columns}[t]
+        \begin{column}{0.6\textwidth}
+            \small
+
+            \textbf{EnKF steps} (we note $u(\cdot, t_{k}) = u_k(\cdot)$):
+            \begin{itemize}
+                \item \textbf{Initialization}: \\
+                      Sample $N_{\text{ens}}$ fields $\textcolor{blue}{\left\{u_{i,0}\right\}_{i=1}^{N_{\text{ens}}}} \stackrel{iid}{\sim} U_0$
+                \item \textbf{Forecast}: from $t$ to $t_{k+1}$: \\
+                      $\textcolor{blue}{ u^f_{i, k+1}} = \mathcal M(u_{i, k}), \quad i = 1, \dots, N_{\text{ens}}$
+                \item \textbf{Measurement and prediction} at $t_{k+1}$:\\
+                      measure $\textcolor{glycine}{y_{k+1}}$, \\
+                      prediction $\textcolor{glycine}{h^i_{k+1}} = \mathcal H (\textcolor{blue}{ u^f_{i, k+1}}) \quad i = 1, \dots, N_{\text{ens}}$
+                \item \textbf{Analysis}: a weighted linear combination of $u^f_{i,k+1}$ \\
+                      $\textcolor{ceared}{u^a_{i, k+1}} = \textcolor{blue}{ u^f_{i, k+1}} + \sum_{j=1}^{N_{\text{ens}}} \textcolor{glycine}{\bm F_{ij}} \textcolor{blue}{ u^f_{j,k+1}}$, \\ where $\textcolor{glycine}{\bm F}$ depends on $\left(\textcolor{glycine}{y_{k+1}, \left\{h_{i, k+1}\right\}_{i=1}^{N_{\text{ens}}}}\right)$\footnotemark[1]
+            \end{itemize}
+            \vspace{0.25cm}
+
+        \end{column}
+        \begin{column}{0.4\textwidth}
+
+            \begin{figure}[t]
+                \centering
+                \only<1>{\includegraphics[width=\textwidth]{../../conference/images/enkf_traj/enkf_lorenz_init.pdf}}
+                \only<2>{\includegraphics[width=\textwidth]{../../conference/images/enkf_traj/enkf_lorenz_prop.pdf}}
+                \only<3>{\includegraphics[width=\textwidth]{../../conference/images/enkf_traj/enkf_lorenz_measure.pdf}}
+                \only<4>{\includegraphics[width=\textwidth]{../../conference/images/enkf_traj/enkf_lorenz_assim.pdf}}
+                \only<5>{\includegraphics[width=\textwidth]{../../conference/images/enkf_traj/enkf_lorenz_prop2.pdf}}
+                \only<6>{\includegraphics[width=\textwidth]{../../conference/images/enkf_traj/enkf_lorenz_assim2.pdf}}
+                \only<7->{\includegraphics[width=\textwidth]{../../conference/images/enkf_traj/enkf_lorenz_final.pdf}}
+            \end{figure}
+            \visible<8->{\textcolor{ceared}{\large How to apply this correction to meshless simulations ?}}
+        \end{column}
+    \end{columns}
+    \vfill
+    \footnotetext[1]{\tiny equivalent formulation of the original formulation, see~\cite{siripatana_combining_2019}}
+\end{frame}
+
+\begin{frame}{EnKF Update for meshless simulations}
+
+    \begin{columns}[t]
+        \begin{column}{0.7\textwidth}
+            Members correction $i = 1, \dots, N_{\text{ens}}$: \\
+            \vspace{-0.50cm}
+            \begin{eqnarray*}
+                u_i^a(x) &=& u^f_i(x) + \sum_{j=1}^{N_{\text{ens}}} F_{ij}~u^f_j(x), \\
+                &=& \sum_{p \in \mathcal{P}^f_i} \Gamma^f_p \phi_h(x - x_p) + \sum_{j=1}^{N_{\text{ens}}} F_{ij} \sum_{{p'} \in \mathcal{P}_j^f} \Gamma^f_{p'} \phi_h(x - x_{p'}), \\
+                &=& \sum_{j=1}^{N_{\text{ens}}} \sum_{ p \in \mathcal{P}^f_i} \Gamma^a_p \phi_h (x - x_p)
+            \end{eqnarray*}
+            \vspace{-0.10cm}
+            $\Rightarrow u_i^a$ is a combinaison of \textbf{all particles}! \\
+            \vspace{-0.10cm}
+            \begin{equation*}\text{Card}(\mathcal P^a_i) = \sum_{j=1}^{N_{\text{ens}}}\text{Card}(\mathcal P^f_j)
+            \end{equation*}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+            \vspace{-1cm}
+            \begin{figure}
+                \centering
+                \begin{subfigure}{\textwidth}
+                    \centering
+                    \includegraphics[width=0.7\textwidth]{../../conference/images/memb_particles.pdf}
+                \end{subfigure}
+                \begin{subfigure}{\textwidth}
+                    \centering
+                    \includegraphics[width=0.7\textwidth]{../../conference/images/all_particles.pdf}
+                \end{subfigure}
+                \caption*{Particle support before and after the correction}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Strength correction}
+    \small
+    \textbf{Contribution 1 - Remesh-EnKF} \\
+
+    Generate a new regular particle set with particle-grid operator \\
+
+    \begin{columns}
+        \begin{column}{0.6\textwidth}
+            Update in three steps:
+            \begin{itemize}
+                \item For each member $i$, Generate a new regular set of particles a redistribution scheme to get commun location~\footnotemark[1]
+                      \begin{equation*}
+                          \Gamma^f_{g, i} = \sum_{p \in \mathcal P^i} \Gamma^f_{p, i} W(\frac{x_{p, i} - z_g}{h}), \quad g \in \mathcal G,
+                      \end{equation*}
+                      with $W$ the remeshing kernel,
+                \item Update particle intensities at the same location
+                      \begin{equation*}
+                          \Gamma^a_{g, i} = \Gamma^f_{g, i} + \sum_{j=1}^{N_{\text{ens}}} F_{ij} \Gamma^f_{g,j}
+                      \end{equation*}
+                \item Forecast the new particle sets
+            \end{itemize}
+        \end{column}
+        \hspace{-0.2cm}
+        \begin{column}{0.3\textwidth}
+            \begin{figure}
+                \only<1>{\includegraphics[width=\textwidth]{../../conference/images/redistribution.pdf}}
+                \only<2>{\includegraphics[width=\textwidth]{../../conference/images/redistribution_grid.pdf}}
+                \only<3>{\includegraphics[width=\textwidth]{../../conference/images/redistribution_update.pdf}}
+                \only<4>{\includegraphics[width=\textwidth]{../../conference/images/redistribution_final.pdf}}
+            \end{figure}
+        \end{column}
+    \end{columns}
+
+    \footnotetext[1]{\tiny used by particles-in-cell methods (MPM, VIC,...).}
+\end{frame}
+
+\begin{frame}{Strength correction}
+    \small
+    \textbf{Contribution 2 - PartEnKF} \\
+    Keep the same set of particle positions
+    \begin{eqnarray*}
+        u_i^f(x) &=& \sum_{p \in \mathcal P_i} \textcolor{ceared}{\Gamma^f_p} \phi_h(x - x_p^f),\\
+        \quad u^a_i(x) &=& u_i^f(x) + \sum_{j=1}^{N_{\text{ens}}} F_{ij} u_j^f(x) \approx \sum_{p \in \mathcal P_i} \textcolor{ceared}{\Gamma^a_p} \phi_h(x - x_p^f), \\
+    \end{eqnarray*}
+    \vspace{-0.7cm}
+    \normalsize To find $\Gamma^a_p$:
+    \begin{columns}[t]
+        \begin{column}{0.4\textwidth}
+            Use the \textbf{particle approximation}: \\
+            \vfill
+
+            $\Gamma^a_p = \int_{\Omega_p} u^a_i(x) dV \approx u^a_i(x_p) V_p$
+
+        \end{column}
+        \hspace{-0.7cm}
+        \begin{column}{0.6\textwidth}
+            \textbf{RBF Regression}: \\
+            \begin{eqnarray*}
+                u^a_i(x_p) &\approx& \sum_{p' \in \mathcal P_i} \Gamma^a_{p'} \phi_h(x_p - x_{p'}), \quad p \in \mathcal P_i \Rightarrow \bm u_i \approx \Phi \bm \Gamma_i\\
+                \Rightarrow \bm \Gamma_i^a &=& \argmin_{\bm \Gamma \in \mathbb R^{N_p}} \| \bm u_i - \Phi \bm \Gamma\|_2^2 + R(\bm \Gamma)
+            \end{eqnarray*}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Position correction}
+    \textbf{Solution 2 - PartEnKF} \\
+    \begin{columns}[t]
+        \begin{column}{0.6\textwidth}
+            \vspace{-0.7cm}
+
+            \begin{eqnarray*}
+                u_i^f(x) &=& \sum_{p \in \mathcal P_i} \Gamma^f_p \phi_h(x - \textcolor{ceared}{x_p^f}), \\
+                u_i^a(x) &\approx& \sum_{p \in \mathcal P_i} \Gamma^f_p \phi_h(x - \textcolor{ceared}{A_i(x_p^f)}), \\
+            \end{eqnarray*}
+            $A_i$ is a mapping such as $x^a_{p} = A_i(x^f_{p})$. \\
+            Here we choose~\footnotemark[1] to write $A(x)$ as the solution of\\
+            \begin{equation*}
+                \begin{cases}
+                    x'(\tau = 0) = x,                                           \\
+                    \frac{d x'}{d \tau} = w_i (x'), \quad A_i(x) = x'(\tau = 1) \\
+                \end{cases}
+            \end{equation*}with $w_i$ a velocity field \textbf{to determined}
+        \end{column}
+        \begin{column}{0.4\textwidth}
+            \begin{figure}
+                \centering
+                \only<1>{\includegraphics[width=0.8\textwidth]{../../conference/images/align_member_0.pdf}}
+                \only<2>{\includegraphics[width=0.8\textwidth]{../../conference/images/align_member_1.pdf}}
+                \only<3>{\includegraphics[width=0.8\textwidth]{../../conference/images/align_member_2_1.pdf}}
+            \end{figure}
+        \end{column}
+    \end{columns}
+    \vfill
+    \footnotetext[1]{\tiny Other hypothesis have been made see~\cite{ravela_data_2007,rosenthal_displacement_2017}}
+\end{frame}
+
+\begin{frame}{Choose of $w_i$}
+    For member $i$, we seek to reduce the discrepancy between \textbf{predictions} and the \textbf{observations}:
+    \begin{equation*}
+        w_i = \argmin_{w_i \in \mathcal V} \left\|y - \mathcal H(\mathcal{P}_i^f \mid w_i) \right\|^2 \visible<2->{\textcolor{ceared}{+ R(w)}}, \quad i = 1, \dots, N_{\text{ens}}
+    \end{equation*}with $\mathcal V$ the velocity search space, $\mathcal H(\mathcal{P}_i^f \mid w_i)$ the observation operator conditioned by $w_i$\\
+    \vfill
+    \visible<2->{\textcolor{ceared}{$R(w)$} is a regularisation term (avoid non-uniqueness and ill-conditioning)\\}
+    \vfill
+    \visible<2->{\textbf{Infinite}-dimensional problem}
+    \vfill
+\end{frame}
+
+\begin{frame}{Reduced order formulation}
+
+    We search the velocity as a linear combination of member velocity fields,\\
+    find $\bm a_i \in \mathbb{R}^{N_{\text{ens}}}$ \\
+    \begin{equation*}
+        w_i = \sum_{j=1}^{N_{\text{ens}}} a_{i,j} v_j (x) = \sum_{j=1}^{N_{\text{ens}}} a^i_j \left(\sum_{p \in \mathcal P_j} \Gamma_p^f \vec{V}(x - x_p) + v_{j,BC} \right)
+    \end{equation*}
+    \vfill
+    \visible<2->{Leads to $N_{\text{ens}}$ independent problems of dimension $N_{\text{ens}}$ \\
+        \begin{equation*}
+            \mathcal L_i (a) = \min_{a \in \mathbb{R}^{N_{\text{ens}}}} \left\|d - \mathcal H_a(\hat u^f_i; a)_2 \right\|^2 + \lambda \|a\|_2^2, \quad i = 1, \dots, N_{\text{ens}}
+        \end{equation*}
+        Optimize with a local gradient optimizer (BFGS)}
+    \vfill
+
+\end{frame}
+
+\section{Organisation}
+\begin{frame}{Formations}
+    \begin{figure}
+        \includegraphics[width=0.6\textwidth]{image/formations_annot.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Communications et valorisation scientifique}
+    \begin{block}{Communications}
+        \begin{itemize}
+            \item (poster)annual meeting of the French CNRS research network MASCOT-NUM, April 3–6 2023, Le Croisic, France
+            \item (presentation) International Conference on Particle-Based Methods PARTICLES 2023, 9-11 October 2023, in Milan, Italy
+            \item (presentation) 9th European Congress on Computational Methods in Applied Sciences and Engineering, 3-7 June 2024, Lisboa, Portugal
+        \end{itemize}
+    \end{block}
+
+    \begin{block}{Articles}
+        \begin{itemize}
+            \item (Relecture) Ensemble Data Assimilation for Meshless Methods, Marius Duvillard, Loïc Giraldi, Olivier Le Maître
+            \item (Ecriture) Data Assimilation by Field Alignment for Meshless Methods, Marius Duvillard, Olivier Le Maître
+        \end{itemize}
+    \end{block}
+
+\end{frame}
+
+\begin{frame}{Fin de 3e année}
+    \begin{figure}
+        \includegraphics[width=0.6\textwidth]{image/retro_planning.png}
+    \end{figure}
+\end{frame}
+
+
+
+% \section*{Addendum}
+% \begin{frame}{EnKF update}
+%     \emph{Be successful with your presentation!}
+% \end{frame}
+
+\end{document}
