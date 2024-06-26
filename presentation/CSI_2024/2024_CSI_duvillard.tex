@@ -9,7 +9,7 @@
 \usepackage{subcaption}
 % import citation package
 \usepackage[backend=biber, style=authoryear]{biblatex}
-\addbibresource{./biblio.bib}
+\addbibresource{../../conference/biblio.bib}
 \AtBeginBibliography{\small}
 
 % footnote without number
@@ -19,19 +19,20 @@
 \addtocounter{footnote}{-1}
 \endgroup
 }
+\DeclareMathOperator*{\argmin}{\arg\!\min}
 
 \usetheme{CEA2023}
 \setlength{\columnsep}{0.05cm}
 \title{CSI 2024, 3A Marius Duvillard}
 % \subtitle{Using the CEA beamer template}
-\date[06-03-2024]  %optional
+\date[21-06-2024]  %optional
 {21 juin 2024}
 \author[M. Duvillard]  %optionam
-{Marius Duvillard \inst{1} \texttt{(\small marius.duvillard\myat cea.fr)} \\
+{Marius Duvillard \inst{1} \inst{2} \texttt{(\small marius.duvillard\myat cea.fr)} \\
 Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre \myat polytechnique.edu)}}
 
 \institute[short-inst]{
-  \inst{1} CEA DES/IRESNE/DEC/SESC Cadarache 
+  \inst{1} CEA DES/IRESNE/DEC/SESC, Cadarache 
   \inst{2} Centre de Mathématiques Appliquées, Ecole Polytechnique 
   \inst{3} CNRS, Inria
 }
@@ -66,13 +67,13 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre \myat pol
     \begin{itemize}
         \item 3A de thèse dans l'équipe PLATON (X/Inria) encadré par Olivier Le Maître
         \item \textbf{Sujet} : Construction d’un système expert ou jumeau numérique pour une étape d’un procédé de fabrication du combustible
-        \item Financement CEA pour le projet Projet : SImulation de la Fabrication du Combustible (SIFCO)
+        \item Financement CEA pour le projet : SImulation de la Fabrication du Combustible (SIFCO)
     \end{itemize}
     \begin{block}{Organisation de 3e année}
         \begin{itemize}
             \item September 2023 - Fevrier 2024 : localisé au CEA de Cadarache au DEC/SESC
             \item Mars 2023 : Départ de mon encadrant principal
-            \item Mars -
+            \item Mars - Aujourd'hui: localisé au CMAP, batiment Turing
         \end{itemize}
     \end{block}
 \end{frame}
@@ -84,14 +85,16 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre \myat pol
             \begin{block}{Fabrication du combustible MOX}
                 Combustible nucléaire à base de $PuO_2$ + $UO_2$
                 \begin{figure}
-                    \includegraphics[width=\textwidth]{image/fuel_cycle.png}
-                    \caption*{procédé MiMas mis en œuvre à l’usine MELOX pour la préparation du combustible MOX [Orano, 2017]}
+                    \includegraphics[width=\textwidth]{image/cycle_combustible.png}
+                    % \caption*{procédé MiMas mis en œuvre à l’usine MELOX pour la préparation du combustible MOX [Orano, 2017]}
                 \end{figure}
             \end{block}
         \end{column}
         \begin{column}{0.5\textwidth}
             Etude de l'étape de broyage et de mélange des poudres
-
+            \begin{figure}
+                \includegraphics[width=0.6\textwidth]{image/broyage1.png}
+            \end{figure}
         \end{column}
     \end{columns}
 \end{frame}
@@ -99,39 +102,47 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre \myat pol
 \section{Problématique scientifique}
 \begin{frame}{Problématique scientifique}
     Proposer des méthodes pour la construction de jumeau numérique afin de valorisé la confrontation entre \textbf{simulation} et \textbf{expérience}
+    \begin{figure}
+        \includegraphics[width = 0.6\textwidth]{image/da_rot_drum.png}
+    \end{figure}
+
+    \begin{alertblock}{Principale question}
+        Comment appliquer les méthodes d'assimilation de données séquentielles à des états de discrétisation Lagrangienne ?
+    \end{alertblock}
+
 \end{frame}
 
-\begin{frame}{Meshless simulations}
-    \begin{itemize}
-        \item Class of methods that \textbf{do not} rely on a fixed Eulerian mesh
-        \item Dedicated to situations where using a mesh is \textbf{challenging}: \\
-              \begin{itemize}
-                  \item complex geometries, large deformations, fragmentation, free-surface flow,...
-              \end{itemize}
-        \item In fluid and solid mechanics:
-              \begin{itemize}
-                  \item fluid-structure interaction, geotechnical engineering, biomechanics, fuel manufacturing,...
-              \end{itemize}
-    \end{itemize}
-    \vfill
-    \begin{figure}
-        \begin{subfigure}{0.32\textwidth}
-            \animategraphics[loop, autoplay, width=0.75\textwidth]{10}{../../conference/images/rot_drum_part/rot_drum_part-}{0}{150}
-            \caption*{\tiny Particle discretization}
-        \end{subfigure}
-        \begin{subfigure}{0.32\textwidth}
-            \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{../../conference/images/rot_drum_grid/rot_drum_grid -}{0}{150}
-            \caption*{\tiny Continuous velocity field}
-        \end{subfigure}
-        \begin{subfigure}{0.32\textwidth}
-            \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{../../conference/images/rot_drum_mix/rot_drum_mix-}{0}{149}
-            \caption*{\tiny Mixing with ball interactions}
-        \end{subfigure}
-        \vspace{-0.5cm}
-        \caption*{\footnotesize Granular flow inside a rotation drum using Material Point Method}
-    \end{figure}
-    \vspace{-0.5cm}
-\end{frame}
+% \begin{frame}{Meshless simulations}
+% \begin{itemize}
+%     \item Class of methods that \textbf{do not} rely on a fixed Eulerian mesh
+%     \item Dedicated to situations where using a mesh is \textbf{challenging}: \\
+%           \begin{itemize}
+%               \item complex geometries, large deformations, fragmentation, free-surface flow,...
+%           \end{itemize}
+%     \item In fluid and solid mechanics:
+%           \begin{itemize}
+%               \item fluid-structure interaction, geotechnical engineering, biomechanics, fuel manufacturing,...
+%           \end{itemize}
+% \end{itemize}
+% \vfill
+%     \begin{figure}
+%         \begin{subfigure}{0.32\textwidth}
+%             \animategraphics[loop, autoplay, width=0.75\textwidth]{10}{../../conference/images/rot_drum_part/rot_drum_part-}{0}{150}
+%             \caption*{\tiny Particle discretization}
+%         \end{subfigure}
+%         \begin{subfigure}{0.32\textwidth}
+%             \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{../../conference/images/rot_drum_grid/rot_drum_grid -}{0}{150}
+%             \caption*{\tiny Continuous velocity field}
+%         \end{subfigure}
+%         \begin{subfigure}{0.32\textwidth}
+%             \animategraphics[loop, autoplay, width=0.8\textwidth]{10}{../../conference/images/rot_drum_mix/rot_drum_mix-}{0}{149}
+%             \caption*{\tiny Mixing with ball interactions}
+%         \end{subfigure}
+%         \vspace{-0.5cm}
+%         \caption*{\footnotesize Granular flow inside a rotation drum using Material Point Method}
+%     \end{figure}
+%     \vspace{-0.5cm}
+% \end{frame}
 
 \begin{frame}{Meshless simulations - Continuous formulation}
     %   \vspace{-0.5cm}
@@ -162,20 +173,20 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre \myat pol
         \end{column}
     \end{columns}
 \end{frame}
-\begin{frame}{Data assimilation}
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.7\textwidth]{../../conference/images/source_of_uncertainties.png}
-    \end{figure}
 
-    \textbf{Goal:} Incorporate observations to reduce prediction error and uncertainties
-    \begin{figure}
-        \centering
-        \alt<2>{\includegraphics[width=0.8\textwidth]{../../conference/images/da_scheme2.png}}{\includegraphics[width=0.8\textwidth]{../../conference/images/da_scheme1.png}}
-    \end{figure}
+% \begin{frame}{Data assimilation}
+%     \begin{figure}
+%         \centering
+%         \includegraphics[width=0.7\textwidth]{../../conference/images/source_of_uncertainties.png}
+%     \end{figure}
 
-    \vfill
-\end{frame}
+%     \textbf{Goal:} Incorporate observations to reduce prediction error and uncertainties
+%     \begin{figure}
+%         \centering
+%         \alt<2>{\includegraphics[width=0.8\textwidth]{../../conference/images/da_scheme2.png}}{\includegraphics[width=0.8\textwidth]{../../conference/images/da_scheme1.png}}
+%     \end{figure}
+%     \vfill
+% \end{frame}
 
 \begin{frame}{Ensemble Kalman Filter}
 
@@ -223,7 +234,6 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre \myat pol
 \end{frame}
 
 \begin{frame}{EnKF Update for meshless simulations}
-
     \begin{columns}[t]
         \begin{column}{0.7\textwidth}
             Members correction $i = 1, \dots, N_{\text{ens}}$: \\
@@ -255,6 +265,84 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre \myat pol
             \end{figure}
         \end{column}
     \end{columns}
+\end{frame}
+
+\section{Contribution}
+\begin{frame}{Contribution}
+    \begin{columns}[t]
+        \begin{column}{0.33\textwidth}
+            \begin{block}{Remesh-EnKF}
+                Génère une nouvelle configuration de particules
+                $\textcolor{ceared}{u^a_i} = \sum_{p \in \textcolor{ceared}{\mathcal G}} \textcolor{ceared}{\Gamma^a_p} \phi_h(x - \textcolor{ceared}{x_p^a})$ \\
+                \begin{figure}
+                    \includegraphics[width=0.8\textwidth]{../../conference/images/redistribution.pdf}
+                \end{figure}
+            \end{block}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            \begin{block}{Part-EnKF}
+                Correction des intensités
+                $\textcolor{ceared}{u^a_i} = \sum_{p \in \mathcal P_i} \textcolor{ceared}{\Gamma^a_p} \phi_h(x - x_p^f)$
+                \vfill
+                \begin{figure}
+                    \includegraphics[width=\textwidth]{../../conference/images/correction_final.pdf}
+                \end{figure}
+            \end{block}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            \begin{block}{Align-Filter}
+                Correction des positions
+                $\textcolor{ceared}{u^a_i} = \sum_{p \in \mathcal P_i} \Gamma^f_p \phi_h(x - \textcolor{ceared}{x_p^a})$
+                \begin{figure}
+                    \centering
+                    \includegraphics[width=0.8\textwidth]{../../conference/images/align_member_1.pdf}
+                \end{figure}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\section{Organisation}
+\begin{frame}{Formations}
+    \begin{figure}
+        \includegraphics[width=0.6\textwidth]{image/formations_annot.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Communications et valorisation scientifique}
+    \begin{block}{Communications}
+        \begin{itemize}
+            \item (poster) annual meeting of the French CNRS research network MASCOT-NUM, April 3–6 2023, Le Croisic, France
+            \item (presentation) International Conference on Particle-Based Methods PARTICLES 2023, 9-11 October 2023, in Milan, Italy
+            \item (presentation) 9th European Congress on Computational Methods in Applied Sciences and Engineering, 3-7 June 2024, Lisboa, Portugal
+        \end{itemize}
+    \end{block}
+
+    \begin{block}{Articles}
+        \begin{itemize}
+            \item (Relecture) Ensemble Data Assimilation for Meshless Methods, Marius Duvillard, Loïc Giraldi, Olivier Le Maître
+            \item (Rédaction) Data Assimilation by Field Alignment for Meshless Methods, Marius Duvillard, Olivier Le Maître
+        \end{itemize}
+    \end{block}
+
+\end{frame}
+
+\begin{frame}{Fin de 3A année}
+    \begin{figure}
+        \includegraphics[width=0.9\textwidth]{image/retro_planning.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}[allowframebreaks, noframenumbering]
+    \frametitle{References}
+    \printbibliography % Print the bibliography
+\end{frame}
+
+\section*{Addendum}
+\begin{frame}{EnKF update}
+    \begin{equation*}
+        F_{ij} = \frac{1}{N-1}(h_i - \bar h)\left[\frac{1}{N-1} \sum_{k=1}^N (h_k - \bar h)(h_k - \bar h)^T + R\right]^{-1} (y + \eta_j - h_j)
+    \end{equation*}
 \end{frame}
 
 \begin{frame}{Strength correction}
@@ -289,41 +377,51 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre \myat pol
             \end{figure}
         \end{column}
     \end{columns}
-
     \footnotetext[1]{\tiny used by particles-in-cell methods (MPM, VIC,...).}
 \end{frame}
 
 \begin{frame}{Strength correction}
     \small
-    \textbf{Contribution 2 - PartEnKF} \\
-    Keep the same set of particle positions
-    \begin{eqnarray*}
-        u_i^f(x) &=& \sum_{p \in \mathcal P_i} \textcolor{ceared}{\Gamma^f_p} \phi_h(x - x_p^f),\\
-        \quad u^a_i(x) &=& u_i^f(x) + \sum_{j=1}^{N_{\text{ens}}} F_{ij} u_j^f(x) \approx \sum_{p \in \mathcal P_i} \textcolor{ceared}{\Gamma^a_p} \phi_h(x - x_p^f), \\
-    \end{eqnarray*}
-    \vspace{-0.7cm}
-    \normalsize To find $\Gamma^a_p$:
+    \textbf{Contribution 2 - Part-EnKF} \\
+    Keep the same set of particle positions \\
+    \begin{columns}[t]
+        \begin{column}{0.6\textwidth}
+            \begin{eqnarray*}
+                u_i^f(x) &=& \sum_{p \in \mathcal P_i} \textcolor{ceared}{\Gamma^f_p} \phi_h(x - x_p^f),\\
+                \quad u^a_i(x) &=& u_i^f(x) + \sum_{j=1}^{N_{\text{ens}}} F_{ij} u_j^f(x) \approx \sum_{p \in \mathcal P_i} \textcolor{ceared}{\Gamma^a_p} \phi_h(x - x_p^f), \\
+            \end{eqnarray*}
+        \end{column}
+
+        \begin{column}{0.4\textwidth}
+            \vspace{-0.8cm}
+            \begin{figure}
+                \only<1>{\includegraphics[width=\textwidth]{../../conference/images/forecast_part.pdf}}
+                \only<2>{\includegraphics[width=\textwidth]{../../conference/images/with_solution.pdf}}
+                \only<3>{\includegraphics[width=\textwidth]{../../conference/images/correction_final.pdf}}
+            \end{figure}
+        \end{column}
+    \end{columns}
+
+    % \vspace{-0.8cm}
     \begin{columns}[t]
         \begin{column}{0.4\textwidth}
-            Use the \textbf{particle approximation}: \\
-            \vfill
-
-            $\Gamma^a_p = \int_{\Omega_p} u^a_i(x) dV \approx u^a_i(x_p) V_p$
-
+            \begin{exampleblock}{Particle approximation}
+                $\Gamma^a_p = \int_{\Omega_p} u^a_i(x) dV \approx u^a_i(x_p) V_p$
+            \end{exampleblock}
         \end{column}
-        \hspace{-0.7cm}
         \begin{column}{0.6\textwidth}
-            \textbf{RBF Regression}: \\
-            \begin{eqnarray*}
-                u^a_i(x_p) &\approx& \sum_{p' \in \mathcal P_i} \Gamma^a_{p'} \phi_h(x_p - x_{p'}), \quad p \in \mathcal P_i \Rightarrow \bm u_i \approx \Phi \bm \Gamma_i\\
-                \Rightarrow \bm \Gamma_i^a &=& \argmin_{\bm \Gamma \in \mathbb R^{N_p}} \| \bm u_i - \Phi \bm \Gamma\|_2^2 + R(\bm \Gamma)
-            \end{eqnarray*}
+            \begin{exampleblock}{RBF Regression}
+                \begin{eqnarray*}
+                    u^a_i(x_p) &\approx& \sum_{p' \in \mathcal P_i} \Gamma^a_{p'} \phi_h(x_p - x_{p'}), \quad p \in \mathcal P_i \Rightarrow \bm u_i \approx \Phi \bm \Gamma_i\\
+                    \Rightarrow \bm \Gamma_i^a &=& \argmin_{\bm \Gamma \in \mathbb R^{N_p}} \| \bm u_i - \Phi \bm \Gamma\|_2^2 + R(\bm \Gamma)
+                \end{eqnarray*}
+            \end{exampleblock}
         \end{column}
     \end{columns}
 \end{frame}
 
 \begin{frame}{Position correction}
-    \textbf{Solution 2 - PartEnKF} \\
+    \textbf{Contribution 3 - AlignFilter} \\
     \begin{columns}[t]
         \begin{column}{0.6\textwidth}
             \vspace{-0.7cm}
@@ -357,12 +455,10 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre \myat pol
 \begin{frame}{Choose of $w_i$}
     For member $i$, we seek to reduce the discrepancy between \textbf{predictions} and the \textbf{observations}:
     \begin{equation*}
-        w_i = \argmin_{w_i \in \mathcal V} \left\|y - \mathcal H(\mathcal{P}_i^f \mid w_i) \right\|^2 \visible<2->{\textcolor{ceared}{+ R(w)}}, \quad i = 1, \dots, N_{\text{ens}}
+        w_i = \argmin_{w_i \in \mathcal V} \left\|y - \mathcal H(\mathcal{P}_i^f \mid w_i) \right\|^2  + R(w), \quad i = 1, \dots, N_{\text{ens}}
     \end{equation*}with $\mathcal V$ the velocity search space, $\mathcal H(\mathcal{P}_i^f \mid w_i)$ the observation operator conditioned by $w_i$\\
     \vfill
-    \visible<2->{\textcolor{ceared}{$R(w)$} is a regularisation term (avoid non-uniqueness and ill-conditioning)\\}
-    \vfill
-    \visible<2->{\textbf{Infinite}-dimensional problem}
+    $R(w)$ is a regularisation term (avoid non-uniqueness and ill-conditioning)\\
     \vfill
 \end{frame}
 
@@ -374,51 +470,164 @@ Olivier Le Maître \inst{2} \inst{3} \texttt{(\small olivier.le-maitre \myat pol
         w_i = \sum_{j=1}^{N_{\text{ens}}} a_{i,j} v_j (x) = \sum_{j=1}^{N_{\text{ens}}} a^i_j \left(\sum_{p \in \mathcal P_j} \Gamma_p^f \vec{V}(x - x_p) + v_{j,BC} \right)
     \end{equation*}
     \vfill
-    \visible<2->{Leads to $N_{\text{ens}}$ independent problems of dimension $N_{\text{ens}}$ \\
-        \begin{equation*}
-            \mathcal L_i (a) = \min_{a \in \mathbb{R}^{N_{\text{ens}}}} \left\|d - \mathcal H_a(\hat u^f_i; a)_2 \right\|^2 + \lambda \|a\|_2^2, \quad i = 1, \dots, N_{\text{ens}}
-        \end{equation*}
-        Optimize with a local gradient optimizer (BFGS)}
+    Leads to $N_{\text{ens}}$ independent problems of dimension $N_{\text{ens}}$ \\
+    \begin{equation*}
+        \mathcal L_i (a) = \min_{a \in \mathbb{R}^{N_{\text{ens}}}} \left\|d - \mathcal H_a(\hat u^f_i; a)\right\|^2_2 + \lambda \|a\|_2^2, \quad i = 1, \dots, N_{\text{ens}}
+    \end{equation*}
+    Optimize with a local gradient optimizer (BFGS)
     \vfill
-
 \end{frame}
 
-\section{Organisation}
-\begin{frame}{Formations}
-    \begin{figure}
-        \includegraphics[width=0.6\textwidth]{image/formations_annot.png}
-    \end{figure}
+\begin{frame}{Test problem - Three vortex(body) problem}
+    \vspace{-0.5cm}
+    \begin{columns}[t]
+        \begin{column}{0.45\textwidth}
+            \begin{itemize}
+                \item \scriptsize \textbf{Variables of interest}: positions of vortex centers
+                \item \scriptsize \textbf{Initial Uncertainties}: vortex mean positions, strength, core-size,...
+                \item \scriptsize \textbf{chaotic trajectories}~\footnotemark[1]
+                \item \scriptsize \textbf{observations}: a noisy coarse velocity grid
+            \end{itemize}
+            \begin{figure}
+                \centering
+                \vspace{-0.25cm}
+                % \only<2->{\caption*{\tiny Vortex normalized position error}}
+                \includegraphics<3->[width=\textwidth]{../../conference/images/error_position_wo_assim.pdf}
+            \end{figure}
+            \vfill
+        \end{column}
+        \begin{column}{0.55\textwidth}
+            \centering
+            \begin{figure}[t]
+                \centering
+                \visible<2->{\tiny Vortex center trajectories for perturbed inputs}
+                \only<3->{%
+                    \animategraphics[loop, autoplay, width=0.85\textwidth]{10}{../../conference/images/vortex_centers_disperse/vortex_centers_}{0}{36}%
+                }
+                \only<2>{%
+                    \animategraphics[loop, autoplay, width=0.85\textwidth]{10}{../../conference/images/vortex_centers_ref/vortex_centers_}{0}{36}
+                }
+                \only<1>{%
+                    \animategraphics[loop, autoplay, width=0.7\textwidth]{5}{../../conference/images/particles_ref/particles_ref_}{0}{20}
+                }
+            \end{figure}
+
+        \end{column}
+    \end{columns}
+    \vspace{-0.5cm}
+
+    \footnotetext[1]{\tiny \cite{aref_motion_1979}}
 \end{frame}
 
-\begin{frame}{Communications et valorisation scientifique}
-    \begin{block}{Communications}
-        \begin{itemize}
-            \item (poster)annual meeting of the French CNRS research network MASCOT-NUM, April 3–6 2023, Le Croisic, France
-            \item (presentation) International Conference on Particle-Based Methods PARTICLES 2023, 9-11 October 2023, in Milan, Italy
-            \item (presentation) 9th European Congress on Computational Methods in Applied Sciences and Engineering, 3-7 June 2024, Lisboa, Portugal
-        \end{itemize}
-    \end{block}
+\begin{frame}{Strength correction}
+    \begin{columns}[t]
+        \begin{column}{0.5\textwidth}
+            \vspace{-0.5cm}
+            \begin{figure}
+                \centering
+                \animategraphics[loop, autoplay, width=\textwidth]{10}{../../conference/images/vortex_centers_part_enkf/vortex_centers_}{0}{36}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\textwidth]{../../conference/images/part_enkf_error.pdf}
+            \end{figure}
 
-    \begin{block}{Articles}
-        \begin{itemize}
-            \item (Relecture) Ensemble Data Assimilation for Meshless Methods, Marius Duvillard, Loïc Giraldi, Olivier Le Maître
-            \item (Ecriture) Data Assimilation by Field Alignment for Meshless Methods, Marius Duvillard, Olivier Le Maître
-        \end{itemize}
-    \end{block}
-
+            \begin{itemize}
+                \item \textbf{not a convinent case} to apply strength correction
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
-\begin{frame}{Fin de 3e année}
-    \begin{figure}
-        \includegraphics[width=0.6\textwidth]{image/retro_planning.png}
-    \end{figure}
+\begin{frame}{Alignment correction}
+    \vspace{-0.5cm}
+    \begin{columns}[c]
+        \begin{column}{0.45\textwidth}
+            \begin{figure}
+                \centering
+                \caption*{\tiny Field alignment of member one at first assimilation step.}
+                \includegraphics<1>[width=\textwidth]{../../conference/images/align_member/align_member_prior.pdf}
+                \includegraphics<2>[width=\textwidth]{../../conference/images/align_member/align_member_prior_field.pdf}
+                \includegraphics<3->[width=\textwidth]{../../conference/images/align_member/align_member_final.pdf}
+            \end{figure}
+
+        \end{column}
+        \begin{column}{0.55\textwidth}
+            \begin{figure}[c]
+                \centering
+                \caption*{\tiny Vorticity field correction at first assimilation step.}
+                \begin{subfigure}{0.49\textwidth}
+                    \centering
+                    \includegraphics<1-2>[width=\textwidth]{../../conference/images/vorticity_prior.pdf}
+                    \only<1-2>{\caption*{\tiny Before alignment}}
+                    \includegraphics<3>[width=\textwidth]{../../conference/images/vorticity_align.pdf}
+                    \only<3>{\caption*{\tiny After alignment}}
+                \end{subfigure}
+                \begin{subfigure}{0.49\textwidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{../../conference/images/vorticity_ref.pdf}
+                    \caption*{\tiny Reference}
+
+                \end{subfigure}
+            \end{figure}
+        \end{column}
+    \end{columns}
+
+    \vspace{-0.25cm}
+
+    \vspace{-0.25cm}
 \end{frame}
 
 
+\begin{frame}{Alignment correction}
+    \vspace{-0.5cm}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+                \centering
+                \animategraphics[loop, autoplay, width=\textwidth]{10}{../../conference/images/vortex_centers_align/vortex_centers_}{0}{36}
+                % \caption*{Vortex center trajectories}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\textwidth]{../../conference/images/align_error.pdf}
+                % \caption*{Vortex position error}
+            \end{figure}
+            \begin{itemize}
+                \item Corrects the position error at each assimilation step
+                \item But variability due to uncertainty in strength
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
 
-% \section*{Addendum}
-% \begin{frame}{EnKF update}
-%     \emph{Be successful with your presentation!}
-% \end{frame}
+\begin{frame}{Alignment/Strength correction}
+    \vspace{-0.5cm}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+                \centering
+                \animategraphics[loop, autoplay, width=\textwidth]{10}{../../conference/images/vortex_centers_part_align/vortex_centers_}{0}{36}
+                % \caption*{Vortex center trajectories}
+            \end{figure}
+
+        \end{column}
+        \begin{column}{0.5\textwidth}
+
+            \begin{figure}
+                \centering
+                \includegraphics[width=\textwidth]{../../conference/images/align_part_error.pdf}
+            \end{figure}
+
+            \begin{itemize}
+                \item Assimilation correct position and reduce strength variability
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
 
 \end{document}

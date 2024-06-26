@@ -10,9 +10,11 @@ Professor in Applied Mathematics à Grenoble (Laboratoire Jean Kuntzmann)
 
 ---
 
+Rapporteurs:
 - [**Maelle Nodet**](https://scholar.google.fr/citations?user=iM6Mv5MAAAAJ&hl=fr)
 - [**Etienne Mémin**](https://www.irisa.fr/prive/memin/resume-3C.html)
-  
+
+Evaluateurs:
 - [**Mireille Bossy**](https://www-sop.inria.fr/members/Mireille.Bossy/)
 - [**Josselin Garnier**](https://josselin-garnier.org/)
 - [**Iraj Maortazavi**](https://scholar.google.com/citations?user=DokRauAAAAAJ&hl=fr)

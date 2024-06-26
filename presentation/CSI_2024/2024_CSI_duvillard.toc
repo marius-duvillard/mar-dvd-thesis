@@ -1,0 +1,5 @@
+\beamer@sectionintoc {1}{Presentation}{3}{0}{1}
+\beamer@sectionintoc {2}{Contexte Industriel}{4}{0}{2}
+\beamer@sectionintoc {3}{Problématique scientifique}{5}{0}{3}
+\beamer@sectionintoc {4}{Contribution}{16}{0}{4}
+\beamer@sectionintoc {5}{Organisation}{17}{0}{5}

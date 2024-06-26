@@ -2342,7 +2342,7 @@
   <!-- CITATION DATA -->
   <!-- SECTION 0 -->
   <bcf:bibdata section="0">
-    <bcf:datasource type="file" datatype="bibtex" glob="false">./biblio.bib</bcf:datasource>
+    <bcf:datasource type="file" datatype="bibtex" glob="false">../../conference/biblio.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
     <bcf:citekey order="1">evensen_sequential_1994</bcf:citekey>
@@ -2361,3 +2361,58 @@
     <bcf:citekey order="14">siripatana_combining_2019</bcf:citekey>
     <bcf:citekey order="15">evensen_sequential_1994</bcf:citekey>
     <bcf:citekey order="16">siripatana_combining_2019</bcf:citekey>
+    <bcf:citekey order="17">ravela_data_2007</bcf:citekey>
+    <bcf:citekey order="17">rosenthal_displacement_2017</bcf:citekey>
+    <bcf:citekey order="18">ravela_data_2007</bcf:citekey>
+    <bcf:citekey order="18">rosenthal_displacement_2017</bcf:citekey>
+    <bcf:citekey order="19">ravela_data_2007</bcf:citekey>
+    <bcf:citekey order="19">rosenthal_displacement_2017</bcf:citekey>
+    <bcf:citekey order="20">aref_motion_1979</bcf:citekey>
+    <bcf:citekey order="21">aref_motion_1979</bcf:citekey>
+    <bcf:citekey order="22">aref_motion_1979</bcf:citekey>
+    <bcf:citekey order="23">evensen_sequential_1994</bcf:citekey>
+    <bcf:citekey order="24">siripatana_combining_2019</bcf:citekey>
+    <bcf:citekey order="25">ravela_data_2007</bcf:citekey>
+    <bcf:citekey order="26">rosenthal_displacement_2017</bcf:citekey>
+    <bcf:citekey order="27">aref_motion_1979</bcf:citekey>
+  </bcf:section>
+  <!-- SORTING TEMPLATES -->
+  <bcf:sortingtemplate name="nyt">
+    <bcf:sort order="1">
+      <bcf:sortitem order="1">presort</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="2" final="1">
+      <bcf:sortitem order="1">sortkey</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="3">
+      <bcf:sortitem order="1">sortname</bcf:sortitem>
+      <bcf:sortitem order="2">author</bcf:sortitem>
+      <bcf:sortitem order="3">editor</bcf:sortitem>
+      <bcf:sortitem order="4">translator</bcf:sortitem>
+      <bcf:sortitem order="5">sorttitle</bcf:sortitem>
+      <bcf:sortitem order="6">title</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="4">
+      <bcf:sortitem order="1">sortyear</bcf:sortitem>
+      <bcf:sortitem order="2">year</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="5">
+      <bcf:sortitem order="1">sorttitle</bcf:sortitem>
+      <bcf:sortitem order="2">title</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="6">
+      <bcf:sortitem order="1">volume</bcf:sortitem>
+      <bcf:sortitem literal="1" order="2">0</bcf:sortitem>
+    </bcf:sort>
+  </bcf:sortingtemplate>
+  <!-- DATALISTS -->
+  <bcf:datalist section="0"
+                name="nyt/global//global/global"
+                type="entry"
+                sortingtemplatename="nyt"
+                sortingnamekeytemplatename="global"
+                labelprefix=""
+                uniquenametemplatename="global"
+                labelalphanametemplatename="global">
+  </bcf:datalist>
+</bcf:controlfile>

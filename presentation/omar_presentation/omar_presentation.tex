@@ -299,29 +299,26 @@ Loïc Giraldi \inst{1} \\
 
 \begin{frame}{Strength correction}
     \small
-    \textbf{Solution 2 - PartEnKF} \\
+    \textbf{Solution 2 - Part-EnKF} \\
     Keep the same set of particle positions
     \begin{eqnarray*}
         u_i^f(x) &=& \sum_{p \in \mathcal P_i} \textcolor{ceared}{\Gamma^f_p} \phi_h(x - x_p^f),\\
         \quad u^a_i(x) &=& u_i^f(x) + \sum_{j=1}^{N_{\text{ens}}} F_{ij} u_j^f(x) \approx \sum_{p \in \mathcal P_i} \textcolor{ceared}{\Gamma^a_p} \phi_h(x - x_p^f), \\
     \end{eqnarray*}
     \vspace{-0.7cm}
-    \normalsize To find $\Gamma^a_p$:
     \begin{columns}[t]
         \begin{column}{0.4\textwidth}
-            Use the \textbf{particle approximation}: \\
-            \vfill
-
-            $\Gamma^a_p = \int_{\Omega_p} u^a_i(x) dV \approx u^a_i(x_p) V_p$
-
+            \begin{exampleblock}{Particle approximation}
+                $\Gamma^a_p = \int_{\Omega_p} u^a_i(x) dV \approx u^a_i(x_p) V_p$
+            \end{exampleblock}
         \end{column}
-        \hspace{-0.7cm}
         \begin{column}{0.6\textwidth}
-            \textbf{RBF Regression}: \\
-            \begin{eqnarray*}
-                u^a_i(x_p) &\approx& \sum_{p' \in \mathcal P_i} \Gamma^a_{p'} \phi_h(x_p - x_{p'}), \quad p \in \mathcal P_i \Rightarrow \bm u_i \approx \Phi \bm \Gamma_i\\
-                \Rightarrow \bm \Gamma_i^a &=& \argmin_{\bm \Gamma \in \mathbb R^{N_p}} \| \bm u_i - \Phi \bm \Gamma\|_2^2 + R(\bm \Gamma)
-            \end{eqnarray*}
+            \begin{exampleblock}{RBF Regression}
+                \begin{eqnarray*}
+                    u^a_i(x_p) &\approx& \sum_{p' \in \mathcal P_i} \Gamma^a_{p'} \phi_h(x_p - x_{p'}), \quad p \in \mathcal P_i \Rightarrow \bm u_i \approx \Phi \bm \Gamma_i\\
+                    \Rightarrow \bm \Gamma_i^a &=& \argmin_{\bm \Gamma \in \mathbb R^{N_p}} \| \bm u_i - \Phi \bm \Gamma_i\|_2^2 + R(\bm \Gamma)
+                \end{eqnarray*}
+            \end{exampleblock}
         \end{column}
     \end{columns}
 \end{frame}
@@ -332,7 +329,7 @@ Loïc Giraldi \inst{1} \\
     \begin{figure}
         \centering
         \includegraphics[width=0.4\textwidth]{./../../conference/images/ens_particles.pdf}
-    \end{figure}b
+    \end{figure}
 \end{frame}
 
 \transition[3]{Data assimilation by alignment}{Position correction}
@@ -390,7 +387,7 @@ Loïc Giraldi \inst{1} \\
     \vfill
     \visible<2->{Leads to $N_{\text{ens}}$ independent problems of dimension $N_{\text{ens}}$ \\
         \begin{equation*}
-            \mathcal L_i (a) = \min_{a \in \mathbb{R}^{N_{\text{ens}}}} \left\|d - \mathcal H_a(\hat u^f_i; a)_2 \right\|^2 + \lambda \|a\|_2^2, \quad i = 1, \dots, N_{\text{ens}}
+            \mathcal L_i (a) = \min_{a \in \mathbb{R}^{N_{\text{ens}}}} \left\|d - \mathcal H_a(\hat u^f_i; a)\right\|^2_2 + \lambda \|a\|_2^2, \quad i = 1, \dots, N_{\text{ens}}
         \end{equation*}
         Optimize with a local gradient optimizer (BFGS)}
     \vfill

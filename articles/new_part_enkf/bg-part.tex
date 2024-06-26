@@ -1,12 +1,12 @@
 % !TEX root = main.tex
 
 \subsection{Particle-based methods}~\label{Background_Part}
-We consider particle methods for solving continuous problems in fluid or solid mechanics. The Lagrangian methods decompose the domain on a set $\mathcal P = \left\{\bm z_p, \bm U_p\right\}_{p = 1}^{n_p}$, où $\bm z_p \in \Omega$, the spatial coordinates a particle $p$ and $\bm U_p \in \mathbb{R}^n$ its intensity.
+We consider particle methods for solving continuous problems in fluid or solid mechanics. The Lagrangian methods decompose the domain on a set $\mathcal P = \left\{\bm z_p, \bm U_p\right\}_{p = 1}^{n_p}$, where $\bm z_p \in \Omega$, the spatial coordinates a particle $p$ and $\bm U_p \in \mathbb{R}^n$ its intensity.
 
 % The velocity field $\bm{v}$ is used to update the position of the particle such as $\bm z_p(t+dt) = \bm z_p(t) + f(z_p, \bm{v}{\bm z_p})$ with $f$ depending on the time-integration scheme.
 
 % The computation of the velocity field and the solving of the equation of mechanics depend on the class of method.
-We focus our work on methods that discretize a solution $\bm u$ on a continuous domain $\Omega \subset \mathbb{R}^d$ with $\Omega$ the spatial domain. This includes methods like Smoothed particle hydrodynamics (SPH) \cite{gingold_monaghan_sph_1977,lucy_1977} and the Vortex Method (VM) \cite{cottet_vortex_2000} and is extended to other methods like the Material Point Method (MPM) \cite{sulsky_particle_1994}.
+We focus our work on methods that discretize a solution $\bm u$ on a continuous domain $\Omega \subset \mathbb{R}^d$ with $\Omega$ the spatial domain. This includes methods like Smoothed particle hydrodynamics (SPH) \cite{gingold_monaghan_sph_1977,lucy_1977}, or the Vortex Method (VM) \cite{cottet_vortex_2000} and is extended to other methods like the Material Point Method (MPM) \cite{sulsky_particle_1994}.
 
 \subsubsection{Particle discretization}
 
@@ -33,7 +33,7 @@ The average function $\langle \bm u \rangle$ is then used to approximate the ori
 Finally, the original domain $\Omega$ is subdivided with $N_p$ subdomain $\Omega_p$ associated with a lagrangian particle in the location $z_p \in \Omega_p$. We denote by $V_p$ the volume of $\Omega_p$. This discretization is then used to approximate the average function such that
 
 \begin{eqnarray}~\label{part_approx}
-	&\approx& \sum_{p \in \mathcal P} \bm U_p \phi_\varepsilon (\bm z-\bm z_p).
+	u(z) &\approx& \sum_{p \in \mathcal P} \bm U_p \phi_\varepsilon (\bm z-\bm z_p).
 \end{eqnarray}
 
 Thus, any function defined on a particle discretization is defined by a particle discretization $\mathcal{P}$ and a smoothing kernel $\phi_\varepsilon$.

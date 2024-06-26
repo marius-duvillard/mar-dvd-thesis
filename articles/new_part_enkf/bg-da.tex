@@ -18,7 +18,7 @@ A hidden Markov chain is used to model this recurrence. We position ourselves wi
         \bm{y}_{k+1} = \mathcal{H}_{k+1} (\state_{k+1}) + \bm \varepsilon_{k+1},
     \end{cases}
 \]where $\mathcal{M}_{k+1}$ is the model operator describing the time evolution of the state from time $k$ to time $k+1$, and $\mathcal{H}_k$ is the observation operator. The term $\state_k$ $\in$ $\mathbb{R}^n$ is the vector state at time $k$ and $\bm{y}_k$ $\in$ $\mathbb{R}^m$ the observation vector, $\bm{\eta}_{k}$ is the model error that accounts for error in the numerical model and the errors due to discretization, and $\bm{\varepsilon}_k$ is the observation error which combine measurement error and representativeness error. We assume that $\bm{\eta}_{k}$, $\bm{\varepsilon}_k$ are random variables following Gaussian distributions with zero mean and covariance matrices $\bm Q_k$ and $\bm R_k$ respectively. Finally, we assume that the observation and the model errors are independent though the time and that initial error on $\state_0$, $\bm{\varepsilon}_k$ and $\bm{\eta}_{k}$ are mutually independent.Let $\mathcal{D}_k = \left\{\bm y_l\right\}_{l=1}^k$ represent the accumulated data up to time $k$.
-Thus, $\bm x_{k+1}$ and $\mathcal{D}_k$ are conditionally independent with respect to $\bm x_{k}$, and $\bm{y}_{k+1}$ and $\bm x_{k+1}$ are conditionally independent with respect with $\bm x_{k}$, leading to simplifications in the next paragraph.
+Thus, $\bm x_{k+1}$ and $\mathcal{D}_k$ are conditionally independent with respect to $\bm x_{k}$, as well as $\bm{y}_{k+1}$ and $\bm x_{k+1}$, leading to simplifications in the next paragraph.
 
 \subsubsection{Bayesian filtering}
 
@@ -62,9 +62,9 @@ The two first moments of the error are given by
     \overline{\state}_f &=& \frac{1}{N} \sum_{i = 1}^{N} \state^i_f, \\
     \Cov_f &=& \frac{1}{N-1} \sum_{i = 1}^{N} (\state^i_f - \overline{\state}_f){(\state^i_f - \overline{\state}_f)}^T,
 \end{eqnarray*}
-where $\overline{\state}_f$ and $\Cov_f$ are the empirical estimates of the mean and covariance matrix of the state distribution obtained from the ensemble members.
+where $\overline{\state}_f$ and $\Cov_f$ are respectively the empirical estimates of the mean and  the covariance matrix of the state distribution obtained from the ensemble members.
 
-Respectively, the mean and covariance of the observation $\left\{\mathcal{H}(\state^i_f) \right\}_{i=1}^N$ could be estimated as well as the covariance between state and observation.
+Likewise, the mean and covariance of the observation $\left\{\mathcal{H}(\state^i_f) \right\}_{i=1}^N$ could be estimated as well as the covariance between state and observation.
 
 We develop the general formulation of the EnKF filter in the Appendix~\ref{appendix:enkf}.
 
@@ -72,4 +72,4 @@ Finally, our formulation of EnKF takes advantage of a correction of the state de
 
 \begin{equation}~\label{enkf_formula_Fcorr}
     \mstate_a = \mstate_f + \mstate_f \Fcorr,
-\end{equation}where the matrix $\Fcorr$ only depends on the ensemble members through the predicted observations ensemble $\left\{\mathcal{H}(\state^i_f) \right\}_{i=1}$, the observation $\obs$ and the associate perturbations  $\left\{\bm{\varepsilon}^i \right\}_{i=1}$.
+\end{equation}where the matrix $\Fcorr$ only depends on the ensemble members through the predicted observations ensemble $\left\{\mathcal{H}(\state^i_f) \right\}^N_{i=1}$, the observation $\obs$ and the associate perturbations  $\left\{\bm{\varepsilon}^i \right\}^N_{i=1}$.

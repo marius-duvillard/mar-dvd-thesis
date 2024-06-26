@@ -1,0 +1,2 @@
+\beamer@sectionintoc {1}{Derniers résultats}{3}{0}{1}
+\beamer@sectionintoc {2}{Informations générales}{22}{0}{2}

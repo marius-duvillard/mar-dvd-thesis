@@ -1,0 +1,9 @@
+De nombreuses présentations ont abordé l'utilisation des réseaux de neurones pour les lois de comportement. En particulier, celles mettant en avant des structures respectant la polyconvexité par rapport aux entrées, ainsi que l'intégration de pénalisations dans la fonction coût. Pour plus de détails, vous pouvez consulter les travaux:
+- Klein et al.,Polyconvex anisotropic hyperelasticity with neural networks,
+- Linden et al., Neural networks meet hyperelasticity: A guide to enforcing physics)
+
+Plusieurs présentations ont également traité des jumeaux numériques. Je recommande particulièrement celle de Laura Mainini intitulée "Digital Twins: a lifecycle-long journey with examples".
+
+Parmi les conférences plénières, l'une d'elles portait sur des méthodes de parallélisation temporelle. M. Jakob Gander a présenté des algorithmes adaptés aux problèmes paraboliques tels que le Parareal Algorithm (2001, Lions et al.), le Space-Time Multigrid, ainsi que des méthodes de relaxation par décomposition de domaine. Ces dernières, ainsi que la méthode ParaDiag, peuvent également être appliquées aux problèmes hyperboliques, bien que ceux-ci soient généralement très difficiles à paralléliser en temps. Pour plus d'informations, vous pouvez consulter son article "50 Years of Time Parallel Time Integration".
+
+En ce qui concerne l'assimilation de données, j'ai noté en particulier la présentation de Mücke sur l'utilisation des méthodes d'assimilation dans les modèles de réseaux de neurones, comme les autoencodeurs variationnels. Vous pouvez consulter ses travaux sous le titre "Latent Space Particle Filter using Deep Learning".

@@ -474,7 +474,7 @@ En utilisant les membres pour échantillonner la matrice de covariance, cela rev
 En reprenant la formule~\ref{eq:rml-kalman}, et en remplaçant $\bm P \approx \annomX_f \annomX_f^T$, on obtient d'une part la mise à jour du filtre EnKF~\ref{enkf_formula}, d'autre part que l'on puis reformuler le terme de correction the correction term en définissant $\Fcorr$,
 
 \begin{equation}
-    \mstate_a = \mstate_f + \mstate_f \Fcorr, \quad \Fcorr = \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred).
+    \mstate_a = \mstate_f + \mstate_f \Fcorr, \quad \Fcorr = \frac{1}{\sqrt{N-1}} \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred).
 \end{equation}.
 
 Ceci nous renseigne sur plusieurs choses:

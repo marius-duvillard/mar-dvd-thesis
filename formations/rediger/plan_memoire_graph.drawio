@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="-Wbh808NGCvlv8KtwM4s" name="global">
-        <mxGraphModel dx="1612" dy="914" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1396" dy="1075" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -37,24 +37,24 @@
                 </mxCell>
                 <UserObject label="Démarche" treeRoot="1" link="data:page/id,ws8cjvnElxCi8fcKBXkF" id="zSnlnWSMzUd_zaikqKFH-7">
                     <mxCell style="whiteSpace=wrap;html=1;align=center;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" parent="2" vertex="1">
-                        <mxGeometry x="70" y="240" width="550" height="60" as="geometry"/>
+                        <mxGeometry x="70" y="260" width="550" height="60" as="geometry"/>
                     </mxCell>
                 </UserObject>
                 <UserObject label="Discussion&lt;br&gt;" treeRoot="1" id="zSnlnWSMzUd_zaikqKFH-9">
                     <mxCell style="whiteSpace=wrap;html=1;align=center;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" parent="2" vertex="1">
-                        <mxGeometry x="70" y="310" width="550" height="60" as="geometry"/>
+                        <mxGeometry x="70" y="340" width="550" height="60" as="geometry"/>
                     </mxCell>
                 </UserObject>
                 <UserObject label="Matériels et Méthodes" treeRoot="1" link="data:page/id,9Y3nHGs8P36PIfVTI5mU" id="fbE5cLYxNTuor3VEMwhP-10">
                     <mxCell style="whiteSpace=wrap;html=1;align=center;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" parent="2" vertex="1">
-                        <mxGeometry x="70" y="170" width="550" height="60" as="geometry"/>
+                        <mxGeometry x="70" y="180" width="550" height="60" as="geometry"/>
                     </mxCell>
                 </UserObject>
             </root>
         </mxGraphModel>
     </diagram>
     <diagram id="gfkiGDN14ppHE5cRoj3X" name="Introduction">
-        <mxGraphModel dx="1153" dy="914" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1696" dy="1306" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -64,7 +64,7 @@
                     </mxCell>
                 </UserObject>
                 <mxCell id="1r-p59meHmWD1ErGJYV--2" value="Contexte" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="70" y="240" width="1250" height="590" as="geometry"/>
+                    <mxGeometry x="70" y="360" width="1250" height="590" as="geometry"/>
                 </mxCell>
                 <mxCell id="1r-p59meHmWD1ErGJYV--3" value="Dans le cas du procédé MiMas, les poudres, qui constituent le futur combustible MOX, sont mises en forme à travers des opérations de broyage (mélange primaire) et de mélange (mélange secondaire). Ces deux étapes ont pour but de réduire la taille des grains et de les mélanger afin d’assurer une homogénéité de répartition du plutonium acceptable à l’issue du mélange secondaire. (giraud)" style="rounded=0;whiteSpace=wrap;html=1;" parent="1r-p59meHmWD1ErGJYV--2" vertex="1">
                     <mxGeometry x="30" y="30" width="570" height="90" as="geometry"/>
@@ -88,7 +88,7 @@
         </mxGraphModel>
     </diagram>
     <diagram id="G0T9hzaRb7ppQT6BmBIn" name="Etat de l'art">
-        <mxGraphModel dx="3191" dy="1219" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="4028" dy="1828" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -284,76 +284,84 @@
                 <mxCell id="yoyfnoxFVBS_DwoDerNp-34" value="Enjeux du broyage&lt;br&gt;(à mettre dans l'intro)" style="whiteSpace=wrap;html=1;rounded=0;" parent="yoyfnoxFVBS_DwoDerNp-1" vertex="1">
                     <mxGeometry x="510" y="430" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-1" value="Dès le début" style="whiteSpace=wrap;html=1;shadow=1;" vertex="1" parent="yoyfnoxFVBS_DwoDerNp-1">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-1" value="Dès le début" style="whiteSpace=wrap;html=1;shadow=1;" parent="yoyfnoxFVBS_DwoDerNp-1" vertex="1">
                     <mxGeometry x="420" y="30" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-4" value="Contexte scientifique" style="swimlane;shadow=1;" vertex="1" parent="1">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-4" value="Contexte scientifique" style="swimlane;shadow=1;" parent="1" vertex="1">
                     <mxGeometry x="-1260" y="480" width="1650" height="730" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-5" value="Simulation du procédé" style="swimlane;shadow=1;" vertex="1" parent="vozpdjvXOaNOGOplVdgI-4">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-5" value="Simulation du procédé" style="swimlane;shadow=1;" parent="vozpdjvXOaNOGOplVdgI-4" vertex="1">
                     <mxGeometry x="10" y="140" width="1370" height="480" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-12" value="" style="edgeStyle=none;html=1;" edge="1" parent="vozpdjvXOaNOGOplVdgI-5" source="vozpdjvXOaNOGOplVdgI-10" target="vozpdjvXOaNOGOplVdgI-11">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-12" value="" style="edgeStyle=none;html=1;" parent="vozpdjvXOaNOGOplVdgI-5" source="vozpdjvXOaNOGOplVdgI-10" target="vozpdjvXOaNOGOplVdgI-11" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-10" value="Modélisation&lt;br&gt;Contextualiser sur les écoulements&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;shadow=1;" vertex="1" parent="vozpdjvXOaNOGOplVdgI-5">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-10" value="Modélisation&lt;br&gt;Contextualiser sur les écoulements&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;shadow=1;" parent="vozpdjvXOaNOGOplVdgI-5" vertex="1">
                     <mxGeometry x="30" y="40" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-21" value="" style="edgeStyle=none;html=1;" edge="1" parent="vozpdjvXOaNOGOplVdgI-5" source="vozpdjvXOaNOGOplVdgI-11" target="vozpdjvXOaNOGOplVdgI-14">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-21" value="" style="edgeStyle=none;html=1;" parent="vozpdjvXOaNOGOplVdgI-5" source="vozpdjvXOaNOGOplVdgI-11" target="vozpdjvXOaNOGOplVdgI-14" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-11" value="Reprendre le tableau de mes présentation" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;" vertex="1" parent="vozpdjvXOaNOGOplVdgI-5">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-11" value="Reprendre le tableau de mes présentation" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;" parent="vozpdjvXOaNOGOplVdgI-5" vertex="1">
                     <mxGeometry x="260" y="40" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-16" value="" style="edgeStyle=none;html=1;" edge="1" parent="vozpdjvXOaNOGOplVdgI-5" source="vozpdjvXOaNOGOplVdgI-14" target="vozpdjvXOaNOGOplVdgI-15">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-16" value="" style="edgeStyle=none;html=1;" parent="vozpdjvXOaNOGOplVdgI-5" source="vozpdjvXOaNOGOplVdgI-14" target="vozpdjvXOaNOGOplVdgI-15" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-14" value="parler des lois de comportement" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;" vertex="1" parent="vozpdjvXOaNOGOplVdgI-5">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-14" value="parler des lois de comportement" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;" parent="vozpdjvXOaNOGOplVdgI-5" vertex="1">
                     <mxGeometry x="235" y="150" width="170" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-20" value="" style="edgeStyle=none;html=1;" edge="1" parent="vozpdjvXOaNOGOplVdgI-5" source="vozpdjvXOaNOGOplVdgI-15" target="vozpdjvXOaNOGOplVdgI-19">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-20" value="" style="edgeStyle=none;html=1;" parent="vozpdjvXOaNOGOplVdgI-5" source="vozpdjvXOaNOGOplVdgI-15" target="vozpdjvXOaNOGOplVdgI-19" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-30" value="" style="edgeStyle=none;html=1;" edge="1" parent="vozpdjvXOaNOGOplVdgI-5" source="vozpdjvXOaNOGOplVdgI-15" target="vozpdjvXOaNOGOplVdgI-29">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-30" value="" style="edgeStyle=none;html=1;" parent="vozpdjvXOaNOGOplVdgI-5" source="vozpdjvXOaNOGOplVdgI-15" target="vozpdjvXOaNOGOplVdgI-29" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-15" value="parler des types de simulation de DEM, SPH, MPM qui ont déjà été utilisé&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;" vertex="1" parent="vozpdjvXOaNOGOplVdgI-5">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-15" value="parler des types de simulation de DEM, SPH, MPM qui ont déjà été utilisé&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;" parent="vozpdjvXOaNOGOplVdgI-5" vertex="1">
                     <mxGeometry x="260" y="250" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-19" value="Acentuer cette partie plus que le reste et mettre en avant toutes les méthodes particulaires" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;" vertex="1" parent="vozpdjvXOaNOGOplVdgI-5">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-19" value="Acentuer cette partie plus que le reste et mettre en avant toutes les méthodes particulaires" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;" parent="vozpdjvXOaNOGOplVdgI-5" vertex="1">
                     <mxGeometry x="262.5" y="340" width="135" height="80" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-29" value="Ne pas parler de comment elle marche mais uniquement de leurs hypothèses des avantages ?" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;" vertex="1" parent="vozpdjvXOaNOGOplVdgI-5">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-29" value="Ne pas parler de comment elle marche mais uniquement de leurs hypothèses des avantages ?" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;" parent="vozpdjvXOaNOGOplVdgI-5" vertex="1">
                     <mxGeometry x="60" y="250" width="140" height="130" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-9" value="Jumeau Numérique et Assimilation de données" style="swimlane;shadow=1;" vertex="1" collapsed="1" parent="vozpdjvXOaNOGOplVdgI-4">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-9" value="Jumeau Numérique et Assimilation de données" style="swimlane;shadow=1;" parent="vozpdjvXOaNOGOplVdgI-4" vertex="1" collapsed="1">
                     <mxGeometry x="730" y="80" width="250" height="30" as="geometry">
                         <mxRectangle x="730" y="80" width="650" height="480" as="alternateBounds"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-25" value="" style="edgeStyle=none;html=1;" edge="1" parent="vozpdjvXOaNOGOplVdgI-9" source="vozpdjvXOaNOGOplVdgI-23" target="vozpdjvXOaNOGOplVdgI-24">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-25" value="" style="edgeStyle=none;html=1;" parent="vozpdjvXOaNOGOplVdgI-9" source="vozpdjvXOaNOGOplVdgI-23" target="vozpdjvXOaNOGOplVdgI-24" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-23" value="Définir et présenter ll'intérêt et le concept de jumeau numérique&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;shadow=1;" vertex="1" parent="vozpdjvXOaNOGOplVdgI-9">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-23" value="Définir et présenter ll'intérêt et le concept de jumeau numérique&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;shadow=1;" parent="vozpdjvXOaNOGOplVdgI-9" vertex="1">
                     <mxGeometry x="57" y="50" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-24" value="Faire une liste de concepts, peut être il faudra faire une petite biblio ? utiliser l'école d'été" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;" vertex="1" parent="vozpdjvXOaNOGOplVdgI-9">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-24" value="Faire une liste de concepts, peut être il faudra faire une petite biblio ? utiliser l'école d'été" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;" parent="vozpdjvXOaNOGOplVdgI-9" vertex="1">
                     <mxGeometry x="257" y="50" width="333" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-28" value="" style="edgeStyle=none;html=1;" edge="1" parent="vozpdjvXOaNOGOplVdgI-9" source="vozpdjvXOaNOGOplVdgI-26" target="vozpdjvXOaNOGOplVdgI-27">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-28" value="" style="edgeStyle=none;html=1;" parent="vozpdjvXOaNOGOplVdgI-9" source="vozpdjvXOaNOGOplVdgI-26" target="vozpdjvXOaNOGOplVdgI-27" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-26" value="Présenter le concept d'assimilation de données" style="rounded=0;whiteSpace=wrap;html=1;shadow=1;" vertex="1" parent="vozpdjvXOaNOGOplVdgI-9">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-26" value="Présenter le concept d'assimilation de données" style="rounded=0;whiteSpace=wrap;html=1;shadow=1;" parent="vozpdjvXOaNOGOplVdgI-9" vertex="1">
                     <mxGeometry x="80" y="270" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-27" value="Transition vers la partie suivante&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;" vertex="1" parent="vozpdjvXOaNOGOplVdgI-9">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-27" value="Transition vers la partie suivante&amp;nbsp;" style="whiteSpace=wrap;html=1;rounded=0;shadow=1;" parent="vozpdjvXOaNOGOplVdgI-9" vertex="1">
                     <mxGeometry x="280" y="250" width="300" height="100" as="geometry"/>
                 </mxCell>
-                <mxCell id="vozpdjvXOaNOGOplVdgI-6" value="Mesure sur le procédé" style="swimlane;shadow=1;" vertex="1" collapsed="1" parent="vozpdjvXOaNOGOplVdgI-4">
+                <mxCell id="vozpdjvXOaNOGOplVdgI-6" value="Mesure sur le procédé" style="swimlane;shadow=1;" parent="vozpdjvXOaNOGOplVdgI-4" vertex="1" collapsed="1">
                     <mxGeometry x="490" y="80" width="170" height="30" as="geometry">
                         <mxRectangle x="450" y="40" width="480" height="480" as="alternateBounds"/>
                     </mxGeometry>
                 </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="2MeG15bwZv2Ms-j6uQ-_" name="Materiel/Methods">
+        <mxGraphModel dx="1187" dy="914" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
             </root>
         </mxGraphModel>
     </diagram>

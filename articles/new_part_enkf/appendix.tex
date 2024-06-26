@@ -35,13 +35,13 @@ Based on this formulation, we can deduce a correction formula only based on the 
 We can rewrite the classical update formula using the previous anomaly matrices.
 
 \begin{equation*}
-    \mstate_a = \mstate_f + \annomX_f \annomY_f^T {({\annomY_f \annomY_f^T + \bm R})}^{-1}(\mdata - \Y)
+    \mstate_a = \mstate_f + \annomX_f \annomY_f^T {({\annomY_f \annomY_f^T + \bm R})}^{-1}(\mdata - \mpred)
 \end{equation*}
 
 We reformulate the correction term by remarking that $ \bm{1}^T  \annomY_f^T = \bm{0}$. We define $\Fcorr$, the correction matrix that gives the update in terms of linear combinations of the forward states
 
 \begin{equation}
-    \mstate_a = \mstate_f + \mstate_f \Fcorr, \quad \Fcorr = \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred).
+    \mstate_a = \mstate_f + \mstate_f \Fcorr, \quad \Fcorr = \frac{1}{\sqrt{N - 1}}\annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred).
 \end{equation}.
 
 \section{Moment conservation of particle discretization}~\label{appendix:moment_conservation}

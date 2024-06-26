@@ -79,7 +79,7 @@
       <file>2024_CSI_duvillard.bcf</file>
     </requires>
     <requires type="editable">
-      <file>./biblio.bib</file>
+      <file>../../conference/biblio.bib</file>
     </requires>
   </external>
 </requests>

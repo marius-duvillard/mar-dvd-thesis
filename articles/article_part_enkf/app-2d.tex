@@ -31,7 +31,7 @@ The subsequent steps involve assigning particle vorticity values to the grid usi
 
 In conclusion, a Runge-Kutta 3 time-stepping scheme is employed to update the particle positions through a time integration scheme. The second phase involves solving the heat equation.
 \begin{equation*}
-	\frac{d\z_p}{dt} = 0, \quad	\frac{\omega_p}{dt} = \nu \Delta \omega(\z_p),
+	\frac{d\z_p}{dt} = 0, \quad	\frac{d\omega_p}{dt} = \nu \Delta \omega(\z_p),
 \end{equation*}~by employing an integral equation that approximates $\Delta \omega$
 
 \begin{equation*}

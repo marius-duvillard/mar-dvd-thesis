@@ -439,7 +439,6 @@ Bootstrapping for confidence intervals
 - Commencer présentation CSI --> power point ?
 - Commencer présentation  --> en latex. S'inspirer de la conf.
 
-
 # 17-06-2024
 
 - Faire plan Café thésard
@@ -448,6 +447,40 @@ Bootstrapping for confidence intervals
 - [ ] Vérifier la parallélisation du calcul du gradient. Revoir le calcul du gradient.
 
 - Open mp ne semble pas efficace... 
+
+# 19-06-2024
+
+- Avancement sur Remesh-EnKF avec les couleurs
+- Test sur l'assimilation
+- finalisation de la présentation CSI
+
+# 20-06-2024
+
+- Faire un fichier pour faire varier certains paramètres. Proposer un code qui puisse être appellé comme
+  `./run_benckmark -p parameters.json -i nens -v 10 20 40 (+ le filtre à utiliser)
+  -i : nens, std_noise
+- Avancer sur la présentation café thésard
+- Vérifier les résultats de RemeshEnKF:
+  - dans `outputs/assim_three_vortex/2024-06-19-17:32:51` test avec succès de Remesh-EnKF 
+- Faire le plan de la partie 1.
+- Faire la slide MPM - DEM et DA --> beginning and end, c'est à dire présenter les simulations et les moyens d'appliquer les méthodes d'assimilation.
+
+# 24-06-2024
+
+- [x] relire entretien de fin d'année
+- [x] Revoir le plan précis du café thésard
+
+# 25-06-2024
+
+- [x] préparer réunion de suivi faire un petit latex ? : mettre le planning, parler des derniers jalons: finalisation d'une dernière étude (mettre qq slides), présentation à ECCOMAS, passage du CSI, préparation du Café-Thésard.
+- [x] Entretien annuel
+- [ ] Finaliser la présentation café-thésard
+
+# 26-06-2024
+
+- [ ] Finaliser présentation café thésard --> revoir animation du remesh_enkf (rajouter une visualization du support de particules ?)
+- [ ] Voir erreur de plot sigma_obs
+- [ ] Il faut prendre en compte sigma_obs dans le problème d'alignement
 ## A FAIRE
 
 - Redaction
