@@ -1,9 +1,9 @@
 # Plan de démarche
 
-## Chapitre 1 : Développement de méthodes permettant l'adaptation du filtre de Kalman d'ensemble avec des simulations particulaires
+## Chapitre 1 : Développement de méthodes par correction d'intensité pour permettre l'adaptation du filtre de Kalman d'ensemble aux simulations sans maillage
 
 ### Pour cela Mise en évidence de la correction à appliquer pour mettre à jour les états
-#### Obectifs: construire des adaptations de filtre de Kalman d'Ensemble pour les méthodes sans maillage.
+#### Objectifs: construire des adaptations de filtre de Kalman d'Ensemble pour des simulation sans maillage.
 #### Corps
 - SACHANT QUE: la correction est CL des membres dans le filtre de Kalman
 - POUR CELA: Reformulation d'une correction indépendante de la discrétisation des états
@@ -43,12 +43,16 @@
 - D'OU on va formuler le problème d'assimilation pour prendre en compte l'erreur d'alignement
 
 
-## Chapitre 3 : Développement d'un filtre d'ensemble mettant à jour la position des particules
+## Chapitre 3 : Développement de méthodes d'assimilation de donnée par correction de position pour des simulations sans maillage
 
 #### Objectif:
 
 #### Bilan:
 
 - ON A développé une formulation du problème d'assimilation de données en introduisant une transformation pour aligner les particules
-- ON A proposé une méthodologie pour 
+- ON A proposé une méthodologie
 
+## Chapitre 4 :Evaluation et comparaison des méthodes de correction de position et d'intensité
+#### Objectif:
+
+#### Bilan:

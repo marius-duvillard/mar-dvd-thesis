@@ -478,9 +478,20 @@ Bootstrapping for confidence intervals
 
 # 26-06-2024
 
-- [ ] Finaliser présentation café thésard --> revoir animation du remesh_enkf (rajouter une visualization du support de particules ?)
-- [ ] Voir erreur de plot sigma_obs
+- [x] Finaliser présentation café thésard --> revoir animation du remesh_enkf (rajouter une visualization du support de particules ?)
+- [x] Voir erreur de plot sigma_obs
 - [ ] Il faut prendre en compte sigma_obs dans le problème d'alignement
+
+# 27-06-2024
+
+- [x] Finir la presentation café thésard !!!
+- [x] voir dernier résultats et relancer avec les filtres align --> voir pour faire la regression
+- [x] Faire état de frais
+- [ ] Regarder le plan de la partie 1 + partie application
+- [ ] Faire le CV européen (soir)
+- [ ] Faire une assimilation avec le filtre align en faisant varier lambda --> pour montrer le choix de l'hyperparamètre. Pour cela faire un 
+- [ ] Rajouter l'erreur sur les centre de tourbillon dans le benchmark! --> les sauvegarde sont bien faite.
+ 
 ## A FAIRE
 
 - Redaction

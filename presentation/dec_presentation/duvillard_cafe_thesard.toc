@@ -1,9 +1,9 @@
-\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
-\beamer@subsectionintoc {1}{1}{Contexte industriel et scientifique}{3}{0}{1}
-\beamer@subsectionintoc {1}{2}{Assimilation de données}{6}{0}{1}
-\beamer@sectionintoc {2}{Problématique : Assimilation appliquée à des méthodes sans maillage}{18}{0}{2}
-\beamer@sectionintoc {3}{Correction des intensités}{20}{0}{3}
-\beamer@subsectionintoc {3}{1}{Application - dipôle de Lamb–Chaplygin}{28}{0}{3}
-\beamer@sectionintoc {4}{Correction de position}{33}{0}{4}
-\beamer@subsectionintoc {4}{1}{Application - problème des trois tourbillons(corps)}{41}{0}{4}
-\beamer@sectionintoc {5}{Conclusion et perspectives}{51}{0}{5}
+\beamer@sectionintoc {1}{Introduction}{4}{0}{1}
+\beamer@subsectionintoc {1}{1}{Contexte industriel et scientifique}{4}{0}{1}
+\beamer@subsectionintoc {1}{2}{Assimilation de données}{10}{0}{1}
+\beamer@subsectionintoc {1}{3}{Problématique : Assimilation appliquée à des méthodes sans maillage}{20}{0}{1}
+\beamer@sectionintoc {2}{Correction des intensités}{23}{0}{2}
+\beamer@subsectionintoc {2}{1}{Application - dipôle de Lamb–Chaplygin}{32}{0}{2}
+\beamer@sectionintoc {3}{Correction des positions}{38}{0}{3}
+\beamer@subsectionintoc {3}{1}{Application - problème des trois tourbillons(corps)}{47}{0}{3}
+\beamer@sectionintoc {4}{Conclusion et perspectives}{59}{0}{4}

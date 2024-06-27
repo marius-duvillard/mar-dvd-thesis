@@ -8,3 +8,10 @@
 *.js
 *.css
 *.woff
+*.bcf
+*.toc
+*.snm
+*.run.xml
+*.nav
+*.blg
+*.out
