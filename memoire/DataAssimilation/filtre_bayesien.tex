@@ -465,7 +465,7 @@ Dans le cas linéaire et Gaussien, nous avons précedemment vu dans la Section~\
 
 Dans un cas non linéaire, nous pourrons traiter des cas non-linéaire pour être approchée dans un cas non Gaussien. Dans ce cas, on nous prendrons un linéarisation de la distribution a priori en estimant et ne conservant que les deux premiers moments de la distribution. C'est l'hypothèse qui est appliqué pour le filtre de Kalman d'Ensemble~\ref{sec:enkf}. De fait, cette résolution est obtenue dans un espace de représentant, offrant une optimisation dans un espace généralement de plus faible dimension.
 
-\subsection{Méthode de faible rang}
+\subsection{Méthode de faible rang}~\label{sec:faible_rang}
 
 Nous utilisons dans cette section la même hypothèse que précédemment évoquée dans la partie sur le filtre EnKF~\ref{sec:enkf}. Il s'agit de considérer que la matrice de covariance peut etre représenté par un ensemble d'état. En fait, tout comme le filtre de Kalman et l'image du filtre 3DVar le filtre EnKF trouve une équivalence avec une approche variationnelle d'ensemble.
 
