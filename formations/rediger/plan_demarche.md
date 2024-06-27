@@ -6,15 +6,21 @@
 #### Objectifs: construire des adaptations de filtre de Kalman d'Ensemble pour des simulation sans maillage.
 #### Corps
 - SACHANT QUE: la correction est CL des membres dans le filtre de Kalman
-- POUR CELA: Reformulation d'une correction indépendante de la discrétisation des états
+- Réformulation de la mise à jour en déterminant une correction dans l'espace d'observation
+- POUR CELA: Reformulation d'une correction indépendante de la discrétisation des états.
   - SACHANT QUE: l'ensemble des états ont des discrétisations différentes
-  - POUR CELA : écriture de de mise à jour des états
-    - SACHANT QUE: ...
+  - POUR CELA : écriture de de mise à jour des états dans l'espace d'observation
+    - SACHANT QUE: celui ci est supposé défini à l'aide d'une discrétisation eulérienne et que l'on peut alors écrire un terme de correction.
 - Développement de méthodes de mise à jour des discrétisations particulaires
-  - SACHANT QUE
-  - POUR CELA On se ramène à un problème 
-    - POUR CELA Développement d'un schéma avec projection intermédiaire sur grille
-    - SACHANT QUE 
+  - SACHANT QUE: Tous les membres n'ont pas les mêmes discrétisations particulaires
+  - POUR CELA: On traite d'abord le cas de membre avec la meme discrétization, on montre le problème dans le cas général
+    - SACHANT QUE l'on peut d'une part changer totalement la disposition particulaire
+      - POUR CELA On utilise des méthodes de redistribution pour remailler
+    - SACHANT QUE l'on ne veut pas changer la position des particules et que l'on souhaite proposer une mise à jour purement particulaire
+      - POUR CELA on développe une méthode de mise à jour des intensités
+        - SACHANT que l'on peut évaluer les champs analysés, on peut mettre en place des méthodes d'approximation
+          - POUR CELA On décrit une méthode de quadratude et une méthode de regression pour approcher les solutions
+
 <!-- 
 - Construction de filtres permettant la correction des états définit par des discrétisations particulaires
   - SACHANT QUE
