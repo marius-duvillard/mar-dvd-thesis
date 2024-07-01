@@ -1,0 +1,50 @@
+% !TEX root = main.tex
+
+\section{Conservation des momoments particulaires du schéma de remaillage}~\label{appendix:moment_conservation}
+
+Le $m$-ième moment d'une distribution de particules est défini comme la quantité $\sum_{p} z_p^{\alpha} \bm{U}_p$.
+
+Tout d'abord, nous voyons que la partition de l'unité est nécessaire
+
+\begin{equation}~\label{eq
+    }
+    \sum_{I \in \Lambda} W\left(\frac{z - z_I}{\ell_I}\right) = 1 ,\quad z \in \Omega
+\end{equation}~en raison de l'arrangement final des particules $\mathcal{P'}$ sur une grille de taille $d_p$, cela conduit à la propriété suivante
+
+\begin{equation}~\label{eq
+    }
+    \sum_{p'\in\mathcal P'} W\left(\frac{z - z_{p'}}{\ell_I}\right) = \frac{V_I}{V_p'},\quad z \in \Omega.
+\end{equation}.
+
+L'attention doit être concentrée sur la frontière. L'extension du domaine avec des particules ou des nœuds "fantômes" permet de vérifier les propriétés à l'intérieur de $\Omega$.
+
+Cette propriété est la condition nécessaire pour la conservation du premier moment. Principalement pour l'affectation \ref{assigment}
+
+\begin{gather}
+    \begin{align*}
+        \sum_{I \in \Lambda} \bm u_I V_I & = \sum_{p \in \Lambda} \bm U_p W \left(\frac{z_I - z_p}{\ell_I} \right)                                                            & \
+                                         & = \sum_{p \in \mathcal P} \bm U_p \sum_{I \in \Lambda} W \left(\frac{z_I - z_p}{\ell_I} \right) = \sum_{p \in \mathcal P} \bm U_p. &
+    \end{align*}
+\end{gather}~en utilisant la propriété \eqref{eq
+}. Deuxièmement, pour le processus d'interpolation \ref{interpolation}
+
+\begin{gather}
+    \begin{align*}
+        \sum_{p' \in \mathcal P'} \bm U_{p'} = \sum_{p' \in \mathcal P'} \bm u_g(z_{p'}) V_{p'} & = \sum_{p' \in \mathcal P'} V_{p'} \sum_{I \in \Lambda} \bm u_I W \left(\frac{z_{p'} - z_I}{\ell_I}\right)                    & \
+                                                                                                & = \sum_{I \in \Lambda} \bm u_I V_{p'}\sum_{p' \in \mathcal P'} W \left(\frac{z_{p'} - z_I}{\ell_I}\right)                     & \
+                                                                                                & = \sum_{I \in \Lambda} \frac{V_I}{V_p'} V_{p'} \bm u_I = \sum_{I \in \Lambda} \bm u_I V_{I} = \sum_{p \in \mathcal P} \bm U_p & ,
+    \end{align*}
+\end{gather}~en utilisant l'équation \eqref{eq
+}.
+
+On peut montrer de plus que si pour $1 \leq |\alpha| \leq m - 1$, $W$ satisfait,
+
+\begin{equation}
+    \sum_{I \in \Lambda} {(\bm z-\bm z_I)}^\alpha W \left(\frac{\bm z - \bm z_I}{\ell_I} \right) = 0, \label{eq
+    }
+\end{equation}
+
+La procédure de regrillage sera ordonnée à $m$. De manière équivalente, l'égalité précédente conduit, pour $0 \leq |\alpha| \leq m - 1$, à
+\begin{equation*}
+    \sum_{I \in \Lambda} \bm z_I^\alpha W \left(\frac{\bm z_p - \bm z_I}{\ell_I} \right) = \bm z^\alpha,
+\end{equation*}~obtenue en développant ${(\bm z-\bm z_q)}^\alpha$ et en utilisant une récurrence sur les ordres précédents. Cela signifie que l'interpolation est exacte pour les polynômes de degrés inférieurs ou égaux à $m-1$ ou que le moment d'ordre $m-1$ est conservé.
