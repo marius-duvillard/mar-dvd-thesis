@@ -32,7 +32,7 @@
 \usetheme{CEA2023}
 \setlength{\columnsep}{0.05cm}
 \title[Café Thésard]
-{Marius Duvillard - Construction du jumeau numérique du procédé de mélange/broyage des combustibles par assimilation de données} %optional
+{Construction du jumeau numérique du procédé de mélange/broyage des combustibles par assimilation de données} %optional
 \subtitle{Café Thésard 28/06/2024}
 \date[28-06-2024] %optional
 {28 juin 2024}
@@ -245,7 +245,7 @@ Jérémie Bruyelle \inst{1} \texttt{(\small jeremie.bruyelle\myat cea.fr)}\\
 \begin{frame}{Filtre de Kalman d'Ensemble (EnKF)}
     \begin{itemize}
         \item Extension du \textbf{Filtre de Kalman} avec un \textbf{ensemble} de membres pour estimer et propager l'état et son incertitude~\cite{evensen_sequential_1994}
-        \item Adapté à un espace d'état \textbf{non-linéaire} et \textbf{de grande dimension}
+        \item Adapté à des systèmes de \textbf{grande dimension} et un modèle d'évolution \textbf{non-linéaire}.
     \end{itemize}
     \vspace{-0.4cm}
     \begin{columns}[t]
@@ -653,7 +653,7 @@ Jérémie Bruyelle \inst{1} \texttt{(\small jeremie.bruyelle\myat cea.fr)}\\
     Pour le membre $i$, on cherche à réduire l'écart entre les \textbf{prédictions} et les \textbf{observations}:
     \begin{equation*}
         w_i = \argmin_{w \in \mathcal V} \left\|y - \mathcal H(\mathcal{P}_i^f \mid w_i) \right\|^2_{R^{-1}} \visible<2->{\textcolor{ceared}{+ R(w)}}, \quad i = 1, \dots, N_{\text{ens}}
-    \end{equation*}with $\mathcal V$ l'espace de recherche, $\mathcal H(\mathcal{P}_i^f \mid w_i)$ l'opérateur d'observation conditionné par $w_i$\\
+    \end{equation*}avec $\mathcal V$ l'espace de recherche, $\mathcal H(\mathcal{P}_i^f \mid w_i)$ l'opérateur d'observation conditionné par $w_i$\\
     \vfill
     \visible<2->{\textcolor{ceared}{$R(w)$} est un terme de régularisation (éviter un mauvais conditionnement ou la non unicité)\\}
     \vfill
@@ -667,7 +667,7 @@ Jérémie Bruyelle \inst{1} \texttt{(\small jeremie.bruyelle\myat cea.fr)}\\
 \begin{frame}{Formulation d'ordre réduit}
 
     On cherche le champ d'alignement comme la combinaison linéaire des champs de vitesse des membres,\\
-    find $\bm a_i \in \mathbb{R}^{N_{\text{ens}}}$ \\
+    On cherche $\bm a_i \in \mathbb{R}^{N_{\text{ens}}}$ \\
     \begin{equation*}
         w_i = \sum_{j=1}^{N_{\text{ens}}} a_{i,j} v_j (x) = \sum_{j=1}^{N_{\text{ens}}} a^i_j \left(\sum_{p \in \mathcal P_j} \Gamma_p^f \vec{V}(x - x_p) + v_{j,BC} \right)
     \end{equation*}

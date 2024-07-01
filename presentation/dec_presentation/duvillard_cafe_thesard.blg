@@ -1,15 +1,15 @@
 [0] Config.pm:307> INFO - This is Biber 2.17
-[0] Config.pm:310> INFO - Logfile is 'duvillard_cafe_thesard.blg'
-[158] biber-MSWIN32:340> INFO - === 
-[235] Biber.pm:418> INFO - Reading 'duvillard_cafe_thesard.bcf'
-[404] Biber.pm:972> INFO - Found 5 citekeys in bib section 0
-[424] Biber.pm:4383> INFO - Processing section 0
-[440] Biber.pm:4574> INFO - Looking for bibtex file '../../conference/biblio.bib' for section 0
-[531] bibtex.pm:1713> INFO - LaTeX decoding ...
-[557] bibtex.pm:1518> INFO - Found BibTeX data source '../../conference/biblio.bib'
-[670] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[670] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[670] Biber.pm:4203> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'en-US'
-[670] Biber.pm:4209> INFO - No sort tailoring available for locale 'en-US'
-[678] bbl.pm:654> INFO - Writing 'duvillard_cafe_thesard.bbl' with encoding 'UTF-8'
-[684] bbl.pm:757> INFO - Output to duvillard_cafe_thesard.bbl
+[2] Config.pm:310> INFO - Logfile is 'duvillard_cafe_thesard.blg'
+[426] biber-MSWIN32:340> INFO - === 
+[559] Biber.pm:418> INFO - Reading 'duvillard_cafe_thesard.bcf'
+[830] Biber.pm:972> INFO - Found 5 citekeys in bib section 0
+[891] Biber.pm:4383> INFO - Processing section 0
+[945] Biber.pm:4574> INFO - Looking for bibtex file '../../conference/biblio.bib' for section 0
+[1082] bibtex.pm:1713> INFO - LaTeX decoding ...
+[1144] bibtex.pm:1518> INFO - Found BibTeX data source '../../conference/biblio.bib'
+[1436] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1436] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1436] Biber.pm:4203> INFO - Sorting list 'nyt/global//global/global' of type 'entry' with template 'nyt' and locale 'en-US'
+[1436] Biber.pm:4209> INFO - No sort tailoring available for locale 'en-US'
+[1449] bbl.pm:654> INFO - Writing 'duvillard_cafe_thesard.bbl' with encoding 'UTF-8'
+[1454] bbl.pm:757> INFO - Output to duvillard_cafe_thesard.bbl

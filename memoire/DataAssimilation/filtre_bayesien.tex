@@ -309,7 +309,7 @@ L'ensemble définit la covariance entre les états et les observations $\Cov \bm
 Cette implémentation sans matrice d'observation repose sur l'approximation par la méthode des sécantes $\mathcal{H}(\state^i_f - \overline{\state}_f) \approx \predi - \overline{\obs}f$.
 Ensuite, la prévision est mise à jour vers un ensemble a posteriori ${[\state^i_a]}{i=1}^{N}$ tel que
 
-\begin{equation} \label{enkf_formula}
+\begin{equation} \label{eq:enkf_formula}
     \mstate_a = \mstate_f + \tilde{\bm{K}} ( \mdata - \mpred),
 \end{equation}
 où ${[\mdata]}^i = \obs + \bm{\varepsilon}^i$ est l'observation perturbée avec $\bm{\varepsilon}^i \sim \mathcal{N}(\bm{0}, \bm R) $, $\tilde{\bm{K}}$ est la matrice de gain de Kalman ensembliste et $( \mdata - \mpred)$ est le terme d'innovation.

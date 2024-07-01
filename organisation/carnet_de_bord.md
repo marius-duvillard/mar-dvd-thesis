@@ -491,6 +491,19 @@ Bootstrapping for confidence intervals
 - [ ] Faire le CV européen (soir)
 - [ ] Faire une assimilation avec le filtre align en faisant varier lambda --> pour montrer le choix de l'hyperparamètre. Pour cela faire un 
 - [ ] Rajouter l'erreur sur les centre de tourbillon dans le benchmark! --> les sauvegarde sont bien faite.
+
+# 28-06-2024
+
+- Présentation au café thésard. Découverte d'un mémoire de thèse sur filtre EnKF et méthode vortex. Toujours une définition de l'état inadéquat.
+- problème de convergence sur le align --> voir pour de la régularisation ?, c'est peut être ça qui explique la lenteur. Donc pour l'instant attention aux résultats du dossier align ou align_remesh
+- Donc on lance la calibration du lambda
+- voir la dépendance au bruit de mesure
+
+# 01/07/2024
+
+- Reprise de la partie Remesh EnKF ce matin
+- [ ] Revoir le filtre part-EnKF --> voir le comportement, pour ça marche bien ?
+- [ ] Pour l'étude paramétrique faire la fonction qui compare l'erreur de position --> faire une fonction d'agglomération à chaque fin d'assimilation ?
  
 ## A FAIRE
 
