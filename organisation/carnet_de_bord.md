@@ -499,12 +499,20 @@ Bootstrapping for confidence intervals
 - Donc on lance la calibration du lambda
 - voir la dépendance au bruit de mesure
 
-# 01/07/2024
+# 01-07-2024
 
 - Reprise de la partie Remesh EnKF ce matin
 - [ ] Revoir le filtre part-EnKF --> voir le comportement, pour ça marche bien ?
 - [ ] Pour l'étude paramétrique faire la fonction qui compare l'erreur de position --> faire une fonction d'agglomération à chaque fin d'assimilation ?
  
+# 03-07-2024
+
+- [ ] finir le CV, europass ?
+- [ ] Faire test en changeant sigma
+- [ ] Faire test en changeant lambda --> reprendre ancien script
+- [ ] Avancer sur la partie PartEnKF --> méthode, regression, algo.
+- [ ] refaire lcurve avec un fichier de paramètre en entrée
+- [ ] 
 ## A FAIRE
 
 - Redaction
