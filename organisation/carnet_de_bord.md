@@ -507,12 +507,18 @@ Bootstrapping for confidence intervals
  
 # 03-07-2024
 
-- [ ] finir le CV, europass ?
+- [x] finir le CV, europass ?
+- [x] faire cover letter
 - [ ] Faire test en changeant sigma
 - [ ] Faire test en changeant lambda --> reprendre ancien script
 - [ ] Avancer sur la partie PartEnKF --> méthode, regression, algo.
 - [ ] refaire lcurve avec un fichier de paramètre en entrée
-- [ ] 
+
+# 04-07-2024
+
+- [ ] relire CV et cover letter (9-10h)
+- [ ] revoir l'entete du lcurve (10-11h)
+- [ ] faire partie part-enkf (11h-18h)
 ## A FAIRE
 
 - Redaction

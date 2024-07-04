@@ -74,7 +74,7 @@ The Remesh-Filter update scheme is sum-up in the algorithm~\ref{algo:remesh_enkf
 
 The goal of the Particles-EnKF formulation is to define the analysis on the particle discretization as much as possible. In this scheme, we keep the particle positions after the forward is unchanged. The change concern the particle intensities. This way, the Lagrangian representation of the solution at the end of the forward step is kept the same as much as possible .
 
-The fields, defined in equation \eqref{eq:part_enkf_eq}, are approximated on the previous discretization such that $Z^a_i = Z_i^f$ to avoid exponential growth of the number of particles.
+The fields, defined in equation \eqref{eq:part_enkf_eq}, are approximated on the previous discretization such that $Z^a_i = Z_i^f = \{\bm z\}_{i=1}^{N_i}$ to avoid exponential growth of the number of particles.
 
 
 By this way, the analyzed field is approximated by $\hat{\bm u}^a_i$ such as

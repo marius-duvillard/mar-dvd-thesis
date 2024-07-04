@@ -20,7 +20,13 @@ De cette manière la mise à jour est déterminé comme
     \mstate_a = \mstate_f + \mstate_f \Fcorr, \quad \Fcorr = \frac{1}{\sqrt{N-1}} \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred).
 \end{equation*}.
 
-Où la matrice de correction $\Fcorr \in $ est indépendante de la discrétisation.
+Où la matrice de correction $\Fcorr \in \mathbb{R}^{N\times N}$ est indépendante de la discrétisation.
+
+De plus, en utilisant la formule de Sherman-Morrison-Woodbury (SMW)~\cite{SMW}, la matrice peut être calculé à l'aide uniquement de l'inversion de la matrice $\bm R$ et d'une matrice de taille $N$
+
+\begin{equation*}
+    \Fcorr = \frac{1}{\sqrt{N - 1}} {(\bm I_N + \annomY_f^T\bm R^{-1}\annomY_f)}^{-1}\annomY_f^T \bm R^{-1} (\mdata - \mpred),
+\end{equation*}ce qui devient avantageux dans le cas où $\bm R$ est une matrice diagonale et $N < N_{\text{obs}}$.
 
 Cette indépendance est possible par la linéarisation de l'opérateur d'observation et l'approche par rang faible. D'autres versions du filtre EnKF offre les mêmes propriétés. C'est le cas du \textit{ensemble transform Kalman filter} (ETKF, \cite{Hunt2007}). En effet, ce filtres travaillent directement dans l'espace de perturbation.
 
@@ -28,9 +34,9 @@ Travailler dans l'espace de perturbation des observations $\bm Y^T$ permet d'év
 
 L'étape d'analyse est donc une combinaison qui ne dépend que des observations $\bm y$ (perturbé pour le filtre stochastique), les prédictions de l'ensemble $\left[\mathcal{H}(x^i_f)\right]_{i=1}^{N}$, et la matrice de covariance d'erreur $R^{1}$. De cette manière, pour chaque membre $i$, le champ analysé $\fstate_i^a$ peut être déterminé en tout point de l'espace $\bm x \in \omega$ grâce aux champs prédits $\fstate_j^f$ tel que
 
-\begin{equation*}
+\begin{equation}
     \fstate_i^a(\bx) =\fstate_i^f(\bx) + \sum_{j=1}^{N} F_{ji} \fstate_j ^f(\bx), \quad i = 1, \dots, N.
-\end{equation*}
+\end{equation}
 
 \subsection{Mise à jour comme solution particulaire}
 
@@ -47,7 +53,7 @@ Dans un premier temps, nous supposons que les positions de particules sont les m
 En utilisant la linéarité de la décomposition par rapport aux intensités $\Gamma^f_{p}$, l'analyse pour chaque membre peut directement s'exprimer pour chaque membre en appliquant la mise à jour directement sur les intensités. En notant $\bm \Gamma$ la matrice dont la i-ème colonne est $(\Gamma_{1, i},...\Gamma_{N_p, i})$, la mise à jour est directement exprimé comme
 
 \begin{equation*}
-    \bm \Gamma^a = \bm \Gamma + \bm \Gamma \bm F.
+    \bm \Gamma^a = \bm \Gamma + \bm \Gamma \Fcorr.
 \end{equation*}
 
 Cependant, dans le cas général les positions de particules diffèrent d'un membre à l'autre. Dans ce cas, en utilisant la décomposition particulaire des champs prédit $\mP_i^f$, la solution analysée va s'exprime comme
@@ -55,7 +61,7 @@ Cependant, dans le cas général les positions de particules diffèrent d'un mem
 \begin{eqnarray*}
     \fstate_i^a(\bx) &=& \sum_{p \in \mP_i^f}\Gamma^f_p \phi_{\varepsilon}(\bx - \bx_p) + \sum_{j=1}^{N} F_{ji}  \sum_{p' \in \mP_j^f}\Gamma^f_{p'} \phi_{\varepsilon}(\bx - \bx_{p'}) \\
     &=& \sum_{p \in \mP_i^f}\left[(1 + F_{ii})\Gamma^f_p \phi_{\varepsilon}(\bx - \bx_{p})\right]   + \sum_{j\neq i} F_{ji} \Gamma^f_{p'} \phi_{\varepsilon}(\bx - \bx_{p'})\\
-    &=& \sum_{p \in \mP_i^f} \Gamma^a_p \phi_{\varepsilon}(\bx - \bx_p).
+    &=& \sum_{j=1}^{N} \sum_{p \in \mP_j^f} \Gamma^a_p \phi_{\varepsilon}(\bx - \bx_p).
 \end{eqnarray*}
 $\fstate_i^a$ est bien une solution particulaire.
 
@@ -86,7 +92,7 @@ Cette mise à jour ne peut donc pas être mise en pratique. Il est nécessaire d
 
 Cette méthode consiste à revenir à un ensemble de particules définis sur un support commun. En remaillant régulièrement, nous pouvons contrôler et limiter le nombre de particules, assurant ainsi une représentation plus homogène et gérable de la solution. Le remaillage permet de maintenir une distribution équilibrée des particules, tout en préservant les caractéristiques essentielles de la solution originale.
 
-\subsubsection*{Méthode de remaillage pour obtenir un support de particule commun}
+\subsubsection*{Méthode de remaillage pour obtenir un support de particule commun}~\label{sec:remesh}
 
 La méthode de remaillage est une technique essentielle dans notre approche pour maintenir un support de particule uniforme parmi tous les membres de la solution. À l'origine développée pour atténuer les distorsions dans la distribution des particules, cette méthode se fonde sur un schéma de redistribution sur une grille régulière de particules, utilisant des opérateurs de projection et d'interpolation. Ce processus permet de passer d'une représentation lagrangienne à une représentation eulérienne, puis ensuite revenir à une représentation lagrangienne.
 
@@ -202,14 +208,42 @@ Les différentes étapes sont résumés dans l'algorithm~\ref{algo:remesh_enkf}
 
 
 On remarque que tous les opérateurs que nous avons définis sont linéaire. Ainsi, effectuer la mise à jour sur la grille comme dans l'algorithme, ou bien sur les nouvelles particules comme dans l'équation~\eqref{eq:enkf_formula_same_part} est équivalent car la mise à jour lors de l'analyse, l'opération d'interpolation ainsi que la projection sont linéaires par rapport aux intensités.
-Cependant, l'ordre de l'algorithme actuel permet de réaliser le minimum d'opération sur les espaces de lus faible dimension.
-
+Cependant, l'ordre de l'algorithme actuel permet de réaliser le minimum d'opération sur les espaces de plus faible dimension, c'est à dire sur la grille de projection.
 
 \subsection{Part-EnKF : Mise à des intensités}
 
+L'adaptation précédente du filtre EnKF permet de contrôler le nombre de particule lors de l'analyse en regénérant une nouvelle distribution de particules. D'une certaine manière, elle consiste à projeter la solution sur une discrétisation eulérienne pour ensuite appliquée l'analyse de manière classique.
+Dans cette partie, nous souhaitons pouvoir appliquer la mise à jour à partir uniquement des discrétisations particulaires et en conservant la distribution de particule obtenue au moment de l'assimilation. L'objectif est aussi de pouvoir traiter le cas de modèle où la génération d'une nouvelle discrétisation de particules par redistribution est impossible.
+Ainis, nous garderons les positions à la fin de la propagation inchangée et modifions uniquement les intensités de particules.
+
+Ainsi, les champ analysés $u_i^a$ définis comme combinaison de l'ensemble des particules de tous les membres, doivent être approché sur le support de chaque membre
+
+\begin{eqnarray*}
+    \fstate_i^a(\bx) =  \sum_{i=1}^{N} \sum_{p \in \mP_j^f} \Gamma^a_p \phi_{\varepsilon}(\bx - \bx_p)\approx \sum _{p \in \mP_i^f}
+\end{eqnarray*}
+
+\subsubsection{Approximer particulaire d'un champs}
+
+Les coefficients de champs Le champ analysés $\fstate_i^a(\bx)$
 % Dire que ici on souhaite pouvoir approcher la solution avec uniquement les particules du membre afin d'éviter l'accroissement excessif du nombre de particules. La méthode consiste à trouver les bonnes intensité. En agissant ainsi on souhaite présenter une méthode qui intervient directement sur les particules sans jamais changer leur configuration.
 
 \subsection{Complexité}
+
+Avant d'évaluer la précision des deux filtres, nous comparons d'abord leur complexité computationnelle.
+
+Indépendemment du cas, il est nécessaire de déterminer la matrice de correction $\Fcorr$. Dans le cas où $\bm R$ est une matrice diagonal, le calcul de $\Fcorr$ nécessite de pouvoir inverser une matrice symétrique définie positive de taille $N\timesN$ soit de l'ordre de $\mathcal(N^3)$.
+
+Dans le filtre Remesh-EnKF, la complexité est dominée par l'étape de remaillage pour l'ensemble de taille $N$. L'analyse se réduit à une multiplication de matrices.
+
+Le processus de remaillage, décrit dans la section \ref{sec:remesh}, nécessite de redistribuer les intensité des particules vers une nouvelle grille de particules.
+
+
+
+
+
+
+
+
 
 
 

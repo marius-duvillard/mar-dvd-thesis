@@ -134,7 +134,7 @@ We start by analyzing the assimilation error over time. Figure \ref{fig:assim_ti
 
 \newpage
 
-\subsubsection{error with respect to assimilation parameters}
+\subsubsection{Error with respect to assimilation parameters}
 We also assess the performances of the different filters by evaluating the convergence of the error with respect to the assimilation parameters.
 
 We observe the convergence rate concerning data assimilation parameters: The observation precision, which is \(1/\sigma_{\text{obs}}^2\), the number of observations \(N_{\text{obs}}\), the number of assimilation step \(N_{\text{assim}}\).
@@ -204,7 +204,7 @@ Finally, we analyze the error convergence with respect to the number of observat
 
 
 
-\subsubsection{error with respect to simulation parameters}
+\subsubsection{Error with respect to simulation parameters}
 
 To better understand the differences, let us now turn to the evolution of the error with respect to particle discretization parameters. For the Part-EnKF, remember that each member has its own particle discretization that flows according to the dipole direction and velocity. Each analyzed member's solutions are then respectively projected on their member discretization. However, this scheme could introduce different sources of error. First, due to particle irregularity in the particle distribution, severe approximation was introduced, which led to errors between the analyzed and the approximated solution. Even more seriously, certain parts of the solution may vanish as no particle in the support can interpolate it. This effect could be appreciated on several samples of the ensemble where the analysis is projected on a non-conforming particle discretization. For instance, we analyzed the first assimilation step of one member for the different filters. If the analyzed field is known over the space domain, we observed in Figure~\ref{fig:assim_member} that the Remesh-Filter and Part-Grid-EnKF are only able to interpolate the entire solution. The Part-EnKF is not entirely able to interpolate the solution with the forecast member discretization.
 Moreover, some distortions observed in the particle distribution are not in line with the analyzed field flow. These remarks are more critical when the forecast step is longer, leading to high errors, or when the size of the support is lower. Moreover, the approximation of Section~\ref{regressionOperator} will introduce the approximation error function of the size of the particles. For instance, the particle will not conserve the total circulation due to a quadrature error, which is the opposite case for the Remesh-EnKF filter.
