@@ -106,7 +106,7 @@ La fonction moyenne $\langle \bm{u} \rangle$ est ensuite utilisée pour approxim
 
 Dans un second temps, le domaine d'origine $\Omega$ est subdivisé avec $N_p$ sous-domaines $\Omega_p$ associés à une particule Lagrangienne à l'emplacement $z_p \in \Omega_p$. Nous notons $V_p$ le volume de $\Omega_p$. Cette discrétisation est ensuite utilisée pour approximer la fonction moyenne de telle sorte que
 
-\begin{eqnarray*}~\label{part_approx}
+\begin{eqnarray*}~\label{eq:part_approx}
     \langle \bm{u}(\bm{z}) \rangle &=& \sum_p \int_{\Omega_p} \bm{u}(\bm{z'}) \phi_\varepsilon(\bm{z}-\bm{z'}) d\bm{z'} \\
     &\approx& \sum_p \bm{u}(\bm{z}_p) V_p \phi_\varepsilon (\bm{z}-\bm{z}_p) \\
     &\approx& \sum_p \bm{U}_p \phi_\varepsilon (\bm{z}-\bm{z}_p).
@@ -128,6 +128,8 @@ Généralement, un terme additionnel est introduit lorsque le champ est évalué
 \begin{equation*}
     \nabla \bm{u}(\bm{z}_p) = \sum_q (\bm{U}_q - \bm{U}_p) \nabla \phi_\varepsilon (\bm{z_q}-\bm{z}_p)
 \end{equation*}, où $\sum_q \bm{U}_p \nabla \phi_\varepsilon (\bm{z_q}-\bm{z}_p)$ est nul par propriété de localisation du noyau $\phi_\varepsilon$.
+
+% Finalement dire qu'il y a donc des équations qui permettent de définir l'évolution des intensités ainsi que des positions.
 
 \subsubsection{Exemple de fonctions de noyau}
 
@@ -227,7 +229,7 @@ Finalement, les équations de la dynamique sont intégrées dans le temps géné
 \subsection{Material Point Method (MPM)}
 
 La méthode MPM est une version de FLIP pour résoudre le problème de mécanique des solides.
-Elle consiste, comme en élément finis, à résoudre le problème aux valeurs sous sa forme faible, en utilisant conjointement deux discrétisations, une grille et des particules.
+Elle consiste, comme en élément finis, à résoudre le problème aux valeurs sous sa forme faible, en utilisant conjointement deux discrétisations, une grille et des particules. En cela elle est une méthode qui utilise à la fois une description lagrangienne et eulérienne.
 
 Le problème aux conditions limites, sous sa forme forte, se composent des équations d'équilibre, des lois matériaux, de l'équation cinématiqu et des conditions limites et initiales donnant
 
@@ -383,58 +385,64 @@ Afin de facilité le développement de nouveaux filtres, une autre méthode part
 La méthode Vortex (VM) est une méthode particulaire utilisé pour résoudre  dans le cas d'écoulements incompressibles~\cite{Cottet_Koumoutsakos_2000}. Elle a été pour la première fois développé indépendemment par Prager~\cite{prager1928druckverteilung} et Rosenhead~\cite{rosenhead1931formation}. Elle se base sur la discrétisation du champ de vorticité par un ensemble de particules, et résoud la formulation vorticité-vitesse des équations de Navier-Stokes
 
 \begin{eqnarray*}
-    \frac{\partial \bm \omega}{\partial t} + (\bm{u} \cdot \nabla) \bm \omega - \nu \Delta \bm \omega & = 0, \\
-    \nabla \cdot \bm u  & = 0,
-\end{eqnarray*}avec $\omega$ pour la vorticité, $\bm{u}$ la vitesse et $\nu$ pour la viscosité.
+    \frac{\partial \bm \omega}{\partial t} + (\bm{u} \cdot \nabla) \bm \omega & = &(\bm \omega \cdot \nabla) \bm u + \nu \Delta \bm \omega, \\
+    \Delta u  & =&  -\nabla \times \bm \omega,
+\end{eqnarray*}où $\bm{u}$ la vitesse, $\omega= \nabla \times \bm u$ le champ de tourbillon, et $\nu$ pour la viscosité.
 
-Dans le cas d'un écoulement bi-dimentionnel, la vorticité définie comme $\nabla \wedge v$ peut être défini comme un scalaire selon la troisième coordonnée. En particulier dans un repère cartésien $\omega = \frac{\partial v_y}{\partial x} - \frac{\partial v_x}{\partial y}$.
+Les formes lagrangiennes des équations précédentes deviennent
 
-Le champ de vorticité est discrétisé à l'aide d'un ensemble de particules $p$ défini à une position $\bm z_p$, une quantité de circulation locale $\Gamma_p$ qui qui est par définition la circulation autour de la particule : $\Gamma_p = \oint_{\partial \Omega_p} \bm v = \int_{\Omega_p} \omega dS$. Ainsi, pour tout point $z \in \Omega \subset \mathbb R^2$ la vorticité peut être exprimée comme
+\begin{eqnarray*}
+    \frac{d \bx_p}{dt} = \bm u(\bx_p, t) \\
+    \frac{d\bm \omega}{dt} = - [\nabla \times \bm u (\bx_p, t)]\bm \omega_p + \nu \Delta \bm \omega(\bx_p, t)
+\end{eqnarray*}
+
+Dans le cas d'un écoulement bi-dimentionnelle, champ tourbillon est définie comme un champ scalaire porté par la troisième dimension. En particulier dans un repère cartésien $\omega = \frac{\partial v_y}{\partial x} - \frac{\partial v_x}{\partial y}$. De plus le terme d'étirement disparaît $(\bm \omega \cdot \nabla) \bm u$, ainsi les équations lagrangiennes deviennent
+
+\begin{eqnarray*}
+    \frac{d \bx_p}{dt} = \bm u(\bx_p, t) \\
+    \frac{d\omega}{dt} = \nu \Delta \omega(\bx_p, t)
+\end{eqnarray*}
+
+Le champ de vorticité est discrétisé à l'aide d'un ensemble de particules $p$ défini à une position $\bm z_p$, une quantité de circulation locale $\Gamma_p$ qui est par définition la circulation autour de la particule : $\Gamma_p = \oint_{\partial \Omega_p} \bm v = \int_{\Omega_p} \omega dS$. Ainsi, pour tout point $z \in \Omega \subset \mathbb R^2$ la vorticité peut être exprimée comme
 
 \begin{equation*}
     \omega(\bm z, t) = \sum_{i=1}^{N_p} \Gamma_p(t) \phi_\varepsilon(\bm z - \bm z_p(t)),
 \end{equation*}où $\phi_\varepsilon$ est le noyau associé à la particule avec une distance de lissage $\varepsilon$.
 
-Dans le cas non visqueux, c'est à dire $\nu = 0$, la position des particules $\bm z_p$ au temps $t$ est obtenue en résolvant l'équation
-
-\begin{equation*}
-    \frac{d\bm z_p(t)}{dt} = \bm u (\bm x_p(t), t).
-\end{equation*}
-
-D'auter part, la circulation restant constante au cours du temps sur une courbe fermée, $\Gamma_p$ satisfait en 2D
-
-\begin{equation*}
-    \frac{d\bm \Gamma_p(t)}{dt} = 0.
-\end{equation*}
-
 La vitesse $\bm u$ peut être obtenue en résolvant l'équation de Poisson suivante
 
 \begin{equation*}~\label{eq:poisson}
-    \lambda \bm u = - \nabla \wedge \omega.
+    \lambda \bm u = - \nabla \times \omega.
 \end{equation*}
 
 Finalement, par une représentation intégrale et en choisissant $\phi= \delta$, on obtient dans le cas 2D l'équation de Biot-Savart suivante
 
 \begin{equation*}
-    \bm u(\bm z) = \sum_p \frac{\Gamma_p}{2\pi}  \bm k \wedge \frac{\bm z - \bm z'}{\|\bm z - \bm z'\|^2},
+    \bm u(\bm z) = \sum_p \frac{\Gamma_p}{2\pi} \frac{(\bm z - \bm z_p)\times \bm k}{\|\bm z - \bm z_p\|^2},
 \end{equation*}où $\bm k$ est le vecteur unitaire normal au plan.
 
-En pratique, le choix d'un noyau en Dirac rend ainsi impossible le calcul de la vitesse sur la discrétization particulaire à cause du dénominateur. En choisissant un noyau de type gaussien de taille $\varepsilon$ on obtient alors
+En pratique, le choix d'un noyau en Dirac rend ainsi impossible le calcul de la vitesse sur la discrétization particulaire à cause du dénominateur en ${\|\bm z - \bm z'\|^2}$. En choisissant un noyau de type gaussien de taille $\varepsilon$ on obtient alors
 
 \begin{equation*}
-    \bm u(\bm z) = \sum_p \frac{\Gamma_p}{2\pi r^2} \bm k \wedge (\bm z - \bm z')(1 - \exp(-r^2 / \varepsilon^2)), \quad r = \|\bm z - \bm z'\|.
+    \bm u(\bm z) = \sum_p \frac{\Gamma_p(1 - \exp(-r^2 / \varepsilon^2)) }{2\pi r^2} (\bm z - \bm z')\times \bm k, \quad r = \|\bm z - \bm z'\|.
 \end{equation*}
+
+L'idée d'utiliser un noyau de lissage est en cela assez proche de ce qui est fait avec la méthode SPH.
 
 Afin de tenir compte de la diffusion, une approche par fractionnement est généralement utilisé. Introduite pour la première fois par Chorin~\cite{chorin_discretization_1973}, elle permet dans le cas de problème où le terme de transport est dominant, de traiter séparemment et successivement les termes d'advection et de diffusion.
 
 Ainsi après avoir mis à jour la position des particules sans tenir compte de la viscosité, l'équation suivante est résolue
 
 \begin{equation*}
-    \frac{d\bm omega_p}{dt} = \nu \Lambda \omega(\bm x_p).
+    \frac{d\bm omega_p}{dt} = \nu \Lambda \omega(\bx_p).
 \end{equation*}
 
-Pour se faire, deux méthodes sont principalement utilisées : soit la méthode par marche aléatoire introduite dans~\cite{chorin_discretization_1973} ou échange d'intensité introduite par~\cite{1989MaCom..53..485D}.
-Dans le premier cas, la position de chaque particule est perturbée avec un vecteur de variables indépendantes tirées selon une distribution gaussienne de moyenne zero et d'écart-type $2\nu \Delta t$. Dans le second cas, l'opérateur différentiel est approximé à l'aide de la discrétisation comme il est fait dans la méthode SPH.
+Pour se faire, deux méthodes sont principalement utilisées : soit la méthode par marche aléatoire introduite dans~\cite{chorin_discretization_1973} ou par échange d'intensité introduite par~\cite{1989MaCom..53..485D}.
+Dans le premier cas, la position de chaque particule est perturbée avec un vecteur de variables indépendantes tirées selon une distribution gaussienne de moyenne zero et d'écart-type $2\nu \Delta t$. Dans le second cas, l'opérateur différentiel est approximé à l'aide de la discrétisation comme il est fait dans la méthode SPH. Dans ce dernier cas l'intensité évolue comme
+
+\begin{equation*}
+    \frac{d \omega_p}{dt} = \nu \varepsilon^{-2} \sum_q V_q [\omega_q - \omega_p] \phi_\varepsilon(\bx_p - \bx_q).
+\end{equation*}
 
 \subsection{Vortex-In-Cell, VIC}
 

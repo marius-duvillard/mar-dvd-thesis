@@ -519,6 +519,12 @@ Bootstrapping for confidence intervals
 - [ ] relire CV et cover letter (9-10h)
 - [ ] revoir l'entete du lcurve (10-11h)
 - [ ] faire partie part-enkf (11h-18h)
+
+# 08-07-2024
+
+- Avancé sur la partie Part-EnKF. Faire le chapeau en reprenant l'introduction de l'article
+- Reprendre Vortex in Cell et MPM en lisant livre Olivier. Texte MPM à nettoyer.
+- Analyser les résutlats de calibration du lambda.
 ## A FAIRE
 
 - Redaction

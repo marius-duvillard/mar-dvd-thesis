@@ -2,10 +2,24 @@
 
 \section{Développement de méthodes permettant l'adaptation du filtre de Kalman d'ensemble avec des simulations sans maillage}
 
+---------------
 \subsection{Objectif}
-Le filtre de Kalman présenté en Section~\ref*{sec:enkf} est un filtre séquentiel adéquat pour appliquer des méthodes d'assimilation pour des modèles de grande dimension et non-linéaire. Il consiste à mettre à jour un ensemble d'état en déterminant un gain de Kalman pour combiner l'état prédit et un terme d'innovation fonction de l'erreur de prédiction. En particulier ce gain va dépendre des statistiques du champ.
+Le filtre de Kalman présenté en Section~\ref*{sec:enkf} est un filtre séquentiel adéquat pour appliquer des méthodes d'assimilation pour des modèles de grande dimension et non-linéaire. Il consiste à mettre à jour un ensemble d'état en déterminant un gain de Kalman pour combiner l'état prédit et un terme d'innovation fonction de l'erreur de prédiction. Lorsque l'état est défini à l'aide d'une discrétisation eulérienne, la mise à jour du filtre peut être facilement. Il en est de même pour les états défini sur une
 
-\subsection{Mise à jour défini dans l'espace d'observation}
+%
+% Revoir introduction article.
+%
+
+En particulier ce gain va dépendre des statistiques de l'étatet
+
+Toutefois, la mise à jour du filtre de Kalman d'Ensemble est dépendante de la discrétisation de l'état de ses membres pour le calcul du gain de Kalman d'ensemble. De plus, la mise à jour du filtre de Kalman d'Ensemble est basé sur une combinaison linéaire des membres au travers du gain de Kalman d'ensemble, celle-ci entraîne une explosion du nombre de particules dans la définition de la solution analysée.
+
+L'objectif de ce chapitre est donc de présenter un certain nombre d'adaptation du filtre de Kalman d'Ensemble qui puisse être appliquées à des simulations sans maillage.
+
+Pour cela, nous reformulons tout d'abord l'expression de la mise à jour afin qu'elle soit indépendante de la définition de l'état.
+Enfin, les solutions analysées étant des combinaisons linéaires des particules de l'ensemble des membres, nous proposons de développer des méthodes pour réduire l'augmentation exponentielle des particules.
+
+\subsection{Mise à jour défini dans l'espace des membres}
 
 La mise à jour du filtre de Kalman se base sur l'approximation des statistiques des distributions de l'état et des observations pour approché le gain de Kalman (voir \eqref{eq:enkf_formula}).
 
@@ -193,7 +207,7 @@ Les différentes étapes sont résumés dans l'algorithm~\ref{algo:remesh_enkf}
     \KwIn{ $\bm Y_f \in \mathbb{R}^{m \times N_{\text{ens}}}$ \tcp*[r]{the associate observation anomalies}}
     \KwIn{$\bm D \in \mathbb{R}^{m \times N_{\text{ens}}}$  \tcp*[r]{the perturbed observations}}
 
-    $ \Fcorr = \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred)$ \tcp*[r]{correction matrix}
+    $ \Fcorr = \frac{1}{N-1}\annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred)$ \tcp*[r]{correction matrix}
     \SetKwFunction{proj}{Projection}
     \SetKwFunction{assign}{Assign}
     \ForEach{$i = 1, \dots, \nens $}{
@@ -213,7 +227,7 @@ Cependant, l'ordre de l'algorithme actuel permet de réaliser le minimum d'opér
 \subsection{Part-EnKF : Mise à des intensités}
 
 L'adaptation précédente du filtre EnKF permet de contrôler le nombre de particule lors de l'analyse en regénérant une nouvelle distribution de particules. D'une certaine manière, elle consiste à projeter la solution sur une discrétisation eulérienne pour ensuite appliquée l'analyse de manière classique.
-Dans cette partie, nous souhaitons pouvoir appliquer la mise à jour à partir uniquement des discrétisations particulaires et en conservant la distribution de particule obtenue au moment de l'assimilation. L'objectif est aussi de pouvoir traiter le cas de modèle où la génération d'une nouvelle discrétisation de particules par redistribution est impossible.
+Dans cette partie, nous souhaitons pouvoir appliquer la mise à jour à partir uniquement des discrétisations particulaires et en conservant la distribution de particule obtenue au moment de l'assimilation. L'objectif est aussi de pouvoir traiter le cas de modèle où la génération d'une nouvelle discrétisation de particules par redistribution est impossible et de proposer une implémentation entièrement sans maillage.
 Ainis, nous garderons les positions à la fin de la propagation inchangée et modifions uniquement les intensités de particules.
 
 Ainsi, les champ analysés $u_i^a$ définis comme combinaison de l'ensemble des particules de tous les membres, doivent être approché sur le support de chaque membre
@@ -222,61 +236,93 @@ Ainsi, les champ analysés $u_i^a$ définis comme combinaison de l'ensemble des 
     \fstate_i^a(\bx) =  \sum_{i=1}^{N} \sum_{p \in \mP_j^f} \Gamma^a_p \phi_{\varepsilon}(\bx - \bx_p)\approx \sum _{p \in \mP_i^f}
 \end{eqnarray*}
 
-\subsubsection{Approximer particulaire d'un champs}
+Ainsi, l'analyse consiste déterminer, pour chaque membre $i$, comment mettre à jour les coefficient $Gamma^f_{ip}$ pour approcher au mieux la fonction $\fstate_i^a$.
 
-Les coefficients de champs Le champ analysés $\fstate_i^a(\bx)$
-% Dire que ici on souhaite pouvoir approcher la solution avec uniquement les particules du membre afin d'éviter l'accroissement excessif du nombre de particules. La méthode consiste à trouver les bonnes intensité. En agissant ainsi on souhaite présenter une méthode qui intervient directement sur les particules sans jamais changer leur configuration.
+\subsubsection{Approximation d'un champs continu par une discrétisation particulaire}
+
+Différentes méthodes ont pu être introduites pour approcher une fonction $\bm u$ par une discrétisation particulaire. Ceci est particulièrement utile lors de l'initialisation ou bien pour réduire les effets de distorsion de la distribution particulaire.
+
+\paragraph{Approximation particulaire}
+
+Cette première méthode consiste à utiliser les particules comme point de quadrature. Comme dans les hypothèses initiales des méthodes particulaires~\eqref{eq:part_approx}, il convient alors d'évaluer le champ à la position des particules $x_p$ afin d'obtenir une approximation de l'intensité comme intégration locale du champ
+
+\begin{equation*}
+    \bm \Gamma^a_p = \int_{\Omega_p} \bm u^a(\bx) d\bx = \bm u(\bx_p) V_p, \quad $p \in \mathcal P^f_i$
+\end{equation*}.
+
+Si cette approximation est très simple à évaluer mais ne garantie pas d'obtenir une bonne approximation du champ si la qualité de la quadrature est de mauvaise qualité. Ceci est particulièrement le cas si la distribution particulaire n'est pas uniforme ou ne recouvre par entièrement le domaine $\Omega$.
+
+\paragraph{Régression RBF}
+
+Afin d'avoir une meilleure évaluation du champ en chaque position de particules $\bx_p$, Beale~\cite{beale_accuracy_1988} introduit une méthode itérative afin de déterminer les intensités $\Gamma_p$ tel que
+
+\begin{equation*}
+    \sum_{q \in P^f} \Gamma_p \phi_\varepsilon(\bx_p - \bx_q) = \fstate^a(\bx_p), \quad p \in \mathcal{P}^f.
+\end{equation*}
+
+En réalité, cette méthode revient à résoudre un problème de régression. C'est cette dernière approche qui a été développé par Barba et al.~\cite{barbara} pour modifier les . Ce sont ces méthodes qui sont également ce types de méthodes qui sont courrament utilisées pour la résolution d'EDP avec des fonctions à base radiales~\cite{Fornberg_Flyer_2015}.
+
+On cherche à déterminer les intensités de particule définies sous la forme d'un vecteur $\bm{U} = [\bm U_1, \dots, \bm U_p]^T$. On suppose la valeur du champ à approcher $\fstate^a$ connu en position des particules et dont les évaluations sont consignés dans un vecteur $\bm{u} = [\bm u_1(z_1), \dots, \bm u_p(\bm z_p)]^T$. L'approximation particulaire peut être évalué en chaque position $\bx_p$ et doit permettre d'approcher en ces points le vecteur $\bm{u}$ comme
+
+\begin{equation*}
+    \bm{u} \simeq \tilde{\bm u} = \bm \Phi \bm{U},
+\end{equation*}où $\bm \Phi_{ij} = \phi_\varepsilon(z_i - z_j)$.
+
+Minimiser l'erreur quadratique entre la prédiction $\tilde{\bm u}$ et $\bm{u}$ revient à résoudre le problème suivant
+
+\begin{equation*}
+    \bm{U}^*= \argmin_{\bm{U}} \norm{\bm{u} - \Phi \bm{U}}^2_2.
+\end{equation*}
+
+L'opérateur étant linéaire, la solution de ce problème n'est autre que $\bm U^*  = (\bm \Phi^T \bm \Phi)^{-1} \bm \Phi \bm{u}$. Cependant, ce problème peut être mal conditionné. En particulier dans le cas où les particules sont mal distribuées (cas dégénéré lorsque deux particules se superposent). Pour éviter ces cas, un terme de pénalisation sur l'amplitude du vecteur d'intensité $\bm{U}$ est introduit. En introduisant un régularisation à la Thikhonov de la forme $\lambda \norm{\bm U}_2^2$, on obtient un problème dit de régression \textit{Ridge}, où le coefficient $\lambda$ est le coefficient de pénalisation. Le problème devient alors
+
+\begin{equation*}
+    \bm{U}_{\text{ridge}}^* = \argmin_{\bm{U}} \norm{\bm{u} - \bm \Phi \bm{U}}_2^2 + \lambda \norm{\bm{U}}^2_2,
+\end{equation*}donnant la solution suivante $\bm{U}^*_{\text{ridge}} = (\bm \Phi^T \bm \Phi + \lambda \bm I)^{-1} \bm \Phi \bm{u}$.
+
+Finalement, cette adaptation du filtre EnKF permet d'approcher les solutions analysées pour chaque membres, en modifiant uniquement les intensités de particule des membres en question. De cette manière, nous évitons l'accroissemen excessif du nombre de particules. De plus, elle permet d'être entièrement définie sans étape de remaillage.
+
+\subsubsection{Algorithme}
+
+Tout comme le filtre Remesh-EnKf, la première étape consiste à calculer le terme de correction $\Fcorr$ afin de pouvoir évaluer les champs analysés $\fstate_i^a$ pour chaque membre $i$. Puis le filtre Part-EnKF formule l'analyse comme une mise à jour des intensités. La représentation lagrangienne de la solution à la fin de l'étape de propagation est conservée autant que possible. Il est alors nécessaire d'évaluer les $\fstate_i^a$ au centre des particules $\bx_{ip}$, pour pouvoir approcher les intensités $\bm U_{ip}$ avec les méthodes d'approximation ci-dessus.
+
+Les différentes étapes sont résumés dans l'algorithm~\ref{algo:part_enkf}
+% \setcounter{algocf}{2}
+\begin{algorithm}
+    \caption{Part-EnKF Filter analysis update}~\label{algo:part_enkf}
+    \KwData{$\bm R \in\mathbb{R}^{m}$  \tcp*[r]{observation covariance}}
+    \KwIn{$\mathcal{P}^f_i= \{(\bm z^f_{ip}, \bm U^f_{ip})\}_{ip = 1}^{N_{ip}}, \quad i = 1, \dots, N_{\text{ens}}$ \tcp*[r]{forward discretizations}}
+    \KwIn{ $\bm Y_f \in \mathbb{R}^{m \times N_{\text{ens}}}$ \tcp*[r]{the associate observation anomalies}}
+    \KwIn{$\bm D \in \mathbb{R}^{m \times N_{\text{ens}}}$  \tcp*[r]{the perturbed observations}}
+
+    $ \Fcorr = \frac{1}{N-1}\annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred)$ \tcp*[r]{correction matrix}
+    \SetKwFunction{approxim}{Approx}
+    \SetKwFunction{evaluate}{AnalysisFieldValues}
+    \ForEach{$i = 1, \dots, \nens $}{
+    $\bm u^a_{ip} =$ \evaluate{$\mathcal{P}^f_i, \Fcorr$} \tcp*[r]{evaluate the analysis field}
+    $\bm U^a_{ip} =$ \approxim{$\bm u^a_{ip}$} \tcp*[r]{approximate the analysis field}
+    }
+    \Return{$\mathcal{P}^a_i=\{\bm z^f_{ip}, \bm U^a_{ip}\}_{ip = 1}^{N_{ip}}, \quad i = 1, \dots, N_{\text{ens}}$ \tcp*[r]{analyse discretizations}}
+\end{algorithm}
 
 \subsection{Complexité}
 
 Avant d'évaluer la précision des deux filtres, nous comparons d'abord leur complexité computationnelle.
 
-Indépendemment du cas, il est nécessaire de déterminer la matrice de correction $\Fcorr$. Dans le cas où $\bm R$ est une matrice diagonal, le calcul de $\Fcorr$ nécessite de pouvoir inverser une matrice symétrique définie positive de taille $N\timesN$ soit de l'ordre de $\mathcal(N^3)$.
+Indépendemment du cas, il est nécessaire de déterminer la matrice de correction $\Fcorr$. Dans le cas où $\bm R$ est une matrice diagonal, le calcul de $\Fcorr$ nécessite de pouvoir inverser une matrice symétrique définie positive de taille $N\timesN$ soit de l'ordre de $\mathcal O (N^3)$.
 
-Dans le filtre Remesh-EnKF, la complexité est dominée par l'étape de remaillage pour l'ensemble de taille $N$. L'analyse se réduit à une multiplication de matrices.
+Dans le filtre Remesh-EnKF, la complexité est dominée par l'étape de remaillage pour l'ensemble de taille $N$é~\ref{sec:remesh}. En effet, dès lors que la représentation de l'état est projeté sur une même grille, elle se réduit à une multiplication matricielle.
+L'étape de redistribution nécessite une boucle sur les $N_p$ particles du membre. Ainsi, si la taille du noyau de redistribution couvre $N_k$ noeuds, la redistribution d'une particule nécessite $N_k^d$ évaluations du noyau où $d$ est la dimension de l'espace. Finalement, l'étape d'interpolation demande dévaluer le champ en des points de l'espace fixe. Les poids peuvent être calculé Ainsi la complexité est du filtre Remesh-EnKF est en $\mathcal{O} (NN_pN_k^d)$. Le filtre est fortement parallélisable que cela soit sur les membres de l'ensemble ou bien sur les particules pour la projection et l'interpolation.
 
-Le processus de remaillage, décrit dans la section \ref{sec:remesh}, nécessite de redistribuer les intensité des particules vers une nouvelle grille de particules.
+D'autre part, le filtre Part-EnKF est dominé par l'étape d'évaluation des champs analysées ainsi que l'étape d'approximation ou de regression. Tout d'abord, les champs sont évalués sur toutes les positions des particules de chaque membre, ce qui revient à évaluer le noyau $\phi_\varepsilon(\bx_p -\bx_q)$ pour tout couple de particules $(p, q)$. Cette fonction de forme étant nulle en dehors du domaine d'influence, ainsi $\phi_\varepsilon(\bx_p -\bx_q)$ ne doit être évalué que pour des particules $q$ dans le voisinage de $p$. Outre l'utilisation d'algorithme d'arbres de tris comme le \textit{KD-Tree}~\cite{bentley_1975_kdtree}, un algorithme de recherche sur grille peut être utilisé. Dans ce dernier cas, chaque particule est associée à une cellule d'une grille de taille $N_g$.
 
+Une boucle est effectuée sur les cellules de la grille $N_g^d$, et la distance des particules d'une cellule est calculée avec les cellules environnantes. Nous approximons le nombre moyen de particules dans chaque cellule comme $N_{PIC} = \frac{NN_p}{N_g^d}$. Ainsi, la complexité est estimée à $\mathcal{O}(NN_p)$.
 
-
-
-
-
-
-
-
-
-
-----------------
-D'autre part, dans la Section~\ref{sec:method_part}, nous avons montré la compatibilité des méthodes sans maillage pour l'assimilation de données séquentiel. Nous avons montré alors que les méthodes sans maillage discrétisant un milieu continu pouvait être mis à jour lors de l'assimilation en modifiant positions et intensités des particules.
-
-Toutefois, la mise à jour du filtre de Kalman d'Ensemble est dépendante de la discrétisation de l'état de ses membres pour le calcul du gain de Kalman d'ensemble. De plus, la mise à jour du filtre de Kalman d'Ensemble est basé sur une combinaison linéaire des membres au travers du gain de Kalman d'ensemble, celle-ci entraîne une explosion du nombre de particules dans la définition de la solution analysée.
-
-L'objectif de ce chapitre est donc de présenter un certain nombre d'adaptation du filtre de Kalman d'Ensemble qui puisse être appliquées à des simulations sans maillage.
-
-Pour cela, nous reformulons tout d'abord l'expression de la mise à jour afin qu'elle soit indépendante de la définition de l'état.
-Enfin, les solutions analysées étant des combinaisons linéaires des particules de l'ensemble des membres, nous proposons de développer des méthodes pour réduire l'augmentation exponentielle des particules.
-
-\subsection{Formulation de la correction dans l'espace des membres}
-
-\subsection{Filtre Remesh-EnKF}
-\subsubsection{Méthode de remaillage}
-\subsubsection{Définition du Filtre}
-\subsection{Filtre Part-EnKF}
-\subsubsection{Méthode de régression}
-\subsubsection{Définition du Filtre}
-
-\subsubsection{}
+Puis les intensités $\bm U_p$ des particules doivent être calculées. L'approximation de l'intensité comme $U_p = \fstate V_p$, n'ajoute pas de complexité supplémentaire. Cependant, une méthode de régression, nécessite de résoudre $N$ systèmes linéaires indépendant de taille $N_p$. Si la matrice $\Phi$ est connue grâce aux évaluations précédentes, la résolution nécessite l'inversion d'une matrice $N_p$. Cette étape utilise un algorithme de gradient conjugué, le meilleur solveur pour un système creux. Dans ce cas, la complexité est d'environ $\mathcal{O}((N_0 + N_p) k)$ où $k$ est le nombre d'itérations et $N_0$ est la valeur non nulle de la matrice à inverser, qui est d'environ $\mathcal{O}(N_p)$. En réunissant le tout, la complexité est d'environ $\mathcal{O}(kNN_p)$. Finalement la complexité totale est d'environ $\mathcal{O}((k+1)NN_p)$.
 
 \subsection{Bilan}
 
 Nous avons développé deux adaptations du filtre EnKF adaptées au cas des simulations particulaires. Celle-ci tienne compte d'une augmentation exponentielle de particules.
 Ces deux adaptations Remesh-EnKF et Part-EnKF correspondent à deux paradigmes. Dans le premier cas, le choix a été fait de regénérer complètement la discrétisation à l'aide de méthode de transfert particule à grille et de remaillage. Dans le second cas, le choix a été fait de conserver la position des particules de chaque membre et d'approcher la solution analysée.
-Si ces filtres offre des adaptations du filtre de Kalman d'Ensemble, ils semblent souffrir de plusieurs limitations inhérante à leur schéma. Dans la prochaine section, leur capacité d'assimilation va être vérifié sur plusieurs applications données.
+Si ces filtres offre des adaptations du filtre de Kalman d'Ensemble, ils semblent souffrir de plusieurs limitations inhérantes à leur schéma. Dans la prochaine section, leur capacité d'assimilation va être vérifié sur plusieurs applications données.
 
-\section{Evaluation de la capacité des méthodes développées à assimiler les données sur plusieurs applications}
-
-Deux filtres dérivée de EnKF ont été développés. A l'aide deux deux applications basées sur une méthode
-
-
-\subsection{Bilan}
