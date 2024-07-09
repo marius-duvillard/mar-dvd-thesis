@@ -1,6 +1,5 @@
-% !TEX root = main.tex
 
-\section{Ecoulement granulaire dans un tambour en rotation}
+% A mettre dans la partie simulation du tambour et méthode particulaire
 \subsection{Ecoulement granulaire et régime dans le broyeur}
 Les écoulement granulaire
 
@@ -36,36 +35,8 @@ Ces différents régimes déterminent la qualité du mélange, du broyage.
 C'est le régime en cascade qui est nécessaire pour la réduction de taille de grain dans le broyeur à boulets. C'est dans ce régime que la surface libre prend la forme caractéristique d'un \textit{S}.
 
 
-\subsection{Simulation du broyage}
-
 \section{Simulation de l'écoulement dans un tambour en rotation}
 
-\subsection{Approche continue}
-
-\begin{itemize}
-
-
-    \item Approches basées sur une description continue du milieu granulaire.
-    \item Utilisation en ingénierie, notamment pour la modélisation des instabilités dans les sols et la rhéologie des poudres dans les procédés.
-    \item Description du comportement à partir de lois constitutives et d'équations de bilan.
-    \item Formulation des problèmes sous forme de problèmes aux dérivées partielles.
-    \item Capacité à intégrer des conditions aux limites complexes.
-    \item Simulation des problèmes à "grande échelle".
-    \item Limitation à fournir des informations sur le lien entre la physique des phénomènes à l'échelle des particules et le comportement à l'échelle macroscopique.
-    \item Méthodes permettant de simuler le comportement continu.
-    \item Méthodes en Éléments Finis (MEF).
-    \item Adaptations pour prendre en compte le comportement granulaire.
-    \item Modèles poro-elasto-plastiques.
-    \item Minimisation de l'erreur introduite en remplaçant le problème continu par un problème discrétisé.
-    \item Prise en compte des conditions aux limites complexes et fortement non-linéaires.
-    \item Difficultés à rendre compte des grandes déformations.
-    \item Nécessité de processus de remaillage coûteux en temps de calcul.
-    \item Alternatives plus récentes comme le Material Point Method (MPM).
-    \item Description Lagrangienne de points matériels.
-    \item Domaine Eulérien maillé pour le calcul des lois de comportement.
-    \item Algorithme itératif pour le transfert des informations.
-    \item Interpolation des variables entre points matériels et maillage.
-\end{itemize}
 \subsection{Approche discrète}
 \begin{itemize}
     \item Méthodes discrètes traitant les particules comme des objets solides indépendants.
@@ -91,6 +62,31 @@ C'est le régime en cascade qui est nécessaire pour la réduction de taille de 
     \item Les approches par éléments discrets reposent sur deux familles de méthodes numériques : les méthodes régulières (Smooth Methods) et les méthodes non-régulières (Nonsmooth Methods).
     \item La méthode dite classique et la méthode de dynamique des contacts (Contact Dynamics ou CD) sont respectivement les méthodes régulière et non-régulière les plus employées à ce jour.
 \end{itemize}
+\subsection{Approche continue}
+
+\begin{itemize}
+    \item Approches basées sur une description continue du milieu granulaire.
+    \item Utilisation en ingénierie, notamment pour la modélisation des instabilités dans les sols et la rhéologie des poudres dans les procédés.
+    \item Description du comportement à partir de lois constitutives et d'équations de bilan.
+    \item Formulation des problèmes sous forme de problèmes aux dérivées partielles.
+    \item Capacité à intégrer des conditions aux limites complexes.
+    \item Simulation des problèmes à "grande échelle".
+    \item Limitation à fournir des informations sur le lien entre la physique des phénomènes à l'échelle des particules et le comportement à l'échelle macroscopique.
+    \item Méthodes permettant de simuler le comportement continu.
+    \item Méthodes en Éléments Finis (MEF).
+    \item Adaptations pour prendre en compte le comportement granulaire.
+    \item Modèles poro-elasto-plastiques.
+    \item Minimisation de l'erreur introduite en remplaçant le problème continu par un problème discrétisé.
+    \item Prise en compte des conditions aux limites complexes et fortement non-linéaires.
+    \item Difficultés à rendre compte des grandes déformations.
+    \item Nécessité de processus de remaillage coûteux en temps de calcul.
+    \item Alternatives plus récentes comme le Material Point Method (MPM).
+    \item Description Lagrangienne de points matériels.
+    \item Domaine Eulérien maillé pour le calcul des lois de comportement.
+    \item Algorithme itératif pour le transfert des informations.
+    \item Interpolation des variables entre points matériels et maillage.
+\end{itemize}
+
 
 \subsection{Méthodes discrètes}
 

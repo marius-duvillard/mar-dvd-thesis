@@ -1,0 +1,15 @@
+% !TEX root = main.tex
+\subsubsection*{Simulation du procédée de fabrication}
+
+Afin de mieux connaitre l'état du mélange dans le broyeur, des outils de omdélisation ont été mis en place par le CEA pour pouvoir simuler la dynamique des poudres au sein du tambour. Si les écoulements granulaires sonttrès présents dans la nature et dans l'industrie, du fait de la nature discrète du milieu, ils sont bien moins comprise que l'écoulement d'un liquide qui se base sur les équations de Navier-Stokes.
+L'écoulement granulaire va se distinguer par trois types de régime que l'on assimile gnéralement au trois état de la matière: solide où où le mouvement des particules est lent et le comportement est presque statique, une couche semblable à un liquide dans laquelle les grains s'écoulent avec une certaine inertie, et une zone semblable à un gaz où les particules se déplacent à des vitesses plus élevées de manière chaotique. Ils interviennents simultanément dans l'écoulement. Ce qui complexifie sa caractérisation rhéologique.
+Dans le tambour en rotation l'ensemble des trois zones d'écoulement sont présentes. Une diversité de six régimes d'écoulement est généralement étudié: glissement, ballotement, éboulement, roulement, en cascade, cataracte,  centrifuge \cite{MELLMANN2001251}.
+Ces différents régimes déterminent la qualité du mélange, du broyage.
+C'est le régime en cascade qui est nécessaire pour la réduction de taille de grain dans le broyeur à boulets. C'est dans ce régime que la surface libre prend la forme caractéristique d'un \textit{S}.
+Les travaux récents convergent vers une loi de comportement viscoplastique pour modéliser les milieux granulaires défini sous le nom de loi $\mu(I)$ \cite{gdr_midi_dense_2004,jop_constitutive_2006} ce qui a permis de développer des simulation du tambour en rotation~\cite{Cortet_2009} et montre une bonne correspondance pour le cas d'écoulement avec surface libre \cite{chou_cross-sectional_2009}.
+Toutefois, cette loi trouve certaines limites dans le cas d'écoulement confiné où le coefficient de tassement change et où le mouvement de chaque grain entraîne des modifications significatives dans les chaînes de force. Si la prédiction est bonne au niveau des bords, elle reste toutefois insufisante au niveau des parois \cite{Rognon_Miller_Metzger_Einav_2015}. De plus, elle ne permet pas de prendre en compte les régimes cinétiques, c'est à dire le régime gaz. Ainsi, le développement de nouvelles loi rhéologique est un sujet de recherche constant.
+
+Outre ces problématiques de modélisation du comportement du milieu granulaire, il est aussi nécessaire d'utiliser des méthodes capables : de traiter des problèmes de grande transformation, des intéractions avec la paroi et les corps broyants,...
+
+
+

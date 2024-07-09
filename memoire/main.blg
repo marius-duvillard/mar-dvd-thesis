@@ -2,65 +2,66 @@ This is BibTeX, Version 0.99d (TeX Live 2022)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: plain.bst
-Database file #1: C:/Users/md266594/mar-dvd-thesis/biblio.bib
+Database file #1: ../biblio.bib
 Warning--I'm ignoring gordon_1993's extra "author" field
---line 91 of file C:/Users/md266594/mar-dvd-thesis/biblio.bib
+--line 91 of file ../biblio.bib
 Warning--I'm ignoring gordon_1993's extra "author" field
---line 93 of file C:/Users/md266594/mar-dvd-thesis/biblio.bib
-Warning--I didn't find a database entry for "aiea2023"
+--line 93 of file ../biblio.bib
 Warning--I didn't find a database entry for "Adepu"
+Warning--I didn't find a database entry for ""
 Warning--I didn't find a database entry for "Owusu"
 Warning--I didn't find a database entry for "almond"
-Warning--I didn't find a database entry for "Wang"
-Warning--I didn't find a database entry for "Davey"
 Warning--I didn't find a database entry for "kalman_filter"
 Warning--I didn't find a database entry for "cottet_vortex_2000"
 Warning--I didn't find a database entry for "sulsky_particle_1994"
 Warning--I didn't find a database entry for "christiansen_1973"
 Warning--I didn't find a database entry for "birdsall_1969"
+Warning--I didn't find a database entry for "monaghan_extrapolating_1985"
+Warning--I didn't find a database entry for "barbara"
+Warning--I didn't find a database entry for "bentley_1975_kdtree"
 Warning--to sort, need author or key in jazwinski_4_1970
 Warning--empty author in jazwinski_4_1970
 Warning--empty journal in schlomer_technology-specific_nodate
 Warning--empty year in schlomer_technology-specific_nodate
-You've used 33 entries,
+You've used 36 entries,
             2118 wiz_defined-function locations,
-            738 strings with 10118 characters,
-and the built_in function-call counts, 10748 in all, are:
-= -- 1067
-> -- 478
-< -- 2
-+ -- 200
-- -- 157
-* -- 847
-:= -- 1825
-add.period$ -- 100
-call.type$ -- 33
-change.case$ -- 178
+            766 strings with 10601 characters,
+and the built_in function-call counts, 11674 in all, are:
+= -- 1168
+> -- 495
+< -- 5
++ -- 206
+- -- 160
+* -- 890
+:= -- 1975
+add.period$ -- 112
+call.type$ -- 36
+change.case$ -- 187
 chr.to.int$ -- 0
-cite$ -- 37
-duplicate$ -- 363
-empty$ -- 836
-format.name$ -- 157
-if$ -- 2173
+cite$ -- 40
+duplicate$ -- 412
+empty$ -- 926
+format.name$ -- 160
+if$ -- 2388
 int.to.chr$ -- 0
-int.to.str$ -- 33
-missing$ -- 31
-newline$ -- 168
-num.names$ -- 66
-pop$ -- 133
+int.to.str$ -- 36
+missing$ -- 33
+newline$ -- 184
+num.names$ -- 74
+pop$ -- 143
 preamble$ -- 1
-purify$ -- 144
+purify$ -- 150
 quote$ -- 0
-skip$ -- 242
+skip$ -- 271
 stack$ -- 0
-substring$ -- 794
-swap$ -- 39
-text.length$ -- 2
+substring$ -- 856
+swap$ -- 52
+text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 130
+type$ -- 142
 warning$ -- 4
-while$ -- 109
-width$ -- 35
-write$ -- 364
-(There were 17 warnings)
+while$ -- 121
+width$ -- 38
+write$ -- 404
+(There were 18 warnings)

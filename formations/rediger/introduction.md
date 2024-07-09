@@ -1,9 +1,9 @@
 # Contexte: 
 ## Domaine: 
 Construction du jumeau numérique du broyeur à boulets intervenant dans le broyage et le mélange de poudres de combustible nucléaire.
+
 ## Problématique générale: 
 Faire communiquer expérience et simulation au cours du temps, en utilisant les données issues de l'expérimentation pour mettre à jour l'état de la simulation
-
 
 Dans le domaine de la fabrication du combustible nucléaire, l'un des principaux enjeux consiste à pouvoir modéliser l'état . Ceci est dû au fait que l'on souhaiterait être capable d'optimiser cette étape pour réduire le temps de broyage et améliorer l'efficacité energétique. Le problème est que les modèles sont simplifiés, doivent être calibré et ne tiennent pas compte de toutes les physiques et ceci a pour conséquence d'augmenter l'erreur de prédiction.
 

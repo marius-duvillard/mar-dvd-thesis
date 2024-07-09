@@ -1,20 +1,34 @@
 % !TEX root = main.tex
-\section{Objectif}
+\section*{Objectifs de la thèse}
 
-Pour aborder efficacement l'assimilation de données avec la MPM, il est essentiel de maîtriser d'abord l'assimilation de données dans des contextes plus simples, comme celui offert par la méthode VIC. Avec sa structure plus basique impliquant une grille de calcul et des particules transportant des quantités scalaires, l'approche VIC sert de préalable pour développer et affiner les techniques d'assimilation de données nécessaires pour des approches plus complexes comme la MPM.
+C'est dans ce contexte que des outils d'aide à la compréhension par la modélisation et la simulation des étapes de la fabrication du combustible sont développées. L'objectif étant de pouvoir faire le suivi de l'état du milieu granulaire sur une large gamme de paramètre ainsi que de comprendre les mécanismes intervenant dans ce processus.
 
-À ce jour, deux méthodes principales ont été développées pour l'assimilation de données dans le cadre de la méthode VIC. Ces méthodes visent à intégrer efficacement les observations dans le modèle de simulation pour améliorer la précision et la fiabilité des prédictions.
+En particulier, le CEA a développé des outils pour la simulation l'état du mélange dans le milieu granulaire à l'aide de méthodes sans maillage afin de représenter.
+
+Le problème est que ces modèles reposent toujours sur des hypothèses simplificatrices limitant leurs champs d'action. De plus, les modèles dépendent de paramètres qu'il est nécessaire de calibrer. Enfin, l'incertitude de modélisation qui en découle a pour conséquence d'augmenter l'erreur de prédiction de modèle.
+
+Par données expérimentales nous entendons toutes données qui peut être fournies par le dispositif expérimental.
+
+C'est ce qui justifie cette thèse, elle consiste à développer des méthodes capables de combiner les données issue de la simulation et des données exéprimentales au sein du développement du Jumeau Numérique du procédé. Le jumeau numérique est une réplique virtuelle d'un système physique, permettant de simuler, d'analyser et de prédire le comportement du système physique en temps réel. Ce modèle numérique intègre des données dynamiques et historiques, permettant une représentation précise et **synchronisée** dans le temps. Dans le contexte industriel, les jumeaux numériques utilisent l'**intelligence artificielle** (IA), l'analyse de données, et les capteurs physiques pour améliorer la compréhension des processus et faciliter la prise de décisions.
 
 
-Remesh-EnKF
+C'est dans ce contexte de la fabrication du combustible MOX (pour Mélange d’OXyde de plutonium et d’OXyde d’uranium)
 
-La première approche, nommée **Remesh-EnKF** (Remeshing Ensemble Kalman Filter), se concentre sur l'assimilation de données au niveau de la grille. Dans cette méthode, l'assimilation de données est effectuée en premier sur la grille. Ensuite, un maillage de particules est régénéré, ce qui permet de transférer les informations mises à jour de la grille vers les particules. Cette étape est cruciale pour maintenir la cohérence entre les données sur la grille et les caractéristiques physiques des particules. Enfin, un processus de troncature est appliqué pour éliminer les particules ayant une intensité trop faible, permettant ainsi d'optimiser les ressources de calcul et de conserver uniquement les particules significatives pour la dynamique du fluide.
+% Plan de la démarche comme évoqué dans la formation.
+% Pour aborder efficacement l'assimilation de données avec la MPM, il est essentiel de maîtriser d'abord l'assimilation de données dans des contextes plus simples, comme celui offert par la méthode VIC. Avec sa structure plus basique impliquant une grille de calcul et des particules transportant des quantités scalaires, l'approche VIC sert de préalable pour développer et affiner les techniques d'assimilation de données nécessaires pour des approches plus complexes comme la MPM.
 
-Part-EnKF
+% À ce jour, deux méthodes principales ont été développées pour l'assimilation de données dans le cadre de la méthode VIC. Ces méthodes visent à intégrer efficacement les observations dans le modèle de simulation pour améliorer la précision et la fiabilité des prédictions.
 
-La seconde approche, appelée **Part-EnKF** (Particle Ensemble Kalman Filter), propose une stratégie différente en effectuant l'assimilation directement sur les intensités des particules, sans nécessiter de remaillage. Cette méthode met l'accent sur la mise à jour des caractéristiques des particules individuelles, en tenant compte de leurs intensités et positions. Contrairement à la Remesh-EnKF, la Part-EnKF évite les difficultés liées au remaillage de particules, en se concentrant uniquement sur la mise à jour des attributs des particules existantes.
 
-Dans un second temps, une méthode d'alignement a été développées pour mettre à jour la position des particules
-Part-Align
+% Remesh-EnKF
 
-Cette dernière corrige la position des particules en imposant un champ de vitesse pour rapprocher observations et prédiction.
+% La première approche, nommée **Remesh-EnKF** (Remeshing Ensemble Kalman Filter), se concentre sur l'assimilation de données au niveau de la grille. Dans cette méthode, l'assimilation de données est effectuée en premier sur la grille. Ensuite, un maillage de particules est régénéré, ce qui permet de transférer les informations mises à jour de la grille vers les particules. Cette étape est cruciale pour maintenir la cohérence entre les données sur la grille et les caractéristiques physiques des particules. Enfin, un processus de troncature est appliqué pour éliminer les particules ayant une intensité trop faible, permettant ainsi d'optimiser les ressources de calcul et de conserver uniquement les particules significatives pour la dynamique du fluide.
+
+% Part-EnKF
+
+% La seconde approche, appelée **Part-EnKF** (Particle Ensemble Kalman Filter), propose une stratégie différente en effectuant l'assimilation directement sur les intensités des particules, sans nécessiter de remaillage. Cette méthode met l'accent sur la mise à jour des caractéristiques des particules individuelles, en tenant compte de leurs intensités et positions. Contrairement à la Remesh-EnKF, la Part-EnKF évite les difficultés liées au remaillage de particules, en se concentrant uniquement sur la mise à jour des attributs des particules existantes.
+
+% Dans un second temps, une méthode d'alignement a été développées pour mettre à jour la position des particules
+% Part-Align
+
+% Cette dernière corrige la position des particules en imposant un champ de vitesse pour rapprocher observations et prédiction.

@@ -523,8 +523,19 @@ Bootstrapping for confidence intervals
 # 08-07-2024
 
 - Avancé sur la partie Part-EnKF. Faire le chapeau en reprenant l'introduction de l'article
-- Reprendre Vortex in Cell et MPM en lisant livre Olivier. Texte MPM à nettoyer.
-- Analyser les résutlats de calibration du lambda.
+- Reprise Vortex in Cell
+  
+# 09-07-2024
+- MPM en lisant livre Olivier. Texte MPM à nettoyer.
+- Analyser les résutlats de calibration du lambda -> premier plot et relance d'une série de calcul à 10:26 le 09/07
+- J'ai trouvé des informations sur la calibration avec la l curve, ici un très bon papier explicatif sur la [courbure](https://www.sintef.no/globalassets/project/evitameeting/2005/lcurve.pdf) et là une [implémentation python](https://github.com/eric-brandao/lcurve/tree/master)
+- De plus comme on a une idée de la valeur de l'erreur de $b$ comme nous la fixons, alors il pourrait être préférable d'utiliser la méthode de [discrepency](https://www.imm.dtu.dk/~pcha/DIP/chap5.pdf), voir une des autres méthodes proposées. On peut continuer à faire tourner les calculs néanmoins.
+- Dans ce cas on cherche la valeur d'intersection entre le data missfit et le niveau de bruit. Dans notre cas data missfit est normalisé par $n_obs$, donc l'espérance du bruit vaut directement $\mathbb E [\|\eta\|] = \sigma^2$. 
+- Dans ce cas il suffit de regarder quel est le lambda pour lequel le data missfit intersect le niveau de bruit.
+- Relire la partie bibliographie et le plan générale
+- Faire la partie application (chapitre 2) application 1d et 2d.
+- 
+
 ## A FAIRE
 
 - Redaction

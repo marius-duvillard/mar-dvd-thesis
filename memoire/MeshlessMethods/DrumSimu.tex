@@ -1,8 +1,8 @@
 % !TEX root = main.tex
 
-\chapter{Simulation du tambour et Assimilation de données}
+\chapter{Méthode de simulation du tambour et assimilation de données}
 
-Nous avons vu dans le chapitre précédent que l'assimilation dépendait de la définition d'un modèle et de son état pour définir le prior et la vraissemblance. Les simulations de l'écoulement dans le broyeur à boulets qui reposent sur des discrétisations sans maillage dites particulaires, définissent ainsi notre état et son modèle d'évolution. Cependant, le caractère Lagrangien de la définition de l'état implique d'évaluer jusqu'à quel point les méthodes classiques d'assimilation peuvent être adaptée. En effet celles-ci se base sur des états dont la discrétisation restent identique. De plus, le fait que l'espace soit continu ou discret va également modifier la signification de l'état et sa capacité à être mis à jour.
+Nous avons vu dans le chapitre précédent que l'assimilation dépendait de la définition d'un modèle et de son état. Dans le cas de la simulation de l'écoulement au sein du broyeur à boulets, il s'agit principalement de méthodes reposant des discrétisations sans maillage. C'est ce type de modélisaton qu'il faudra prendre en compte aussi lors de l'assimilation de données. Or, le caractère Lagrangien de la définition de l'état implique d'évaluer jusqu'à quel point les méthodes classiques d'assimilation peuvent être adaptée. En effet celles-ci se base sur des états dont la discrétisation restent identique. De plus, le fait que l'espace soit continu ou discret va également modifier la signification de l'état et sa capacité à être mis à jour.
 Dans cette partie, nous reprendrons les principales familles de formulation particulaire en développant les formulations des méthodes DEM, SPH et MPM.  Pour chacune d'entre elles, nous évoquerons les sigularités et limites à l'adaptation des méthodes d'assimilation de données. De plus, nous présenterons la Méthode Vortex comme une méthode particulaire modèle pour la suite manuscrit.
 
 
@@ -197,7 +197,7 @@ Dans ce dernier cas, le facteur de normalisation $\alpha$ est
 
 Notez que ces noyaux ont été définis avec la coordonnée radiale $r$. Une autre possibilité serait de définir le noyau multidimensionnel comme le produit tensoriel du noyau 1D
 
-\subsection{SPH}
+\subsection{Hydrodynamique des particules lissées, \textit{Smoothed particle hydrodynamics} (SPH)}
 
 La méthode SPH a étét développée indépendemment par Lucy~\cite{lucy_1977}, et Gingold et Monhagan~\cite{gingold_monaghan_sph_1977}. Elle a été formulé initialement pour dess problème de formation et d'évolution des systèmes stellaires. Tout comme en mécanique quantique sont but est de réprésenter le système discret en le lissant pour obtenir un milieu continu discrétisé par un ensemble de particules. En mécanique, cette méthode est vu comme une méthode de discrétisation sans maillage d'un milieu continu.
 Elle consiste à résoudre la forme forte des équations de la dynamique en approchant les champs et les opérateurs différentiels à l'aide de l'approximation particulaire et l'approximation par noyau précédemment évoqué.
@@ -225,8 +225,7 @@ Cette version est symétrique par rapport aux indices $p$ et $q$ ce qui favorise
 
 Finalement, les équations de la dynamique sont intégrées dans le temps généralement à l'aide d'un algorithme dit \textit{leap-frog}.
 
-\section{Méthode des points matériaux (material point method, MPM)}
-\subsection{Material Point Method (MPM)}
+\section{Méthode des points matériaux (\textit{Material Point Method}, MPM)}
 
 La méthode MPM est une version de FLIP pour résoudre le problème de mécanique des solides.
 Elle consiste, comme en élément finis, à résoudre le problème aux valeurs sous sa forme faible, en utilisant conjointement deux discrétisations, une grille et des particules. En cela elle est une méthode qui utilise à la fois une description lagrangienne et eulérienne.

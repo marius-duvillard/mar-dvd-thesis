@@ -35,7 +35,7 @@
 ## Chapitre 2 : Evaluation de la capacité des méthodes développées à assimiler les données sur plusieurs applications
 
 #### Objectif
-
+Deux adaptations du filtre EnKF ont été proposées pour être... 
 - POUR CELA : 
   - POUR CELA : on a fait varier  
   - SACHANT QUE : 
@@ -59,6 +59,7 @@
 - ON A proposé une méthodologie
 
 ## Chapitre 4 :Evaluation et comparaison des méthodes de correction de position et d'intensité
+
 #### Objectif:
 
 #### Bilan:
