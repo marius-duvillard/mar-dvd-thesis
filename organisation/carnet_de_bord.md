@@ -321,7 +321,7 @@ Bootstrapping for confidence intervals
 - J'ai changé la définition de la base. Je reprends tous les membres de manière équitable
 - Dans la présentation justifaction de la pénalisation --> on pénalise les coefficients. L'idée c'est d'éviter un déplacement de particules moyens trop élevé. Donc on pénalise le champ de vitesse u. Comment en pénalisant les composantes ?
   
-# 16-05-2024
+## 16-05-2024
 
 - Faire les slides sur la dernière partie. Dire comment on souhaite corriger sur la première slide (hypothèse, but, moyens). Puis slide qui présente la transformation avec qq notations, puis le problème d'optimisation. Phrase de transition sur le choix de l'espace de recherche. Après définition de l'espace, on reformule le problème d'optimisation dans la base.
 - [x] Faire un cas avec des *core size* différents (ajouter une distribution, cas 311).
@@ -332,16 +332,16 @@ Bootstrapping for confidence intervals
 - [ ] représenter la distribution de vorticité suivant l'initialisation.
 - [x] Faire les cas sans assimilation
 
-# 17-05-2024
+## 17-05-2024
 
 - Hier ai fait les cas sans assimilaiton du problème et avec assimilation. On observe que arpès un réaligment, la différence de position est une erreur d'avance ou de retard sur la trajectoire totale. Penser à faire un cas différent pour voir le comportement ? Par exemple le dipole ?
 - Faire les slides --> voir idées carnet de note. D'abord sur la partie alignement.
 
-# 21-05-2024
+## 21-05-2024
 - avancement sur les slides
 - Faire la mise à jour avec champs avant après pour la mise à jour.
 
-# 22-05-2024
+## 22-05-2024
 - [ ] Fin des slides pour l'instant. Envoie à Michel et Olivier
 - [ ] Faire un cas de dipole avec initialisation seulement un ecart sur Amplitude et Rayon mais pas position. Faire une seule assimilation pour commencer.
 - [x] Pour le dipole, coloré suivant que le tourbillon soit positif ou négatif.
@@ -351,7 +351,7 @@ Bootstrapping for confidence intervals
 - [ ] Faire le calcul de l'erreur sur les observations de la vitesse. Pour cela il faudrait la vitesse débruité ?
 - [ ] Voir pour faire l'export des coefficients, regarder les champs de vitesse. Analyse des champs dans le fichier `velocity_analyzer.py`
 
-# 23-05-2024
+## 23-05-2024
 
 - Avancer sur l'article ou sur la partie vortex method du manuscrit $\rightarrow$. J'ai revu VM et maintenant il faut voir MPM
 - Revu velocity analyzer. Une svd semble assez interessante
@@ -359,14 +359,14 @@ Bootstrapping for confidence intervals
 - J'ai vu que jusqu'à présent je ne mettais pas à jour la base avec le fichier json... Donc à retester pour `extended`.
 - Avancement sur le filtre d'alignement en prenant le prior mais aussi avec la version incrémentale à tester toutes deux. 
 
-# 24-05-2024
+## 24-05-2024
 
 - Avancer jusqu'à MPM et faire un peu d'article 
 - Faire la version prior de l'alignement
 - Voir pour faire la version incrémentale aussi ? Petit test ?? Il faut alors refaire la fonction MemberAlign, peut être memberALignInc.
 - Ok ça a l'air de marcher, à voir pour modifier le Inc pour avoir l'enriched. l'inversion de P prend trop de temps.
 
-# 27-05-2024
+## 27-05-2024
 
 - Présentation blanche ce matin. Voici quelques modifications à faire:
   - [x] Rajouter le logo polytechnique
@@ -379,13 +379,13 @@ Bootstrapping for confidence intervals
 - Après avoir fini les slides, reprendre le cas part EnKf avec le dernier exemple, coder le code en question en cpp.
 - Dans part enkf faire mise à jour des quantités particulaires.
 
-# 28-05-2024
+## 28-05-2024
 
 - Reprise du part enkf 
 - Faire les slides mise à jour
 - Donner un code couleur pour intensité et position
 
-# 29-05-2024
+## 29-05-2024
 
 - Modifications posible à faire:
   - Slide "position update à Goal, mettre directement l'image d'un des vortex qui se fait corriger la position. Pour cela, je propose de montrer les particules avant, les particules après avec le champ de vitesse. Peut être mettre deux images successives. Dans ce cas enlever le texte de cette slide et le garder uniquement dans la slide suivante.
@@ -393,12 +393,12 @@ Bootstrapping for confidence intervals
   - Laisser la slide searching space.
   - Rajouter le cas test où juste la position est incertaine.
 
-# 30-05-2024
+## 30-05-2024
 
 - [x] Faire le run avec PartEnKF
 - [x] Faire le code pour Part-Align-EnKF
   
-# 31-05-2024
+## 31-05-2024
 
 - Continuer la présentation. Reprendre note de la réunion avec Olivier.
 - [ ] Faire l'export du champ d'alignement
@@ -406,14 +406,14 @@ Bootstrapping for confidence intervals
 
 - [ ] Tester de faire le Remesh-ENKF
 
-# 02-06-2024
+## 02-06-2024
 
 - Présentation à ECCOMAS2024
 - Machine Learning for the Inverse Design of Architected Materials: interessant présente des cas de méthodes inverses pour des designs. Utilise stable diffusion.
 - Parameterized hyperelastic material modeling and multiscale topology optimization with physics-augmented neural networks: Utilise des PolyConvex Neural network. Ajoute une paramétrisation.
 - Idée: tester le cas de vortex de taylor
 
-# 03-06-2024
+## 03-06-2024
 
 - Initialization du green vortex
 - benchmark_nproc.cpp to launch
@@ -423,12 +423,12 @@ Bootstrapping for confidence intervals
 - Beaucoup de méthode CBO (consensus based optimization)
 - Elisa Incomini: Multiobj with filtering methods. Case of inverse problem setting. Multiobjective = several inverse problem (best machine to cut diff materials).
 
-# 13-06-2024
+## 13-06-2024
 
 - Formation sur les débouchés du doctorat
 - Voir les [notes](../formations/dvlp_pro/notes.md)
 
-# 14-06-2024
+## 14-06-2024
 
 - [x] Faire ADUM
 - Présentation Café thésard --> todo
@@ -439,7 +439,7 @@ Bootstrapping for confidence intervals
 - Commencer présentation CSI --> power point ?
 - Commencer présentation  --> en latex. S'inspirer de la conf.
 
-# 17-06-2024
+## 17-06-2024
 
 - Faire plan Café thésard
 - Faire plan CSI
@@ -448,13 +448,13 @@ Bootstrapping for confidence intervals
 
 - Open mp ne semble pas efficace... 
 
-# 19-06-2024
+## 19-06-2024
 
 - Avancement sur Remesh-EnKF avec les couleurs
 - Test sur l'assimilation
 - finalisation de la présentation CSI
 
-# 20-06-2024
+## 20-06-2024
 
 - Faire un fichier pour faire varier certains paramètres. Proposer un code qui puisse être appellé comme
   `./run_benckmark -p parameters.json -i nens -v 10 20 40 (+ le filtre à utiliser)
@@ -465,24 +465,24 @@ Bootstrapping for confidence intervals
 - Faire le plan de la partie 1.
 - Faire la slide MPM - DEM et DA --> beginning and end, c'est à dire présenter les simulations et les moyens d'appliquer les méthodes d'assimilation.
 
-# 24-06-2024
+## 24-06-2024
 
 - [x] relire entretien de fin d'année
 - [x] Revoir le plan précis du café thésard
 
-# 25-06-2024
+## 25-06-2024
 
 - [x] préparer réunion de suivi faire un petit latex ? : mettre le planning, parler des derniers jalons: finalisation d'une dernière étude (mettre qq slides), présentation à ECCOMAS, passage du CSI, préparation du Café-Thésard.
 - [x] Entretien annuel
 - [ ] Finaliser la présentation café-thésard
 
-# 26-06-2024
+## 26-06-2024
 
 - [x] Finaliser présentation café thésard --> revoir animation du remesh_enkf (rajouter une visualization du support de particules ?)
 - [x] Voir erreur de plot sigma_obs
 - [ ] Il faut prendre en compte sigma_obs dans le problème d'alignement
 
-# 27-06-2024
+## 27-06-2024
 
 - [x] Finir la presentation café thésard !!!
 - [x] voir dernier résultats et relancer avec les filtres align --> voir pour faire la regression
@@ -492,20 +492,20 @@ Bootstrapping for confidence intervals
 - [ ] Faire une assimilation avec le filtre align en faisant varier lambda --> pour montrer le choix de l'hyperparamètre. Pour cela faire un 
 - [ ] Rajouter l'erreur sur les centre de tourbillon dans le benchmark! --> les sauvegarde sont bien faite.
 
-# 28-06-2024
+## 28-06-2024
 
 - Présentation au café thésard. Découverte d'un mémoire de thèse sur filtre EnKF et méthode vortex. Toujours une définition de l'état inadéquat.
 - problème de convergence sur le align --> voir pour de la régularisation ?, c'est peut être ça qui explique la lenteur. Donc pour l'instant attention aux résultats du dossier align ou align_remesh
 - Donc on lance la calibration du lambda
 - voir la dépendance au bruit de mesure
 
-# 01-07-2024
+## 01-07-2024
 
 - Reprise de la partie Remesh EnKF ce matin
 - [ ] Revoir le filtre part-EnKF --> voir le comportement, pour ça marche bien ?
 - [ ] Pour l'étude paramétrique faire la fonction qui compare l'erreur de position --> faire une fonction d'agglomération à chaque fin d'assimilation ?
  
-# 03-07-2024
+## 03-07-2024
 
 - [x] finir le CV, europass ?
 - [x] faire cover letter
@@ -514,18 +514,18 @@ Bootstrapping for confidence intervals
 - [ ] Avancer sur la partie PartEnKF --> méthode, regression, algo.
 - [ ] refaire lcurve avec un fichier de paramètre en entrée
 
-# 04-07-2024
+## 04-07-2024
 
 - [ ] relire CV et cover letter (9-10h)
 - [ ] revoir l'entete du lcurve (10-11h)
 - [ ] faire partie part-enkf (11h-18h)
 
-# 08-07-2024
+## 08-07-2024
 
 - Avancé sur la partie Part-EnKF. Faire le chapeau en reprenant l'introduction de l'article
 - Reprise Vortex in Cell
   
-# 09-07-2024
+## 09-07-2024
 - MPM en lisant livre Olivier. Texte MPM à nettoyer.
 - Analyser les résutlats de calibration du lambda -> premier plot et relance d'une série de calcul à 10:26 le 09/07
 - J'ai trouvé des informations sur la calibration avec la l curve, ici un très bon papier explicatif sur la [courbure](https://www.sintef.no/globalassets/project/evitameeting/2005/lcurve.pdf) et là une [implémentation python](https://github.com/eric-brandao/lcurve/tree/master)
@@ -534,9 +534,79 @@ Bootstrapping for confidence intervals
 - Dans ce cas il suffit de regarder quel est le lambda pour lequel le data missfit intersect le niveau de bruit.
 - Relire la partie bibliographie et le plan générale
 - Faire la partie application (chapitre 2) application 1d et 2d.
-- 
 
-## A FAIRE
+## 10-07-2024
+
+- Faire le bilan de l'application 1d puis 2d, voir pour ajouter également la calibration des paramètre
+- Faire une précision sur VIC
+- Finir MPM
+- Faire un doc bilan sur l'avancement
+- Répondre à l'anonce de poste IRSN
+- Faire validation des cours de ADUM --> voir qui prévenir ?
+  
+- Palaiseau Theorical Spectroscopy Group
+  The quantum mony-body problem : $H \psy_\lamnda(x) = E_\lambda \psy_\lambda(x)$, x of size Nx^3
+  Triple compléxité: interaction, état quantique et un vrai matériau
+  Application optical absorption
+  Travaille sur les observables --> c'est à dire l'intégrale de l'équation
+  $O = \tilde O [Q]$, où $Q$ remplace la fonction d'onde, décrit complètement l'observable mais est plus simple.
+  ex: en dft, $Q$ est la densité electronique, l'observable est l'nergie totale: E[n].
+  - Filippo Vicentini, also on ML for quantum physics
+  objectif est de passer d'une compexité exp à polynomiale
+  sur l'approximation universelle voir Cybenko et Leshno.
+  Et voir Lu et al pour la profondeur du réseau.
+  - They also use transformers.
+  - Marylou Gabrié, CMAP: Assisting sampling of physical systems with generative models
+  - sampling cause the world is a statistical distribution.
+  - ex: statistical mechanics : $\rho(x) = \exp(-\beta U(x))/ Z_\beta$ ; or Bayesian inference.
+  - obj : trouver macro statistic (ex espectation)
+  - utilise MCMC, voir 2004 Liu handbook on mcmc
+  - degenerate case of MCMC: no mixing case ! 
+  - use generative modelling pour y répondre
+  - generative give a way to easily generate samples of a distribution
+  - issues: fake (voir Ali Borji, Image and Vision Computing 2023) ; comment obtenir la base de données initiale ? Sachant qu'on a que la densité que l'on veut échantillonner.
+  - Présente Normalizing Flow
+  - Voir Noé, Boltzmann Generators
+  - application en inférence bayésienne en astrophysique.
+  - voir package [FlowMC](https://flowmc.readthedocs.io/en/main/)
+  - application [DFT](https://en.wikipedia.org/wiki/Machine-learned_interatomic_potential)
+  - Quantum Physics for Machine Learning, Danijela Markovic
+  - prle de reservoir nodes
+  - outre des qbits, ils utilisent des oscillateurs quantiques
+  - Understanding Uncertainty in  Machine Learning with tractable model, Bruno Loureiro of ENS-CNRS.
+  - rappel que pour un nombre grand de données, la maximum lilihod tend vers une distribution en N(0, F(\theta)^{-1}) / \sqrt(n).
+  - Présente des reliability diagram pour presenter méthode de calibration
+  - Montre que en machine learning il y a de l'overconfidence
+  - Pour améliorer: utiliser deep ensembles, bnn, droupout...
+- - MLE suffer from overconfidence in high-dimension, regularisation and cross validation can help
+- Present the Empirical Bayes classifier or Laplace classifier
+- Temperature scaling: very good
+- Another presentation about RBM (restricted boltzmann machine)
+- Geometric learning, use point cloud data --> unordered and sparse (Mathieur Melennec) for high energy physics
+- Rudy Morel: present impressive field generation of diffrent fieldwant to use foundation models
+- Present **the Well** to mix different operators from differnt dataset
+
+- [x] Répondre à l'anonce de poste IRSN
+- [x] Faire validation des cours de ADUM --> voir qui prévenir ?
+  
+## 11-07-2024
+
+- [ ] Faire le bilan de l'application 1d puis 2d, voir pour ajouter également la calibration des paramètre
+- [x] Faire une précision sur VIC
+- [x] Finir MPM
+- [x] Faire un doc **bilan sur l'avancement**
+
+- Riwal Plougonven (Lab Météo Dnamique) (work of Sothea HAS)
+- Voir papier Bauer nature 2015
+- Main difficulty in NWP --> cloud and water cycle
+- gravity waves : T=10min - 2 days, like water but ici différence de densité entre les airs est bien moindre.
+- origine: montagne et convection
+- en fait cré des effets non locaux de la dissiption par déplacement de flux en altitude
+- Florence Tupin: Telecom, Radar imaging (gitlab ring), aller voir SWOT and BIOMASS mission, voir Infoterra and Astrium, voir Total Variation Denoising, alternating Direction method of multiplier
+- Julien Le Sommer: comb physics & ML in hybrid climate models
+- Neural incremental data assimilation, Mathieu Blancke: use re analyse dataset ERA5 (Munoz-Sabater)
+
+### A FAIRE
 
 - Redaction
 - [ ] Reprendre le docx introduction et compléter les trous, les manques de justif avec les thèse de Luiza et Giraud
@@ -555,6 +625,6 @@ Bootstrapping for confidence intervals
 - [x] créer un fichier SLURM. Test pour lambda program
 - [ ] Faire le calcul d'erreur au cours du temps et faire l'affichage sur 1 seul graph. Cote à cote forward et assim. S'inspirer de ce que j'avais fait pour l'analyse paramétrique.
 
-## A FAIRE++
+### A FAIRE++
 
 - Le calcul du gradient optimisé

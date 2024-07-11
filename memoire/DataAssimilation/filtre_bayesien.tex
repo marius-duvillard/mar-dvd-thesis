@@ -1,19 +1,21 @@
 % !TEX root = main.tex
 
 \chapter{Assimilation de Données}
+
+
 \section{Introduction}~\label{intro_da}
 
 \mycolor{La DA est un processus permettant d'intégrer des informations issues de différentes sources pour obtenir une compréhension plus précise et plus complète d'un système ou d'un phénomène. Cette méthode combine des données observées (mesures réelles) avec des prévisions issues de modèles numériques. L'objectif est de corriger et d'améliorer les modèles en fonction des observations, réduisant ainsi les incertitudes et améliorant la précision des prévisions. Dans ce processus, les observations, qui peuvent être incomplètes ou entachées d'erreurs, sont confrontées aux prévisions du modèle au cours du temps. Le modèle est ensuite ajusté pour mieux correspondre aux données réelles. Il s'agit donc de résoudre un problème inverse en prenant en compte l'aspect dynamique du phénomène. Cette méthode est largement utilisée dans divers domaines tels que la météorologie, l'océanographie, la géophysique, et l'ingénierie environnementale. Par exemple, en météorologie, la DA est essentielle pour les prévisions météorologiques en intégrant des données satellites et des mesures au sol dans les modèles atmosphériques.}
 
 L'assimilation peut être décrit comme la combinaison des informations a priori d'un modèle de simulation numérique avec les données issues de l'observation afin d'obtenir une estimation optimale d'un système dynamique et de ses incertitudes.
 
-L'assimilation de données trouve son origine en prédiction météorologique ou en océanographie \mycolor{citer Bocquet}. Cependant, sa formulation mathématique se base sur l'inférence Bayésienne, la théorie du contrôle et le calcul variationnel.
+L'assimilation de données trouve son origine en prédiction météorologique ou en océanographie \mycolor{citer Bocquet}. Cependant, sa formulation mathématique se base sur l'inférence bayésienne, la théorie du contrôle et le calcul variationnel.
 
 Plus que l'estimation d'un état, l'assimilation de données est aussi une formulation appropriée pour mettre à jour les paramètres d'un système.
 
 \section{Définition du problème}
 
-Nous décrirons le problème d'assimilation sous sa forme d'inférence Bayésienne. Suivant différentes hypothèses, nous montrerons qu'elle s'exprime alors sous des formes variées.
+Nous décrirons le problème d'assimilation sous sa forme d'inférence bayésienne. Suivant différentes hypothèses, nous montrerons qu'elle s'exprime alors sous des formes variées.
 
 \subsection{Définition de l'état}
 % Définition de l'état initial, modèle d
@@ -46,9 +48,9 @@ En supposant que ces erreurs sont additives, on défini la formule suivante
     \mathcal D_k = \mathcal H (\mathcal{X}_k) + \bm{\varepsilon}_k
 \end{equation*} où $\bm{\varepsilon}_k = \bm{\varepsilon}^\mu  + \bm{\varepsilon}^r$ défini l'incertitude sur l'observation $\mathcal D_k$ relatif à la prédiction $\mathcal{X}_k$.
 
-\subsection{Inférence Bayésienne récursive}
+\subsection{Inférence bayésienne récursive}
 
-Le problème d'assimilation de données peut être formulé sous une approche d'inférence Bayésienne. Celle-ci est une méthode statistique pour estimer l'état $\mathcal X_k$ en utilisant à la fois une information a priori et les données observées. Cette méthode repose sur le théorème de Bayes qui décrit la relation entre la distribution a priori de l'état $p(\mathcal X_k)$, la vraissemblance des données $p(\mathcal D_k \mid \mathcal X_k)$ conditionnellement à l'état et la distribution a posteriori de l'état étant donné les données observées, donnant alors
+Le problème d'assimilation de données peut être formulé sous une approche d'inférence bayésienne. Celle-ci est une méthode statistique pour estimer l'état $\mathcal X_k$ en utilisant à la fois une information a priori et les données observées. Cette méthode repose sur le théorème de Bayes qui décrit la relation entre la distribution a priori de l'état $p(\mathcal X_k)$, la vraissemblance des données $p(\mathcal D_k \mid \mathcal X_k)$ conditionnellement à l'état et la distribution a posteriori de l'état étant donné les données observées, donnant alors
 
 \begin{equation*}
     p(\mathcal X_k \mid \mathcal D_k) = \frac{(\mathcal D_k \mid \mathcal X_k)~p(\mathcal X_k)}{p(\mathcal D_k)}
@@ -143,8 +145,8 @@ avec la loi de Bayes appliquées après mesure de $\bm Y_n$
 \end{equation*}
 
 Ainsi, les méthodes de filtrage présentent sous diverse forment ces deux étapes de propagation et de d'analyse pour mettre à jour la distribution de l'état au cours du temps et après mesure des observations.
-\section{Propagation}
 
+\section{Propagation}
 En pratique, il est difficile de réaliser la propagation de la distribution de l'état.
 En effet, l'évolution du prior nécessite de propager entièrement la distribution à l'aide de l'équation de Fokker-Planck, celle-ci ne pouvant être résolue qu'en dimension faible~\cite{jazwinski_4_1970}.
 
@@ -157,24 +159,6 @@ Une première alternative consiste à uniquement considérer l'évolution pour l
 Cette proposition est un des éléments utilisés dans le filter de Kalman~\cite{kalman_filter}. Dans le cas où le modèle n'est pas linéaire, alors une approximation peut être obtenue par linéarisation du modèle.
 
 Une autre possibilité consiste à utiliser un ensemble pour représenter la distribution de l'état. L'état est représenté par un ensemble d'échantillons ou particules tel que $p(\bx_k)  = \sum_{i=1}^{N} \omega^i \delta_{\bx^i}(\bx_k)$ est une distribution empirique de la distribution. C'est l'hypothèse qui est utilisé dans le filtre particulaire~\ref{sec:filtre_particulaire} mais également dans le filtre de Kalman d'Ensemble~\ref{sec:enkf}. Dans ce dernier cas, les membres $\bx^i$ sont supposées indépendant et identiquement distribué, ainsi les poids sont tous égaux à $1/N$.
-
-
-\section{Hypothèses et filtres}
-
-Dans les parties suivantes, nous présenterons quatres familles de méthode de filtrage.
-
-\mycolor{présenter les différentes méthodes}
-\begin{itemize}
-    \item le filtre particulaire - filtre bayésien non linéaire sur distributions empirique
-    \item filtre de Kalman - filtre bayésien modèle linéaire, distributions gaussienne
-    \item Méthode Variationnelle d'ensemble - filtre non linéaire, distribution gaussienne
-    \item filtre de Kaman d'Ensemble - filtre non linéaire, distribution gaussienne
-
-\end{itemize}
-
-Celles-ci diffèrent par un certains nombres d'hypothèses que nous avons regroupé dans la Table et représenté sur la Figure
-\mycolor{Faire un schéma des différentes méthodes de filtrage avec les hypothèses associées.}
-
 
 \section{Filtre particulaire}~\label{sec:filtre_particulaire}
 
@@ -207,7 +191,7 @@ Quant à l'étape d'analyse, elle correspond à une mise à jour du poids de cha
     &\propto& \sum_{i=1}^N  \omega^i_k~p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x_{k+1}^i}^{\mid k}(\bm y)\delta(\bm x - \bm x_{k+1}^i)
 \end{eqnarray*}
 
-Leading to
+ce qui donne
 
 \begin{equation*}
     \omega^i_{k+1}  = \frac{\omega^i_k~p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x_{k+1}^i}^{\mid k}(\bm y_{k+1}) }{\omega^j_k~\sum_j^N p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x_{k+1}^j}^{\mid k}(\bm y_{k+1}) }
@@ -231,7 +215,6 @@ Un exemple d'algorithme suivant
     Le membre $j$  est conservé et remplace le membre $n$.
     }
 \end{algorithm}
-
 
 \section{Filtre de Kalman}~\label{kalman_filter}
 
@@ -402,16 +385,14 @@ On peut aussi faire plusieurs remarques :
 
 \begin{itemize}
     \item L'inverse de la dérivée seconde de la fonction coût $\mathcal L$, Hessienne, est une approximation à l'ordre 1 de la matrice de covariance a posteriori,
-    \item Si l'opérateur d'observation $h$ est non linéaire alors, le problème n'est pas convexe et une méthode itérative de minimisation est souvent mis en place. Même dans le cas où $h$ est linéaire, le stockage de matrice de grande dimension peut encourager à utiliser ces méthodes itérative,
+    \item Si l'opérateur d'observation $h$ est non linéaire alors, le problème n'est pas convexe et une méthode itérative de minimisation est souvent mis en place. Même dans le cas où $h$ est linéaire, le stockage de matrice de grande dimension peut encourager à utiliser ces méthodes itérative.
 \end{itemize}
-
-\subsection{Méthodes de minimisation}
 
 \subsection{Méthode 3DVar}~\label{subsec:3dvar}
 
 La méthode 3DVar est un cas particulier de l'équation précédente qui permet de résoudre le problème de minimisation de la solution itérative à faible coût. Elle consiste à supposer fixe et connu les matrices de covariance $\bP$ et $\bR$. Ainsi, la matrice Hessienne $\bm B$ est donnée par $\bP$
 
-\section{Equivalence avec la mise à jour de Kalman}
+\subsection{Equivalence avec la mise à jour de Kalman}
 
 Elle se place dans le cas où la fonction d'observation est linéaire $\bm h(\bx) = \bH \bx$.
 $$\mathcal L_{3D}(\bx) = \frac{1}{2}\norm{\bx-\bx_b}_{\bP^{-1}}^2+ \frac{1}{2}\norm{y-H(x)}^2_{R^{-1}}$$
@@ -492,14 +473,30 @@ Les $N$ problème de minimisation peuvent être reformulés à l'aide des termes
 
 En effet \mycolor{mettre la formule ici}.
 
-\subsection{Méthodes d'assimilations tenant compte de l'erreur d'alignement}
+\subsection{Méthodes d'assimilation tenant compte de l'erreur d'alignement}
 Les méthodes du filtre bayésien résolue par des méthodes statistiques comme le filtre de Kalman ou variationnelle se base uniquement sur la correction des intensitées. L'erreur est estimée pour une coordonnée spatiale comme étant distribué normalement autour d'une valeur. Cette hypothèse sur la distribution d'erreur ne tient pas compte de l'erreur issue de l'alignement de champs. Cette correction est classiquement appliqué sur les intensités des champs de l'état. Cependant, celle-ci se trouve faussée par ce que l'on appelle l'effet de \textit{double pénalisation}.
 Cela se produit lorsque les erreurs du modèle et des données observationnelles sont sur-pénalisées, compromettant l'équilibre nécessaire. Par exemple, un léger déplacement de polluants peut entraîner des prédictions élevées là où aucun polluant n'est observé \mycolor{(faire mon propre schéma voir Figure \ref{fig:double_penalization_error})} créant des difficultés d'évaluation du modèle. Cette erreur est répandue dans les géosciences, affectant la prévision météorologique, la chimie atmosphérique, la prévision océanique, etc. L'utilisation de l'erreur quadratique moyenne aggrave ce problème, entravant l'apprentissage efficace des modèles. C'est une composante dominante de l'erreur de représentativité. Dans un cas dégénéré, ou la prédiction est un translation de la solution, on observe en \mycolor{(mettre une figure) Figure X que l'erreur quadratique sera plus élevée que si l'erreur prédite est était nulle}.
 
 Pour tenir compte de cette erreur, des métriques tenant compte d'une erreur d'alignement ont pu être introduite.
 - Une première famille de méthodes utilise des métrique basée sur le transport optimal.
 
+\section{Bilan - classification des filtres}
+
+Dans les parties suivantes, nous présenterons quatres familles de méthode de filtrage.
+
+\mycolor{présenter les différentes méthodes}
+\begin{itemize}
+    \item le filtre particulaire - filtre bayésien non linéaire sur distributions empirique
+    \item filtre de Kalman - filtre bayésien modèle linéaire, distributions gaussienne
+    \item Méthode Variationnelle d'ensemble - filtre non linéaire, distribution gaussienne
+    \item filtre de Kaman d'Ensemble - filtre non linéaire, distribution gaussienne
+
+\end{itemize}
+
+Celles-ci diffèrent par un certains nombres d'hypothèses que nous avons regroupé dans la Table et représenté sur la Figure
+\mycolor{Faire un schéma des différentes méthodes de filtrage avec les hypothèses associées.}
+
 \section{Conclusion}
 
 
-Nous avons proposer différentes formulation du problème de filtrage. Après un rappel de la formulation Bayésienne du problème, nous avons montrer que des formulations séquentielles
+Nous avons proposer différentes formulation du problème de filtrage. Après un rappel de la formulation bayésienne du problème, nous avons montrer que des formulations séquentielles

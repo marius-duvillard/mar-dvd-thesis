@@ -3,10 +3,19 @@
 \chapter{Méthode de simulation du tambour et assimilation de données}
 
 Nous avons vu dans le chapitre précédent que l'assimilation dépendait de la définition d'un modèle et de son état. Dans le cas de la simulation de l'écoulement au sein du broyeur à boulets, il s'agit principalement de méthodes reposant des discrétisations sans maillage. C'est ce type de modélisaton qu'il faudra prendre en compte aussi lors de l'assimilation de données. Or, le caractère Lagrangien de la définition de l'état implique d'évaluer jusqu'à quel point les méthodes classiques d'assimilation peuvent être adaptée. En effet celles-ci se base sur des états dont la discrétisation restent identique. De plus, le fait que l'espace soit continu ou discret va également modifier la signification de l'état et sa capacité à être mis à jour.
-Dans cette partie, nous reprendrons les principales familles de formulation particulaire en développant les formulations des méthodes DEM, SPH et MPM.  Pour chacune d'entre elles, nous évoquerons les sigularités et limites à l'adaptation des méthodes d'assimilation de données. De plus, nous présenterons la Méthode Vortex comme une méthode particulaire modèle pour la suite manuscrit.
+Dans ce Chapitre, nous rappellerons en Section~\ref{sec:simu_broyeur} les principales méthodes utilisées aujourd'hui pour simuler l'écoulement au sein du broyeur à boulet. En constatant la prédominance des méthodes sans maillage, nous reprendrons les principales familles de formulation particulaire en particulier en considérant en Section~\ref{sec:part_discret} les méthodes utilisant un milieu discret et en Section~\ref{sec:part_cont} un milieu continu. Nous évoquerons les sigularités et limites à l'adaptation des méthodes d'assimilation de données et présenterons les travaux actuels dans la littérature. De plus, nous présenterons la méthode vortex comme une méthode particulaire modèle pour la suite du manuscrit.
 
+\section{Simulation du broyeur}\label{sec:simu_broyeur}
 
-\section{Méthode des éléments discrets (DEM)}
+Avec les approches continues l'intérieur du tambour d'un mélangeur-broyeur est conceptualisé comme un milieu continu, adoptant une perspective macroscopique. La réponse du milieu est alors représenté par une loi de comportement mécanique telle que la loi de Drucker-Prager. Cela contraste avec la méthode des éléments discrets (DEM), qui se concentrent sur les interactions particule-par-particule.
+
+Cette approche hybride permet à la MPM de capturer efficacement les déformations importantes, les ruptures, et d'autres comportements complexes du milieu qui sont fréquents dans les opérations de mélange et de broyage. En revanche, la description fine du phénomène proposée par la DEM n'est plus disponible.
+
+En termes de temps de calculs, la MPM est plus efficace que la DEM.
+
+\section{Méthodes sans maillage discrètes}~\label{sec:part_discret}
+
+\subsection{Méthode des éléments discrets (DEM)}
 
 La méthode consiste à considérer le mouvement d'un ensemble de $N$ grains composant le milieu. Celui-ci est décrit par l'équation de la dynamique qui peut s'écrire sous la forme
 
@@ -42,13 +51,11 @@ L'un des principaux avantages de la DEM est sa capacité à fournir des informat
 
 Cependant, l'utilisation de la DEM pour la simulation de mélangeurs-broyeurs peut être exigeante en termes de ressources informatiques, en particulier pour les systèmes avec un grand nombre de particules.
 
-
 \subsection{DEM et assimilation de données}
 
 L'assimilation de données, lorsqu'appliquée à des systèmes simulés par la méthode des éléments discrets (DEM), se heurte à plusieurs limites importantes présentées ci-dessous.
 
-\subsubsection{Limites de la DEM avec les méthodes variationnelles}
-
+% \subsubsection{Limites de la DEM avec les méthodes variationnelles}
 Dans le cadre des méthodes variationnelles d'assimilation de données, telles que 3D-Var, le principal défi est la grande dimensionnalité du problème d'optimisation.
 En effet, La DEM simule le comportement de chaque particule individuellement. Cela signifie que l'état du système comprend les variables cinématique de chacune d'elles : position, la vitesse, accélération mais aussi la position angulaire, la vitesse angulaire et l'accélération angulaire ou la densité de chaque particule. Pour un système avec des milliers voire des millions de particules, cela conduit à un problème d'optimisation de très grande dimension.
 
@@ -59,8 +66,7 @@ L'application des méthodes 3D-Var et 4D-Var est donc trop exigeante d'un point 
 De plus, les filtres variationnels corrigeant des erreurs d'intensité selon des normes euclidiennes, la variation selon les positions des observations ne sera pas linéaire.
 
 Ainsi, la définition d'un état de particules discrètes implique de résoudre un problème d'optimisation non-linéaire de grande dimension.
-
-\subsubsection{Limites de la DEM avec EnKF}
+% \subsubsection{Limites de la DEM avec EnKF}
 Pour l'EnKF, l'état estimé du système est une combinaison linéaire des états prédits par les différents membres de l'ensemble. Cependant, dans le contexte de la DEM, cette combinaison linéaire des états n'est pas nécessairement physiquement admissible. Par exemple, elle pourrait conduire à des situations où les particules s'interpénètrent ou violent d'autres lois physiques.
 En d'autres terme, la mise à jour ne peut être réalisé que via le solveur lui-même capable de vérifier des contraintes de non interpénétrabilité mais ne peut être réalisé directement.
 
@@ -73,11 +79,10 @@ Ainsi, le caractère discret de la méthode DEM rend l'assimilation par EnKF à 
 \begin{itemize}
     \item une définition de l'état et de ses statistiques non univoque ;
     \item la construction du gain de Kalman d'Ensemble ;
-    \item la contrainte d'interpénétration lors de la mise à jour.
+    \item la contrainte d'interpénétration non respecté lors de la mise à jour.
 \end{itemize}
 
-\section{Méthodes particulaires continues}
-\subsection{Méthodes basées sur les particules}~\label{Background_Part}
+\section{Méthodes particulaires continues}\label{sec:part_cont}
 Nous envisageons des méthodes par particules pour résoudre des problèmes continus en mécanique des fluides ou des solides. Cela inclut des méthodes telles que l'hydrodynamique par particules lissées (SPH) \cite{lucy_1977,gingold_monaghan_sph_1977} et la méthode des vortex (VM) \cite{cottet_vortex_2000}, et s'étend à d'autres méthodes comme la méthode des points de matériau (MPM) \cite{sulsky_particle_1994}. Elles partagent toutes de décomposer cette fois le domaine en un ensemble $\mathcal{P}$ de particules qui suivent la dynamique du problème. Ainsi, la discrétisation suit la transformation appliquée au milieu en transportant des quantités attachées à chaque particule. Elles sont en cela des méthodes Lagrangienne.
 
 \subsubsection{Discrétisation par particules}
@@ -197,7 +202,7 @@ Dans ce dernier cas, le facteur de normalisation $\alpha$ est
 
 Notez que ces noyaux ont été définis avec la coordonnée radiale $r$. Une autre possibilité serait de définir le noyau multidimensionnel comme le produit tensoriel du noyau 1D
 
-\subsection{Hydrodynamique des particules lissées, \textit{Smoothed particle hydrodynamics} (SPH)}
+\section{Hydrodynamique des particules lissées, \textit{Smoothed particle hydrodynamics} (SPH)}
 
 La méthode SPH a étét développée indépendemment par Lucy~\cite{lucy_1977}, et Gingold et Monhagan~\cite{gingold_monaghan_sph_1977}. Elle a été formulé initialement pour dess problème de formation et d'évolution des systèmes stellaires. Tout comme en mécanique quantique sont but est de réprésenter le système discret en le lissant pour obtenir un milieu continu discrétisé par un ensemble de particules. En mécanique, cette méthode est vu comme une méthode de discrétisation sans maillage d'un milieu continu.
 Elle consiste à résoudre la forme forte des équations de la dynamique en approchant les champs et les opérateurs différentiels à l'aide de l'approximation particulaire et l'approximation par noyau précédemment évoqué.
@@ -227,31 +232,29 @@ Finalement, les équations de la dynamique sont intégrées dans le temps géné
 
 \section{Méthode des points matériaux (\textit{Material Point Method}, MPM)}
 
-La méthode MPM est une version de FLIP pour résoudre le problème de mécanique des solides.
-Elle consiste, comme en élément finis, à résoudre le problème aux valeurs sous sa forme faible, en utilisant conjointement deux discrétisations, une grille et des particules. En cela elle est une méthode qui utilise à la fois une description lagrangienne et eulérienne.
+La méthode des points matériaux (MPM) est une autre méthode particulaire qui utilise une double description: lagrangienne et eulérienne. Tout comme la méthode SPH, elle utilise une discrétisation particulaire, les points matériaux, qui en se déplaçant transportent certaines variables internes. D'autre part, l'interpolation du champ de déplacement est réalisé à l'aide de coordonnées spatiales détachées des éléments matériels, généralement sur une grille régulière. Les deux discrétisations interagissent au travers l'opérateur de projection interpolation entre particules et les noeuds et de la grille qui les entourent. Cette méthode fait parti de la famille \textit{particle-in-cell} (PIC). La méthode MPM est un adaptation en mécanique des solides développé par Sulsky et al.~\cite{sulsky_particle_1994} à partir de la méthode FLIP de Brackbill~\cite{brackbill_flip_1988} en mécanique des fluides.
 
-Le problème aux conditions limites, sous sa forme forte, se composent des équations d'équilibre, des lois matériaux, de l'équation cinématiqu et des conditions limites et initiales donnant
+Comme en élément finis, la méthode MPM consiste à résoudre le problème aux valeurs sous sa forme faible
+% Le problème aux conditions limites, sous sa forme forte, se composent des équations d'équilibre, des lois matériaux, de l'équation cinématique et des conditions limites et initiales donnant
+
+% \begin{equation*}
+%     \begin{cases}
+%         \begin{aligned}
+%              & \frac{D \rho}{Dt} + \rho \nabla \cdot \bm v  =  0                          ,                                                                         & \quad \text{(conservation de la masse)}                  \\
+%              & \rho \frac{D \bm v}{Dt}                      =  \nabla \cdot \bm \sigma + \rho \bm b,                                                                & \quad  \text{(conservation de la quantité de mouvement)} \\
+%              & \bm \sigma = LdC(\bm F),                                                                                                                             & \quad  \text{(loi de comportement)}                      \\
+%              & \bm u(\bm z, t) = \bar{\bm u}, \quad \forall \bm z \in \Gamma_u,    \quad  \bm \sigma (\bm z) \cdot \bm n = \bm t, \quad \forall \bm z \in \Gamma_t, & \quad  \text{(conditions limites)}                       \\&\bm v(\bm z, t = 0), \quad \bm \sigma(\bm z, t= 0) = \bm \sigma_0. & \quad  \text{(conditions initiales)} \\
+%         \end{aligned}
+%     \end{cases}
+% \end{equation*}
+
+En introduisant une fonction test $\bm q$, la forme faible de l'équation de conservation du moment s'écrit
 
 \begin{equation*}
-    \begin{cases}
-        \begin{aligned}
-             & \frac{D \rho}{Dt} + \rho \nabla \cdot \bm v  =  0                          ,                                                                         & \quad \text{(conservation de la masse)}                  \\
-             & \rho \frac{D \bm v}{Dt}                      =  \nabla \cdot \bm \sigma + \rho \bm b,                                                                & \quad  \text{(conservation de la quantité de mouvement)} \\
-             & \bm \sigma = LdC(\bm F),                                                                                                                             & \quad  \text{(loi de comportement)}                      \\
-             & \bm u(\bm z, t) = \bar{\bm u}, \quad \forall \bm z \in \Gamma_u,    \quad  \bm \sigma (\bm z) \cdot \bm n = \bm t, \quad \forall \bm z \in \Gamma_t, & \quad  \text{(conditions limites)}                       \\&\bm v(\bm z, t = 0), \quad \bm \sigma(\bm z, t= 0) = \bm \sigma_0. & \quad  \text{(conditions initiales)} \\
-        \end{aligned}
-    \end{cases}
+    \int_\Omega \rho \bm a \cdot \bm q d\Omega + \int_\Omega \rho \bm \sigma : \nabla \cdot \bm q d\Omega = \int_\Omega \rho \bm b\cdot \bm q d\Omega + \int_{\partial \Omega_t} \bm q \cdot \bm t dS.
 \end{equation*}
 
-La forme faible de l'équation de conservation du moment est, en introduisant une fonction test $\bm q$
-
-\begin{equation*}
-    \int_\Omega \rho \bm a \cdot \bm q d\bm z + \int_\Omega \bm \sigma : \nabla \cdot \bm q d\bm z = \int_\Omega \rho \bm b d\bm z + \int_{\partial \Omega_t} \bm t dS.
-\end{equation*}
-
-Le schéma MPM peut être obtenu en utilisant une discrétisation particulaire de la densité sur les particules et en utilisant un  $\Omega = \bigcup_p \Omega_p$.
-
-En concentrant la masse sur la position de chaque particule, on peut représenter la densité comme un somme de dirac tel que
+Le schéma MPM peut être obtenu en concentrant la masse sur $N_p$ particules. La densité est alors représentée comme un somme de dirac
 
 \begin{equation*}
     \rho(\bm z) = \sum_p V_p~\rho_p \delta(\bm z - \bm z_p) = \sum_p m_p \delta(\bm z - \bm z_p)
@@ -262,126 +265,96 @@ De même, on discrétise la contrainte $\bm \sigma$
 \begin{equation*}
     \bm \sigma(x) = \sum_p \bm \sigma_p \delta(\bm z - \bm z_p).
 \end{equation*}
-Une généralisation a été proposée avec la méthode GIMP \cite{bardenhagen_generalized_2004} en définissant une représentation particulaire de la densité en attroduisant une fonction caractéristique $\chi_p$ tel que
+On trouve un certain nombre de généralisation dans la littérature comme la méthode GIMP \cite{bardenhagen_generalized_2004} en définissant une représentation particulaire de la densité où les diracs sont remplacés par des fonction caractéristique $\chi_p$ tel que
 
 \begin{equation*}
     \rho(\bm z) = \sum_p m_p \chi(\bm z - \bm z_p)
-\end{equation*}
-
-Ce qui donne en choisissant $i$ comme indice de dimension d'espace
-
-\begin{equation*}
-    \sum_p m_p q_i(\bm z_p) a_i(\bm z_p) + \sum_p \sigma_{ij} \partial_j u_i + \int_{\partial \Omega_t} t_i q_i dS.
-\end{equation*}
-
-
-\subsubsection{Interprétation 1}
-
-\subsubsection{Interprétation 2}
-
-\subsubsection{Schéma classique}
-
-La méthode MPM est implémentée généralement en trois phases. Dans un premier temps, les quantités définies sur les particules sont transférés sur les noeuds de la grille \textit{p2g}. Le principe fondementale de la dynamique est alors résolu permettant de déterminer une grille déformée. Finalement, les nouvelles quantités nodales permettent de mettre à jour les quantités particulaires dans une phase de transfert grille à particule (\textit{g2p}).
-
-\paragraph*{p2g}
-
-La grille de positions de noeuds $x_I$ est initialisée avec des valeurs nulles.
-
-La masse $m_p$,la quantité de mouvement $m_p \bm v_p$ et les forces $\bm f_p$ sont transférées à la grille à l'aide des fonctions de forme $\phi_I$ associé à chaque noeuds
-
-\begin{eqnarray*}
-    m_I = \sum_p \varphi_{Ip}~ m_p, \\
-    m_I \bm v_I  =  \sum_p \varphi_{Ip}~ m_p \bm v_p, \\
-    \bm f_I  =  \sum_p \varphi_{Ip}~  \bm f_p. \\
-\end{eqnarray*}
-
-Des transferts plus complexes capable de préserver les moments angulaires ont été développé comme APIC~\cite{jiang_affine_2015}, Poly-PIC~\cite{fu_polynomial_2017}, et MLS-MPM~\cite{hu_moving_2018}.
-
-\paragraph*{Mise à jour sur la grille}
-La grille à chaque étape est initialisée dans un état non déformée. A l'aide du principe fondamentale de la dynamique, la vitesse sur la grille est mise à jour de manière explicite tel que
-
-\begin{eqnarray*}
-    m_I \bm a_I &=& \bm f_I + \bm f_g, \\
-    m_I \bm v^{n+1} &=& \bm v^{n} + \Delta t~ (\bm f_I + \bm f_g) / m_I, \\
-    \bm x_I^{n+1} &=& \bm x_I^{n} + \Delta t~\bm v^{n+1}.
-\end{eqnarray*}
-
-C'est durant cette étape que les conditions limites ou les collisions avec un objet peuvent être prise en compte.
-
-\paragraph{g2p}
-
-Les particules vont suivre la déformation de la grille. Cela aura deux conséquence : La mise à jour de la matrice de déformation $\bm F_p$ et de leurs positions $\bm x_p$ et leur vitesses $\bm v_p$.
-
-La mise à jour de $\bm F_p$ est réalisé avec la déformée de la grille $ x_I^{n+1}$ de manière implicite en utilisant $\bm v^{n+1}$ de telle sorte que
-
-\begin{equation*}
-    \bm F_p^{n+1} = \left( \bm I + \Delta t \sum_I \bm v_I^{n+1} (\nabla \varphi_{Ip}^T)\right) \bm  F_p^{n}.
-\end{equation*}
-
-En ce qui concerne l'étape d'advection des particules, le schéma PIC suggérait l'interpolation des vitesses tel que
-
-\begin{equation*}
-    \bm v_{PIC}^{n+1} = \sum_I \varphi_{Ip} \bm v_I^{n+1}
 \end{equation*}.
 
-Si ce schéma est stable, il est toutefois dissipatif. Inversement la mise à jour FLIP propose de mettre à jour la vitesse $\bm v_{PIC}^{n}$ en interpolant l'accélération tel que
+Finalement, en choisissant $i$ comme indice de dimension d'espace
 
 \begin{equation*}
-    \bm v_{FLIP}^{n+1} = \bm v_{p}^{n} \sum_I \varphi_{Ip} (\bm v_I^{n+1} - \bm v_I^{n})
-\end{equation*}.
-
-Dans ce cas, le transfert est concervatif mais instable. Ainsi, il est recommandé d'utiliser pour mettre à jour la vitesse $\bm v^{n+1}$ une combinaison linéaire des deux formulations tel que
-
-\begin{equation*}
-    \bm v_{p}^{n+1} = \alpha \left(\bm v_{p}^{n} \sum_I \varphi_{Ip} (\bm v_I^{n+1} - \bm v_I^{n})\right) + (1- \alpha)\sum_I \varphi_{Ip} \bm v_I^{n+1}
-\end{equation*}~avec $\alpha \in [0, 1]$.
-
-Les schémas de type APIC,PolyPIC ou MLS-MPM, utilisant de plus un transfert du gradient de $v$, utilise une mise à jour PIC tout en restant conservatif.
-
-La position est elle mise jour en interpolant la déformation de la grille de telle sorte que
-
-\begin{equation*}
-    \bm x_p^{n+1} = \bm x_p^{n} + \sum_I \varphi_{Ip}~\bm v^{n+1}
+    \sum_p m_p \bm q(\bm z_p(t), t)\cdot \bm a(\bm z_p(t), t) + \sum_p m_p \bm \sigma(\bm z(t), t) : \nabla \bm u(\bm z(t), t) + \int_{\partial \Omega_t} \bm t \bm q dS + \sum_{p} m_p \bm q(X(t), t) \cdot \bm b(X(t), t).
 \end{equation*}
 
-Finalement, la grille de calcule peut être effacée et réinitialisée.
+Les variables cinématiques sont ensuite discrétisées sur la discrétisation eulérienne. La précédente équation est résolue sur la grille et l'accélération est déterminée sur chaque noeud $I$ de la grille comme
 
-La force interne de la particule $\bm f_p$ dépend de la loi de comportement qui lui est associée.
+\begin{equation*}
+    \sum_{j}^{max} m_{IJ} \bm a_J = \bm f_I^{\text{int}} + \bm f_I^{\text{ext}}
+\end{equation*}
 
-Elle dépends généralement de la contrainte $\bm \sigma_p$ qui peut être mise à jour au début ou à la fin du schéma donnant deux formulations différence USF (\textit{Update Stress First}) et USL (\textit{Update Stress Last}).
-La méthode des points matériaux (MPM) est une technique de simulation numérique innovante, particulièrement adaptée à la modélisation de phénomènes complexes comme ceux rencontrés dans les mélangeurs-broyeurs. Cette méthode représente un compromis entre les approches par éléments finis et par particules, offrant ainsi une modélisation efficace des interactions matérielles dans des environnements dynamiques et déformables.
+Les deux niveaux de discrétisation communique selon des étapes de projection (\textit{particles to grid}) puis d'interpolation (\textit{grid to particles}). Dans un premier temps, les quantités définies sur les particules sont transférés sur les noeuds de la grille \textit{p2g}.La masse $m_p$, la quantité de mouvement $m_p \bm v_p$ et les forces $\bm f_p$ sont transférées à la grille à l'aide des fonctions de forme $\phi_I$ associé à chaque noeuds. Le transfert classique est détaillé dans l'article fondateur~\cite{sulsky_particle_1994}, cependant des transferts plus complexes ont été développé afin d'offre des schémas stables et conservatifs~\cite{jiang_affine_2015,fu_polynomial_2017,hu_moving_2018}.
+Le principe fondementale de la dynamique est alors résolu permettant de déterminer une grille déformée. Finalement, les particules vont suivre la déformation de la grille. Cela aura deux conséquence : La mise à jour de la matrice de déformation, de leurs positions $\bm x_p$ et leurs vitesses $\bm v_p$. Finalement, la grille de calcule peut être effacée et réinitialisée.
+Ainsi, ce sont les particules qui concervent toute l'information (grille réinitialisée)
+Cette méthode représente un compromis entre les approches par éléments finis et par particules, offrant ainsi une modélisation efficace des interactions matérielles dans des environnements dynamiques et déformables.
+% \paragraph*{p2g}
 
-Dans la MPM, l'intérieur du tambour d'un mélangeur-broyeur est conceptualisé comme un milieu continu, adoptant une perspective macroscopique. La réponse du milieu est alors représenté par une loi de comportement mécanique telle que la loi de Drucker-Prager. Cela contraste avec la méthode des éléments discrets (DEM), qui se concentrent sur les interactions particule-par-particule.
+% La grille de positions de noeuds $x_I$ est initialisée avec des valeurs nulles.
 
-Le processus de simulation avec la MPM implique des itérations entre une grille de calculs et des particules matérielles. Chaque particule porte des informations essentielles associées au matériau, telles que la masse, le volume, et les propriétés mécaniques (variables internes, gradient de déformation...). Ces particules sont utilisées pour transférer des informations sur et hors d'une grille de calculs, où les équations de mouvement et de comportement du matériau sont résolues.
+% La masse $m_p$,la quantité de mouvement $m_p \bm v_p$ et les forces $\bm f_p$ sont transférées à la grille à l'aide des fonctions de forme $\phi_I$ associé à chaque noeuds
 
-Cette approche hybride permet à la MPM de capturer efficacement les déformations importantes, les ruptures, et d'autres comportements complexes du milieu qui sont fréquents dans les opérations de mélange et de broyage. En revanche, la description fine du phénomène proposée par la DEM n'est plus disponible.
+% \begin{eqnarray*}
+%     m_I = \sum_p \varphi_{Ip}~ m_p, \\
+%     m_I \bm v_I  =  \sum_p \varphi_{Ip}~ m_p \bm v_p, \\
+%     \bm f_I  =  \sum_p \varphi_{Ip}~  \bm f_p. \\
+% \end{eqnarray*}
 
-En termes de temps de calculs, la MPM est plus efficace que la DEM.
+% \paragraph*{Mise à jour sur la grille}
+% La grille à chaque étape est initialisée dans un état non déformée. A l'aide du principe fondamentale de la dynamique, la vitesse sur la grille est mise à jour de manière explicite tel que
 
-\subsection{La MPM et la DA}
-La MPM offre un cadre exploitable pour mettre en place une méthode de DA.
-La structure de grille sous-jacente à la MPM permet une modélisation l'utilisation des méthodes variationnelles ou des méthodes d'ensemble. La structure de particules est aussi plus flexible dans le sens où elles représentent une densité de matière : elles peuvent donc s'interpénétrer.
+% \begin{eqnarray*}
+%     m_I \bm a_I &=& \bm f_I + \bm f_g, \\
+%     m_I \bm v^{n+1} &=& \bm v^{n} + \Delta t~ (\bm f_I + \bm f_g) / m_I, \\
+%     \bm x_I^{n+1} &=& \bm x_I^{n} + \Delta t~\bm v^{n+1}.
+% \end{eqnarray*}
 
-\subsubsection{MPM et méthodes variationnelles}
-Le principal défi est de gérer la dimension du problème d'optimisation pour la 3D-Var, ainsi que construire un modèle adjoint pour la 4D-Var.
-Deux pistes sont envisageables : mettre à jour les champs nodaux et les champs particulaires. Comparativement à la DEM, le nombre de variables et le nombre de contraintes sont drastiquement réduits au prix d'une représentation plus grossière.
+% C'est durant cette étape que les conditions limites ou les collisions avec un objet peuvent être prise en compte.
 
-\subsubsection{MPM et EnKF}
-Pour l'EnKF, l'état estimé est une combinaison linéaire des états prédits. Dans le contexte de la MPM, cela signifie que la mise à jour de l'état peut être directement effectuée sur la grille de calcul, plutôt que sur les particules individuelles. Cette approche réduit la complexité des calculs et facilite l'assimilation de données dans des systèmes à grande échelle.
+% \paragraph{g2p}
 
-Cependant, l'intégration de la MPM avec l'EnKF soulève plusieurs questions importantes :
+% Les particules vont suivre la déformation de la grille. Cela aura deux conséquence : La mise à jour de la matrice de déformation $\bm F_p$ et de leurs positions $\bm x_p$ et leur vitesses $\bm v_p$.
 
-1. **Transfert d'Informations de Particules à la Grille** : La première question concerne le transfert efficace des informations des particules vers la grille. Cela nécessite des algorithmes précis pour garantir que les informations pertinentes sur les propriétés des matériaux, telles que la densité, la contrainte, et le gradient de déformation déformation, sont correctement représentés sur la grille de calcul.
+% La mise à jour de $\bm F_p$ est réalisé avec la déformée de la grille $ x_I^{n+1}$ de manière implicite en utilisant $\bm v^{n+1}$ de telle sorte que
 
-2. **Remaillage de Particules pour Représenter l'État Mécanique** : Une autre question clé est de savoir comment effectuer un remaillage des particules pour représenter fidèlement l'état mécanique du système après assimilation. Cela est crucial pour maintenir la cohérence et l'exactitude du modèle MPM, en particulier après des mises à jour successives de l'état du système.
+% \begin{equation*}
+%     \bm F_p^{n+1} = \left( \bm I + \Delta t \sum_I \bm v_I^{n+1} (\nabla \varphi_{Ip}^T)\right) \bm  F_p^{n}.
+% \end{equation*}
 
-Au travers des précédentes méthodes particulaires, nous constatons que l'application des méthodes d'assimilation sont innégalement applicable. En particulier, les méthodes discrètes n'offre pas la possibilité de corriger directement l'état de la discrétisation, mais nécessite une correction au travers du schémas d'intégration. D'autre part, les méthodes particulaires continues (par exemple MPM, SPH), permettent de modifier et faire varier dans son intégralité la discrétisation particulaire. En effet, chaque particule est définie en un point, ce qui annule tout problème d'interpénétration. Toutefois, il reste nécessaire de définir les
-Afin de facilité le développement de nouveaux filtres, une autre méthode particulaire a été utilisée la méthode Vortex. Elle a été choisie car elle offre une modélisation plus simple que les méthodes SPH et MPM. En effet, chaque particule ne transporte qu'une quantité scalaire.Toutefois, elle dispose de toutes les caractéristiques d'une méthode particulaire continue. On retrouve de plus différentes version de cette méthode. Ainsi, la formulation classique de la méthode se rapproche de la méthode SPH et la méthode Vortex-In-Cell de la méthode MPM en mécanique des solides.
+% En ce qui concerne l'étape d'advection des particules, le schéma PIC suggérait l'interpolation des vitesses tel que
 
-\section{Méthode Vortex}
+% \begin{equation*}
+%     \bm v_{PIC}^{n+1} = \sum_I \varphi_{Ip} \bm v_I^{n+1}
+% \end{equation*}.
 
-La méthode Vortex (VM) est une méthode particulaire utilisé pour résoudre  dans le cas d'écoulements incompressibles~\cite{Cottet_Koumoutsakos_2000}. Elle a été pour la première fois développé indépendemment par Prager~\cite{prager1928druckverteilung} et Rosenhead~\cite{rosenhead1931formation}. Elle se base sur la discrétisation du champ de vorticité par un ensemble de particules, et résoud la formulation vorticité-vitesse des équations de Navier-Stokes
+% Si ce schéma est stable, il est toutefois dissipatif. Inversement la mise à jour FLIP propose de mettre à jour la vitesse $\bm v_{PIC}^{n}$ en interpolant l'accélération tel que
+
+% \begin{equation*}
+%     \bm v_{FLIP}^{n+1} = \bm v_{p}^{n} \sum_I \varphi_{Ip} (\bm v_I^{n+1} - \bm v_I^{n})
+% \end{equation*}.
+
+% Dans ce cas, le transfert est concervatif mais instable. Ainsi, il est recommandé d'utiliser pour mettre à jour la vitesse $\bm v^{n+1}$ une combinaison linéaire des deux formulations tel que
+
+% \begin{equation*}
+%     \bm v_{p}^{n+1} = \alpha \left(\bm v_{p}^{n} \sum_I \varphi_{Ip} (\bm v_I^{n+1} - \bm v_I^{n})\right) + (1- \alpha)\sum_I \varphi_{Ip} \bm v_I^{n+1}
+% \end{equation*}~avec $\alpha \in [0, 1]$.
+
+% Les schémas de type APIC,PolyPIC ou MLS-MPM, utilisant de plus un transfert du gradient de $v$, utilise une mise à jour PIC tout en restant conservatif.
+
+% La position est elle mise jour en interpolant la déformation de la grille de telle sorte que
+
+% \begin{equation*}
+%     \bm x_p^{n+1} = \bm x_p^{n} + \sum_I \varphi_{Ip}~\bm v^{n+1}
+% \end{equation*}
+
+% Finalement, la grille de calcule peut être effacée et réinitialisée.
+
+% La force interne de la particule $\bm f_p$ dépend de la loi de comportement qui lui est associée.
+
+% Elle dépends généralement de la contrainte $\bm \sigma_p$ qui peut être mise à jour au début ou à la fin du schéma donnant deux formulations différence USF (\textit{Update Stress First}) et USL (\textit{Update Stress Last}).
+
+\section{Méthode vortex}~\label{sec:vortex}
+
+La méthode vortex est une méthode particulaire utilisé pour résoudre  dans le cas d'écoulements incompressibles~\cite{Cottet_Koumoutsakos_2000}. Elle a été pour la première fois développé indépendemment par Prager~\cite{prager1928druckverteilung} et Rosenhead~\cite{rosenhead1931formation}. Elle se base sur la discrétisation du champ de vorticité par un ensemble de particules, et résoud la formulation vorticité-vitesse des équations de Navier-Stokes
 
 \begin{eqnarray*}
     \frac{\partial \bm \omega}{\partial t} + (\bm{u} \cdot \nabla) \bm \omega & = &(\bm \omega \cdot \nabla) \bm u + \nu \Delta \bm \omega, \\
@@ -445,14 +418,49 @@ Dans le premier cas, la position de chaque particule est perturbée avec un vect
 
 \subsection{Vortex-In-Cell, VIC}
 
-La méthode Vortex-In-Cell~\cite{christiansen_1973} est une version Particle-In-Cell~\cite{birdsall_1969} de la méthode Vortex précédemment décrite. Elle a été développé pour tenir compte de ses faiblesses. Tout comme la méthode MPM, celle-ci tient bénéfice de la représentation particulaire des particules pour tenir compte du terme d'advection mais également d'une grille de calcul pour résoudre l'équation de Poisson ou le terme de diffusion en utilisant des méthodes eulérienne.
+La méthode Vortex-In-Cell~\cite{christiansen_1973}, tout comme la méthode MPM~\ref{sec:mpm} est une version \textit{Particle-In-Cell}~\cite{birdsall_1969} de la méthode Vortex précédemment décrite. Elle a été développé pour tenir compte de ses faiblesses. Comme la méthode MPM, celle-ci tient bénéfice de la représentation particulaire des particules pour tenir compte du terme d'advection mais également d'une grille de calcul pour résoudre l'équation de Poisson ou le terme de diffusion en utilisant des méthodes eulérienne.
 
-Le schéma de transfert est similaire d'avec celui de la méthode MPM. D'abord une projection du champ de vorticité sur la grille (p2g) pour obtenir les valeurs nodales $\omega_i$. L'équation de Poisson~\ref{eq:poisson} est résolue sur la grille, soit par différences finies, soit par une méthode FFT pour obtenir des vitesses au noeud $\bm u_i$. La vitesse est ensuite interpolée sur le particule (g2p) pour mettre à jour leur position (advection).
+Le schéma de transfert est similaire d'avec celui de la méthode MPM. D'abord une projection du champ de vorticité sur la grille pour obtenir les valeurs nodales $\omega_I$ à l'aide d'un noyau de redistribution $W_I$
+
+\begin{equation*}
+    \omega_I = \frac{1}{V_p}\sum_p \Gamma_p W_I(\bx_p).
+\end{equation*}
+
+L'équation de Poisson~\ref{eq:poisson} est résolue sur la grille, soit par différences finies, soit par une méthode FFT pour obtenir des vitesses au noeud $\bm u_I$. La vitesse est ensuite interpolée sur le particule (g2p) pour mettre à jour leur position (advection).
 
 Avec de la diffusion, l'équation de diffusion peut être ensuite résolue sur la grille et interpolé pour mettre à jour les quantités particulaire.
 
+De cette manière l'étape de recherche de plus proche voisin n'est pas nécessaire, la résolution des équations se faisant directement sur la grille.
+
 \subsection{Similarité avec les méthodes SPH et MPM}
-Cette approche diffère de la MPM dans le sens où les particules portent des informations complexes sur les propriétés mécaniques du matériau.
 
-Le processus de simulation avec la VIC implique d'abord le calcul des champs de vitesse sur la grille. Ces champs sont ensuite utilisés pour déplacer les particules dans le fluide, qui à leur tour transportent la vorticité à travers le domaine de simulation. L'avantage de cette méthode est sa capacité à modéliser avec précision les phénomènes complexes d'écoulement de fluides, tels que la formation et l'évolution de tourbillons, tout en maintenant une structure de calcul relativement simple.
+Contrairement aux méthodes SPH et MPM, la méthode Vortex n'est pas adéquat à la résolution de problème en mécanique des solides par exemple pour la simulation du mélange dans le tambour en rotation. Elle partage un certain nombre de similitudes avec celles-ci.
 
+
+% Cette approche diffère de la MPM dans le sens où les particules portent des informations complexes sur les propriétés mécaniques du matériau.
+formation et l'évolution de tourbillons, tout en maintenant une structure de calcul relativement simple.
+
+\section{Méthodes sans maillage continus et assimilation de données}
+\textcolor{red}{ à revoir complètement...
+    La MPM offre un cadre exploitable pour mettre en place une méthode de DA.
+    La structure de grille sous-jacente à la MPM permet une modélisation l'utilisation des méthodes variationnelles ou des méthodes d'ensemble. La structure de particules est aussi plus flexible dans le sens où elles représentent une densité de matière : elles peuvent donc s'interpénétrer.
+
+    \subsection{Méthodes sans maillage continus et méthodes variationnelles}
+    Le principal défi est de gérer la dimension du problème d'optimisation pour la 3D-Var, ainsi que construire un modèle adjoint pour la 4D-Var.
+    Deux pistes sont envisageables : mettre à jour les champs nodaux et les champs particulaires. Comparativement à la DEM, le nombre de variables et le nombre de contraintes sont drastiquement réduits au prix d'une représentation plus grossière.
+
+    \subsection{Méthodes sans maillage continus et EnKF}
+    Pour l'EnKF, l'état estimé est une combinaison linéaire des états prédits. Dans le contexte de la MPM, cela signifie que la mise à jour de l'état peut être directement effectuée sur la grille de calcul, plutôt que sur les particules individuelles. Cette approche réduit la complexité des calculs et facilite l'assimilation de données dans des systèmes à grande échelle.
+
+    Cependant, l'intégration de la MPM avec l'EnKF soulève plusieurs questions importantes :
+
+    1. **Transfert d'Informations de Particules à la Grille** : La première question concerne le transfert efficace des informations des particules vers la grille. Cela nécessite des algorithmes précis pour garantir que les informations pertinentes sur les propriétés des matériaux, telles que la densité, la contrainte, et le gradient de déformation déformation, sont correctement représentés sur la grille de calcul.
+
+    2. **Remaillage de Particules pour Représenter l'État Mécanique** : Une autre question clé est de savoir comment effectuer un remaillage des particules pour représenter fidèlement l'état mécanique du système après assimilation. Cela est crucial pour maintenir la cohérence et l'exactitude du modèle MPM, en particulier après des mises à jour successives de l'état du système.}
+
+% s'inspirer de l'intro du premier article
+
+\section{Bilan}
+
+Au travers des précédentes méthodes particulaires, nous constatons que l'application des méthodes d'assimilation sont innégalement applicable. En particulier, les méthodes discrètes offre difficilement la possibilité de corriger directement l'état de la discrétisation, et nécessite une correction au travers du schémas d'intégration pour éviter des problèmes d'interpénétration. D'autre part, les méthodes particulaires continues (par exemple MPM, SPH), permettent une plus grande flexibilité des schémas d'assimilation. En effet, chaque particule est définie en un point, ce qui annule tout problème d'interpénétration. Toutefois, il reste nécessaire de définir de manière adéquat dans le cas d'une mise à jour d'ensemble.
+Afin de facilité le développement de nouveaux filtres, nous avons utilisé la méthode vortex. Elle a été choisie car elle offre une modélisation plus simple que les méthodes SPH et MPM. En effet, chaque particule ne transporte qu'une quantité scalaire, une quantité de tourbillon. Toutefois, elle dispose de toutes les caractéristiques d'une méthode particulaire continue avec à la fois une formulation classique de la méthode se rapproche de la méthode SPH et la méthode Vortex-In-Cell de la méthode MPM.

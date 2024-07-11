@@ -43,6 +43,7 @@ Deux adaptations du filtre EnKF ont été proposées pour être...
 #### Bilan 
 
 - ON A mis en évidence les limites des méthodes en particulier les limites liés au support ne correspond pas à la solution à analyser
+- ON A PAS Proposé de méthodes pour corriger le support dans ce cas
 - ON A PAS Proposé des méthodes dans le cas où les intensités ne peuvent pas être modifié (ref)
 - ON A PAS Proposé de méthodes qui soient cinématiquement admissible SACHANT QUE c'est le cas pour DEM par exemple (ref)
 - D'OU on va chercher à corriger le support des particules grâce à une étape d'alignement
@@ -52,14 +53,34 @@ Deux adaptations du filtre EnKF ont été proposées pour être...
 ## Chapitre 3 : Développement de méthodes d'assimilation de donnée par correction de position pour des simulations sans maillage
 
 #### Objectif:
+Problématiques :
+Les filtres EnKF jusqu’ici mettent uniquement à jour les intensités des particules
+Comment prendre en compte une erreur d’alignement des champs ? De déphasage ?
+Certains modèles n’admettent pas une correction de leur discrétisation particulaire (ex: DEM)
+Comment proposer des méthodes d’assimilation cinématiquement admissible ?
+La discrétisation particulaire des membres peut être inadaptée pour le filtre Part-EnKF
+Comment proposer une discrétisation mieux adaptée à la solution analysée ?
+
+Objectifs :
+Proposer une formulation du problème qui tient compte de l’erreur d’alignement des membres
+Corriger la position des particules en plus des intensités  avoir une discrétisation particulaire conforme à la solution analysée
+Proposer un alignement cinématiquement admissible
+
+
+- ON A vu que la mise à jour à la Kalman était possible pour les méthodes sans maillage continus. POUR CELA on corrigeant l'intensité à partir d'une pondération de chaque membre. 
+- On a 
 
 #### Bilan:
 
 - ON A développé une formulation du problème d'assimilation de données en introduisant une transformation pour aligner les particules
-- ON A proposé une méthodologie
+- ON A une formule variationnelle
+- ON A une méthode qui peut être combinée avec la précédente
+- ON A une méthodologie qui peut être adaptée à des problèmes discrets.
 
-## Chapitre 4 :Evaluation et comparaison des méthodes de correction de position et d'intensité
+## Chapitre 4: Evaluation et comparaison des méthodes de correction de position et d'intensité
 
 #### Objectif:
 
 #### Bilan:
+
+# Chapitre 5: Perspective

@@ -2,7 +2,7 @@
 \chapter{Développement de méthodes permettant l'adaptation du filtre de Kalman d'ensemble avec des simulations sans maillage}
 
 ---------------
-\section{Objectif}
+\section{Objectifs}
 Le filtre de Kalman présenté en Section~\ref*{sec:enkf} est un filtre séquentiel adéquat pour appliquer des méthodes d'assimilation pour des modèles de grande dimension et non-linéaire. Il consiste à mettre à jour un ensemble d'état en déterminant un gain de Kalman pour combiner l'état prédit et un terme d'innovation fonction de l'erreur de prédiction. Lorsque l'état est défini à l'aide d'une discrétisation eulérienne, la mise à jour du filtre peut être facilement. Il en est de même pour les états défini sur une
 
 %
@@ -105,7 +105,7 @@ Cette mise à jour ne peut donc pas être mise en pratique. Il est nécessaire d
 
 Cette méthode consiste à revenir à un ensemble de particules définis sur un support commun. En remaillant régulièrement, nous pouvons contrôler et limiter le nombre de particules, assurant ainsi une représentation plus homogène et gérable de la solution. Le remaillage permet de maintenir une distribution équilibrée des particules, tout en préservant les caractéristiques essentielles de la solution originale.
 
-\subsection*{Méthode de remaillage pour obtenir un support de particule commun}~\label{sec:remesh}
+\subsection{Méthode de remaillage pour obtenir un support de particule commun}~\label{sec:remesh}
 
 La méthode de remaillage est une technique essentielle dans notre approche pour maintenir un support de particule uniforme parmi tous les membres de la solution. À l'origine développée pour atténuer les distorsions dans la distribution des particules, cette méthode se fonde sur un schéma de redistribution sur une grille régulière de particules, utilisant des opérateurs de projection et d'interpolation. Ce processus permet de passer d'une représentation lagrangienne à une représentation eulérienne, puis ensuite revenir à une représentation lagrangienne.
 
