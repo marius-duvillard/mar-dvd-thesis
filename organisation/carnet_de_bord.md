@@ -22,7 +22,7 @@
 
 ## 26-03-2024
 
-- toute les formations ont été validée. 
+- toute les formations ont été validée.
 - Vérification du lambda pour le cas dipole, a priori on est sur du **0.1** comme valeur. Par la suite on pourra faire le calcul du lambda optimal avec uniquement 3-4 membres. <!--filtre_align-->
   
 ```cpp
@@ -33,8 +33,8 @@ int init=4;
 - [x] Faire la fonction d'alignement, comme je le fais pour plusieurs filtre en théorie, mettre cela dans la classe mère. **Il faut voir s'il ne faut pas perturber les prédictions**.
 - [x] Faire small_align avec dipole. Il semble que le lmabda soit vraiment trop fort.<!--filtre_align-->
 - [x] Rajoute outDir experiment type dans `InitEnsemble`. Ca marche bien.<!--filtre_align-->
-- [x] Pour l'affichage de pot_alignment, ajout du choix du dossier 
-- [x] Faire les différents filtre: pour cela fair une classe Mère pour tous les filtres. En commun le calcul de F, la fonction update. Il y aura des attributs différents bien sur. 
+- [x] Pour l'affichage de pot_alignment, ajout du choix du dossier
+- [x] Faire les différents filtre: pour cela fair une classe Mère pour tous les filtres. En commun le calcul de F, la fonction update. Il y aura des attributs différents bien sur.
 - A revoir demain la partie sur Introduction.
 - Redaction partie Assim
 - [x] Je relance le calcul du lambda pour dipole.Il faut aller plus bas en lambda
@@ -88,7 +88,7 @@ int init=4;
 - Finalement fix en laissant `virtual` puis en rajoutant `override` pour les fonctions filles.
 - J'avance sur l'implémentation du fichier d'assimilation.
 - Problème sur la mémoire partagée, il faut que les membres soient mis à jour sur tous les rank. Il faut donc ajouter une étape de communication des données. A tester dans un premier temps avec le forward.
-- Donc apparemment il faut définir au préalable des type de données MPI. Lorsque je fais la mise à jour des Membres il faut voir comment bien communiquer les informations... 
+- Donc apparemment il faut définir au préalable des type de données MPI. Lorsque je fais la mise à jour des Membres il faut voir comment bien communiquer les informations...
 - Tester les filtres sur très peu de membre sans MPI
 - Problème sur le remesh pour l'instant
 - Pour le dx je détecte une erreur. A corriger sur l_curve, small_align et run_assimilation
@@ -120,13 +120,13 @@ int init=4;
 
 - [x] Vérifier que t est bien transféré
 - [x] Implémenter la version MPI de l'alignement. Utiliser les fonctions de sérialisation précédemment défini.
-- faire la visualisation 
+- faire la visualisation
   - [x] faire la création des dataframes, pour cela faire un grand dataframe par membre.
   - [x] Pour les membres, créer nstep `go.Trace` à afficher, pour ensuite les afficher avec la méthode défini [ici](https://plotly.com/python/sliders/).
 - faire visualisaiton de l'erreur
   - [x] faire l'export dans le fichier .cpp, début ok mais atteintion au trace. Il faut simplement mettre fig en paramètre.
 
-## 09-04-2024 
+## 09-04-2024
 
 - [x] Faire le cas de Bessel un peu décalé
 - Il semble qu'il y ait un problème dans le forecast au vu des résultats A priori c'est un problème dans le forward.
@@ -446,7 +446,7 @@ Bootstrapping for confidence intervals
 - [x] Faire résumé Jumeau numérique à partir de la conf pour le manuscrit
 - [ ] Vérifier la parallélisation du calcul du gradient. Revoir le calcul du gradient.
 
-- Open mp ne semble pas efficace... 
+- Open mp ne semble pas efficace...
 
 ## 19-06-2024
 
@@ -605,6 +605,21 @@ Bootstrapping for confidence intervals
 - Florence Tupin: Telecom, Radar imaging (gitlab ring), aller voir SWOT and BIOMASS mission, voir Infoterra and Astrium, voir Total Variation Denoising, alternating Direction method of multiplier
 - Julien Le Sommer: comb physics & ML in hybrid climate models
 - Neural incremental data assimilation, Mathieu Blancke: use re analyse dataset ERA5 (Munoz-Sabater)
+
+## 12-07-2024
+
+- Global Sensitivity Analysis
+- Screening ou Ranking pour selectionner les variables d'entrée influente
+- HSIC pour pouvoir faire une analyse de sensibilité (Da Veiga 2015)
+- Méthode à noyaux pour pouvoir estimer indices HSIC
+- Utilisation de méthode MC pour estimer --> U-statistic (non biaisé) et V-statistic (biaisé mais positif)
+- marche bien pour du SMALL et GIVEN data. mais pas d'interprétabilité.
+- Introduit les méthodes HSIC-ANOVA
+- 2e présentation: out of distribution detection
+- *Hic sunt Dracones*
+- Utiliser *AI representation learning* --> learn recurreing patterns . compute a confidence score.
+- Il donne des cartes d'activation representante
+- Zacharia: reconstruction super résolution
 
 ### A FAIRE
 

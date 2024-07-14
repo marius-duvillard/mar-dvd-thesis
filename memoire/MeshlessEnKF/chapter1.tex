@@ -222,7 +222,7 @@ Les différentes étapes sont résumés dans l'algorithm~\ref{algo:remesh_enkf}
 On remarque que tous les opérateurs que nous avons définis sont linéaire. Ainsi, effectuer la mise à jour sur la grille comme dans l'algorithme, ou bien sur les nouvelles particules comme dans l'équation~\eqref{eq:enkf_formula_same_part} est équivalent car la mise à jour lors de l'analyse, l'opération d'interpolation ainsi que la projection sont linéaires par rapport aux intensités.
 Cependant, l'ordre de l'algorithme actuel permet de réaliser le minimum d'opération sur les espaces de plus faible dimension, c'est à dire sur la grille de projection.
 
-\section{Part-EnKF : Mise à des intensités}
+\section{Part-EnKF : Mise à jour des intensités}~\label{sec:part_enkf}
 
 L'adaptation précédente du filtre EnKF permet de contrôler le nombre de particule lors de l'analyse en regénérant une nouvelle distribution de particules. D'une certaine manière, elle consiste à projeter la solution sur une discrétisation eulérienne pour ensuite appliquée l'analyse de manière classique.
 Dans cette partie, nous souhaitons pouvoir appliquer la mise à jour à partir uniquement des discrétisations particulaires et en conservant la distribution de particule obtenue au moment de l'assimilation. L'objectif est aussi de pouvoir traiter le cas de modèle où la génération d'une nouvelle discrétisation de particules par redistribution est impossible et de proposer une implémentation entièrement sans maillage.
@@ -240,7 +240,7 @@ Ainsi, l'analyse consiste déterminer, pour chaque membre $i$, comment mettre à
 
 Différentes méthodes ont pu être introduites pour approcher une fonction $\bm u$ par une discrétisation particulaire. Ceci est particulièrement utile lors de l'initialisation ou bien pour réduire les effets de distorsion de la distribution particulaire.
 
-\subsubsection{Approximation particulaire}
+\subsubsection{Approximation particulaire}~\label{sec:approx_part}
 
 Cette première méthode consiste à utiliser les particules comme point de quadrature. Comme dans les hypothèses initiales des méthodes particulaires~\eqref{eq:part_approx}, il convient alors d'évaluer le champ à la position des particules $x_p$ afin d'obtenir une approximation de l'intensité comme intégration locale du champ
 
