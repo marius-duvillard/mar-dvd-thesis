@@ -621,6 +621,14 @@ Bootstrapping for confidence intervals
 - Il donne des cartes d'activation representante
 - Zacharia: reconstruction super résolution
 
+## 13-07-2024
+
+- [ ] Finir la partie du chapitre 2 avec la méthode Vortex + bilan.
+- [ ] Faire le plan du chapiter 3 + chapitre 4
+- [ ] Faire la partie simulation particulaire du tambour en rotation et du mélange.
+- [ ] Ajouter la définition de distribution particulaire admissible dans la section part-EnKF.
+- Enlever l'étape de remaillage pour faire une comparaison où Part-EnKF ne foncitonnera pas ?
+
 ### A FAIRE
 
 - Redaction

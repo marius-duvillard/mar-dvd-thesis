@@ -49,7 +49,6 @@ Deux adaptations du filtre EnKF ont été proposées pour être...
 - D'OU on va chercher à corriger le support des particules grâce à une étape d'alignement
 - D'OU on va formuler le problème d'assimilation pour prendre en compte l'erreur d'alignement
 
-
 ## Chapitre 3 : Développement de méthodes d'assimilation de donnée par correction de position pour des simulations sans maillage
 
 #### Objectif:
@@ -63,7 +62,7 @@ Comment proposer une discrétisation mieux adaptée à la solution analysée ?
 
 Objectifs :
 Proposer une formulation du problème qui tient compte de l’erreur d’alignement des membres
-Corriger la position des particules en plus des intensités  avoir une discrétisation particulaire conforme à la solution analysée
+Corriger la position des particules en plus des intensités, avoir une discrétisation particulaire conforme à la solution analysée
 Proposer un alignement cinématiquement admissible
 
 
@@ -74,7 +73,7 @@ Proposer un alignement cinématiquement admissible
 
 - ON A développé une formulation du problème d'assimilation de données en introduisant une transformation pour aligner les particules
 - ON A une formule variationnelle
-- ON A une méthode qui peut être combinée avec la précédente
+  - ON A une méthode qui peut être combinée avec la précédente
 - ON A une méthodologie qui peut être adaptée à des problèmes discrets.
 
 ## Chapitre 4: Evaluation et comparaison des méthodes de correction de position et d'intensité

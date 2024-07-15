@@ -94,14 +94,9 @@ Ainsi, à chaque étape d'assimilation de données, le nombre de particule pour 
     \caption{Support de particule d'un membre avant et après correction.}
 \end{figure}
 
-Cette mise à jour ne peut donc pas être mise en pratique. Il est nécessaire de proposer des méthodes pour réduire le nombre de particules pour représenter la solution analyser. Afin de résoudre ce problème, nous proposons deux approches distinctes:
+Cette mise à jour ne peut donc pas être mise en pratique. Il est nécessaire de proposer des méthodes pour réduire le nombre de particules pour représenter la solution analyser. Afin de résoudre ce problème, nous proposons deux approches distinctes au travers des filtres Remesh-EnKF en Section~\ref{sec:remesh_enkf} et Part-EnKF~\ref{sec:part_enkf}
 
-\begin{itemize}
-    \item \textbf{Remesh-EnKF}: \\
-    \item \textbf{Part-EnKF}: \\
-\end{itemize}
-
-\section{Remesh-EnKF : Générer une même configuration particulaire}
+\section{Remesh-EnKF : Générer une même configuration particulaire}~\ref{sec:remesh_enkf}
 
 Cette méthode consiste à revenir à un ensemble de particules définis sur un support commun. En remaillant régulièrement, nous pouvons contrôler et limiter le nombre de particules, assurant ainsi une représentation plus homogène et gérable de la solution. Le remaillage permet de maintenir une distribution équilibrée des particules, tout en préservant les caractéristiques essentielles de la solution originale.
 
@@ -282,7 +277,7 @@ Finalement, cette adaptation du filtre EnKF permet d'approcher les solutions ana
 
 \subsection{Algorithme}
 
-Tout comme le filtre Remesh-EnKf, la première étape consiste à calculer le terme de correction $\Fcorr$ afin de pouvoir évaluer les champs analysés $\fstate_i^a$ pour chaque membre $i$. Puis le filtre Part-EnKF formule l'analyse comme une mise à jour des intensités. La représentation lagrangienne de la solution à la fin de l'étape de propagation est conservée autant que possible. Il est alors nécessaire d'évaluer les $\fstate_i^a$ au centre des particules $\bx_{ip}$, pour pouvoir approcher les intensités $\bm U_{ip}$ avec les méthodes d'approximation ci-dessus.
+Tout comme le filtre Remesh-EnKF, la première étape consiste à calculer le terme de correction $\Fcorr$ afin de pouvoir évaluer les champs analysés $\fstate_i^a$ pour chaque membre $i$. Puis le filtre Part-EnKF formule l'analyse comme une mise à jour des intensités. La représentation lagrangienne de la solution à la fin de l'étape de propagation est conservée autant que possible. Il est alors nécessaire d'évaluer les $\fstate_i^a$ au centre des particules $\bx_{ip}$, pour pouvoir approcher les intensités $\bm U_{ip}$ avec les méthodes d'approximation ci-dessus.
 
 Les différentes étapes sont résumés dans l'algorithm~\ref{algo:part_enkf}
 % \setcounter{algocf}{2}

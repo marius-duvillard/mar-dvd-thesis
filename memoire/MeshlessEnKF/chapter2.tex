@@ -400,7 +400,7 @@ Dans la Figure~\ref{fig:na_1}, la réduction de l'erreur est encore notable et m
         \caption{}
         \label{fig:na_2}
     \end{subfigure}
-    \caption{Diagrammes en boîte de l'erreur d'état en fonction de $N_{\text{assim}}$.}
+    \caption{Boîte à moustaches de l'erreur d'état en fonction de $N_{\text{assim}}$.}
     \label{fig:na}
 \end{figure}
 
@@ -411,13 +411,13 @@ Enfin, nous analysons la convergence de l'erreur en fonction du nombre d'observa
     \begin{subfigure}{0.49\linewidth}
         \centering
         \includegraphics[width=\linewidth]{./images/app2d/final/MSE_nobs_box.pdf}
-        \caption{Diagrammes en boîte de l'erreur d'état par rapport à $N_{\text{obs}}$.}
+        \caption{Boîte à moustaches de l'erreur d'état par rapport à $N_{\text{obs}}$.}
         \label{fig:nobs_1}
     \end{subfigure}
     \begin{subfigure}{0.49\linewidth}
         \centering
         \includegraphics[width=\linewidth]{./images/app2d/final/MSE_nobs_box_log_log.pdf}
-        \caption{Diagrammes en boîte de l'erreur d'état par rapport à $N_{\text{obs}}$.}
+        \caption{Boîte à moustaches de l'erreur d'état par rapport à $N_{\text{obs}}$.}
         \label{fig:nobs_2}
     \end{subfigure}
     \caption{Convergence de l'erreur par rapport au nombre d'observations. À gauche : Échelle linéaire, À droite : Échelle logarithmique.}
@@ -426,14 +426,79 @@ Enfin, nous analysons la convergence de l'erreur en fonction du nombre d'observa
 
 \subsubsection{Erreur en fonction des paramètres de simulation}
 
-Examinons maintenant l'évolution de l'erreur par rapport aux paramètres de discrétisation particulaire. Pour le Part-EnKF, il faut se rappeler que chaque membre a sa propre discrétisation de particules qui évolue selon la direction et la vitesse du dipôle et que ainsi, les résultats de se filtre sont sensibles aux paramètres de discrétisation.
+Examinons maintenant l'évolution de l'erreur par rapport aux paramètres de discrétisation particulaire. En effet, pour le Part-EnKF il faut se rappeler que chaque membre a sa propre discrétisation particulaire évlouant au cours du temps. Les résultats de se filtre sont alors plus sensibles que les autres à ces paramètres.
 
-Premièrement, en raison de l'irrégularité des particules dans la distribution, une approximation sévère a été introduite, ce qui a entraîné des erreurs entre la solution analysée et la solution approchée. Plus sérieusement, certaines parties de la solution peuvent disparaître car aucune particule dans le support ne peut les interpoler. Cet effet peut être observé sur plusieurs échantillons de l'ensemble où l'analyse est projetée sur une discrétisation de particules non conforme.
+Nous avons testé le filtre Part-EnKF en utilisant l'approximation présentée en Section~\ref{sec:approx_part} pour sa stabilité et sa rapidité lors de la mise à jour. En raison de l'irrégularité des particules dans la distribution, une approximation sévère est introduite, entraînant des erreurs entre la solution analysée et la solution approchée. De plus, qualitativement, on peut observer que certaines parties de la solution ne peuvent pas être représentée car aucune particule dans le support ne peut les interpoler. Cet effet peut être observé sur plusieurs échantillons de l'ensemble où l'analyse est projetée sur une discrétisation de particules non conforme.
+Par exemple, qualitativement, nous observons la première étape d'assimilation d'un membre pour les différents filtres en Figure~\ref{fig:assim_member}. Nous constatons que la solution Part-EnKF n'est qu'une projection partielle de la même solution que Remesh-EnKF avec de plus certaines distortions.
 
-Par exemple, nous avons analysé la première étape d'assimilation d'un membre pour les différents filtres. Si le champ analysé est connu sur le domaine spatial, nous avons observé dans la Figure~\ref{fig
-} que le Remesh-Filter et le Part-Grid-EnKF sont les seuls capables d'interpoler la solution entière. Le Part-EnKF n'est pas entièrement capable d'interpoler la solution avec la discrétisation de particules du membre prévu.
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{./images/app2d/assim_member_forecast.png}
+        \caption{Discrétisation des prévisions des membres.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{./images/app2d/assim_member_ppf.png}
+        \caption{Discrétisation de l'analyse Part-EnKF.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.32\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{./images/app2d/assim_member_rmf.png}
+        \caption{Discrétisation de l'analyse Remesh-EnKF.}
+    \end{subfigure}
+    \caption{Assimilation d'un membre avec une discrétisation des prévisions non adaptée à la solution d'analyse. La discrétisation des prévisions utilisée par le Part-EnKF ne permet pas toujours une approximation pour les analyses et introduit des erreurs de discrétisation.}
+    \label{fig:assim_member}
+\end{figure}
 
-De plus, certaines distorsions observées dans la distribution des particules ne sont pas conformes au flux du champ analysé. Ces remarques sont plus critiques lorsque l'étape de prévision est plus longue, conduisant à des erreurs élevées, ou lorsque la taille du support est plus petite. De plus, l'approximation de la Section~\ref{regressionOperator} introduira l'erreur d'approximation en fonction de la taille des particules. Par exemple, la particule ne conservera pas la circulation totale en raison d'une erreur de quadrature, ce qui est le cas inverse pour le filtre Remesh-EnKF.
+Ces remarques sont d'autant plus critiques que lorsque l'étape de \textit{forecast} est longue ou lorsque la taille du support de l'ensemble des particules est plus petite. De plus, l'approximation de la Section~\ref{sec:approx_part} introduira l'erreur d'approximation en fonction de la taille des particules à cause de l'erreur de quadrature.
 
+
+Quantitativement, pour évaluer évaluer l'effet de la taille du support, nous avons fait varier la valeur de $\varepsilon_{\omega}$, valeur de seuillage sur la distribution de particules initiales. Nous avons observé sur la Figure~\ref{fig:eps_effect} que ce paramètre affecte le nombre de particules et, par conséquent, la taille du support. Dans la Figure~\ref{fig:cuttoff}, nous remarquons de grandes disparités entre les deux filtres. Cependant, l'erreur se stabilise rapidement en diminuant le seuil. Ces résultats suggèrent un impact du seuillage, donc, sur le support des particules en particulier pour le Part-EnKF. En revanche, le Remesh-EnKF est moins sensible à ce paramètre. En effet, le seuillage ne fait que retirer des particules de faible intensité sur le bord du dipole et n'influence à aucun moment la solution analysée sur des zones à forte intensité.
+
+\begin{figure}[h!]
+    \centering
+
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{./images/app2d/final/MSE_cutoff_box.pdf}
+        \caption{Erreur d'état par rapport à $\varepsilon_{\omega}$. Les seuils élevés, bas et moyens correspondent respectivement à $\varepsilon_{\omega} = 0.1, 1.e^{-6}$ et $0.01$.}
+        \label{fig:cuttoff}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{./images/app2d/final/MSE_size_box.pdf}
+        \caption{Erreur d'état par rapport à $d_p$. Les tailles grandes, moyennes et petites correspondent à $d_p = 0.0327, 0.0245$ et $0.0123$.}
+        \label{fig:np}
+    \end{subfigure}
+
+    \caption{Boîte à moustaches des erreurs pour les paramètres de simulation. L'effet de $\varepsilon_{\omega}$ sur l'erreur est particulièrement observé pour des valeurs élevées. L'erreur du Part-EnKF est fortement liée à $d_p$ à travers l'erreur d'approximation des particules.}
+    \label{fig:simu_parameters_error}
+\end{figure}
+
+Un autre paramètre déterminant pour l'assimilation est la taille de particules $d_p$. Dans la Figure~\ref{fig:np}, nous observons que l'erreur pour le filtre Part-EnKF augmente significativement avec ce paramètre. En fait, celle-ci augmente proportionnellement avec $d_p$ tout comme pour l'erreur d'approximation. Cette erreur élevée l'effet important de l'approximation des particules pour le Part-EnKF. En revanche, l'erreur pour le filtre Remesh-EnKF est relativement faible, profitant d'un schéma d'interpolation par projection d'ordre élevé comme défini en Section~\ref{sec:remesh}. L'utilisation d'un opérateur de régression ppur approximer la solution analysée devrait pouvoir atténuer cet effet, sous réserve d'autres considérations de discrétisation des particules (distorsion, taille du support) comme illustré dans la Partie~\ref{sec:App_1D} et du choix d'un coefficient de pénalité adéquat pour réussir à approximer la solution.
+
+Finalement, cette discussion montre la grande dépendance du filter Part-EnKF vis-à-vis des paramètres de discrétisation particulaire. D'une part, la discrétisation d'un membre peut être trop éloigné de la solution à approcher.
+Même si le filtre Remesh-EnKF offre lui des performances de convergence satisfaisant rappelons que c'est toujours au prix d'une nouvelle génération de particules, là où le filtre Part-EnKF offre la possibilité d'appliquer une mise à jour sans cette étape intermédiaire.
+
+Néanmoins, cela ouvre la question du choix ou de la modification de la discrétisation des particules.
+
+Dans le cas où la génération d'un jeu de particules régulier est possible, comme suggéré dans la Partie~\ref{sec:App_1D}, une estimation de l'erreur pourrait être introduite pour choisir entre les différents filtres. D'autre part, d'autres approches pourraient consister à sélectionner le membre de maximum de vraisemblance pour selectionner son jeu de particules pour approcher la solution analysée de tous les membres. Cette proposition doit être évaluée car elle pourrait considérablement réduire la variance de l'ensemble et donc entraîner un effet de \textit{collapse} de l'ensemble. Enfin, un alignement des particules pourrait être introduit pour mieux ajuster la solution analysée.
 
 \section{Bilan}
+
+Dans cette section, deux versions des filtres EnKF pour les simulations particulaires ont pu être évalués et validés sur deux cas utilisant une discrétisation pour discrétiser des solutions continues. Nous avons d'une part montré l'efficacité du filtre Remesh-EnKF qui profite d'un schéma de redistribution d'order élevé ce qui lui permet d'approcher avantageusement les solutions analysées sur chaque membre. D'autre part, nous avons également illustré la capacité à appliquer la mise à jour EnKF projeté sur la discrétisation courante avec le filtre Part-EnKF. Dans ce cas, nous avons montré les limites d'une telle approche lorsque les supports de particules inter-membre étaient disjoints.
+
+Ainsi, nous avons des filters applicables à la condition soit de pouvoir remailler la discrétisation particulaire pour le filter Remesh-EnKF, soit avoir des distributions particulaires admissibles pour représenter les solutions particulaires avec le filtre Part-EnKF.
+
+De ce fait, ces deux filtres ne sont pas adaptés à des situations où le remaillage ne serait pas souhaité et où les discrétisations particulaires ne serait pas admissibles.
+
+Ainsi, nous souhaiterions proposer des méthodes qui puisse corriger la position du jeu de particules afin de tenir compte de ce dernier cas de figure. De plus, nous souhaiterions utiliser une classe de méthodes qui pourraient être plus facilement adaptable pour des méthodes particulaires discrètes comme décrites en Section~\ref{sec:part_discret}.
+De ce fait, la chapitre suivant tentera de définir une méthode en définissant une méthode d'assimilation définissant non pas une mise à jour par correction d'intensité mais plutôt par alignement afin de modifier la position du jeu particulaire.
+Cette optique ouvre un certain nombre de questionnement en particulier de respecter des contraintes de mise à jour. Egalement, l'approche devra aussi tenir compte de la non-linéarité de la solution par rapport aux positions de particules, entraînant de définir des schémas de mise à jour qui seront également non linéaire.
+
+
