@@ -626,7 +626,7 @@ Bootstrapping for confidence intervals
 - [x] Finir la partie du chapitre 2 avec la méthode Vortex + bilan. 
 - [ ] Faire le plan du chapiter 3 + chapitre 4. 1h
 - [ ] Faire la partie simulation particulaire du tambour en rotation et du mélange. 4h
-- [ ] Ajouter la définition de distribution particulaire admissible dans la section part-EnKF. 30mins
+- [x] Ajouter la définition de distribution particulaire admissible dans la section part-EnKF. 30mins
 - Enlever l'étape de remaillage pour faire une comparaison où Part-EnKF ne foncitonnera pas ?
 
 ### A FAIRE

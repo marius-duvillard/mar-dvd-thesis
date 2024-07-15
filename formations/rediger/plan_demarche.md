@@ -50,26 +50,60 @@ Deux adaptations du filtre EnKF ont été proposées pour être...
 
 ## Chapitre 3 : Développement de méthodes d'assimilation de donnée par correction de position pour des simulations sans maillage
 
-#### Objectif:
-Problématiques :
-Les filtres EnKF jusqu’ici mettent uniquement à jour les intensités des particules
-Comment prendre en compte une erreur d’alignement des champs ? De déphasage ?
-Certains modèles n’admettent pas une correction de leur discrétisation particulaire (ex: DEM)
-Comment proposer des méthodes d’assimilation cinématiquement admissible ?
+#### Objectif :
+
+SACHANT QUE Les filtres EnKF jusqu’ici mettent uniquement à jour les intensités des particules 
+  ON DOIT tenir compte de distribution non admissible.
+SACHANT QUE les méthodes particulaires discrètes n'admettent pas de correction par intensité, 
+  ON DOIT proposer des méthodes qui mettent à jour la position des particules.
+SACHANT QUE la mise à jour va dépendre de la méthode d'intégration 
+  ON DOIT donc prendre en compte la physique pour modifier les positions de particule. On parlera de méthodes cinématiquement admissible.
+ON SAIT QUE des méthodes dans la littérature cherche à tenir compte d'erreur de positionnement et de proposer des méthodes d'assimilation avec des métriques plus complexes que simplement une norme euclidienne sur les intensités.
+--> prendre en compte les remarque de la présentation d'avril.
+
+FINALEMENT en s'inspirant de la littérature en assimilation de données, on propose une catégorie de méthodes qui permettent d'améliorer le filtre Part-EnKF en supposant une erreur dans le positionnement de la discrétisation particulaire.
+
+#### Corps :
+
+
 La discrétisation particulaire des membres peut être inadaptée pour le filtre Part-EnKF
 Comment proposer une discrétisation mieux adaptée à la solution analysée ?
 
-Objectifs :
 Proposer une formulation du problème qui tient compte de l’erreur d’alignement des membres
 Corriger la position des particules en plus des intensités, avoir une discrétisation particulaire conforme à la solution analysée
 Proposer un alignement cinématiquement admissible
 
-# Bibliographie
+POUR CELA On souhaite proposer des méthodes qui modifie la position des particules
+SACHANT QUE Dans la littérature on peut tenir compte de l'erreur d'alignemebt
+  POUR CELA on a des méthodes pour corriger l'alignement
+POUR CELA on définit une méthode séquentielle pour corriger l'intensité
+    - SACHANT QUE on a des cas dans la littérature où on fait justement ce découplage
+      - POUR CELA on applique successivement l'étape d'alignement puis l'étape de correction d'intensité
+      - SACHANT QUE la correction d'intensité n'est autre que les filtres présentés en Chapitre 1.
+POUR CELA on doit définir une méthode d'assimilation par alignement.
+SACHANT QUE la mise à jour va dépendre de la méthode d'intégration on est dépendant de la physique.
+  POUR CELA nous travaillerons directement avec la méthode vortex.
+    SACHANT QUE il existe déjà une méthode d'alignement pour discrétiser un champ vortex, on va s'en inspirer pour développer notre propre méthode. 
+  POUR CELA on doit proposer une méthode pour aligner les particules
+  SACHANT QUE l'on doit faire une correction physiquement admissible
+  POUR CELA on défini une transformation adéquat
+  SACHANT QUE l'on souhaite résoudre un problème d'assimilation 
+  POUR CELA on défini un problème d'optimisation
+  SACHANT QUE le problème à résoudre dépend d'un champ de correction à discrétiser
+  POUR CELA on défini une base de correction
+    SACHANT QUE on suppose de l'origine de l'erreur
+    POUR CELA on corrige en fonction des champs de vitesse même généré par l'ensemble
+  SACHANT QUE l'on a uniquement corriger les positions
 
-# Corps
 
-- ON A vu que la mise à jour à la Kalman était possible pour les méthodes sans maillage continus. POUR CELA on corrigeant l'intensité à partir d'une pondération de chaque membre. 
-- On a 
+Chapitre
+- 1 Assimilation de données par alignement
+- 2 Définition d'une méthode d'assimilation d'ensemble variationnelle non-linéaire séquentielle
+- 3 Correction de position appliquée à la méthode vortex
+  - 3.1 Transformation cinématiquement admissible de la distribution particulaire
+      - bien dire que ça ne va donc proposer que des transformations à divergence nulle. La correction d'intensité permettra alors de proposer des corrections orthogonales si possible.s
+  - 3.2 Définition de l'espace de recherche
+  - 3.3 Réécriture du problème d'optimisation
 
 #### Bilan:
 
@@ -78,9 +112,22 @@ Proposer un alignement cinématiquement admissible
   - ON A une méthode qui peut être combinée avec la précédente
 - ON A une classe de méthode qui pourrait être étendu à des problèmes sans maillage discrets.
 - ON A PAS encore illustré mes performances de cette méthode, on propose de définir un problème qui présente une situation ou la distribution des membres devient inadmissible et 
-## Chapitre 4: Evaluation et comparaison des méthodes de correction de position et d'intensité
+  
+## Chapitre 4: Evaluation et comparaison des méthodes de correction de position et/ou d'intensité
 
 #### Objectif:
+- SACHANT QUE l'on a développé une méthode pour modifier la position des particules pour une méthode sans maillage
+  - POUR CELA évaluer la méthode d'assimilation par correction de positions
+  - SACHANT QUE cela a été pris en compte avec la méthode vortex
+    - POUR CELA on définit un cas test qui traite un cas d'erreur d'alignement qui induit des discrétisations non admissiobles.
+
+#### Corps
+
+- SACHANT QUE l'on travaille avec la méthode vortex
+- POUR CELA on défini un problème
+  - SACHANT QUE on doit présenter un cas avec des discrétisations non admissibles
+    - POUR CELA on présente un problème à trois corps dont les trajectoires des centres des vortex vont être chaotiques.
+- POUR CELA 
 
 #### Bilan:
 
