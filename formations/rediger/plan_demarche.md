@@ -36,9 +36,8 @@
 
 #### Objectif
 Deux adaptations du filtre EnKF ont été proposées pour être... 
-- POUR CELA : 
-  - POUR CELA : on a fait varier  
-  - SACHANT QUE : 
+
+- reprendre plan article 1
 
 #### Bilan 
 
@@ -65,6 +64,9 @@ Proposer une formulation du problème qui tient compte de l’erreur d’alignem
 Corriger la position des particules en plus des intensités, avoir une discrétisation particulaire conforme à la solution analysée
 Proposer un alignement cinématiquement admissible
 
+# Bibliographie
+
+# Corps
 
 - ON A vu que la mise à jour à la Kalman était possible pour les méthodes sans maillage continus. POUR CELA on corrigeant l'intensité à partir d'une pondération de chaque membre. 
 - On a 
@@ -74,8 +76,8 @@ Proposer un alignement cinématiquement admissible
 - ON A développé une formulation du problème d'assimilation de données en introduisant une transformation pour aligner les particules
 - ON A une formule variationnelle
   - ON A une méthode qui peut être combinée avec la précédente
-- ON A une méthodologie qui peut être adaptée à des problèmes discrets.
-
+- ON A une classe de méthode qui pourrait être étendu à des problèmes sans maillage discrets.
+- ON A PAS encore illustré mes performances de cette méthode, on propose de définir un problème qui présente une situation ou la distribution des membres devient inadmissible et 
 ## Chapitre 4: Evaluation et comparaison des méthodes de correction de position et d'intensité
 
 #### Objectif:

@@ -202,6 +202,51 @@ Dans ce dernier cas, le facteur de normalisation $\alpha$ est
 
 Notez que ces noyaux ont été définis avec la coordonnée radiale $r$. Une autre possibilité serait de définir le noyau multidimensionnel comme le produit tensoriel du noyau 1D
 
+\subsection{Distribution particulaire admissible}
+
+Les méthodes sans maillage sont ici des méthodes d'appoximation de champs continus. Ces discrétisations doivent ainsi vérifier un certain nombre de critère pour être conforme à la solution. Il s'agit en particulier de donner ici des critères de régularité pour définir si une méthode d'interpolation sans maillage est valide. On trouvera des détailes supplémentaires dans le livre~\cite{s_li_meshfree_2004} en section 4.
+
+On rappelle tout d'abord ce qu'est le support d'une particule $p$. Chaque particule est associée à une fonction d'interpolation $\phi_\varepsilon(\bm{z})$. Le support compact est donc
+
+\begin{equation*}
+    S_p = \{\bx \mid \| \phi_\varepsilon \bx - \bx_p \| > 0\} \cap \Omega,
+\end{equation*}
+
+On définit également $\rho_p$ le rayon du support compact comme
+\begin{equation*}
+    \rho_p =  \max \{\| \bx - \bx_p \| > 0 \mid \bx \in S_p\}.
+\end{equation*}
+
+C'est l'ensemble de ces sous domaines qui forment la distribution particulaire. Nous supposons un nombre fini de particules. % et un rayon de support homogène $\rho = \rho_I$.
+
+\begin{definition}
+    On définit une distribution admissible selon plusieurs conditions
+    \begin{enumerate}
+        \item L'union des supports de particules
+              \begin{equation*}
+                  S:= \bigcup_{p \in \mathcal P} S_p
+              \end{equation*}
+              est inclus dans le domaine $\bar \Omega$ dans lequel réside réside de tel sorte que $\bar \Omega	\subseteq S$.
+        \item \forall \bx \in \bar \Omega, il existe un boule %\label{item:cond2}
+              \begin{equation}
+                  \mathcal B(x) = \{x \mid \|\bx - \bar \bx\| < \rho\}
+              \end{equation}tel que le nombre de particule dans $\mathcal B$ satisfait deux bornes $0 < N_{min} < N_{max} < \inf$
+              \begin{equation*}
+                  N_{min} \leq N \leq N_{max}
+              \end{equation*} de telle sorte que la matrice des moments vérifie les conditions suivante
+              \begin{itemize}
+                  \item la matrice de moment est de dimension finie ;
+                  \item la martice de moment est inversible ;
+                  \item la matrice de moment est bien conditionnée.
+              \end{itemize}
+        \item Pour $\Omega \in \mathbb R^d$, il est nécessaire que $B(x)$ admette au moins $d+1$ particules dont les vecteurs positions sont distincts, de cette manière la matrice de moment est nécessairement inversible.
+    \end{enumerate}
+\end{definition}
+
+La condition 1 est une condition de recouvrement. Cette dernière est une condition nécessaire de la condition 2. Cette dernière peut être appelée vu comme une condition de chevauchement, nécessaire afin de "lier" les particules entre elles. La définition d'admissibilité a été développée en terme de ($\rho, p$)-régularité par Han et Meng~\cite{HAN20016157} ou bien par Duarte et Oden~\cite{duarte1996hp}.
+
+Cette définition est déterminante pour pouvoir appliquer les schémas d'interpolation définis dans la Section~\ref{sec:approx_part}.
+
 \section{Hydrodynamique des particules lissées, \textit{Smoothed particle hydrodynamics} (SPH)}
 
 La méthode SPH a étét développée indépendemment par Lucy~\cite{lucy_1977}, et Gingold et Monhagan~\cite{gingold_monaghan_sph_1977}. Elle a été formulé initialement pour dess problème de formation et d'évolution des systèmes stellaires. Tout comme en mécanique quantique sont but est de réprésenter le système discret en le lissant pour obtenir un milieu continu discrétisé par un ensemble de particules. En mécanique, cette méthode est vu comme une méthode de discrétisation sans maillage d'un milieu continu.
