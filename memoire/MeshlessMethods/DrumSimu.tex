@@ -1,13 +1,14 @@
-% !TEX root = main.tex
+% !TEX root = memoire/main.tex
 
 \chapter{Méthode de simulation du tambour et assimilation de données}
 
 Nous avons vu dans le chapitre précédent que l'assimilation dépendait de la définition d'un modèle et de son état. Dans le cas de la simulation de l'écoulement au sein du broyeur à boulets, il s'agit principalement de méthodes reposant des discrétisations sans maillage. C'est ce type de modélisaton qu'il faudra prendre en compte aussi lors de l'assimilation de données. Or, le caractère Lagrangien de la définition de l'état implique d'évaluer jusqu'à quel point les méthodes classiques d'assimilation peuvent être adaptée. En effet celles-ci se base sur des états dont la discrétisation ne varie pas au cours du temps. De plus, le fait que l'espace soit continu ou discret va également modifier la signification de l'état et sa capacité à être mis à jour.
 Dans ce Chapitre, nous rappellerons en Section~\ref{sec:simu_broyeur} les principales méthodes utilisées aujourd'hui pour simuler l'écoulement au sein du broyeur à boulet. En constatant la prédominance des méthodes sans maillage, nous reprendrons les principales familles de formulation particulaire en particulier en considérant en Section~\ref{sec:part_discret} les méthodes utilisant un milieu discret et en Section~\ref{sec:part_cont} un milieu continu. Nous évoquerons les sigularités et limites à l'adaptation des méthodes d'assimilation de données et présenterons les travaux actuels dans la littérature. De plus, nous présenterons la méthode vortex comme une méthode particulaire modèle pour la suite du manuscrit.
 
-\section{Ecoulement d'un milieu granulaire}
+\section{Ecoulement d'un milieu granulaire} % VOIR P13 SOUNDARAJAN
 
 La simulation du broyeur repose sur la représentation de l'écoulement d'un milieu granulaire. Si les écoulements granulaires sont très présents dans la nature et dans l'industrie, du fait de la nature discrète du milieu, ils sont bien moins comprise que l'écoulement d'un liquide qui se base sur les équations de Navier-Stokes.
+
 L'écoulement granulaire va se distinguer par trois types de régime que l'on assimile généralement au trois état de la matière: solide où où le mouvement des particules est lent et le comportement est presque statique, une couche semblable à un liquide dans laquelle les grains s'écoulent avec une certaine inertie, et une zone semblable à un gaz où les particules se déplacent à des vitesses plus élevées de manière chaotique. Ils interviennents simultanément dans l'écoulement. Ce qui complexifie sa caractérisation rhéologique.
 
 \begin{figure}
@@ -15,20 +16,25 @@ L'écoulement granulaire va se distinguer par trois types de régime que l'on as
     \caption{Image de billes d'acier s'écoulant d'un tas. Trois phases de l'écoulement granulaire, se comportant comme un gaz, un liquide ou un solide, peuvent être identifiées.~\cite{forterre_flows_2008}}
 \end{figure}
 
-Les régimes solides interviennent
+Le régime solide ou frictionnel intervient en particulier en mécanique des sols pour la prédiction de la défaillance des sols pour les applications de génie civil~\cite{Campbell2006}. Dans ce cas, le critère de rupture de Mohr-Coulomb~\cite{Juvinal1991}, accompagné d'une règle de flux de la plasticité des métaux, est suffisant pour décrire le comportement de l'écoulement granulaire comme un processus continu, sans prendre en compte l'interaction des grains individuels. La loi est alors paramétré par des quantités interprétables : l'angle de friction interne, la cohésion, ainsi que l'angle de dilatation. La loi de Drucker-Prager~\cite{Drucker1952}, version lisée du critère de Mohr-Coulomb est également couremment utilisée.
 
-Les travaux récents convergent vers une loi de comportement viscoplastique pour modéliser les milieux granulaires défini sous le nom de loi $\mu(I)$ \cite{gdr_midi_dense_2004,jop_constitutive_2006} ce qui a permis de développer des simulation du tambour en rotation~\cite{Cortet_2009} et montre une bonne correspondance pour le cas d'écoulement avec surface libre \cite{chou_cross-sectional_2009}.
-Toutefois, cette loi trouve certaines limites dans le cas d'écoulement confiné où le coefficient de tassement change et où le mouvement de chaque grain entraîne des modifications significatives dans les chaînes de force. Si la prédiction est bonne au niveau des bords, elle reste toutefois insufisante au niveau des parois \cite{Rognon_Miller_Metzger_Einav_2015}. De plus, elle ne permet pas de prendre en compte les régimes cinétiques, c'est à dire le régime gaz. Ainsi, le développement de nouvelles loi rhéologique est un sujet de recherche constant.
 
-\section{Simulation du tambour}\label{sec:simu_broyeur}
+Le régime liquide ou d'écoulement est principalement décrit à l'aide de lois rhéologique. Les travaux récents convergent vers une loi de comportement viscoplastique défini sous le nom de loi $\mu(I)$~\cite{gdr_midi_dense_2004,jop_constitutive_2006}. Des simulation du tambour en rotation~\cite{Cortet_2009} ont pu êter réalisé et montre une bonne correspondance pour le cas d'écoulement avec surface libre~\cite{chou_cross-sectional_2009}. Toutefois, cette loi trouve certaines limites dans le cas d'écoulement confiné où le coefficient de tassement change et où le mouvement de chaque grain entraîne des modifications significatives dans les chaînes de force. Si la prédiction est bonne au niveau des bords, elle reste toutefois insufisante au niveau des parois~\cite{Rognon_Miller_Metzger_Einav_2015}.
+
+Finalement le régime gaz ou cinétique correspond au écoulement granulaires dispersés. Ce sont alors des modèles de cinétique des gaz qui sont utilisé pour modéliser le comportement du milieu granulaire~\cite{Ng2008}.
+
+
+\section{Simulation du tambour}~\label{sec:simu_broyeur}
 
 Dans le tambour en rotation l'ensemble des trois zones d'écoulement sont présentes. Divers régimes d'écoulement tel que : glissement, ballotement, éboulement, roulement, en cascade, cataracte,  centrifuge~\cite{MELLMANN2001251}.
 Ces différents régimes déterminent la qualité du mélange, du broyage. C'est le régime en cascade qui est nécessaire pour la réduction de taille de grain dans le broyeur à boulets. C'est dans ce régime que la surface libre prend la forme caractéristique d'un \textit{S}.
 
-Outre la difficulté dans la définition de la loi de comportement, c'est aussi le type de simulation qui est complexe dans le cas de la simulation du tambour. En effet, ce problème présente un cas d'écoulement en grande transformation, avec une surface libre et nécessite de tenir compte des interactions avec une paroi mobile voir les corps broyants.
+Outre la difficulté dans la définition de la loi de comportement, c'est le choix de choix de la modélisation qui est complexe pour la simulation de l'écoulement au sein tambour en rotation. En effet, ce problème présente un cas d'écoulement en grande transformation, avec une surface libre et nécessitant de tenir compte des interactions avec une paroi mobile voir des corps broyants.
 
+Ce sont d'abord des lois empiriques qui ont été proposées~\cite{}.
 % APPROCHE DISCRETE
 Avantages :
+Permet d’obtenir des informations de champs de vitesse, la surface libre, la distribution des collisions, …
 Etude du mélange : Représente très bien les différents régimes d’écoulement, de ségrégation
 Prise en compte d’une grande variété de géométrie de particule
 Spectre de collision : permet une estimation de la fonction de rupture (source ?)
@@ -37,6 +43,7 @@ Inconvénients :
 Très couteux (en particulier la détection des contacts)
 Réalisation de simulations à grande échelle
 Difficultés de mise à jour des états en fonction des observations
+Bien que cette description présente souvent des avantages, dans de nombreux problèmes elle nécessite malheureusement d’introduire un terme dissipatif dont le sens physique est parfois difficile à justifier.
 
 % APPROCHE CONTINUE
 %% CFD / FEM
@@ -76,21 +83,11 @@ Chandra et al. « Nonconforming Dirichlet Boundary Conditions in Implicit Materi
 
 \section{Méthodes sans maillage discrètes}~\label{sec:part_discret}
 
-url         = {https://hal.science/hal-01824750},
-Les méthodes sans maillage discrètes traitent les particules comme des objets solides indépendants. Ces entités physiques sont caractérisées par leur géométries, ainsi que par des propriétés intrasèques qu'elles conservent tout au loin de la simulation. Les particules interagissent entre elles au travers de lois de contact, de frottement et de cohésion. L'objectif est de déterminer la trajectoire des particules. Parmis ces méthodes, on peut mentionner la méthode des éléments discrets (DEM)~\cite{radjai:hal-00691805} et la méthode de dynamique des contacts (CD)~\cite{moreau:hal-01824750}.
-
-
-% UTILISER PARTIE LHASSAN
+Les méthodes sans maillage discrètes traitent les particules comme des objets solides indépendants. Ces entités physiques sont caractérisées par leur géométries, ainsi que par des propriétés intrasèques qu'elles conservent tout au loin de la simulation. Les particules interagissent entre elles au travers de lois de contact, de frottement et de cohésion. L'objectif est de déterminer la trajectoire des particules. Parmis ces méthodes, on peut mentionner la méthode des éléments discrets (DEM)~\cite{radjai:hal-00691805} et la méthode de dynamique des contacts (CD)~\cite{moreau:hal-01824750}. La principale différence entre ces deux méthodes est de considérer respectivement des particules déformables ou non. Sans perte de généralité pour l'applicabilité au problème d'assimilation, nous présenterons la méthode classique DEM.
 
 \subsection{Méthode des éléments discrets (DEM)}
-Référence dans la simulation des écoulements granulaires.
-Appliquée aux broyeurs dès 1992 par Mishra and Rajamani d’abord en 2D puis en 3D
-Bonne confrontation aux acquisitions expérimentales
-Permet d’obtenir des informations de champs de vitesse, la surface libre, la distribution des collisions, …
 
-
-
-
+La DEM est une extension du problème à $N$ corps introduit dans les années 60 en en dynamique moléculaire~\cite{Alder1959},  en dynamique des fluides~\cite{Allen1987}, ou en astrophysique~\cite{vonHoerner1960}.
 La méthode consiste à considérer le mouvement d'un ensemble de $N$ grains composant le milieu. Celui-ci est décrit par l'équation de la dynamique qui peut s'écrire sous la forme
 
 \begin{equation*}
