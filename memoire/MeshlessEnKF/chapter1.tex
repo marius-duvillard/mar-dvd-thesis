@@ -73,7 +73,7 @@ Cependant, dans le cas général les positions de particules diffèrent d'un mem
 
 \begin{eqnarray*}
     \fstate_i^a(\bx) &=& \sum_{p \in \mP_i^f}\Gamma^f_p \phi_{\varepsilon}(\bx - \bx_p) + \sum_{j=1}^{N} F_{ji}  \sum_{p' \in \mP_j^f}\Gamma^f_{p'} \phi_{\varepsilon}(\bx - \bx_{p'}) \\
-    &=& \sum_{p \in \mP_i^f}\left[(1 + F_{ii})\Gamma^f_p \phi_{\varepsilon}(\bx - \bx_{p})\right]   + \sum_{j\neq i} F_{ji} \Gamma^f_{p'} \phi_{\varepsilon}(\bx - \bx_{p'})\\
+    &=& \sum_{p \in \mP_i^f}\left[(1 + F_{ii})\Gamma^f_p \phi_{\varepsilon}(\bx - \bx_{p})\right]   + \sum_{j\neq i} F_{ji} \Gamma^f_{p'} \phi_{\varepsilon}(\bx - \bx_{p'}) \\
     &=& \sum_{j=1}^{N} \sum_{p \in \mP_j^f} \Gamma^a_p \phi_{\varepsilon}(\bx - \bx_p).
 \end{eqnarray*}
 $\fstate_i^a$ est bien une solution particulaire.
@@ -86,10 +86,10 @@ Ainsi, à chaque étape d'assimilation de données, le nombre de particule pour 
 \begin{figure}~\label{fig:support_particles}
     \centering
     \begin{subfigure}{0.5\textwidth}
-        \includegraphics[width=\textwidth]{all_particles.pdf}
+        \includegraphics[width=\textwidth]{images/all_particles.pdf}
     \end{subfigure}
     \begin{subfigure}{0.5\textwidth}
-        \includegraphics[width=0.5\textwidth]{memb_particles.pdf}
+        \includegraphics[width=0.5\textwidth]{images/memb_particles.pdf}
     \end{subfigure}
     \caption{Support de particule d'un membre avant et après correction.}
 \end{figure}

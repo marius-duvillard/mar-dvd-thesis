@@ -1,3 +1,5 @@
+% !TEX root = main.tex
+
 \chapter{Introduction}
 
 \section*{Contexte Général}
@@ -20,13 +22,19 @@ Tout comme le combustible à base d'uranium, le combustible est présent dans le
 
 Ce dispositif cylindrique, rempli de boules de broyage, appelés corps broyants, met en oeuvre un processus de rotation pour broyer finement le mélange de poudres d'oxyde. C'est une étape qui dure entre 2 et 4h et qui va permettre de mélanger les deux poudres afin d'avoir un mélange homogène à une granulométrie inférieure à . En effet il est nécessaire d'avoir une poudre fine afin d'obtenir une bonne coulabilité de poudre pour permettre la mise en forme des pastilles lors de l'étape suivante de frittage. D'autre part, cette étape est déterminante pour éviter d'avoir des haute concentration d'aggloméra de Pu, à l'origine de points chauds facteur d'accident dans le réacteur \textcolor{red}{mettre une citation Bouloré ?}.
 
-Cette étape critique même si simple dans son principe est complexe dans les mécanismes mise en jeu\dots Le large spectre des physiques mise en jeu à l'intérieur du tambour mais aussi le\dots
+Cependant, son contrôle est déterminé de manière empirique par l'expérimentateur sur une variété de paramètres tel que la vitesse de rotation, le degré de remplissage, les proportions d'alimentation et de corps broyants.
 
-% Malgré que sa performance soit critique pour la qualité du produit final et sa sûreté d'utilisation dans les réacteurs nucléaires.
-Malgré de nombreux dispositifs de broyage spécialisés aussi dans d'autres domaine, l existe encore un écart substantiel entre les connaissances fondamentales actuelles sur les mécanismes physiques régissant le processus de broyage et le besoin actuel de sa modélisation prédictive et quantitative en vue de ses applications d'ingénierie.
-
-Cependant, son contrôle est déterminé de manière empirique par l'expérimentateur sur une variété de paramètres tel que la vitesse de rotation, le degré de remplissage, les proportions d'alimentation et de corps broyants. A cela s'ajoute le défi de la manipulation de poudres irradiées. En effet, les poudres mise en jeu sont irradiés, ce qui nécessite l'utilisation d'un environnements scellés pour éviter la contamination, des équipements spécialisés et exclusifs ainsi que des blindage contre les radiations et la production de chaleur.
-
+En effet, cette étape critique même si simple dans son principe reste encore mal compris~\cite{Austin1981,Brandao2020,Mankosa1986,Datta2002,Capece2014}.
+Le large spectre des physiques mise en jeu.
 C'est dans cette perspective que des outils complémentaire d'analyse sont nécessaires à la fois à l'aide d'outils de simulation mais également de mesures expérimentales.
 
+Ainsi, des études expérimentales ont été mises en place. En particulier, la thèse de Giraud pour pouvoir déterminer des relations empirique entre les propriétés microscopiques du combustible MOX et du comportement rhéologique macroscopique du mélange~\cite{giraud_analyse_2020}. Ces études reposent sur des campagnes de mesures complexes nécessitant de la manipulation de poudres irradiées. Or, les poudres mise en jeu sont irradiés, ce qui nécessite l'utilisation d'un environnements scellés pour éviter la contamination, des équipements spécialisés et exclusifs ainsi que des blindage contre les radiations et la production de chaleur. De plus, les mesures effectués sont soumises à des incertitudes.
+
+Ainsi, ces études sont complétées par des méthodes de simulation haute fidélité pour représenter le comportement des poudres. Ces méthodes se basent en grande majorité sur des méthodes sans maillage afin de pouvoir soit pour pouvoir traiter chaque poudres indépendemment, soit pour pouvoir traiter des problèmes de grandes transformations en utilisant une représentation continue du milieu. C'est en particulier la méthode des éléments discrets (DEM) qui a été utilisée dans les thèses de Orozco~\cite{Orozco2019} et Vu~\cite{vu_quasi-static_2023} pour simuler l'écoulement et les mécanismes de fragmentation au sein du tambour. Ces études ont permis en particulier de déterminer des grandeurs adimentionnelles pour pouvoir réaliser des changements d'échelle.
+
+Cependant l existe encore un écart substantiel entre les connaissances fondamentales actuelles sur les mécanismes physiques régissant le processus de broyage et le besoin actuel de sa modélisation prédictive et quantitative en vue de ses applications d'ingénierie.
+
+Cependant, il existe encore un écart substantiel entre les connaissances fondamentales actuelles sur les mécanismes physiques régissant le processus de broyage et le besoin actuel de sa modélisation prédictive et quantitative en vue de ses applications d'ingénierie.
+
+C'est dans cette perspective que
 % Broyeur à boulets

@@ -4,13 +4,15 @@
 % \renewcommand{\familydefault}{\sfdefault}
 \usepackage{geometry}
 \usepackage{graphicx}
-\graphicspath{ {./MeshlessEnKF/images/} }
+\graphicspath{ {./MeshlessEnKF}{./Introduction/images} {./MeshlessMethods/images} }
 % \geometry{
 %     left=16mm,
 %     top=30mm,
 %     right=16mm,
 %     bottom=30mm
 % }
+
+
 \usepackage{xcolor}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{lipsum}
@@ -26,7 +28,9 @@
 \setlength{\columnseprule}{0pt}
 \setlength\columnsep{10pt}
 \usepackage[most]{tcolorbox}
-
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
 
 \definecolor{mycustomcolor}{RGB}{128, 0, 128}
 \newcommand{\mycolor}[1]{\textcolor{mycustomcolor}{#1}}
@@ -49,6 +53,18 @@
 \newcommand{\obs}{\bm{y}}
 \newcommand{\Cov}{\bm{P}}
 \newcommand{\predi}{\mathcal{H} (\bm{x}^i_f)}
+\newcommand{\sigmaZm}{0.5}
+\newcommand{\meanZm}{\pi/2 + 0.6}
+
+\newcommand{\visc}{D}
+\newcommand{\refv}{1.0}
+\newcommand{\refvisc}{0.05}
+\newcommand{\Dlow}{0.02}
+\newcommand{\Dup}{0.08}
+\newcommand{\vmean}{0.9}
+\newcommand{\vstd}{1.2}
+\newcommand{\smLow}{0.8}
+\newcommand{\smUp}{1.2}
 
 \newcommand{\by}{\bm{y}}
 \newcommand{\bP}{\bm{P}}

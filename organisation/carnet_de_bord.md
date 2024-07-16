@@ -621,14 +621,20 @@ Bootstrapping for confidence intervals
 - Il donne des cartes d'activation representante
 - Zacharia: reconstruction super résolution
 
-## 13-07-2024
+## 15-07-2024
 
 - [x] Finir la partie du chapitre 2 avec la méthode Vortex + bilan. 
-- [ ] Faire le plan du chapiter 3 + chapitre 4. 1h
-- [ ] Faire la partie simulation particulaire du tambour en rotation et du mélange. 4h
+- [x] Faire le plan du chapiter 3 
 - [x] Ajouter la définition de distribution particulaire admissible dans la section part-EnKF. 30mins
 - Enlever l'étape de remaillage pour faire une comparaison où Part-EnKF ne foncitonnera pas ?
 
+## 16-07-2024
+
+- [x] Check du benchmark fonction de `sigma_obs`
+- [ ] Reprendre les graphiques des présentations ppt : sur incompatibilité simulation DEM / Simulation tambour.
+- [ ] Simulation du tambour avec méthodes numériques
+- [ ] Commencer la rédaction partie biblio du chapitre 3
+- [ ] Ecrire l'équation de l'optimisation (faire apparaitre le lambda et montrer comment faire varier en fonction du bruit ?)
 ### A FAIRE
 
 - Redaction
