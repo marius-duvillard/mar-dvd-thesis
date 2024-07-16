@@ -103,7 +103,6 @@ Biblio
 - Dans ce papier utilise MPM avec une loi de plasticité de Drucker–Prager pour modéliser le mélange dans le tambour en rotation.
 
 \paragraph*{Zhu 2022, SPH}
-
 - use SPH pour étudier l'écoulement dans un broyeur à boulets avec une loi de réologie $\mu (I)$ couplé à un modèle élastoplastique de Drucker-Prager.
 - En effet, l'objectif est de traiter correctement des cas de cohabitation de solid liqui régime comme dans le tambour en rotation.
 
@@ -127,3 +126,34 @@ Biblio:
 - Beaucoup de modèles ont été proposées.
 - Présente (D. A. Santos, I. J. Petri, C. R. Duarte, and M. A. S. Barrozo, “Experimental and CFD study of the hydrodynamic behavior in a rotating drum,” Powder Technol. 250, 52–62 (2013).) comme une étude complète d'une approche Euler-Euler basée sur un milieu continu assumant des interpénétrations et une équation dérivée de la théorie cinétique.
 - Précise que $\mu(I)$ permet de prendre en compte à la fois un critère de pasticité et une dépendance complexe de la viscosité en fonction du taux de déformation et de la pression.
+
+# BIBLIO REUNIE
+
+- Au début études étaient purement analytiques et expérimentales (qq citations), mais les modèles sont empiriques donc peu généralisables.
+
+- Ensuite développement de la DEM d'un côté,
+- en discret méthode DEM (citer cundall and strack 1979), les particules sont des particules individuels et le mouvement de chacune est calculer grace au PFD.
+- Mishra BK, Rajamani RK. The discrete element method for the simulation of ball mills. Appl. Math. Model. 1992;16:598-604. DEM pour Rotating drum.
+- 2 points négatifs:
+- coût de calcul élevé. En effet, taille de particule très faible p/ à la taille du broyeur.
+- Modélisation des particules régulières et plus large que la réalité.
+- Bon caractère prédictif. Des grandeurs interprétables mais pas tous comme des coefficients de dissipation
+
+
+mais également approche Eulerian FEM (\textsc{papiers qui peuvent être citer}).
+- De l'autre côté, on a des méthodes qui modélise le milieu granulaire comme un milieu continu. Le système est gouverné par les équations de conservation de mass et de quantité de mouvement.
+- Présente (D. A. Santos, I. J. Petri, C. R. Duarte, and M. A. S. Barrozo, “Experimental and CFD study of the hydrodynamic behavior in a rotating drum,” Powder Technol. 250, 52–62 (2013).) comme une étude complète d'une approche Euler-Euler basée sur un milieu continu assumant des interpénétrations et une équation dérivée de la théorie cinétique.
+- Arseni - Utilise 3D FV simulations de l'écoulement granulaire en utilisant la loi loi $\mu(I)$. Permet de reprodure les différents régimes d'écoulement.
+- Le souci dans ce dernier cas est de pouvoir gérer les interfaces et les surfaces libres.
+- Les méthodes particulaires Lagrangiennes peuvent plus facilement traiter des écoulements à surface libre.
+- Chandra MPM 2021 Mets en avant le traitement sensible de la gestion des conditions limites dans le cas du broyeur à boulets et propose dans le cas MPM des méthodes pour les prendre en compte.
+- Présente SPH. Méthode sans maillage basée sur un ensemble de particules transportant des quantités matérielles qui évoluent en fonction des forces internes et externes.
+- Sur la loi de comportement: difficile du fait de la cohabitation de différents régimes. Modèle élastoplastique sont souvent utilisé pour le comportement solide. Pour le comportement fluid-like, utilise des loi viscoélastique ou réhologique. En particulier, la loi $\mu (I)$ cherche à modéliser ses deux régimes à partir d'un nombre adimentionnel, le nombre Inertiel $I$.
+- il relie the shear strength with the normal stress à travers un coefficient de friction qui dépend de $I$.
+- Présente $\mu(I)$.
+
+- deux méthodes: discrètes et continues
+- Les méthodes de discrétisation particulaire sont adaptées pour les problèmes de grandes transformations parce que représentation hybrid Euler-Lagrange du mouvement.
+- Il donne des papiers où MPM a été utilisé pour simuler écoulements granulaires.
+- On peut aussi coupler MPM et DEM pour interaction avec des solides comme les boulets du broyeur. (Liu C, Sun Q, Zhou GG. Coupling of material point method and discrete element method for granular flows impacting simulations. International Journal for Numerical Methods in Engineering. 2018;115:172-188.)
+- Dans ce papier utilise MPM avec une loi de plasticité de Drucker–Prager pour modéliser le mélange dans le tambour en rotation.
