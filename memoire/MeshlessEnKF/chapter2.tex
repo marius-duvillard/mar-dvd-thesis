@@ -5,7 +5,7 @@
 \newcommand{\ngrid}{$N_{grid} = 100$}
 \newcommand{\sigmaY}{0.05}
 
-\section{Objectif}
+\section{Objectifs}
 
 Deux adaptations du filtre EnKF ont été proposées pour permettre l'assimilation de données pour des méthodes sans maillages. En effet, la correction à la Kalman entrainait des solutions dont le nombre de particules augmentait de manière exponentiel. Ainsi les méthodes ont consisté soit à générer une nouvelle distribution de particule (filtre Remesh-EnKF), soit approcher la solution analysée en modifiant les intensités des configurations particulaires de chaque membre (filtre Part-EnKF). Afin de valider ces deux approches, deux études ont été réalisées. La première présente une méthode unidimensionnelle d'un problème d'advection-diffusion. L'objectif est de mieux visialiser les différentes approches et de les comparer à une solution définies par une discrétisation eulérienne. Dans un second temps, les deux filtres sont appliqués à à un problème d'écoulement incompressible bidimensionnel non linéaire, résolu via la méthode Vortex-In-Cell (VIC) pour évaluer qualitativement le comportement des différents filtres.
 

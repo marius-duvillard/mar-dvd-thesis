@@ -631,7 +631,11 @@ Bootstrapping for confidence intervals
 ## 16-07-2024
 
 - [x] Check du benchmark fonction de `sigma_obs`
-- [ ] Reprendre les graphiques des présentations ppt : sur incompatibilité simulation DEM / Simulation tambour.
+- [x] Reprendre les graphiques des présentations ppt : sur incompatibilité simulation DEM / Simulation tambour.
+- [x] Relancer les calculs sans le lambda variable avec sigma_obs: arret erreur sur l'optimization, peut etre tolérance sur x trop faible ? Je fais un cas test et je vérifie la convergence. On peut utiliser un xtol à 1.e-4 ?
+
+## 17-07-2024
+
 - [ ] Simulation du tambour avec méthodes numériques
 - [ ] Commencer la rédaction partie biblio du chapitre 3
 - [ ] Ecrire l'équation de l'optimisation (faire apparaitre le lambda et montrer comment faire varier en fonction du bruit ?)

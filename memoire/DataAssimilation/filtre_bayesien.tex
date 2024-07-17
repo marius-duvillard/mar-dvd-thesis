@@ -1,15 +1,20 @@
 % !TEX root = memoire/main.tex
 
-\chapter{Assimilation de Données}
-
+\chapter{Assimilation de données pour la construction d'un jumeau numérique}
 
 \section{Introduction}~\label{intro_da}
+
+La construction d'un système expert ou jumeau numérique
+
+\input{Introduction/DigitalTwin.tex}
+
+\section{Assimilation de données}
 
 \mycolor{La DA est un processus permettant d'intégrer des informations issues de différentes sources pour obtenir une compréhension plus précise et plus complète d'un système ou d'un phénomène. Cette méthode combine des données observées (mesures réelles) avec des prévisions issues de modèles numériques. L'objectif est de corriger et d'améliorer les modèles en fonction des observations, réduisant ainsi les incertitudes et améliorant la précision des prévisions. Dans ce processus, les observations, qui peuvent être incomplètes ou entachées d'erreurs, sont confrontées aux prévisions du modèle au cours du temps. Le modèle est ensuite ajusté pour mieux correspondre aux données réelles. Il s'agit donc de résoudre un problème inverse en prenant en compte l'aspect dynamique du phénomène. Cette méthode est largement utilisée dans divers domaines tels que la météorologie, l'océanographie, la géophysique, et l'ingénierie environnementale. Par exemple, en météorologie, la DA est essentielle pour les prévisions météorologiques en intégrant des données satellites et des mesures au sol dans les modèles atmosphériques.}
 
 L'assimilation peut être décrit comme la combinaison des informations a priori d'un modèle de simulation numérique avec les données issues de l'observation afin d'obtenir une estimation optimale d'un système dynamique et de ses incertitudes.
 
-L'assimilation de données trouve son origine en prédiction météorologique ou en océanographie \mycolor{citer Bocquet}. Cependant, sa formulation mathématique se base sur l'inférence bayésienne, la théorie du contrôle et le calcul variationnel.
+L'assimilation de données trouve son origine en prédiction météorologique ou en océanographie~\cite{bocquet_introduction_2014}. Cependant, sa formulation mathématique se base sur l'inférence bayésienne, la théorie du contrôle et le calcul variationnel.
 
 Plus que l'estimation d'un état, l'assimilation de données est aussi une formulation appropriée pour mettre à jour les paramètres d'un système.
 

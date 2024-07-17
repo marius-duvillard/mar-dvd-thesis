@@ -139,15 +139,12 @@ Biblio:
 - Modélisation des particules régulières et plus large que la réalité.
 - Bon caractère prédictif. Des grandeurs interprétables mais pas tous comme des coefficients de dissipation
 
-
 mais également approche Eulerian FEM (\textsc{papiers qui peuvent être citer}).
 - De l'autre côté, on a des méthodes qui modélise le milieu granulaire comme un milieu continu. Le système est gouverné par les équations de conservation de mass et de quantité de mouvement.
 - Présente (D. A. Santos, I. J. Petri, C. R. Duarte, and M. A. S. Barrozo, “Experimental and CFD study of the hydrodynamic behavior in a rotating drum,” Powder Technol. 250, 52–62 (2013).) comme une étude complète d'une approche Euler-Euler basée sur un milieu continu assumant des interpénétrations et une équation dérivée de la théorie cinétique.
-- Arseni - Utilise 3D FV simulations de l'écoulement granulaire en utilisant la loi loi $\mu(I)$. Permet de reprodure les différents régimes d'écoulement.
-- Le souci dans ce dernier cas est de pouvoir gérer les interfaces et les surfaces libres.
-- Les méthodes particulaires Lagrangiennes peuvent plus facilement traiter des écoulements à surface libre.
+
 - Chandra MPM 2021 Mets en avant le traitement sensible de la gestion des conditions limites dans le cas du broyeur à boulets et propose dans le cas MPM des méthodes pour les prendre en compte.
-- Présente SPH. Méthode sans maillage basée sur un ensemble de particules transportant des quantités matérielles qui évoluent en fonction des forces internes et externes.
+
 - Sur la loi de comportement: difficile du fait de la cohabitation de différents régimes. Modèle élastoplastique sont souvent utilisé pour le comportement solide. Pour le comportement fluid-like, utilise des loi viscoélastique ou réhologique. En particulier, la loi $\mu (I)$ cherche à modéliser ses deux régimes à partir d'un nombre adimentionnel, le nombre Inertiel $I$.
 - il relie the shear strength with the normal stress à travers un coefficient de friction qui dépend de $I$.
 - Présente $\mu(I)$.

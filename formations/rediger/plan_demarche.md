@@ -1,5 +1,19 @@
 # Plan de démarche
 
+## Introduction
+Intro général + objectif
+
+## Biblio Intro 
+SACHANT que l'on travaille sur une étape de fabrication ON VA  la décrire. 
+SACHANT que l'on doit le simuler, ON VA décrire ce type de simulation.
+SACHANT que l'on a des mesures, ON VA les décrire
+SACHANT que l'on veut construire un système expert ON VA décrire ce que c'est
+
+## Biblio DA
+intro 
+SACHANT que les modèles sont imparfait.... mettre le laius from Le Maitre sur les erreurs en simulation.
+
+## Biblio Méthode sans maillage
 ## Chapitre 1 : Développement de méthodes par correction d'intensité pour permettre l'adaptation du filtre de Kalman d'ensemble aux simulations sans maillage
 
 ### Pour cela Mise en évidence de la correction à appliquer pour mettre à jour les états
@@ -54,8 +68,8 @@ Deux adaptations du filtre EnKF ont été proposées pour être...
 
 SACHANT QUE Les filtres EnKF jusqu’ici mettent uniquement à jour les intensités des particules 
   ON DOIT tenir compte de distribution non admissible.
-SACHANT QUE les méthodes particulaires discrètes n'admettent pas de correction par intensité, 
-  ON DOIT proposer des méthodes qui mettent à jour la position des particules.
+<!-- SACHANT QUE les méthodes particulaires discrètes n'admettent pas de correction par intensité, 
+  ON DOIT proposer des méthodes qui mettent à jour la position des particules. -->
 SACHANT QUE la mise à jour va dépendre de la méthode d'intégration 
   ON DOIT donc prendre en compte la physique pour modifier les positions de particule. On parlera de méthodes cinématiquement admissible.
 ON SAIT QUE des méthodes dans la littérature cherche à tenir compte d'erreur de positionnement et de proposer des méthodes d'assimilation avec des métriques plus complexes que simplement une norme euclidienne sur les intensités.
@@ -64,10 +78,6 @@ ON SAIT QUE des méthodes dans la littérature cherche à tenir compte d'erreur 
 FINALEMENT en s'inspirant de la littérature en assimilation de données, on propose une catégorie de méthodes qui permettent d'améliorer le filtre Part-EnKF en supposant une erreur dans le positionnement de la discrétisation particulaire.
 
 #### Corps :
-
-
-La discrétisation particulaire des membres peut être inadaptée pour le filtre Part-EnKF
-Comment proposer une discrétisation mieux adaptée à la solution analysée ?
 
 Proposer une formulation du problème qui tient compte de l’erreur d’alignement des membres
 Corriger la position des particules en plus des intensités, avoir une discrétisation particulaire conforme à la solution analysée
@@ -120,6 +130,7 @@ Chapitre
   - POUR CELA évaluer la méthode d'assimilation par correction de positions
   - SACHANT QUE cela a été pris en compte avec la méthode vortex
     - POUR CELA on définit un cas test qui traite un cas d'erreur d'alignement qui induit des discrétisations non admissiobles.
+    - 
 
 #### Corps
 
@@ -127,7 +138,15 @@ Chapitre
 - POUR CELA on défini un problème
   - SACHANT QUE on doit présenter un cas avec des discrétisations non admissibles
     - POUR CELA on présente un problème à trois corps dont les trajectoires des centres des vortex vont être chaotiques.
-- POUR CELA 
+- SACHANT que l'on veut voir un cas où part ne marche pas
+  - POUR CELA on présente les résultats des filtres d'intensité
+    - SACHANT que le filtre partEnKF ne marche pas
+      - montrer la position des vortex respectif, de meme montrer ceux de remesh pour bien dire que il manque des particules.
+- SACHANT que l'on a montré les limites
+  - POUR CELA on va montrer l'étape d'alignement sur une assimilation
+- Puis montrer performance avec le filtre Align
+- Puis la combinaison des deux
+- SACHANT que il faut vérifier les propriétés de convergence, on fait étude paramétrique
 
 #### Bilan:
 

@@ -2,8 +2,8 @@
 
 \chapter{Méthode de simulation du tambour et assimilation de données}
 
-Nous avons vu dans le chapitre précédent que l'assimilation dépendait de la définition d'un modèle et de son état. Dans le cas de la simulation de l'écoulement au sein du broyeur à boulets, il s'agit principalement de méthodes reposant des discrétisations sans maillage. C'est ce type de modélisaton qu'il faudra prendre en compte aussi lors de l'assimilation de données. Or, le caractère Lagrangien de la définition de l'état implique d'évaluer jusqu'à quel point les méthodes classiques d'assimilation peuvent être adaptée. En effet celles-ci se base sur des états dont la discrétisation ne varie pas au cours du temps. De plus, le fait que l'espace soit continu ou discret va également modifier la signification de l'état et sa capacité à être mis à jour.
-Dans ce Chapitre, nous rappellerons en Section~\ref{sec:simu_broyeur} les principales méthodes utilisées aujourd'hui pour simuler l'écoulement au sein du broyeur à boulet. En constatant la prédominance des méthodes sans maillage, nous reprendrons les principales familles de formulation particulaire en particulier en considérant en Section~\ref{sec:part_discret} les méthodes utilisant un milieu discret et en Section~\ref{sec:part_cont} un milieu continu. Nous évoquerons les sigularités et limites à l'adaptation des méthodes d'assimilation de données et présenterons les travaux actuels dans la littérature. De plus, nous présenterons la méthode vortex comme une méthode particulaire modèle pour la suite du manuscrit.
+Nous avons vu dans le chapitre précédent que l'assimilation dépendait de la définition d'un modèle et de son état. Dans le cas de la simulation de l'écoulement au sein du broyeur à boulets, il s'agit principalement de méthodes reposant des discrétisations sans maillage. C'est ce type de modélisaton qu'il faudra prendre en compte aussi lors de l'assimilation de données. Or, le caractère Lagrangien de la définition de l'état implique d'évaluer à quel point les méthodes classiques d'assimilation peuvent être adaptées. En effet, celles-ci se basent sur des états dont la discrétisation ne varie pas au cours du temps. De plus, le fait que l'espace soit continu ou discret va également modifier la signification de l'état et sa capacité à être mis à jour.
+Dans ce Chapitre, nous rappellerons en Section~\ref{sec:simu_broyeur} les principales méthodes utilisées aujourd'hui pour simuler l'écoulement au sein du broyeur à boulet. En constatant la prédominance des méthodes sans maillage, nous reprendrons les principales familles de formulation particulaire en particulier en considérant en Section~\ref{sec:part_discret} les méthodes utilisant un milieu discret et en Section~\ref{sec:part_cont} un milieu continu. Nous évoquerons les sigularités et limites à l'adaptation des méthodes d'assimilation de données et présenterons les travaux actuels dans la littérature. Enfin, nous présenterons la méthode vortex comme une méthode particulaire modèle pour la suite du manuscrit.
 
 \section{Ecoulement d'un milieu granulaire} % VOIR P13 SOUNDARAJAN
 
@@ -26,60 +26,35 @@ Finalement le régime gaz ou cinétique correspond au écoulement granulaires di
 
 \section{Simulation du tambour}~\label{sec:simu_broyeur}
 
-Dans le tambour en rotation l'ensemble des trois zones d'écoulement sont présentes. Divers régimes d'écoulement tel que : glissement, ballotement, éboulement, roulement, en cascade, cataracte,  centrifuge~\cite{MELLMANN2001251}.
+Dans le tambour en rotation l'ensemble des trois zones d'écoulement sont présentes. En fonction du nombre de Foudre, divers régimes d'écoulement apparaissent~\cite{MELLMANN2001251}. Entre autres, on retrouve le glissement, l'avalanche, la cascade, le cataracte, la centrifugation illustrés Figure~\ref{}
+
+\begin{figure}
+    \includegraphics[width=\textwidth]{flows_in_drum.png}
+    \caption{Représentation des différents régimes d'écoulement au sein du tambour en rotation avec la méthode DEM.}
+\end{figure}
+
 Ces différents régimes déterminent la qualité du mélange, du broyage. C'est le régime en cascade qui est nécessaire pour la réduction de taille de grain dans le broyeur à boulets. C'est dans ce régime que la surface libre prend la forme caractéristique d'un \textit{S}.
 
-Outre la difficulté dans la définition de la loi de comportement, c'est le choix de choix de la modélisation qui est complexe pour la simulation de l'écoulement au sein tambour en rotation. En effet, ce problème présente un cas d'écoulement en grande transformation, avec une surface libre et nécessitant de tenir compte des interactions avec une paroi mobile voir des corps broyants.
+Outre la difficulté dans la définition de la loi de comportement décrit précédemment, c'est le choix de la modélisation qui est complexe pour ce type de simulation. En effet, ce problème présente un cas d'écoulement en grande transformation, avec une surface libre et nécessitant de tenir compte des interactions avec une paroi mobile voir des corps broyants.
 
-Ce sont d'abord des lois empiriques qui ont été proposées~\cite{}.
-% APPROCHE DISCRETE
-Avantages :
-Permet d’obtenir des informations de champs de vitesse, la surface libre, la distribution des collisions, …
-Etude du mélange : Représente très bien les différents régimes d’écoulement, de ségrégation
-Prise en compte d’une grande variété de géométrie de particule
-Spectre de collision : permet une estimation de la fonction de rupture (source ?)
+Ce sont d'abord des lois empiriques ou analytiques qui ont été proposées dans la littérature~\cite{Ding2001,Boateng1998,Nicholas2001} mais ceux-ci sont généralement dépend du problème traité, simplifié et ne permettent donc pas une bonne généralisation.
 
-Inconvénients :
-Très couteux (en particulier la détection des contacts)
-Réalisation de simulations à grande échelle
-Difficultés de mise à jour des états en fonction des observations
-Bien que cette description présente souvent des avantages, dans de nombreux problèmes elle nécessite malheureusement d’introduire un terme dissipatif dont le sens physique est parfois difficile à justifier.
+Les méthodes de simulation ce sont à la fois portées sur des représentations continues ou discrète du milieu.
 
-% APPROCHE CONTINUE
-%% CFD / FEM
-Avantages
-Adapté à la simulation d’écoulement à grande échelle
-Inconvénients
-Définition de la loi de comportement complexe dépendante du régime de vitesse
-Lois de comportement en mécanique des sols : Mohr-Coulomb : faible vitesses
-Modèles rhéologiques : $\mu(I)$ vitesses intermédiaires
-Modèles basés sur la cinétique des gaz : hautes vitesses
+Les méthodes discrètes vont conserver une représentation particulaire du milieu en considérant un jeu de particules en équilibre. Introduite en 1979 par Cundall and Strack~\cite{cundall_discrete_1979}, la méthode des éléments discrets (DEM) a été utilisé pour la première fois pour la modélisation du tambour en rotation par Mishra and Rajamani~\cite{Mishra1992}. Ces méthodes ont l'avantage de pouvoir représenter les différents régimes d'écoulement granulaire, le mélange ou bien les phénomènes de ségrégation. On trouve également des extensions pour prendre en compte la fragmentation~\cite{orozco:hal-02409236}. Malgré ces différents avantages, la méthode DEM est très coûteuse en temps de calcul, en particulier lors de la détection des contacts. C'est d'autant plus le cas pour la simulation du tambour qui fait intervenir des grains de l'ordre du minimètre pour décrire un écoulement de l'ordre du mètre. Les grains simulés sont alors aggrandi, représentés avec des géométries plus régulière et lisse, pour permettre un temps de calcul acceptable.
+De plus, la DEM nécessite l'introduction d'un terme dissipatif qu'il est souvent difficile à justifier physiquement.
 
-%% MPM 
-Avantages
-Prise en compte des problèmes de grandes transformations : pas de distorsion de maillage ;
-Conservation de la masse et de la quantité de mouvement par construction (et le moment angulaire avec la méthode APIC) ;
-Deux représentations possibles de l’état du système ;
-Prise en compte d’un mélange de différents matériaux ainsi qu’une surface libre ;
-Implémentations parallèles existantes sur GPU/CPU.
+De l'autre côté, les méthodes continues représentent le milieu granulaire comme un milieu continu. Le système est gouverné par les équations de conservation de masse et de quantité de mouvement. Ce type d'approche est plus à même de représenter des écoulements à grande échelle.
 
-Inconvénients
-Moins efficace que la méthode FEM : nécessite de recalculer les fonctions d’interpolation grille/particules
+Dans cette famille de méthode on retrouve des méthodes qui utilise un maillage pour discrétiser les différents champs approchés. En particulier, on retrouve des méthodes utilisés en dynamique des fluides comme la méthode des volumes finis~\cite{Santos2013,arseni_granular_2020} ou bien en mécanique des solide avec des extensions de la méthodes des éléments finis comme les éléments finis eulérien~\cite{ZHENG2015361}. Si ces méthodes sont relativement plus efficaces en terme de calcul que la méthode DEM, elle ne sont pas bien adaptée aux problèmes avec des interfaces matérielles mobiles et des surfaces libres en raison de leur nature eulérienne.
 
-Appliquée au cas des écoulements granulaires par Soundararajan 2015
+Finalement, une autre classe de méthode continue a été plus récemment utilisées pour traiter des problèmes impliquant des grandes transformations, des écoulements à surface libre et des problèmes à géométries complexes. Il s'agit des méthodes sans maillage continues. Contrairement au méthode eulérienne à maillage fixe, ces méthodes dites lagrangiennes, utilise un ensemble de \textit{particulaire} comme support de discrétisation qui vont évoluer en suivant l'écoulement. De cette manière, ces méthodes ne peuvent pas souffrir de distorsion de maillage et elle sont beaucoup moins sensible à la dissipation lors de la phase d'advection. Elle permette de prendre en compte d’un mélange en affectant à chaque particules différentes particules et traite le problème de surface libre nativement. Une des plus connues est la méthode SPH (\textit{Smoothed Particle hydrodynamics}), où chaque particule transporte des quantités matérielles ainsi qu'une fonction noyau pour interpoler et discrétiser les champs continus et leurs opérateurs différentiels. Cette méthode a été utilisée pour simuler le tambour en rotation à l'aide d'une loi $\mu(I)$ couplé à une surface de charge de Drucker-Prager~\cite{zhu_lagrangian_2022}. Une autre méthode, particulièrement utilisé en mécanique des solides, est la méthode MPM (\textit{Material Point Method}). Cette dernière est une extension de la méthode PIC \textit{Particle In Cell}. Cette méthode hybride a été largement utilisée pour les écoulement granulaire~\cite{KUMAR201794} ainsi que pour la simulation du tambour en rotation~\cite{zuo_numerical_2020, chandra_nonconforming_2021} et a pu être comparé à la fois à la méthode DEM et l'expérimental pour étudier le mélange. Cependant, contrairement aux méthodes avec maillage, on perd en efficacité de calcul soit par des étapes de recherche de plus proches voisin en SPH, ou part le calcul des transfers grille/particules en MPM.
 
-Appliqué au problème du tambour en rotation dans deux articles :
+Finalement, bien que le sens physique ne soit pas le même entre méthodes discrètes et continues, il existe une prédominance des méthodes sans maillages dites particulaires pour traiter le problème de l'écoulement dans un tambour en rotation comme illustré Figure~\ref{fig:simu_granulaire}.
 
-Zuo et al. « Numerical Simulation of Granular Mixing in a Rotary Drum Using a Generalized Interpolation Material Point Method ». Asia-Paci1c Journal of Chemical
-Engineering (2020).
-
-Chandra et al. « Nonconforming Dirichlet Boundary Conditions in Implicit Material Point Method by Means of Penalty Augmentation ». Acta Geotechnica (2021).
-
-% Avec les approches continues l'intérieur du tambour d'un mélangeur-broyeur est conceptualisé comme un milieu continu, adoptant une perspective macroscopique. La réponse du milieu est alors représenté par une loi de comportement mécanique telle que la loi de Drucker-Prager. Cela contraste avec la méthode des éléments discrets (DEM), qui se concentrent sur les interactions particule-par-particule.
-
-% Cette approche hybride permet à la MPM de capturer efficacement les déformations importantes, les ruptures, et d'autres comportements complexes du milieu qui sont fréquents dans les opérations de mélange et de broyage. En revanche, la description fine du phénomène proposée par la DEM n'est plus disponible.
-
-% En termes de temps de calculs, la MPM est plus efficace que la DEM.
+\begin{figure}~\label{fig:simu_granulaire}
+    \includegraphics[width=\textwidth]{simulation_granulaire.png}
+\end{figure}
 
 \section{Méthodes sans maillage discrètes}~\label{sec:part_discret}
 
@@ -273,7 +248,7 @@ Dans ce dernier cas, le facteur de normalisation $\alpha$ est
 
 Notez que ces noyaux ont été définis avec la coordonnée radiale $r$. Une autre possibilité serait de définir le noyau multidimensionnel comme le produit tensoriel du noyau 1D
 
-\subsection{Distribution particulaire admissible}
+\subsection{Distribution particulaire admissible}~\label{sec:part_admissible}
 
 Les méthodes sans maillage sont ici des méthodes d'appoximation de champs continus. Ces discrétisations doivent ainsi vérifier un certain nombre de critère pour être conforme à la solution. Il s'agit en particulier de donner ici des critères de régularité pour définir si une méthode d'interpolation sans maillage est valide. On trouvera des détailes supplémentaires dans le livre~\cite{s_li_meshfree_2004} en section 4.
 

@@ -4,13 +4,24 @@
 
 \section{Objectifs}
 
-\section{Bibliographie}
-Les filtres séquentiels (Kalman, BLUE, 3DVar, EnKF…):
-Réduie l’erreur quadratique en combinant de manière optimal données et prédictions
-Détermine une correction uniquement de l’amplitude
-de l’erreur issue d’un déphasage dans l’erreur quadratique DONC effet de double pénalisation
+Les précédentes sections ont permis de développer des méthodes d'assimilation de données par correction d'intensité à l'aide de mise à jour à la Kalman pour les méthodes sans maillage continues. Cependant, ne pas mettre à jour également la position des particules entraîne des limitations. En effet, en conservant la même distribution particulaire, il n'y pas de garanti d'avoir une distribution particulaire admissible au sens présenté en Section~\ref{sec:part_admissible}.
+Ainsi, nous souhaitons proposer une méthode qui puisse permettre de mettre à jour la position. Toutefois, il faut prendre en compte d'une part de la non-linéarité du champ par-rapport aux coordonnées particulaires, mais également que cette mise à jour soit cinématiquement admissible, c'est à dire qu'elle respecte la physique du problème sous jascent.
 
+Tout d'abord, en s'inspirant des méthodes proposées dans la littérature pour tenir compte des erreurs d'alignement en Section~\ref{sec:biblio_align}, l'objectif de cette section est de proposer une méthode de correction de position particulaire adapté aux méthodes sans maillage. Celle-ci doit en particulier permettre d'améliorer le filtre Part-EnKF en supposant une erreur dans le positionnement de la discrétisation particulaire. Nous développerons cette méthodologie en~\ref{} et l'adapterons spécifiquement pour la méthode vortex en~\ref{sec:align_vortex}.
+
+\section{Bibliographie}~\label{sec:biblio_align}
 Mettre à jour le support de la discrétisation particulaire
 
+\section{Définition d'une méthode d'assimilation d'ensemble variationnelle non-linéaire séquentielle}~\label{sec:align_filter}
+
+\section{Correction de position appliquée à la méthode vortex}~\label{sec:align_vortex}
+
+\subsection{Transformation cinématiquement admissible de la distribution particulaire}
+
+\subsection{Définition de l'espace de recherche}
+
+\subsection{Réécriture du problème d'optimisation}
 
 \section{Bilan}
+
+Cette section a permis de mettre en avant une méthode d'assimilation de données par correction de position. Celle-ci se veut adaptée à des discrétisations particulaires, en particulier pour la méthode vortex. Cette méthode se base sur une correction par intégration d'un champ de vitesse pour corriger l'alignement des particules. C'est une méthode variationnelle d'ensemble et de faible rang qui peut être combiné avec les filtres Part-EnKF ou Remesh-EnKF. Pour illustrer cette méthode, nous définirons et testerons les performances des différentes combinaisons de filtre dans le prochain chapitre.

@@ -1,5 +1,21 @@
 # Notes Jumeau numérique
 
+Le jumeau numérique est une réplique virtuelle d'un système physique, permettant de simuler, d'analyser et de prédire le comportement du système physique en temps réel. Ce modèle numérique intègre des données dynamiques et historiques, permettant une représentation précise et synchronisée dans le temps. Dans le contexte industriel, les jumeaux numériques utilisent l'intelligence artificielle (IA), l'analyse de données, et les capteurs physiques pour améliorer la compréhension des processus et faciliter la prise de décisions.
+
+\subsection{Apport du jumeau numérique pour le broyeur à boulet}
+Apport 1 : compréhension du procédé
+Le jumeau numérique permet de comprendre les phénomènes se déroulant à l'intérieur du broyeur à boulets, sans avoir à l'ouvrir. Il permet ainsi d'extraire de l'information quant aux mécanismes se déroulant lors de la comminution.
+
+Apport 2 : optimisation du processus de broyage
+Le jumeau numérique du broyeur à boulets permet d'analyser et de simuler le processus de broyage en temps réel. Il peut prédire l'efficacité du broyage, le degré de mélange des matériaux, et les impacts des variables opérationnelles comme la vitesse de rotation et le taux de remplissage des boules. Cela aide à optimiser les paramètres de fonctionnement pour obtenir un mélange homogène et efficace. En particulier, un apprentissage par renforcement permet de construire un modèle capable d'optimiser les paramètres du procédé en temps réel.
+
+Apport 3 : maintenance prédictive
+En surveillant l'état du broyeur à boulets, le jumeau numérique peut prédire les besoins de maintenance avant que les défaillances ne surviennent. Cela réduit les temps d'arrêt imprévus, augmente la durée de vie de l'équipement et assure une production continue et fiable.
+
+Apport 4 : contrôle de la qualité du produit
+La précision du jumeau numérique dans la modélisation du processus de broyage aide à garantir que le combustible MOX répond aux normes de qualité attendues.
+
+
 ## SPL03 Predictive Digital Twins, Trond Kvamsdal
 pour lui distinction entre
 
@@ -64,3 +80,22 @@ L'apprentissage profond à la mode est gourmand en données et d'une fiabilité 
 
 L'apprentissage soumis à des contraintes physiques exige des approches avancées qui pourraient idéalement intégrer des contraintes physiques dans le processus d'apprentissage. 
 Par exemple par des méthodes de réduction d'ordre intrusif ou alors sous forme faible avec le paradigme des réseau de neurone physiquement informé.
+
+Biblio: 
+
+
+@article{chinesta_virtual_2020,
+	title = {Virtual, {Digital} and {Hybrid} {Twins}: {A} {New} {Paradigm} in {Data}-{Based} {Engineering} and {Engineered} {Data}},
+	volume = {27},
+	issn = {1134-3060, 1886-1784},
+	shorttitle = {Virtual, {Digital} and {Hybrid} {Twins}},
+	doi = {10.1007/s11831-018-9301-4},
+	language = {en},
+	number = {1},
+	urldate = {2022-06-20},
+	journal = {Archives of Computational Methods in Engineering},
+	author = {Chinesta, Francisco and Cueto, Elias and Abisset-Chavanne, Emmanuelle and Duval, Jean Louis and Khaldi, Fouad El},
+	month = jan,
+	year = {2020},
+	pages = {105--134},
+}
