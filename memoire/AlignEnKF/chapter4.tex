@@ -4,4 +4,19 @@
 
 \section{Objectifs}
 
-En définissant dans le précédent chapitre un filtre par correction de position, nous proposons
+En définissant dans le précédent chapitre un filtre par correction de position, nous proposons\dots
+
+\section{Problème des trois vortex}
+
+Nous évaluerons les résultats des filtres à l'aide du problème des trois vortex~\cite{aref_motion_1979,yim_motion_2022}. Il s'agit d'un problème analogue au problème à N-corps pour la mécanique céleste. A partir de trois corps, Henri Poincaré a montré que ces problèmes sont sensibles aux conditions initiales, initiant ainsi la théorie du chaos moderne~\cite{poincare1890,diacu1996}.
+
+Chaque tourbillon est positionné sur une boite de taille $[0, \pi]^2$  et suit la distribution du tourbillon de Bessel~\cite{vanGeffen1996}. Un tourbillon de Bessel est défini par un champ de vorticité continu sur un cercke de rayon $R$ et d'équation
+
+\begin{equation*}
+    \omega(r) =  \begin{cases}
+        \Gamma ~ J_0\left(\frac{k  r}{ R}\right),   \quad & r < R,        \\
+        0 \quad                                           & \text{sinon},
+    \end{cases}
+\end{equation*}où $J_0$ est la première fonction de Bessel,
+
+. Indépendemment, il s'agit de solution stationnaire pour les équation d'Euler dans un domaine infini. Dans ce cas, chaque vortex tourne autour de son centre, avec une vitesse constante sans changer de forme. Lorsque lorsque plusieurs tourbillons sont placés dans une boite, ceux-ci vont commencer à ce déplacer du fait des vitesse entre eux et les effets de bord.
