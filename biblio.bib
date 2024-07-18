@@ -60,22 +60,19 @@
 }
 
 @article{kalman_new_1960,
-  title    = {A {New} {Approach} to {Linear} {Filtering} and {Prediction} {Problems}},
-  volume   = {82},
-  issn     = {0021-9223},
-  url      = {https://doi.org/10.1115/1.3662552},
-  doi      = {10.1115/1.3662552},
-  abstract = {The classical filtering and prediction problem is re-examined using the Bode-Shannon representation of random processes and the “state-transition” method of analysis of dynamic systems. New results are: (1) The formulation and methods of solution of the problem apply without modification to stationary and nonstationary statistics and to growing-memory and infinite-memory filters. (2) A nonlinear difference (or differential) equation is derived for the covariance matrix of the optimal estimation error. From the solution of this equation the co-efficients of the difference (or differential) equation of the optimal linear filter are obtained without further calculations. (3) The filtering problem is shown to be the dual of the noise-free regulator problem. The new method developed here is applied to two well-known problems, confirming and extending earlier results. The discussion is largely self-contained and proceeds from first principles; basic concepts of the theory of random processes are reviewed in the Appendix.},
-  number   = {1},
-  urldate  = {2023-11-04},
-  journal  = {Journal of Basic Engineering},
-  author   = {Kalman, R. E.},
-  month    = mar,
-  year     = {1960},
-  pages    = {35--45}
+  title   = {A {New} {Approach} to {Linear} {Filtering} and {Prediction} {Problems}},
+  volume  = {82},
+  issn    = {0021-9223},
+  url     = {https://doi.org/10.1115/1.3662552},
+  doi     = {10.1115/1.3662552},
+  number  = {1},
+  urldate = {2023-11-04},
+  journal = {Journal of Basic Engineering},
+  author  = {Kalman, R. E.},
+  month   = mar,
+  year    = {1960},
+  pages   = {35--45}
 }
-
-
 
 @book{s_li_meshfree_2004,
   address   = {Berlin, Heidelberg},
@@ -196,13 +193,13 @@
   file     = {Ravela et al. - 2007 - Data assimilation by field alignment.pdf:C\:\\Users\\md266594\\Zotero\\storage\\XSYM6T3S\\Ravela et al. - 2007 - Data assimilation by field alignment.pdf:application/pdf}
 }
 
-@article{feyeux_transport_nodate,
+@article{feyeux_transport_2016,
   title    = {Transport optimal pour l'assimilation de données images},
   abstract = {Forecasting of a physical system is computed by the help of a mathematical model. This model needs to be initialized by the state of the system at initial time. But this state is not directly measurable and data assimilation techniques are generally used to estimate it. They combine all sources of information such as observations (that may be sparse in time and space and potentially include errors), previous forecasts, the model equations and error statistics. The main idea of data assimilation techniques is to ﬁnd an initial state accounting for the diﬀerent sources of informations. Such techniques are widely used in meteorology, where data and particularly images are more and more numerous due to the increasing number of satellites and other sources of measurements. This, coupled with developments of meteorological models, have led to an ever-increasing quality of the forecast.},
   language = {fr},
+  year     = {2016},
   author   = {Feyeux, Nelson},
-  pages    = {182},
-  file     = {Feyeux - Transport optimal pour l'assimilation de données i.pdf:C\:\\Users\\md266594\\Zotero\\storage\\FEMIUZZB\\Feyeux - Transport optimal pour l'assimilation de données i.pdf:application/pdf}
+  pages    = {182}
 }
 
 @article{bishop_adaptive_2001,
@@ -211,7 +208,6 @@
   issn       = {0027-0644},
   shorttitle = {Adaptive sampling with the ensemble transform {Kalman} filter {Part} {I}},
   doi        = {10.1175/1520-0493(2001)129<0420:ASWTET>2.0.CO;2},
-  abstract   = {A suboptimal Kalman filter called the ensemble transform Kalman filter (ET KF) is introduced. Like other Kalman filters, it provides a framework for assimilating observations and also for estimating the effect of observations on forecast error covariance. It differs from other ensemble Kalman filters in that it uses ensemble transformation and a normalization to rapidly obtain the prediction error covariance matrix associated with a particular deployment of observational resources. This rapidity enables it to quickly assess the ability of a large number of future feasible sequences of observational networks to reduce forecast error variance. The ET KF was used by the National Centers for Environmental Prediction in the Winter Storm Reconnaissance missions of 1999 and 2000 to determine where aircraft should deploy dropwindsondes in order to improve 24-72-h forecasts over the continental United States. The ET KF may be applied to any well-constructed set of ensemble perturbations. The ET KF technique supercedes the ensemble transform (ET) targeting technique of Bishop and Toth. In the ET targeting formulation, the means by which observations reduced forecast error variance was not expressed mathematically. The mathematical representation of this process provided by the ET KF enables such things as the evaluation of the reduction in forecast error variance associated with individual flight tracks and assessments of the value of targeted observations that are distributed over significant time intervals. It also enables a serial targeting methodology whereby one can identify optimal observing sites given the location and error statistics of other observations. This allows the network designer to nonredundantly position targeted observations. Serial targeting can also be used to greatly reduce the computations required to identify optimal target sites. For these theoretical and practical reasons, the ET KF technique is more useful than the ET technique. The methodology is illustrated with observation system simulation experiments involving a barotropic numerical model of tropical cyclonelike vortices. These include preliminary empirical tests of ET KF predictions using ET KF. 3DVAR. and hybrid data assimilation schemes-the results of which look promising. To concisely describe the future feasible sequences of observations considered in adaptive sampling problems, an extension to Ide et al.'s unified notation for data assimilation is suggested.},
   language   = {English},
   number     = {3},
   journal    = {Monthly Weather Review},
@@ -303,32 +299,6 @@
   pages    = {1387--1405}
 }
 
-
-@misc{peyre_computational_2020,
-  title     = {Computational {Optimal} {Transport}},
-  url       = {http://arxiv.org/abs/1803.00567},
-  urldate   = {2022-10-07},
-  publisher = {arXiv},
-  author    = {Peyré, Gabriel and Cuturi, Marco},
-  month     = mar,
-  year      = {2020},
-  note      = {arXiv:1803.00567 [stat]},
-  keywords  = {Statistics - Machine Learning}
-}
-
-@misc{cuturi_fast_2014,
-  title     = {Fast {Computation} of {Wasserstein} {Barycenters}},
-  url       = {http://arxiv.org/abs/1310.4375},
-  urldate   = {2024-01-18},
-  publisher = {arXiv},
-  author    = {Cuturi, Marco and Doucet, Arnaud},
-  month     = jun,
-  year      = {2014},
-  note      = {arXiv:1310.4375 [stat]},
-  keywords  = {Statistics - Machine Learning},
-  annote    = {Comment: 9 pages, 4 figures}
-}
-
 @misc{blondel_smooth_2018,
   title     = {Smooth and {Sparse} {Optimal} {Transport}},
   url       = {http://arxiv.org/abs/1710.06276},
@@ -342,17 +312,12 @@
   annote    = {Comment: Accepted to AISTATS 2018}
 }
 
-@misc{liutkus_sliced-wasserstein_2019,
-  title      = {Sliced-{Wasserstein} {Flows}: {Nonparametric} {Generative} {Modeling} via {Optimal} {Transport} and {Diffusions}},
-  shorttitle = {Sliced-{Wasserstein} {Flows}},
-  url        = {http://arxiv.org/abs/1806.08141},
-  urldate    = {2024-01-30},
-  publisher  = {arXiv},
-  author     = {Liutkus, Antoine and Şimşekli, Umut and Majewski, Szymon and Durmus, Alain and Stöter, Fabian-Robert},
-  month      = jun,
-  year       = {2019},
-  note       = {arXiv:1806.08141 [cs, stat]},
-  keywords   = {Computer Science - Machine Learning, Statistics - Machine Learning}
+@inproceedings{Simsekli2018SlicedWassersteinFN,
+  title     = {Sliced-Wasserstein Flows: Nonparametric Generative Modeling via Optimal Transport and Diffusions},
+  author    = {Umut Simsekli and Antoine Liutkus and Szymon Majewski and Alain Durmus},
+  booktitle = {International Conference on Machine Learning},
+  year      = {2018},
+  url       = {https://api.semanticscholar.org/CorpusID:49335655}
 }
 
 @article{li_optimal_2010,
@@ -370,11 +335,8 @@
   year     = {2010},
   note     = {\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1002/nme.2869},
   keywords = {fluid flows, material-point sampling, max-ent interpolation, optimal transportation, plastic flows},
-  pages    = {1541--1579},
-  file     = {Full Text PDF:C\:\\Users\\md266594\\Zotero\\storage\\ZLYAUX7H\\Li et al. - 2010 - Optimal transportation meshfree approximation sche.pdf:application/pdf;Snapshot:C\:\\Users\\md266594\\Zotero\\storage\\RFLSIWFP\\nme.html:text/html}
+  pages    = {1541--1579}
 }
-
-
 
 
 @misc{essentiel_groupe_gouvernemental,
@@ -1049,7 +1011,7 @@
 }
 
 @article{zhu_lagrangian_2022,
-  title    = {Lagrangian meshfree particle method ({SPH}) based simulation for granular flow in a rotating drum with regularized $\mu({I})$ elastoplastic model},
+  title    = {Lagrangian meshfree particle method ({SPH}) based simulation for granular flow in a rotating drum with regularized mu(I) elastoplastic model},
   volume   = {408},
   issn     = {0032-5910},
   doi      = {10.1016/j.powtec.2022.117699},
@@ -1172,4 +1134,137 @@
   pages     = {2393--2399},
   year      = {1996},
   publisher = {AIP Publishing}
+}
+
+@article{amodei2009,
+  title     = {Deterministic and fuzzy verification methods for a hierarchy of numerical models},
+  author    = {Amodei, M. and Stein, J.},
+  journal   = {Meteorological Applications},
+  volume    = {16},
+  pages     = {191--203},
+  year      = {2009},
+  publisher = {Wiley},
+  doi       = {10.1002/met.101}
+}
+
+@article{janjic2018,
+  title     = {On the representation error in data assimilation},
+  author    = {Janjic, T. and Bormann, N. and Bocquet, M. and Carton, J. A. and Cohn, S. E. and Dance, S. L. and Losa, S. N. and Nichols, N. K. and Potthast, R. and Waller, J. A. and Weston, P.},
+  journal   = {Quarterly Journal of the Royal Meteorological Society},
+  volume    = {144},
+  pages     = {1257--1278},
+  year      = {2018},
+  publisher = {Wiley},
+  doi       = {10.1002/qj.3130}
+}
+
+@article{peyre_cuturi-2019,
+  title   = {Computational Optimal Transport},
+  author  = {Gabriel Peyré and Marco Cuturi},
+  year    = {2019},
+  journal = {Foundations and Trends in Machine Learning},
+  pages   = {355-602},
+  volume  = {11 (5-6)}
+}
+
+@inproceedings{cuturi_2014,
+  title     = {Fast Computation of Wasserstein Barycenters},
+  author    = {Cuturi, Marco and Doucet, Arnaud},
+  booktitle = {Proceedings of the 31st International Conference on Machine Learning},
+  pages     = {685--693},
+  year      = {2014},
+  editor    = {Xing, Eric P. and Jebara, Tony},
+  volume    = {32},
+  number    = {2},
+  series    = {Proceedings of Machine Learning Research},
+  address   = {Bejing, China},
+  month     = {Jun},
+  publisher = {PMLR}
+}
+
+@book{villani2009optimal,
+  title     = {Optimal transport: old and new},
+  author    = {Villani, Cedric and others},
+  volume    = {338},
+  year      = {2009},
+  publisher = {Springer}
+}
+
+
+@article{benamou_computational_2000,
+  title    = {A computational fluid mechanics solution to the {Monge}-{Kantorovich} mass transfer problem},
+  volume   = {84},
+  issn     = {0945-3245},
+  doi      = {10.1007/s002110050002},
+  language = {en},
+  number   = {3},
+  urldate  = {2024-02-08},
+  journal  = {Numerische Mathematik},
+  author   = {Benamou, Jean-David and Brenier, Yann},
+  month    = jan,
+  year     = {2000},
+  keywords = {Mathematics Subject Classification (1991):65M60},
+  pages    = {375--393}
+}
+
+@article{percival_department_2008,
+  title    = {Department of {Meteorology}},
+  language = {en},
+  journal  = {},
+  date     = {2008},
+  author   = {Percival, James R}
+}
+
+
+@article{8972429,
+  author   = {Rasheed, Adil and San, Omer and Kvamsdal, Trond},
+  journal  = {IEEE Access},
+  title    = {Digital Twin: Values, Challenges and Enablers From a Modeling Perspective},
+  year     = {2020},
+  volume   = {8},
+  number   = {},
+  pages    = {21980-22012},
+  keywords = {Digital twin;Real-time systems;Monitoring;Solid modeling;Biological system modeling;Big Data;Buildings;Digital twin;artificial intelligence;machine learning;big data cybernetics;hybrid analysis and modeling},
+  doi      = {10.1109/ACCESS.2020.2970143}
+}
+
+@techreport{AIAA2020,
+  author      = {{AIAA Digital Engineering Integration Committee}},
+  title       = {Digital twin: Definition \& value},
+  institution = {American Institute of Aeronautics and Astronautics (AIAA) and Aerospace Industries Association (AIA)},
+  year        = {2020},
+  type        = {Position Paper}
+}
+
+@misc{noauthor_digital_nodate,
+  title   = {Digital {Engineering} - {SEBoK}},
+  url     = {https://sebokwiki.org/wiki/Digital_Engineering},
+  urldate = {2024-07-18}
+}
+
+@article{kapteyn_probabilistic_2021,
+  title    = {A probabilistic graphical model foundation for enabling predictive digital twins at scale},
+  volume   = {1},
+  issn     = {2662-8457},
+  doi      = {10.1038/s43588-021-00069-0},
+  language = {en},
+  number   = {5},
+  urldate  = {2022-03-01},
+  journal  = {Nature Computational Science},
+  author   = {Kapteyn, Michael G. and Pretorius, Jacob V. R. and Willcox, Karen E.},
+  month    = may,
+  year     = {2021},
+  pages    = {337--347}
+}
+
+@article{box1979,
+  author    = {George E. P. Box},
+  title     = {Some Problems of Statistics and Everyday Life},
+  journal   = {Journal of the American Statistical Association},
+  volume    = {74},
+  number    = {365},
+  pages     = {1--4},
+  year      = {1979},
+  publisher = {Taylor \& Francis},
+  doi       = {10.1080/01621459.1979.10481600}
 }

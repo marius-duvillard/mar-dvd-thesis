@@ -9,7 +9,7 @@ Le filtre de Kalman présenté en Section~\ref*{sec:enkf} est un filtre séquent
 % Revoir introduction article.
 %
 
-En particulier ce gain va dépendre des statistiques de l'étatet
+En particulier ce gain va dépendre des statistiques de l'état
 
 Toutefois, la mise à jour du filtre de Kalman d'Ensemble est dépendante de la discrétisation de l'état de ses membres pour le calcul du gain de Kalman d'ensemble. De plus, la mise à jour du filtre de Kalman d'Ensemble est basé sur une combinaison linéaire des membres au travers du gain de Kalman d'ensemble, celle-ci entraîne une explosion du nombre de particules dans la définition de la solution analysée.
 
@@ -18,7 +18,7 @@ L'objectif de ce chapitre est donc de présenter un certain nombre d'adaptation 
 Pour cela, nous reformulons tout d'abord l'expression de la mise à jour afin qu'elle soit indépendante de la définition de l'état.
 Enfin, les solutions analysées étant des combinaisons linéaires des particules de l'ensemble des membres, nous proposons de développer des méthodes pour réduire l'augmentation exponentielle des particules.
 
-\section{Mise à jour défini dans l'espace des membres}
+\section{Mise à jour défini dans l'espace des membres}~\label{sec:enkf_membre}
 
 La mise à jour du filtre de Kalman se base sur l'approximation des statistiques des distributions de l'état et des observations pour approché le gain de Kalman (voir \eqref{eq:enkf_formula}).
 

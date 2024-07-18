@@ -144,9 +144,15 @@ Chapitre
       - montrer la position des vortex respectif, de meme montrer ceux de remesh pour bien dire que il manque des particules.
 - SACHANT que l'on a montré les limites
   - POUR CELA on va montrer l'étape d'alignement sur une assimilation
+- SACHANT QUE on suppose que l'erreur vient d'un problème d'alignement
+  - POUR CELA on présente le cas où il y a juste un problème d'alignement
 - Puis montrer performance avec le filtre Align
+- SACHANT QUE l'on veut traiter de cas plus généraux avec erreur position et intensité
+  - POUR CELA on présente le cas où il y a une combinaison des deux erreurs.
 - Puis la combinaison des deux
 - SACHANT que il faut vérifier les propriétés de convergence, on fait étude paramétrique
+
+
 
 #### Bilan:
 

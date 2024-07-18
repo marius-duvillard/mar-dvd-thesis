@@ -73,7 +73,10 @@ La mise à jour de la DA classique peut être limitée à l'espace des valeurs d
 
 L'objectif des approches qui vont suivre sera de présenter des méthodes d'interpolation non pas dans l'espace euclidien des intensités, mais plutôt dans un espace interpolant qui puisse prendre en compte un déplacement dans l'espace physique.
 
-On peut considérer que l'erreur provient du choix du MSE comme mesure d'erreur, qui est une mesure localisée à une position. Une mesure plus pertinente consiste en la combinaison d'une carte de déplacement suivie de la norme classique MSE (Hoffman et al., 1995; Keil and Craig, 2009). Des métriques basées sur des approches ont pu être proposées.
+On peut considérer que l'erreur provient du choix du MSE comme mesure d'erreur, qui est une mesure localisée à une position.
+
+
+Une mesure plus pertinente consiste en la combinaison d'une carte de déplacement suivie de la norme classique MSE (Hoffman et al., 1995; Keil and Craig, 2009). Des métriques basées sur des approches ont pu être proposées.
 Une approche élégante consiste à appliquer la théorie du \textit{transport optimal} qui est associée à la \textit{distance de Wasserstein}. Des exemples d'utilisation de l'OT peuvent être trouvés chez Farchi et al. (2016) et Vanderbecken et al. (2023).
 
 Les travaux de thèse de Feyeux~\cite{feyeux_transport_nodate} ont permis d'utiliser une distance de Wasserstein pour l'assimilation de données issues d'images. L'article de Bocquet et al. \cite{bocquet_bridging_2023} a pour objectif de proposer une approche qui s'applique à des densités ayant des poids potentiellement différents. En effet, Feyeux fait l'hypothèse que les états sont tous dans $\mathcal P(\Omega)$, états et observations.
