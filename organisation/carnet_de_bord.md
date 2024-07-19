@@ -636,9 +636,26 @@ Bootstrapping for confidence intervals
 
 ## 17-07-2024
 
-- [ ] Simulation du tambour avec méthodes numériques
-- [ ] Commencer la rédaction partie biblio du chapitre 3
-- [ ] Ecrire l'équation de l'optimisation (faire apparaitre le lambda et montrer comment faire varier en fonction du bruit ?)
+- [x] Simulation du tambour avec méthodes numériques
+  
+## 18-07-2024
+
+- [x] la rédaction partie biblio du chapitre 3
+- [x] Partie Jumeau numérique
+- [x] Début problème des trois tourbillons
+
+## 19-07-2024
+
+- [ ] faire intro DA
+- [ ] relire partie DA
+- [ ] faire assimilation de données pour mes méthodes sans maillage
+- [ ] Faire le benchmark de part enkf. On fera le cas où il y a un remesh au milieu de chaque forecast. Faire alors varier `dt_forecast` (et donc `dt_remesh`) + le cas sans maillage.
+- Je viens de vérifier que le critère de selection des particules après remaillage n'est pas respecté ! Toujours trop de particules... Il faut vérifier le seuillage.
+- Ca semble bien seuiller, mais peut être qu'on peut seuiller encore plus ?
+- Ok plutot que de faire varier dt_forecast, on fait varier eps_omega. On peut le prendre à 5.e-3 par exemple
+- Lancer le run cette aprem: nohup ./scripts/run_benchmark_align.sh > nohup_align.out &
+  
+
 ### A FAIRE
 
 - Redaction

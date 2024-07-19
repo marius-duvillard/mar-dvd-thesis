@@ -1,5 +1,5 @@
 % !TEX root = memoire/main.tex
-\chapter{Développement de méthodes permettant l'adaptation du filtre de Kalman d'ensemble avec des simulations sans maillage}
+\chapter{Développement de méthodes permettant l'adaptation du filtre de Kalman d'ensemble pour des simulations sans maillage}
 
 ---------------
 \section{Objectifs}
@@ -313,7 +313,7 @@ Une boucle est effectuée sur les cellules de la grille $N_g^d$, et la distance 
 
 Puis les intensités $\bm U_p$ des particules doivent être calculées. L'approximation de l'intensité comme $U_p = \fstate V_p$, n'ajoute pas de complexité supplémentaire. Cependant, une méthode de régression, nécessite de résoudre $N$ systèmes linéaires indépendant de taille $N_p$. Si la matrice $\Phi$ est connue grâce aux évaluations précédentes, la résolution nécessite l'inversion d'une matrice $N_p$. Cette étape utilise un algorithme de gradient conjugué, le meilleur solveur pour un système creux. Dans ce cas, la complexité est d'environ $\mathcal{O}((N_0 + N_p) k)$ où $k$ est le nombre d'itérations et $N_0$ est la valeur non nulle de la matrice à inverser, qui est d'environ $\mathcal{O}(N_p)$. En réunissant le tout, la complexité est d'environ $\mathcal{O}(kNN_p)$. Finalement la complexité totale est d'environ $\mathcal{O}((k+1)NN_p)$.
 
-\section{Bilan}
+\section{Bilan du chapitre}
 
 Nous avons développé deux adaptations du filtre EnKF adaptées au cas des simulations particulaires. Celle-ci tienne compte d'une augmentation exponentielle de particules.
 Ces deux adaptations Remesh-EnKF et Part-EnKF correspondent à deux paradigmes. Dans le premier cas, le choix a été fait de regénérer complètement la discrétisation à l'aide de méthode de transfert particule à grille et de remaillage. Dans le second cas, le choix a été fait de conserver la position des particules de chaque membre et d'approcher la solution analysée.

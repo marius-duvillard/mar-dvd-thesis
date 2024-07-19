@@ -1,18 +1,23 @@
 % !TEX root = memoire/main.tex
 
-\chapter{Méthode de simulation du tambour et assimilation de données}
+\chapter{Méthode sans maillage et assimilation de données}
 
-Nous avons vu dans le chapitre précédent que l'assimilation dépendait de la définition d'un modèle et de son état. Dans le cas de la simulation de l'écoulement au sein du broyeur à boulets, il s'agit principalement de méthodes reposant des discrétisations sans maillage. C'est ce type de modélisaton qu'il faudra prendre en compte aussi lors de l'assimilation de données. Or, le caractère Lagrangien de la définition de l'état implique d'évaluer à quel point les méthodes classiques d'assimilation peuvent être adaptées. En effet, celles-ci se basent sur des états dont la discrétisation ne varie pas au cours du temps. De plus, le fait que l'espace soit continu ou discret va également modifier la signification de l'état et sa capacité à être mis à jour.
-Dans ce Chapitre, nous rappellerons en Section~\ref{sec:simu_broyeur} les principales méthodes utilisées aujourd'hui pour simuler l'écoulement au sein du broyeur à boulet. En constatant la prédominance des méthodes sans maillage, nous reprendrons les principales familles de formulation particulaire en particulier en considérant en Section~\ref{sec:part_discret} les méthodes utilisant un milieu discret et en Section~\ref{sec:part_cont} un milieu continu. Nous évoquerons les sigularités et limites à l'adaptation des méthodes d'assimilation de données et présenterons les travaux actuels dans la littérature. Enfin, nous présenterons la méthode vortex comme une méthode particulaire modèle pour la suite du manuscrit.
+Nous avons vu dans le chapitre précédent que l'assimilation dépendait en particulier de la définition d'un modèle et de son état. Dans le cas de la simulation de l'écoulement au sein du broyeur à boulets, il s'agit principalement de méthodes reposant des discrétisations sans maillage comme évoqué en Section~\ref{sec:methode_resolution}. C'est ce type de modélisaton qu'il faudra prendre en compte dans nos algorithmes d'assimilation de données. Or, si les méthodes d'assimilation peuvent facilement s'exprimer pour des méthodes Eulérienne sur grille ou maillage fixe, elles soulèvent des questionnements lorsque les méthodes reposent sur des discrétisations Lagrangiennes sont en jeu.
+
+De plus, il faut aussi différentier la nature de la représentation.Le fait que l'espace soit continu ou discret va également modifier la signification de l'état et sa capacité à être mis à jour.
+
+Dans ce Chapitre, nous reprendrons les principales familles de formulation particulaire en particulier en considérant en Section~\ref{sec:part_discret} les méthodes utilisant un milieu discret et en Section~\ref{sec:part_cont} un milieu continu. Nous évoquerons les sigularités et limites à l'adaptation des méthodes d'assimilation de données comme présentées dans le chapitre précédent, et présenterons un état de l'art actuel. De plus, nous évoquerons la méthode vortex comme une méthode particulaire modèle pour la suite du manuscrit.
 
 \section{Méthodes sans maillage discrètes}~\label{sec:part_discret}
 
-Les méthodes sans maillage discrètes traitent les particules comme des objets solides indépendants. Ces entités physiques sont caractérisées par leur géométries, ainsi que par des propriétés intrasèques qu'elles conservent tout au loin de la simulation. Les particules interagissent entre elles au travers de lois de contact, de frottement et de cohésion. L'objectif est de déterminer la trajectoire des particules. Parmis ces méthodes, on peut mentionner la méthode des éléments discrets (DEM)~\cite{radjai:hal-00691805} et la méthode de dynamique des contacts (CD)~\cite{moreau:hal-01824750}. La principale différence entre ces deux méthodes est de considérer respectivement des particules déformables ou non. Sans perte de généralité pour l'applicabilité au problème d'assimilation, nous présenterons la méthode classique DEM.
+Les méthodes sans maillage discrètes considèrent les particules comme des objets solides indépendants. Ces entités physiques sont caractérisées par leur géométries, par des propriétés intrasèques conservés comme la masse ou l'inertie, et des variables cinématiques comme la vitesse ou l'accélération. Les particules interagissent entre elles au travers de lois de contact, de frottement et de cohésion. L'objectif est de déterminer la trajectoire des particules. Parmis ces méthodes, on peut mentionner la méthode des éléments discrets (DEM)~\cite{radjai:hal-00691805} et la méthode de dynamique des contacts (CD)~\cite{moreau:hal-01824750}. La principale différence entre ces deux méthodes est de considérer respectivement des particules déformables ou non. Sans perte de généralité pour l'applicabilité au problème d'assimilation, nous présenterons la méthode classique DEM.
 
-\subsection{Méthode des éléments discrets (DEM)}
+\subsection{Méthodes sans maillage discrètes}
 
-La DEM est une extension du problème à $N$ corps introduit dans les années 60 en en dynamique moléculaire~\cite{Alder1959},  en dynamique des fluides~\cite{Allen1987}, ou en astrophysique~\cite{vonHoerner1960}.
-La méthode consiste à considérer le mouvement d'un ensemble de $N$ grains composant le milieu. Celui-ci est décrit par l'équation de la dynamique qui peut s'écrire sous la forme
+La DEM~\cite{cundall_discrete_1979} est une extension du problème à $N$-corps introduit dans les années 60 aussi bien pour la dynamique moléculaire~\cite{Alder1959}, la dynamique des fluides~\cite{Allen1987}, ou encore l'astrophysique~\cite{vonHoerner1960}.
+La méthode consiste à considérer le mouvement d'un ensemble de $N$ grains composant le milieu.
+
+Le principe fondamental de la dynamique s'applique sur cet ensemble, et s'exprime pour chaque particule sous la forme
 
 \begin{equation*}
     \left\{
@@ -21,64 +26,25 @@ La méthode consiste à considérer le mouvement d'un ensemble de $N$ grains com
          & I_{i} \frac{d \vec{\omega}_{i}}{dt}=\vec{\Gamma}_{i},\; i=1\ldots N
     \end{aligned}
     \right.
-\end{equation*}où $`N`$ est le nombre de grains, $`m_{i}`$ est la masse, $`I_i`$ est le moment d'inertie, $`\vec{r}_{i}`$ est la position, $`\vec{\omega_{i}}`$ est la rotation, $`\vec{f}_{i}`$ est la force exercée sur le grain considéré et $`\vec{\Gamma_{i}}`$ le moment associé à la force $`\vec{f}_{i}`$.
+\end{equation*}où $N$ est le nombre de grains, $m_{i}$ est la masse, $I_i$ est le moment d'inertie, $\vec{r}_{i}$ est la position, $\vec{\omega_{i}}$ est la rotation, $\vec{f}_{i}$ est la force exercée sur le grain considéré et $\vec{\Gamma_{i}}$ le moment associé à la force $\vec{f}_{i}$.
 
-La force $`\vec{f}_{i}`$ peut être décomposée de la manière suivante
-
+Le couplace entre particules s'exprime au travers de la force $\vec{f}_{i}$ qui se décomposée comme
 \begin{equation*}
     \vec{f}_{i}=\underset{{\scriptstyle j\neq i}}{\sum}\vec{f}^{c}_{ij}+\vec{f}_{ext}
 \end{equation*}
 
-où $\underset{{\scriptstyle j\neq i}}{\sum}\vec{f}^{c}_{ij}$ représente les forces de contact qui s'exercent à la surface de la particule $i$ et les forces externes $`\vec{f}_{ext}`$ sont celles appliquées au centre de la particule $`i`$ (par exemple la force de gravité).
+où $\underset{{\scriptstyle j\neq i}}{\sum}\vec{f}^{c}_{ij}$ représente les forces induites par le contact avec les particules $j$ et $\vec{f}_{ext}$ sont celles appliquées au centre de la particule $i$ (par exemple la force de gravité).
 
-Les forces de contact sont décrite par des loi de contact entre les grains ainsi qu'entre les grains et la paroi. Dans le cas élastique, la modèle de Hertz est adapté pour décrire l'intéraction normale. Le modèle Hertz-Mindlin permet de déterminer les interactions tangentielles élastiques. Ces loi sont fonctions de l'interpénétration inter-particule et de la vitesse relative interpaticules. Par exemple, dans le cas de particules sphérique l'interpénétration est défini comme $\delta_{ij} = \norm{\bm x_i - \bm x_j} - (R_i - R_j)$ où $x$  est la position et $R$ le rayon d'une particule.
+Les forces de contact sont décrite par des loi de contact entre les grains ainsi qu'entre les grains et la paroi. Dans le cas élastique, la modèle de Hertz est adapté pour décrire l'intéraction normale. Le modèle Hertz-Mindlin permet de déterminer les interactions tangentielles élastiques. Ces loi sont fonctions de l'interpénétration et de la vitesse relative interpaticules. Par exemple, dans le cas de particules sphérique l'interpénétration est défini comme $\delta_{ij} = \norm{\bm x_i - \bm x_j} - (R_i - R_j)$ où $x$  est la position et $R$ le rayon d'une particule.
+La force de contact tend ainsi à pénaliser l'interpénétration via des coefficients de raideur $k$ et d'amortissement $\gamma$ qui dépendent des propriétés mécaniques des grains de de la paroi.
 
-La force de contact tend à pénaliser l'interpénétration via des coefficients de raideur $k$ et d'amortissement $\gamma$ qui dépendent des propriétés mécaniques des grains de de la paroi. Il existe plusieurs algorithme pour résoudre numériquement les équations de la dynamique. Le plus utilisé est l'algorithme de Verlet en vitesse.
-
-
-La méthode des éléments discrets (DEM, pour \textit{Discrete Element Method}) est une technique de simulation numérique utilisée pour étudier le comportement des systèmes de particules, tels que lors du mélange broyage à l'intérieur du broyeur à boulets. Cette approche est particulièrement pertinente pour modéliser les interactions complexes entre les particules dans ces systèmes, où la dynamique individuelle de chaque particule peut avoir un impact significatif sur le processus global.
-
-Dans un mélangeur-broyeur, les particules interagissent entre elles, avec les parois du broyeur, et avec le corps broyant. La DEM modélise chaque particule individuellement, en tenant compte de ses propriétés physiques telles que la taille, la forme, la masse, la rigidité, et le modèle de fragmentation. Les interactions incluent les forces de contact, les forces de frottement, et les forces de cohésion.
-
+Il existe plusieurs algorithme pour résoudre numériquement les équations de la dynamique. Le plus utilisé est l'algorithme de Verlet en vitesse~\cite{verlet_1982}.
 Le processus de simulation DEM dans un mélangeur-broyeur commence par la définition des propriétés des particules et des conditions initiales du système. Le mouvement de chaque particule est ensuite calculé en résolvant les équations de Newton pour le mouvement et la rotation. Ces calculs tiennent compte des forces et des moments résultant des collisions et des interactions entre particules, ainsi que de l'interaction des particules avec les parois du broyeur.
 
-L'un des principaux avantages de la DEM est sa capacité à fournir des informations détaillées sur le mélange et le broyage des particules à l'échelle microscopique. Elle permet d'analyser comment les variations dans la configuration des particules, la vitesse de rotation du broyeur, et d'autres paramètres opérationnels influencent l'efficacité du broyage et l'homogénéité du mélange.
-
-Cependant, l'utilisation de la DEM pour la simulation de mélangeurs-broyeurs peut être exigeante en termes de ressources informatiques, en particulier pour les systèmes avec un grand nombre de particules.
-
-\subsection{DEM et assimilation de données}
-
-L'assimilation de données, lorsqu'appliquée à des systèmes simulés par la méthode des éléments discrets (DEM), se heurte à plusieurs limites importantes présentées ci-dessous.
-
-% \subsubsection{Limites de la DEM avec les méthodes variationnelles}
-Dans le cadre des méthodes variationnelles d'assimilation de données, telles que 3D-Var, le principal défi est la grande dimensionnalité du problème d'optimisation.
-En effet, La DEM simule le comportement de chaque particule individuellement. Cela signifie que l'état du système comprend les variables cinématique de chacune d'elles : position, la vitesse, accélération mais aussi la position angulaire, la vitesse angulaire et l'accélération angulaire ou la densité de chaque particule. Pour un système avec des milliers voire des millions de particules, cela conduit à un problème d'optimisation de très grande dimension.
-
-De plus, il existe un nombre extrêmement élevé de contraintes, notamment l'interdiction de l'interpénétration des particules. Ces contraintes doivent être prises en compte pour assurer que la solution d'optimisation soit physiquement admissible.
-
-L'application des méthodes 3D-Var et 4D-Var est donc trop exigeante d'un point de vue des temps de calcul.
-
-De plus, les filtres variationnels corrigeant des erreurs d'intensité selon des normes euclidiennes, la variation selon les positions des observations ne sera pas linéaire.
-
-Ainsi, la définition d'un état de particules discrètes implique de résoudre un problème d'optimisation non-linéaire de grande dimension.
-% \subsubsection{Limites de la DEM avec EnKF}
-Pour l'EnKF, l'état estimé du système est une combinaison linéaire des états prédits par les différents membres de l'ensemble. Cependant, dans le contexte de la DEM, cette combinaison linéaire des états n'est pas nécessairement physiquement admissible. Par exemple, elle pourrait conduire à des situations où les particules s'interpénètrent ou violent d'autres lois physiques.
-En d'autres terme, la mise à jour ne peut être réalisé que via le solveur lui-même capable de vérifier des contraintes de non interpénétrabilité mais ne peut être réalisé directement.
-
-Un autre problème avec l'EnKF dans le contexte de la DEM est la difficulté de faire correspondre les particules entre les différents membres de l'ensemble. Même si initialement chaque membre possèdait la même configuration particulaire mais avec des propriétés différentes, chaque particule a sa propre trajectoire unique en cohérence avec les intéractions dans son voisinage. Aligner ces trajectoires à travers les différents membres de l'ensemble pour une assimilation de données cohérente est un défi complexe. Cette difficulté est exacerbée par le nombre élevé de particules et par la nature dynamique et chaotique de leurs interactions.
-
-Dans le cas pus général où les membres n'aurait pas le membre de particule la correspondance des états est d'autant plus complexe.
-
-Ainsi, le caractère discret de la méthode DEM rend l'assimilation par EnKF à la fois complexe par :
-
-\begin{itemize}
-    \item une définition de l'état et de ses statistiques non univoque ;
-    \item la construction du gain de Kalman d'Ensemble ;
-    \item la contrainte d'interpénétration non respecté lors de la mise à jour.
-\end{itemize}
-
-\section{Méthodes particulaires continues}\label{sec:part_cont}
+\section{Méthodes sans maillage continues}\label{sec:part_cont}
 Nous envisageons des méthodes par particules pour résoudre des problèmes continus en mécanique des fluides ou des solides. Cela inclut des méthodes telles que l'hydrodynamique par particules lissées (SPH) \cite{lucy_1977,gingold_monaghan_sph_1977} et la méthode des vortex (VM) \cite{cottet_vortex_2000}, et s'étend à d'autres méthodes comme la méthode des points de matériau (MPM) \cite{sulsky_particle_1994}. Elles partagent toutes de décomposer cette fois le domaine en un ensemble $\mathcal{P}$ de particules qui suivent la dynamique du problème. Ainsi, la discrétisation suit la transformation appliquée au milieu en transportant des quantités attachées à chaque particule. Elles sont en cela des méthodes Lagrangienne.
+
+\subsection{Formulation particulaire}
 
 \subsubsection{Discrétisation par particules}
 
@@ -131,7 +97,7 @@ Généralement, un terme additionnel est introduit lorsque le champ est évalué
 
 % Finalement dire qu'il y a donc des équations qui permettent de définir l'évolution des intensités ainsi que des positions.
 
-\subsubsection{Exemple de fonctions de noyau}
+\subsection{Exemple de fonctions de noyau}
 
 Plusieurs noyaux ont été utilisés en fonction de la méthode. La formulation originale de la MPM n'utilisait pas de noyau de substitution et écrivait la densité comme suit
 
@@ -197,7 +163,7 @@ Dans ce dernier cas, le facteur de normalisation $\alpha$ est
 
 Notez que ces noyaux ont été définis avec la coordonnée radiale $r$. Une autre possibilité serait de définir le noyau multidimensionnel comme le produit tensoriel du noyau 1D
 
-\subsection{Distribution particulaire admissible}~\label{sec:part_admissible}
+\subsubsection{Distribution particulaire admissible}~\label{sec:part_admissible}
 
 Les méthodes sans maillage sont ici des méthodes d'appoximation de champs continus. Ces discrétisations doivent ainsi vérifier un certain nombre de critère pour être conforme à la solution. Il s'agit en particulier de donner ici des critères de régularité pour définir si une méthode d'interpolation sans maillage est valide. On trouvera des détailes supplémentaires dans le livre~\cite{s_li_meshfree_2004} en section 4.
 
@@ -242,7 +208,7 @@ La condition 1 est une condition de recouvrement. Cette dernière est une condit
 
 Cette définition est déterminante pour pouvoir appliquer les schémas d'interpolation définis dans la Section~\ref{sec:approx_part}.
 
-\section{Hydrodynamique des particules lissées, \textit{Smoothed particle hydrodynamics} (SPH)}
+\subsection{Hydrodynamique des particules lissées, \textit{Smoothed particle hydrodynamics} (SPH)}
 
 La méthode SPH a étét développée indépendemment par Lucy~\cite{lucy_1977}, et Gingold et Monhagan~\cite{gingold_monaghan_sph_1977}. Elle a été formulé initialement pour dess problème de formation et d'évolution des systèmes stellaires. Tout comme en mécanique quantique sont but est de réprésenter le système discret en le lissant pour obtenir un milieu continu discrétisé par un ensemble de particules. En mécanique, cette méthode est vu comme une méthode de discrétisation sans maillage d'un milieu continu.
 Elle consiste à résoudre la forme forte des équations de la dynamique en approchant les champs et les opérateurs différentiels à l'aide de l'approximation particulaire et l'approximation par noyau précédemment évoqué.
@@ -270,7 +236,7 @@ Cette version est symétrique par rapport aux indices $p$ et $q$ ce qui favorise
 
 Finalement, les équations de la dynamique sont intégrées dans le temps généralement à l'aide d'un algorithme dit \textit{leap-frog}.
 
-\section{Méthode des points matériaux (\textit{Material Point Method}, MPM)}
+\subsection{Méthode des points matériaux, \textit{Material Point Method} (MPM)}
 
 La méthode des points matériaux (MPM) est une autre méthode particulaire qui utilise une double description: lagrangienne et eulérienne. Tout comme la méthode SPH, elle utilise une discrétisation particulaire, les points matériaux, qui en se déplaçant transportent certaines variables internes. D'autre part, l'interpolation du champ de déplacement est réalisé à l'aide de coordonnées spatiales détachées des éléments matériels, généralement sur une grille régulière. Les deux discrétisations interagissent au travers l'opérateur de projection interpolation entre particules et les noeuds et de la grille qui les entourent. Cette méthode fait parti de la famille \textit{particle-in-cell} (PIC). La méthode MPM est un adaptation en mécanique des solides développé par Sulsky et al.~\cite{sulsky_particle_1994} à partir de la méthode FLIP de Brackbill~\cite{brackbill_flip_1988} en mécanique des fluides.
 
@@ -392,7 +358,7 @@ Cette méthode représente un compromis entre les approches par éléments finis
 
 % Elle dépends généralement de la contrainte $\bm \sigma_p$ qui peut être mise à jour au début ou à la fin du schéma donnant deux formulations différence USF (\textit{Update Stress First}) et USL (\textit{Update Stress Last}).
 
-\section{Méthode vortex}~\label{sec:vortex}
+\subsection{Méthode vortex}~\label{sec:vortex}
 
 La méthode vortex est une méthode particulaire utilisé pour résoudre  dans le cas d'écoulements incompressibles~\cite{Cottet_Koumoutsakos_2000}. Elle a été pour la première fois développé indépendemment par Prager~\cite{prager1928druckverteilung} et Rosenhead~\cite{rosenhead1931formation}. Elle se base sur la discrétisation du champ de vorticité par un ensemble de particules, et résoud la formulation vorticité-vitesse des équations de Navier-Stokes
 
@@ -456,7 +422,7 @@ Dans le premier cas, la position de chaque particule est perturbée avec un vect
     \frac{d \omega_p}{dt} = \nu \varepsilon^{-2} \sum_q V_q [\omega_q - \omega_p] \phi_\varepsilon(\bx_p - \bx_q).
 \end{equation*}
 
-\subsection{Vortex-In-Cell, VIC}
+\subsubsection{\textit{Vortex-In-Cell} (VIC)}
 
 La méthode Vortex-In-Cell~\cite{christiansen_1973}, tout comme la méthode MPM~\ref{sec:mpm} est une version \textit{Particle-In-Cell}~\cite{birdsall_1969} de la méthode Vortex précédemment décrite. Elle a été développé pour tenir compte de ses faiblesses. Comme la méthode MPM, celle-ci tient bénéfice de la représentation particulaire des particules pour tenir compte du terme d'advection mais également d'une grille de calcul pour résoudre l'équation de Poisson ou le terme de diffusion en utilisant des méthodes eulérienne.
 
@@ -472,7 +438,7 @@ Avec de la diffusion, l'équation de diffusion peut être ensuite résolue sur l
 
 De cette manière l'étape de recherche de plus proche voisin n'est pas nécessaire, la résolution des équations se faisant directement sur la grille.
 
-\subsection{Similarité avec les méthodes SPH et MPM}
+\subsubsection{Similarité avec les méthodes SPH et MPM}
 
 Contrairement aux méthodes SPH et MPM, la méthode Vortex n'est pas adéquat à la résolution de problème en mécanique des solides par exemple pour la simulation du mélange dans le tambour en rotation. Elle partage un certain nombre de similitudes avec celles-ci.
 
@@ -480,27 +446,84 @@ Contrairement aux méthodes SPH et MPM, la méthode Vortex n'est pas adéquat à
 % Cette approche diffère de la MPM dans le sens où les particules portent des informations complexes sur les propriétés mécaniques du matériau.
 formation et l'évolution de tourbillons, tout en maintenant une structure de calcul relativement simple.
 
-\section{Méthodes sans maillage continus et assimilation de données}
-\textcolor{red}{ à revoir complètement...}
-La MPM offre un cadre exploitable pour mettre en place une méthode de DA.
-La structure de grille sous-jacente à la MPM permet une modélisation l'utilisation des méthodes variationnelles ou des méthodes d'ensemble. La structure de particules est aussi plus flexible dans le sens où elles représentent une densité de matière : elles peuvent donc s'interpénétrer.
+\section{Méthodes sans maillage et assimilation de données}
 
-\subsection{Méthodes sans maillage continus et méthodes variationnelles}
-Le principal défi est de gérer la dimension du problème d'optimisation pour la 3D-Var, ainsi que construire un modèle adjoint pour la 4D-Var.
-Deux pistes sont envisageables : mettre à jour les champs nodaux et les champs particulaires. Comparativement à la DEM, le nombre de variables et le nombre de contraintes sont drastiquement réduits au prix d'une représentation plus grossière.
+L'assimilation de données, lorsqu'appliquée à des systèmes simulés par la méthode des éléments discrets (DEM), se heurte à plusieurs limites importantes. A la fois pour les méthodes variationnelles (ex : 3DVar) ou stochastique (ex : EnKF) il faut consédérer deux problématiques majeurs : la définition de l'état et la manière de le mettre à jour.
 
-\subsection{Méthodes sans maillage continus et EnKF}
-Pour l'EnKF, l'état estimé est une combinaison linéaire des états prédits. Dans le contexte de la MPM, cela signifie que la mise à jour de l'état peut être directement effectuée sur la grille de calcul, plutôt que sur les particules individuelles. Cette approche réduit la complexité des calculs et facilite l'assimilation de données dans des systèmes à grande échelle.
+\subsection{Définition de l'état}
 
-Cependant, l'intégration de la MPM avec l'EnKF soulève plusieurs questions importantes :
+L'état est ce qui permet de représenter la connaissance de l'état du système virtuel.
 
-1. **Transfert d'Informations de Particules à la Grille** : La première question concerne le transfert efficace des informations des particules vers la grille. Cela nécessite des algorithmes précis pour garantir que les informations pertinentes sur les propriétés des matériaux, telles que la densité, la contrainte, et le gradient de déformation déformation, sont correctement représentés sur la grille de calcul.
+Les méthodes classiques vont utiliser un maillage fixe pour le définir.
 
-2. **Remaillage de Particules pour Représenter l'État Mécanique** : Une autre question clé est de savoir comment effectuer un remaillage des particules pour représenter fidèlement l'état mécanique du système après assimilation. Cela est crucial pour maintenir la cohérence et l'exactitude du modèle MPM, en particulier après des mises à jour successives de l'état du système.
+En considérant un domaine $\Omega \subset \mathbb R^d$, soit $\mathcal{T} = (\mathcal N, \mathcal E)$ un maillage, où $\mathcal N = \left\{\bm x_i \right\}^M_{i=1}$ est l'ensemble des noeuds, et $\mathcal{E} = \{ K_j \}_{j=1}^{N}$ l'ensemble des éléments.
 
-% s'inspirer de l'intro du premier article
+L'état de la solution \(u_h\) discrétisé peut est définie
 
-\section{Bilan}
+\begin{itemize}
+    \item sur les nœuds du maillage $\bz = \{ u(\mathbf{x}_i) \}_{i=1}^{M}$, c'est le cas des éléments finis (FEM)
+    \item  les éléments
+    \item
+\end{itemize}
 
-Au travers des précédentes méthodes particulaires, nous constatons que l'application des méthodes d'assimilation sont innégalement applicable. En particulier, les méthodes discrètes offre difficilement la possibilité de corriger directement l'état de la discrétisation, et nécessite une correction au travers du schémas d'intégration pour éviter des problèmes d'interpénétration. D'autre part, les méthodes particulaires continues (par exemple MPM, SPH), permettent une plus grande flexibilité des schémas d'assimilation. En effet, chaque particule est définie en un point, ce qui annule tout problème d'interpénétration. Toutefois, il reste nécessaire de définir de manière adéquat dans le cas d'une mise à jour d'ensemble.
+
+Pour les éléments finis (FEM) par exemple $\mathcal{T}$ est défin
+
+Il est alors possible de
+
+
+
+
+
+\subsection{Mise à jour de l'état}
+% \subsection{DEM et assimilation de données}
+
+% % \subsubsection{Limites de la DEM avec les méthodes variationnelles}
+% Dans le cadre des méthodes variationnelles d'assimilation de données, telles que 3D-Var, le principal défi est la grande dimensionnalité du problème d'optimisation.
+% En effet, La DEM simule le comportement de chaque particule individuellement. Cela signifie que l'état du système comprend les variables cinématique de chacune d'elles : position, la vitesse, accélération mais aussi la position angulaire, la vitesse angulaire et l'accélération angulaire ou la densité de chaque particule. Pour un système avec des milliers voire des millions de particules, cela conduit à un problème d'optimisation de très grande dimension.
+
+% De plus, il existe un nombre extrêmement élevé de contraintes, notamment l'interdiction de l'interpénétration des particules. Ces contraintes doivent être prises en compte pour assurer que la solution d'optimisation soit physiquement admissible.
+
+% L'application des méthodes 3D-Var et 4D-Var est donc trop exigeante d'un point de vue des temps de calcul.
+
+% De plus, les filtres variationnels corrigeant des erreurs d'intensité selon des normes euclidiennes, la variation selon les positions des observations ne sera pas linéaire.
+
+% Ainsi, la définition d'un état de particules discrètes implique de résoudre un problème d'optimisation non-linéaire de grande dimension.
+% % \subsubsection{Limites de la DEM avec EnKF}
+% Pour l'EnKF, l'état estimé du système est une combinaison linéaire des états prédits par les différents membres de l'ensemble. Cependant, dans le contexte de la DEM, cette combinaison linéaire des états n'est pas nécessairement physiquement admissible. Par exemple, elle pourrait conduire à des situations où les particules s'interpénètrent ou violent d'autres lois physiques.
+% En d'autres terme, la mise à jour ne peut être réalisé que via le solveur lui-même capable de vérifier des contraintes de non interpénétrabilité mais ne peut être réalisé directement.
+
+% Un autre problème avec l'EnKF dans le contexte de la DEM est la difficulté de faire correspondre les particules entre les différents membres de l'ensemble. Même si initialement chaque membre possèdait la même configuration particulaire mais avec des propriétés différentes, chaque particule a sa propre trajectoire unique en cohérence avec les intéractions dans son voisinage. Aligner ces trajectoires à travers les différents membres de l'ensemble pour une assimilation de données cohérente est un défi complexe. Cette difficulté est exacerbée par le nombre élevé de particules et par la nature dynamique et chaotique de leurs interactions.
+
+% Dans le cas pus général où les membres n'aurait pas le membre de particule la correspondance des états est d'autant plus complexe.
+
+% Ainsi, le caractère discret de la méthode DEM rend l'assimilation par EnKF à la fois complexe par :
+
+% \begin{itemize}
+%     \item une définition de l'état et de ses statistiques non univoque ;
+%     \item la construction du gain de Kalman d'Ensemble ;
+%     \item la contrainte d'interpénétration non respecté lors de la mise à jour.
+% \end{itemize}
+
+
+% \textcolor{red}{ à revoir complètement...}
+% La MPM offre un cadre exploitable pour mettre en place une méthode de DA.
+% La structure de grille sous-jacente à la MPM permet une modélisation l'utilisation des méthodes variationnelles ou des méthodes d'ensemble. La structure de particules est aussi plus flexible dans le sens où elles représentent une densité de matière : elles peuvent donc s'interpénétrer.
+
+% \subsubsection{Méthodes sans maillage continus et méthodes variationnelles}
+% Le principal défi est de gérer la dimension du problème d'optimisation pour la 3D-Var, ainsi que construire un modèle adjoint pour la 4D-Var.
+% Deux pistes sont envisageables : mettre à jour les champs nodaux et les champs particulaires. Comparativement à la DEM, le nombre de variables et le nombre de contraintes sont drastiquement réduits au prix d'une représentation plus grossière.
+
+% \subsubsection{Méthodes sans maillage continus et EnKF}
+% Pour l'EnKF, l'état estimé est une combinaison linéaire des états prédits. Dans le contexte de la MPM, cela signifie que la mise à jour de l'état peut être directement effectuée sur la grille de calcul, plutôt que sur les particules individuelles. Cette approche réduit la complexité des calculs et facilite l'assimilation de données dans des systèmes à grande échelle.
+
+% Cependant, l'intégration de la MPM avec l'EnKF soulève plusieurs questions importantes :
+
+% 1. **Transfert d'Informations de Particules à la Grille** : La première question concerne le transfert efficace des informations des particules vers la grille. Cela nécessite des algorithmes précis pour garantir que les informations pertinentes sur les propriétés des matériaux, telles que la densité, la contrainte, et le gradient de déformation déformation, sont correctement représentés sur la grille de calcul.
+
+% 2. **Remaillage de Particules pour Représenter l'État Mécanique** : Une autre question clé est de savoir comment effectuer un remaillage des particules pour représenter fidèlement l'état mécanique du système après assimilation. Cela est crucial pour maintenir la cohérence et l'exactitude du modèle MPM, en particulier après des mises à jour successives de l'état du système.
+
+\section{Bilan du chapitre}
+
+Au travers des précédentes méthodes sans maillage, nous constatons que l'application des méthodes d'assimilation sont innégalement applicable. En particulier, les méthodes discrètes offre difficilement la possibilité de corriger directement l'état de la discrétisation, et nécessite une correction au travers du schémas d'intégration pour éviter des problèmes d'interpénétration. D'autre part, les méthodes particulaires continues (par exemple MPM, SPH), permettent une plus grande flexibilité des schémas d'assimilation. En effet, chaque particule est définie en un point, ce qui annule tout problème d'interpénétration. Toutefois, il reste nécessaire de définir de manière adéquat dans le cas d'une mise à jour d'ensemble.
 Afin de facilité le développement de nouveaux filtres, nous avons utilisé la méthode vortex. Elle a été choisie car elle offre une modélisation plus simple que les méthodes SPH et MPM. En effet, chaque particule ne transporte qu'une quantité scalaire, une quantité de tourbillon. Toutefois, elle dispose de toutes les caractéristiques d'une méthode particulaire continue avec à la fois une formulation classique de la méthode se rapproche de la méthode SPH et la méthode Vortex-In-Cell de la méthode MPM.

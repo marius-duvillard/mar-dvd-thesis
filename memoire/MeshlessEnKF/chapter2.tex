@@ -491,7 +491,7 @@ Néanmoins, cela ouvre la question du choix ou de la modification de la discrét
 
 Dans le cas où la génération d'un jeu de particules régulier est possible, comme suggéré dans la Partie~\ref{sec:App_1D}, une estimation de l'erreur pourrait être introduite pour choisir entre les différents filtres. D'autre part, d'autres approches pourraient consister à sélectionner le membre de maximum de vraisemblance pour selectionner son jeu de particules pour approcher la solution analysée de tous les membres. Cette proposition doit être évaluée car elle pourrait considérablement réduire la variance de l'ensemble et donc entraîner un effet de \textit{collapse} de l'ensemble. Enfin, un alignement des particules pourrait être introduit pour mieux ajuster la solution analysée.
 
-\section{Bilan}
+\section{Bilan du chapitre}
 
 Dans cette section, deux versions des filtres EnKF pour les simulations particulaires ont pu être évalués et validés sur deux cas utilisant une discrétisation pour discrétiser des solutions continues. Nous avons d'une part montré l'efficacité du filtre Remesh-EnKF qui profite d'un schéma de redistribution d'order élevé ce qui lui permet d'approcher avantageusement les solutions analysées sur chaque membre. D'autre part, nous avons également illustré la capacité à appliquer la mise à jour EnKF projeté sur la discrétisation courante avec le filtre Part-EnKF. Dans ce cas, nous avons montré les limites d'une telle approche lorsque les supports de particules inter-membre étaient disjoints.
 
