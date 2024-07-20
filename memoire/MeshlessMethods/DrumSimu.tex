@@ -256,7 +256,7 @@ Comme en élément finis, la méthode MPM consiste à résoudre le problème aux
 
 En introduisant une fonction test $\bm q$, la forme faible de l'équation de conservation du moment s'écrit
 
-\begin{equation*}
+\begin{equation*}~\label{eq:form_faible}
     \int_\Omega \rho \bm a \cdot \bm q d\Omega + \int_\Omega \rho \bm \sigma : \nabla \cdot \bm q d\Omega = \int_\Omega \rho \bm b\cdot \bm q d\Omega + \int_{\partial \Omega_t} \bm q \cdot \bm t dS.
 \end{equation*}
 
@@ -277,7 +277,7 @@ On trouve un certain nombre de généralisation dans la littérature comme la m�
     \rho(\bm z) = \sum_p m_p \chi(\bm z - \bm z_p)
 \end{equation*}.
 
-Finalement, en choisissant $i$ comme indice de dimension d'espace
+Finalement, en injectant cette discrétisation de la densité dans l'équation~\eqref{eq:form_faible}
 
 \begin{equation*}
     \sum_p m_p \bm q(\bm z_p(t), t)\cdot \bm a(\bm z_p(t), t) + \sum_p m_p \bm \sigma(\bm z(t), t) : \nabla \bm u(\bm z(t), t) + \int_{\partial \Omega_t} \bm t \bm q dS + \sum_{p} m_p \bm q(X(t), t) \cdot \bm b(X(t), t).
@@ -286,77 +286,13 @@ Finalement, en choisissant $i$ comme indice de dimension d'espace
 Les variables cinématiques sont ensuite discrétisées sur la discrétisation eulérienne. La précédente équation est résolue sur la grille et l'accélération est déterminée sur chaque noeud $I$ de la grille comme
 
 \begin{equation*}
-    \sum_{j}^{max} m_{IJ} \bm a_J = \bm f_I^{\text{int}} + \bm f_I^{\text{ext}}
+    \sum_{J}^{N_\text{grid}} m_{IJ} \bm a_J = \bm f_I^{\text{int}} + \bm f_I^{\text{ext}}
 \end{equation*}
 
 Les deux niveaux de discrétisation communique selon des étapes de projection (\textit{particles to grid}) puis d'interpolation (\textit{grid to particles}). Dans un premier temps, les quantités définies sur les particules sont transférés sur les noeuds de la grille \textit{p2g}.La masse $m_p$, la quantité de mouvement $m_p \bm v_p$ et les forces $\bm f_p$ sont transférées à la grille à l'aide des fonctions de forme $\phi_I$ associé à chaque noeuds. Le transfert classique est détaillé dans l'article fondateur~\cite{sulsky_particle_1994}, cependant des transferts plus complexes ont été développé afin d'offre des schémas stables et conservatifs~\cite{jiang_affine_2015,fu_polynomial_2017,hu_moving_2018}.
 Le principe fondementale de la dynamique est alors résolu permettant de déterminer une grille déformée. Finalement, les particules vont suivre la déformation de la grille. Cela aura deux conséquence : La mise à jour de la matrice de déformation, de leurs positions $\bm x_p$ et leurs vitesses $\bm v_p$. Finalement, la grille de calcule peut être effacée et réinitialisée.
 Ainsi, ce sont les particules qui concervent toute l'information (grille réinitialisée)
 Cette méthode représente un compromis entre les approches par éléments finis et par particules, offrant ainsi une modélisation efficace des interactions matérielles dans des environnements dynamiques et déformables.
-% \paragraph*{p2g}
-
-% La grille de positions de noeuds $x_I$ est initialisée avec des valeurs nulles.
-
-% La masse $m_p$,la quantité de mouvement $m_p \bm v_p$ et les forces $\bm f_p$ sont transférées à la grille à l'aide des fonctions de forme $\phi_I$ associé à chaque noeuds
-
-% \begin{eqnarray*}
-%     m_I = \sum_p \varphi_{Ip}~ m_p, \\
-%     m_I \bm v_I  =  \sum_p \varphi_{Ip}~ m_p \bm v_p, \\
-%     \bm f_I  =  \sum_p \varphi_{Ip}~  \bm f_p. \\
-% \end{eqnarray*}
-
-% \paragraph*{Mise à jour sur la grille}
-% La grille à chaque étape est initialisée dans un état non déformée. A l'aide du principe fondamentale de la dynamique, la vitesse sur la grille est mise à jour de manière explicite tel que
-
-% \begin{eqnarray*}
-%     m_I \bm a_I &=& \bm f_I + \bm f_g, \\
-%     m_I \bm v^{n+1} &=& \bm v^{n} + \Delta t~ (\bm f_I + \bm f_g) / m_I, \\
-%     \bm x_I^{n+1} &=& \bm x_I^{n} + \Delta t~\bm v^{n+1}.
-% \end{eqnarray*}
-
-% C'est durant cette étape que les conditions limites ou les collisions avec un objet peuvent être prise en compte.
-
-% \paragraph{g2p}
-
-% Les particules vont suivre la déformation de la grille. Cela aura deux conséquence : La mise à jour de la matrice de déformation $\bm F_p$ et de leurs positions $\bm x_p$ et leur vitesses $\bm v_p$.
-
-% La mise à jour de $\bm F_p$ est réalisé avec la déformée de la grille $ x_I^{n+1}$ de manière implicite en utilisant $\bm v^{n+1}$ de telle sorte que
-
-% \begin{equation*}
-%     \bm F_p^{n+1} = \left( \bm I + \Delta t \sum_I \bm v_I^{n+1} (\nabla \varphi_{Ip}^T)\right) \bm  F_p^{n}.
-% \end{equation*}
-
-% En ce qui concerne l'étape d'advection des particules, le schéma PIC suggérait l'interpolation des vitesses tel que
-
-% \begin{equation*}
-%     \bm v_{PIC}^{n+1} = \sum_I \varphi_{Ip} \bm v_I^{n+1}
-% \end{equation*}.
-
-% Si ce schéma est stable, il est toutefois dissipatif. Inversement la mise à jour FLIP propose de mettre à jour la vitesse $\bm v_{PIC}^{n}$ en interpolant l'accélération tel que
-
-% \begin{equation*}
-%     \bm v_{FLIP}^{n+1} = \bm v_{p}^{n} \sum_I \varphi_{Ip} (\bm v_I^{n+1} - \bm v_I^{n})
-% \end{equation*}.
-
-% Dans ce cas, le transfert est concervatif mais instable. Ainsi, il est recommandé d'utiliser pour mettre à jour la vitesse $\bm v^{n+1}$ une combinaison linéaire des deux formulations tel que
-
-% \begin{equation*}
-%     \bm v_{p}^{n+1} = \alpha \left(\bm v_{p}^{n} \sum_I \varphi_{Ip} (\bm v_I^{n+1} - \bm v_I^{n})\right) + (1- \alpha)\sum_I \varphi_{Ip} \bm v_I^{n+1}
-% \end{equation*}~avec $\alpha \in [0, 1]$.
-
-% Les schémas de type APIC,PolyPIC ou MLS-MPM, utilisant de plus un transfert du gradient de $v$, utilise une mise à jour PIC tout en restant conservatif.
-
-% La position est elle mise jour en interpolant la déformation de la grille de telle sorte que
-
-% \begin{equation*}
-%     \bm x_p^{n+1} = \bm x_p^{n} + \sum_I \varphi_{Ip}~\bm v^{n+1}
-% \end{equation*}
-
-% Finalement, la grille de calcule peut être effacée et réinitialisée.
-
-% La force interne de la particule $\bm f_p$ dépend de la loi de comportement qui lui est associée.
-
-% Elle dépends généralement de la contrainte $\bm \sigma_p$ qui peut être mise à jour au début ou à la fin du schéma donnant deux formulations différence USF (\textit{Update Stress First}) et USL (\textit{Update Stress Last}).
 
 \subsection{Méthode vortex}~\label{sec:vortex}
 
@@ -450,78 +386,82 @@ formation et l'évolution de tourbillons, tout en maintenant une structure de ca
 
 L'assimilation de données, lorsqu'appliquée à des systèmes simulés par la méthode des éléments discrets (DEM), se heurte à plusieurs limites importantes. A la fois pour les méthodes variationnelles (ex : 3DVar) ou stochastique (ex : EnKF) il faut consédérer deux problématiques majeurs : la définition de l'état et la manière de le mettre à jour.
 
-\subsection{Définition de l'état}
+\subsection{Définition de l'état d'une méthode sans maillage}
 
-L'état est ce qui permet de représenter la connaissance de l'état du système virtuel.
+L'état est ce qui permet de représenter l'état du système virtuel.
 
 Les méthodes classiques vont utiliser un maillage fixe pour le définir.
 
-En considérant un domaine $\Omega \subset \mathbb R^d$, soit $\mathcal{T} = (\mathcal N, \mathcal E)$ un maillage, où $\mathcal N = \left\{\bm x_i \right\}^M_{i=1}$ est l'ensemble des noeuds, et $\mathcal{E} = \{ K_j \}_{j=1}^{N}$ l'ensemble des éléments.
+En considérant un domaine $\Omega \subset \mathbb R^d$, soit $\mathcal{T} = (\mathcal N, \mathcal E)$ un maillage, où $\mathcal N = \left\{\bm x_i \right\}^N_{i=1}$ est l'ensemble des noeuds, et $\mathcal{E} = \{ K_j \}_{j=1}^{M}$ l'ensemble des éléments.
 
-L'état de la solution \(u_h\) discrétisé peut est définie
+L'état de la solution \(u_h\) discrétisé peut alors être définie
 
 \begin{itemize}
-    \item sur les nœuds du maillage $\bz = \{ u(\mathbf{x}_i) \}_{i=1}^{M}$, c'est le cas des éléments finis (FEM)
-    \item  les éléments
-    \item
+    \item sur les nœuds du maillage $\bz = \{ u(\mathbf{x}_i) \}_{i=1}^{N}$, c'est le cas des éléments finis (FEM) ;
+    \item  sur les éléments du maillage $\bz = \{ u(K_j) \}_{j=1}^{M}$, c'est le cas des volumes finis (VF).
 \end{itemize}
 
+Le maillage étant fixe, il n'est pas nécessaire d'inclure la position des noeuds ou des éléments.
 
-Pour les éléments finis (FEM) par exemple $\mathcal{T}$ est défin
+Il est alors possible de définir l'état comme une variable aléatoire et d'exprimer ses statistiques.
 
-Il est alors possible de
+Dans le cas des méthodes sans maillage, la situation est différentes. Le support de discrétisation, porté par les particules, évolue au cours du temps. L'état ne peut donc pas être défini uniquement par les valeurs d'intensité, mais doit considérer également les positions.
 
+Une première solution consiste à considérer chaque particules indépendemment dans la définition de l'état.
 
+Pour la DEM, l'état à l'intant $t$, pourrait alors être défini comme
 
+\begin{equation*}
+    \bz = {(\bx_i(t), \bm v_i(t), \bm \theta_i, \bm \omega, \mathcal P_i)}_{i=1}^N
+\end{equation*}où $N$ le nombre de particules, et présente à la fois les variables cinématiques ainsi que $\mathcal P_i$ les propriétés intrinsèques de la particules comme sa masse ou sa géométrie.
 
+De même pour les méthodes sans maillage continues, par exemple la méthode vortex, l'état peut être défini comme
 
-\subsection{Mise à jour de l'état}
-% \subsection{DEM et assimilation de données}
+\begin{equation*}
+    \bz = {(\bx_i(t),\bm \Gamma_i(t), \mathcal P_i)}_{i=1}^N
+\end{equation*}où cette fois $\mathcal P_i$ défini en particulier les propriétés de la fonction de lissage.
 
-% % \subsubsection{Limites de la DEM avec les méthodes variationnelles}
-% Dans le cadre des méthodes variationnelles d'assimilation de données, telles que 3D-Var, le principal défi est la grande dimensionnalité du problème d'optimisation.
-% En effet, La DEM simule le comportement de chaque particule individuellement. Cela signifie que l'état du système comprend les variables cinématique de chacune d'elles : position, la vitesse, accélération mais aussi la position angulaire, la vitesse angulaire et l'accélération angulaire ou la densité de chaque particule. Pour un système avec des milliers voire des millions de particules, cela conduit à un problème d'optimisation de très grande dimension.
+Cette définition de l'état a en particulier été utilisé~\cite{chen_superfloe_2022} pour une méthode DEM appliqué au mouvement de la banquise ou bien avec la méthode vortex~\cite{darakananda_data-assimilated_2018,le_provost_ensemble_2021}. C'est sont des filtres EnKF qui ont été présenté à chaque fois.
 
-% De plus, il existe un nombre extrêmement élevé de contraintes, notamment l'interdiction de l'interpénétration des particules. Ces contraintes doivent être prises en compte pour assurer que la solution d'optimisation soit physiquement admissible.
+Toutefois, cette définition peut difficilement être mise en pratique dans le cas général en particulier pour les méthodes d'ensemble.
 
-% L'application des méthodes 3D-Var et 4D-Var est donc trop exigeante d'un point de vue des temps de calcul.
+Premièrement, il est alors nécessaire de faire l'hypothèse que tous les membres possèdent le même nombre de particules dans un ordre défini.
+Dans le cas contraire il n'est pas possible de réaliser le calcul des statistiques sur l'ensemble.
 
-% De plus, les filtres variationnels corrigeant des erreurs d'intensité selon des normes euclidiennes, la variation selon les positions des observations ne sera pas linéaire.
+Dans le cas où les membres disposerait d'un nombre de particules différents, il serait possible d'ajouter les particules supplémentaires à la suite des précédentes dans le vecteur d'état en remplissant de valeurs nulles pour les autres membres. Cependants, le risque est de voir le nombre de particules augmenter considérablement.
 
-% Ainsi, la définition d'un état de particules discrètes implique de résoudre un problème d'optimisation non-linéaire de grande dimension.
-% % \subsubsection{Limites de la DEM avec EnKF}
-% Pour l'EnKF, l'état estimé du système est une combinaison linéaire des états prédits par les différents membres de l'ensemble. Cependant, dans le contexte de la DEM, cette combinaison linéaire des états n'est pas nécessairement physiquement admissible. Par exemple, elle pourrait conduire à des situations où les particules s'interpénètrent ou violent d'autres lois physiques.
-% En d'autres terme, la mise à jour ne peut être réalisé que via le solveur lui-même capable de vérifier des contraintes de non interpénétrabilité mais ne peut être réalisé directement.
+Cette remarque est d'autant plus sensible en considérant le caractère chaotique d'un problème à N-corps~\ref{poincare1890}. En effet, dans ce cas, deux particules proches à une perturbation près peuvent, en un temps, voir leur trajectoires totalement décorélée~\textcolor{red}{image d'un systeme à n corps}. Le système peut conserver une régularité dans sa globalité, mais il devient tout à fait incongru de continuer à comparer ces deux particules entre elles. Ainsi, il n'est plus possible de définir l'état comme selon une collection de particules individuelles ou bien de définir des statistiques qui est un sens pour une particule données.
 
-% Un autre problème avec l'EnKF dans le contexte de la DEM est la difficulté de faire correspondre les particules entre les différents membres de l'ensemble. Même si initialement chaque membre possèdait la même configuration particulaire mais avec des propriétés différentes, chaque particule a sa propre trajectoire unique en cohérence avec les intéractions dans son voisinage. Aligner ces trajectoires à travers les différents membres de l'ensemble pour une assimilation de données cohérente est un défi complexe. Cette difficulté est exacerbée par le nombre élevé de particules et par la nature dynamique et chaotique de leurs interactions.
+Dans les articles~\cite{chen_superfloe_2022} ou \cite{darakananda_data-assimilated_2018} cette première limitation a été traité en regroupant les particules pour en obtenir des systèmes de plus faible dimension. Dans le premier cas, il s'agit de créer des superstructures de glace, dans le second cas, il s'agit d'utiliser des méthodes d'agglomération de vortex.
 
-% Dans le cas pus général où les membres n'aurait pas le membre de particule la correspondance des états est d'autant plus complexe.
+Néanmoins, ces méthodes réduisent le niveau de détail de la discrétisation. Dans notre cas, nous souhaiterions proposer des méthodes d'assimilation qui ne nécessite pas de réduire la qualité des solutions.
 
-% Ainsi, le caractère discret de la méthode DEM rend l'assimilation par EnKF à la fois complexe par :
+\subsection{Mise à jour de l'état d'une simulation sans maillage}
 
-% \begin{itemize}
-%     \item une définition de l'état et de ses statistiques non univoque ;
-%     \item la construction du gain de Kalman d'Ensemble ;
-%     \item la contrainte d'interpénétration non respecté lors de la mise à jour.
-% \end{itemize}
+\subsubsection{Pour les méthodes variationnelles}
 
+Une autre problématique majeur est celle de la mise à jour de l'état lors de l'analyse.
+Une première limitation concerne les méthodes variationnelle comme la méthodes 3DVar. Pour ce type de problème, directement l'état à partir des variables particulaires est problématique pour différentes raison. Tout d'abord, l'opérateur d'observation $\mathcal H(z)$, s'il consiste à observer un champ par exemple, est non-linéaire par rapport aux variables particulaires tel que la position $\bx_i$ ou l'orientation $\bm \theta_i$. Pour un système avec des milliers voire des millions de particules, on se retrouve à traiter un problème d'optimisation fortement non-linéaire dans un espace de très grande dimension.
 
-% \textcolor{red}{ à revoir complètement...}
-% La MPM offre un cadre exploitable pour mettre en place une méthode de DA.
-% La structure de grille sous-jacente à la MPM permet une modélisation l'utilisation des méthodes variationnelles ou des méthodes d'ensemble. La structure de particules est aussi plus flexible dans le sens où elles représentent une densité de matière : elles peuvent donc s'interpénétrer.
+De nouveau, on pourrait procéder à une réduction du nombre de particules comme précédemment.
 
-% \subsubsection{Méthodes sans maillage continus et méthodes variationnelles}
-% Le principal défi est de gérer la dimension du problème d'optimisation pour la 3D-Var, ainsi que construire un modèle adjoint pour la 4D-Var.
-% Deux pistes sont envisageables : mettre à jour les champs nodaux et les champs particulaires. Comparativement à la DEM, le nombre de variables et le nombre de contraintes sont drastiquement réduits au prix d'une représentation plus grossière.
+Toutefois, dans le cas des méthodes discrètes, il est nécessaire de prendre en considération un nombre élevé de contraintes. Notamment, le déplacement des particules doit respecter l'interdiction d'interpénétration des particules. Cette conditions doit être vérifié sur l'ensemble du système pour assurer que la solution d'optimisation soit physiquement admissible. Dans le cas des méthodes continues, les particules sont des entités ponctuelles et ne représente qu'une discrétisation d'un milieu continu. Ainsi cette dernière contrainte ne s'applique.
 
-% \subsubsection{Méthodes sans maillage continus et EnKF}
-% Pour l'EnKF, l'état estimé est une combinaison linéaire des états prédits. Dans le contexte de la MPM, cela signifie que la mise à jour de l'état peut être directement effectuée sur la grille de calcul, plutôt que sur les particules individuelles. Cette approche réduit la complexité des calculs et facilite l'assimilation de données dans des systèmes à grande échelle.
+Finalement, utiliser une méthode d'assimilation de données variationnelles dans le cas d'un problème sans maillage nécessite de traiter une problème d'optimisation non linéaire de grande dimension avec contraintes lorsque le milieu est discret et sans contrainte dans le cas continu.
 
-% Cependant, l'intégration de la MPM avec l'EnKF soulève plusieurs questions importantes :
+\subsubsection{Pour la méthode EnKF}
 
-% 1. **Transfert d'Informations de Particules à la Grille** : La première question concerne le transfert efficace des informations des particules vers la grille. Cela nécessite des algorithmes précis pour garantir que les informations pertinentes sur les propriétés des matériaux, telles que la densité, la contrainte, et le gradient de déformation déformation, sont correctement représentés sur la grille de calcul.
+Dans le cas de la méthode EnKF, la mise à jour est définie de manière statistique. L'état estimé du système est une combinaison linéaire des états prédits par les différents membres de l'ensemble, en particulier sur les positions des particules $\bx_i$. Or bien que chaque membre vérifie les conditions de d'interpénétration, ses conditions n'étant pas linéaire, il n'y a aucune garantie pour que la combinaison le soi.
+En d'autres terme, la mise à jour ne peut être réalisé que via le solveur lui-même capable de vérifier des contraintes de non interpénétrabilité mais ne peut être réalisé directement. Dans le cas de l'article~\cite{chen_superfloe_2022}, nous supposons que le critère de pénétration est relaxé que pour des simulations de milieux granulaire.
 
-% 2. **Remaillage de Particules pour Représenter l'État Mécanique** : Une autre question clé est de savoir comment effectuer un remaillage des particules pour représenter fidèlement l'état mécanique du système après assimilation. Cela est crucial pour maintenir la cohérence et l'exactitude du modèle MPM, en particulier après des mises à jour successives de l'état du système.
+Si toutefois cette problématique ne concerne pas les méthodes sans maillage continu, il reste toutefois questionnable de réaliser une combinaison linéaire des positions des particules. Cette question est en fait en lien avec la définition de l'état.
+En effet, chaque particule n'est que le support de la discrétisation d'un champ. Mesurer une erreur quadratique sur la position des particules n'aura pas de véritable avec l'erreur quadratique sur le champ.
+Ceci est relativement vrai pour des champs tournant. La figure~\textcolor{red}{rajouter une exemple}, présente un cas où chaque membre discrétise un même champ de tourbillon mais où le support de discrétisation a plus ou moins de retard. L'estimateur sur une grille eulérienne sera bien ce même champ. Or, dans le cas ou ce sont les quantités de la discrétisation qui sont prise en compte dans l'état et l'estimateur ne sera par représentatif.
+Encore une fois, une solution consiste à réaliser des agrégations pour regrouper les particules comme en~\cite{chen_superfloe_2022,darakananda_data-assimilated_2018} mais au détriment du détail de discrétisation.
+
+Finalement, la mise à jour en considérant des discrétisations particulaires est complexe. En DEM elle doit prendre en considération les positions relatives des particules entre elles. De manière générale, nous avons vu que considérer les statistiques sur les positions de particules ne permettait pas d'avoir une bonne idée de l'incertitude sur le champ discrétisé.
+
+Ainsi, il nous semble nécessaire de formuler différemment le problème d'assimilation dans le cadre d'un discrétisation particulaire.
 
 \section{Bilan du chapitre}
 
