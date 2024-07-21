@@ -120,7 +120,7 @@ L'ajout des paramètres dans la variable d'état a pu être utilisé pour résou
 
 \section{Filtrage bayésien}~\label{filtrage_bayesien}
 
-Le filtrage bayésien consiste à écrire la récurrence sur les lois de probabilité, pour estimer, en fonction des observations passées et courante $\mathcal D_ks$ l'état courant $\bm z_k$ et de prédire l'état future $\bm z_{k+1}$.
+Le filtrage bayésien consiste à écrire la récurrence sur les lois de probabilité, pour estimer, en fonction des observations passées et courante $\mathcal D_k$ l'état courant $\bm z_k$ et de prédire l'état future $\bm z_{k+1}$.
 
 Pour simplifier les notations, l'exposant $^{\mid k}$ qui conditionne la densité par les observations $\bm y_{1:N}$. La densité de l'état est initialisée par la densité a priori de l'état initial $p_{X_0}$.
 
@@ -128,30 +128,29 @@ Puis pour tout $k \geq 0$ les lois de probabilité sont tout d'abord propagées.
 
 L'étape de propagation ou \textit{forecast} est obtenue grace à la loi des probabilité totales
 
-\begin{equation}\label{tot_rule}
-    p_{\bm X_{k+1}}^{\mid k}(\bm x)= \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) p_{\bm X_{k}}^{\mid k}(\bm x')dx'
-\end{equation}
+\begin{equation*}
+    p(\bm z_{k+1} \mid \mathcal D_k) = \mathbb{E}_{\bm z_k}\left[p(\bm z_{k+1} \mid  \bm z_k,\mathcal{D}_k) \mid \mathcal D_k \right] = \mathbb{E}_{\bm z_k}\left[p(\bm z_{k+1} \mid \bm z_k) \mid \mathcal D_k \right].
+\end{equation*}
 
 La loi \textit{a priori} de la $k+1$ observations peut être otenue de nouveau grace à la loi de probabilité totale
 
 \begin{equation*}
-    p_{\bm Y_{k+1}}^{\mid k}(\bm y) = \int p_{\bm Y_{k+1}\mid \bm X_{k+1} = \bm x}(\bm y) p_{\bm X_{k+1}}^{\mid k}(\bm x)dx
+    p(\bm y_{k+1} \mid \mathcal D_k) = \mathbb{E}_{\bm{x}_{k+1}}\left[p(\bm y_{k+1}\mid \bm x_{k+1}) \mid \mathcal D_k\right].
 \end{equation*}
 
-Après la $k+1$ observation $\bm y_{k+1}$, l'étape d'analyse permet de déterminer la loi \textit{a posteriori} de l'état
-avec la loi de Bayes appliquées après mesure de $\bm Y_n$
+Après la $k+1$ observation $\bm y_{k+1}$, l'étape d'\textit{analyse}, permet grâce à la loi de Bayes de déterminer la loi \textit{a posteriori} de l'état
 
 \begin{equation*}
-    p_{\bm X_{k+1}}^{\mid k+1}(\bm x) = p_{\bm X_{k+1} \mid \bm Y_{k+1} = \bm y_{k+1}}^{\mid k}(\bm x) = \frac{p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x}^{\mid k}(\bm y) p_{\bm X_{k+1}}^{\mid k}(\bm x) }{p_{\bm Y_{k+1}}^{\mid k}(\bm y)}.
+    p(\bm z_{k+1} \mid \mathcal D_{k+1}) = p(\bm z_{k+1} \mid \bm y_{k+1}, \mathcal D_{k})  = \frac{p(\bm y_{k+1} \mid \bm z_{k+1} ,\mathcal D_k)  p(\bm z_{k+1}\mid \mathcal D_k)}{p(\bm y_{k+1}\mid \mathcal D_k)}.
 \end{equation*}
 
 Ainsi, les méthodes de filtrage présentent sous diverse forment ces deux étapes de propagation et de d'analyse pour mettre à jour la distribution de l'état au cours du temps et après mesure des observations.
 
-\section{Propagation}
+\subsection{Propagation}
 En pratique, il est difficile de réaliser la propagation de la distribution de l'état.
 En effet, l'évolution du prior nécessite de propager entièrement la distribution à l'aide de l'équation de Fokker-Planck, celle-ci ne pouvant être résolue qu'en dimension faible~\cite{jazwinski_4_1970}.
 
-Une première alternative consiste à uniquement considérer l'évolution pour les deux premiers moments. Dans ce cas, il s'agit de considérer que l'erreur de l'état $\bx_k$ suit une distribution Gaussienne $\mathcal{N} (0, \bm P_k)$. Si le modèle d'évolution $\mathcal{M} = \bM$ est linéaire, alors la matrice de covariance de l'état $\bx_{k+1}$ devient
+Une première alternative consiste à uniquement considérer l'évolution pour les deux premiers moments. Dans ce cas, il s'agit de considérer que l'erreur de l'état $\bz_k$ suit une distribution Gaussienne $\mathcal{N} (0, \bm P_k)$. Si le modèle d'évolution $\mathcal{M} = \bM$ est linéaire, alors la matrice de covariance de l'état $\bz_{k+1}$ devient
 
 \begin{equation*}
     \bP_{k+1} = \bM \bP_{k} \bM^T + \bm{Q_k}
@@ -159,84 +158,85 @@ Une première alternative consiste à uniquement considérer l'évolution pour l
 
 Cette proposition est un des éléments utilisés dans le filter de Kalman~\ref{kalman_filter}. Dans le cas où le modèle n'est pas linéaire, alors une approximation peut être obtenue par linéarisation du modèle.
 
-Une autre possibilité consiste à utiliser un ensemble pour représenter la distribution de l'état. L'état est représenté par un ensemble d'échantillons ou particules tel que $p(\bx_k)  = \sum_{i=1}^{N} \omega^i \delta_{\bx^i}(\bx_k)$ est une distribution empirique de la distribution. C'est l'hypothèse qui est utilisé dans le filtre particulaire~\ref{sec:filtre_particulaire} mais également dans le filtre de Kalman d'Ensemble~\ref{sec:enkf}. Dans ce dernier cas, les membres $\bx^i$ sont supposées indépendant et identiquement distribué, ainsi les poids sont tous égaux à $1/N$.
+Une autre possibilité consiste à utiliser un ensemble pour représenter la distribution de l'état. L'état est représenté par un ensemble d'échantillons ou particules tel que $p(\bz)  = \sum_{i=1}^{N} \omega^i \delta(\bz - \bz^i)$ est une distribution empirique de la distribution. C'est l'hypothèse qui est utilisé dans le filtre particulaire~\ref{sec:filtre_particulaire} mais également dans le filtre de Kalman d'Ensemble~\ref{sec:enkf}. Dans ce dernier cas, les membres $\bx^i$ sont supposées indépendant et identiquement distribué, ainsi les poids égaux à $1/N$.
 
-\subsection{Filtre particulaire}~\label{sec:filtre_particulaire}
+% \subsection{Filtre particulaire}~\label{sec:filtre_particulaire}
 
-Le filtre particulaire est une implémentation du filtre bayésien qui approxime la PDF à l'aide d'une distribution empirique. Les transformations du filtre, \textit{forecast} et \textit{analysis} sont appliquées sur les membres de cet échantillon.
-Cette méthode converge vers la distribution exacte lorsque le nombre de particule $N \to \infty$.
+% Le filtre particulaire est une implémentation du filtre bayésien qui approxime la PDF à l'aide d'une distribution empirique. Les transformations du filtre, \textit{forecast} et \textit{analysis} sont appliquées sur les membres de cet échantillon.
+% Cette méthode converge vers la distribution exacte lorsque le nombre de particule $N \to \infty$.
 
-Le prior de l'état $p(\bm x)$ à l'instant $k$ est représenté par un ensemble de $N$ réalisations $\{\bm x_1, \bm x_2, \dots \bm x_N\}$ de tel sorte que
+% Le prior de l'état $p(\bm z)$ à l'instant $k$ est représenté par un ensemble de $N$ réalisations $\{\bm z_k^1, \bm z_k^2, \dots \bm z_k^N\}$ de tel sorte que
 
-\begin{equation*}
-    p_{\bm X_k}(\bm x) \simeq \sum_{i=1}^N \omega^i_k \delta(\bm x - \bm x_k^i) \quad \text{with} \sum_{i=1}^N \omega^i_k = 1, \quad \omega^i_k > 0.
-\end{equation*}
+% \begin{equation*}
+%     p_{\bm z_k}(\bm z) \simeq \sum_{i=1}^N \omega^i_k \delta(\bm x - \bm x_k^i) \quad \text{with} \sum_{i=1}^N \omega^i_k = 1, \quad \omega^i_k > 0.
+% \end{equation*}
 
-où $\delta$ est la masse de Dirac et $\omega^i_k$ les poids associés à chaque membre. Initialement, les échantillons sont supposés tirés de manière uniforme de tel sorte que $\omega^i_k = 1/N$.
+% où $\delta$ est la masse de Dirac et $\omega^i_k$ les poids associés à chaque membre. Initialement, les échantillons sont supposés tirés de manière uniforme de tel sorte que $\omega^i_k = 1/N$.
 
-Lors de l'étape de \textit{propagation}, les particules sont propagés par le modèle de manière déterministe.
+% Lors de l'étape de \textit{propagation}, les particules sont propagés par le modèle de manière déterministe.
 
-Pour s'en convaincre, le loi de probabilité totale \ref{tot_rule} peut être réécrite
+% % Pour s'en convaincre, le loi de probabilité totale \ref{tot_rule} peut être réécrite
 
-\begin{eqnarray*}
-    p_{\bm X_{k+1}}^{\mid k}(\bm x) &=& \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) p_{\bm X_{k}}^{\mid k}(\bm x')dx' \\
-    &\simeq& \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) \sum_{i=1}^N \omega^i_k \delta(\bm x' - \bm x_k^i) dx' \\
-    &\simeq& \sum_{i=1}^N \omega^i_k  \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) \delta(\bm x' - \bm x_k^i) dx' \\
-    &\simeq& \sum_{i=1}^N \omega^i_k \delta(\bm x - \mathcal M_{k,k+1}(\bm x_k^i) - \bm \eta_{k,k+1}) = \sum_{i=1}^N \omega^i_k \delta(\bm x - \bm x_{k+1}^i).
-\end{eqnarray*}
+% % \begin{eqnarray*}
+% %     p_{\bm X_{k+1}}^{\mid k}(\bm x) &=& \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) p_{\bm X_{k}}^{\mid k}(\bm x')dx' \\
+% %     &\simeq& \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) \sum_{i=1}^N \omega^i_k \delta(\bm x' - \bm x_k^i) dx' \\
+% %     &\simeq& \sum_{i=1}^N \omega^i_k  \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) \delta(\bm x' - \bm x_k^i) dx' \\
+% %     &\simeq& \sum_{i=1}^N \omega^i_k \delta(\bm x - \mathcal M_{k,k+1}(\bm x_k^i) - \bm \eta_{k,k+1}) = \sum_{i=1}^N \omega^i_k \delta(\bm x - \bm x_{k+1}^i).
+% % \end{eqnarray*}
 
-Quant à l'étape d'analyse, elle correspond à une mise à jour du poids de chaque membre, qui correspond à sa vraissemblance conditionnée aux données
+% Quant à l'étape d'analyse, elle correspond à une mise à jour du poids de chaque membre, qui correspond à sa vraissemblance conditionnée aux données
 
-\begin{eqnarray*}
-    p_{\bm X_{k+1}}^{\mid k+1}(\bm x) &\propto& p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x}^{\mid k}(\bm y)  \sum_{i=1}^N \omega^i_k \delta(\bm x - \bm x_{k+1}^i) \\
-    &\propto& \sum_{i=1}^N  \omega^i_k~p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x_{k+1}^i}^{\mid k}(\bm y)\delta(\bm x - \bm x_{k+1}^i)
-\end{eqnarray*}
+% \begin{eqnarray*}
+%     p_{\bm X_{k+1}}^{\mid k+1}(\bm x) &\propto& p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x}^{\mid k}(\bm y)  \sum_{i=1}^N \omega^i_k \delta(\bm x - \bm x_{k+1}^i) \\
+%     &\propto& \sum_{i=1}^N  \omega^i_k~p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x_{k+1}^i}^{\mid k}(\bm y)\delta(\bm x - \bm x_{k+1}^i)
+% \end{eqnarray*}
 
-ce qui donne
+% ce qui donne
 
-\begin{equation*}
-    \omega^i_{k+1}  = \frac{\omega^i_k~p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x_{k+1}^i}^{\mid k}(\bm y_{k+1}) }{\omega^j_k~\sum_j^N p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x_{k+1}^j}^{\mid k}(\bm y_{k+1}) }
-\end{equation*}
+% \begin{equation*}
+%     \omega^i_{k+1}  = \frac{\omega^i_k~p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x_{k+1}^i}^{\mid k}(\bm y_{k+1}) }{\omega^j_k~\sum_j^N p_{\bm Y_{k+1} \mid \bm X_{k+1} = \bm x_{k+1}^j}^{\mid k}(\bm y_{k+1}) }
+% \end{equation*}
 
-Où le dénominateur est simplement un terme de normalisation.
+% Où le dénominateur est simplement un terme de normalisation.
 
-Cependant, lorsque la dimension est grande, le nombre de poids non nulle à tendance à tendre vers 0. Pour éviter cela, des méthodes de rééchantillonnage du \textit{posterior} ont été développé. Le filtre bootstrap \cite{gordon_1993} consiste à selectionner les membres de poids les plus élevé, de les cloner de manière proportionnelle à leurs poids. Après échantillonnage, $N$ particules sont rassemblées, dont certaines sont identitiques avec des approximativement égaux.
-Un exemple d'algorithme suivant
+% Cependant, lorsque la dimension est grande, le nombre de poids non nulle à tendance à tendre vers 0. Pour éviter cela, des méthodes de rééchantillonnage du \textit{posterior} ont été développé. Le filtre bootstrap \cite{gordon_1993} consiste à selectionner les membres de poids les plus élevé, de les cloner de manière proportionnelle à leurs poids. Après échantillonnage, $N$ particules sont rassemblées, dont certaines sont identitiques avec des approximativement égaux.
+% Un exemple d'algorithme suivant
 
-\begin{algorithm}
-    \caption{Implémentation du rééchantillonnage par \textit{bootstrap}.}
-    \For{membre $n$ do}{
-    Tirer $u$ dans $\mathcal{U}[0,1[$\;
-    Initialiser $j=1$\;
-    Affecter $S_w = w^1$\;
-    \While{$S_w < u$}{
-        $j = j+1$\;
-        $S_w = S_w + w(j)\;$
-    }
-    Le membre $j$  est conservé et remplace le membre $n$.
-    }
-\end{algorithm}
+% \begin{algorithm}
+%     \caption{Implémentation du rééchantillonnage par \textit{bootstrap}.}
+%     \For{membre $n$ do}{
+%     Tirer $u$ dans $\mathcal{U}[0,1[$\;
+%     Initialiser $j=1$\;
+%     Affecter $S_w = w^1$\;
+%     \While{$S_w < u$}{
+%         $j = j+1$\;
+%         $S_w = S_w + w(j)\;$
+%     }
+%     Le membre $j$  est conservé et remplace le membre $n$.
+%     }
+% \end{algorithm}
 
 \subsection{Filtre de Kalman}~\label{kalman_filter}
 
-Le filtre de Kalman introduit en 1960 \cite{kalman_new_1960} est une version du filtre Bayésien appliqué à un modèle linéaire Gaussien. Dans ces conditions, la distribution de l'état a priori de l'état et des observations sont défini par leur deux premiers moment tel que la propagation devient
+Le filtre de Kalman introduit en 1960~\cite{kalman_new_1960} est une version du filtre Bayésien appliqué à un modèle linéaire Gaussien. Dans ces conditions, la distribution de l'état a priori de l'état et des observations sont défini par leur deux premiers moment tel que la propagation devient
 
 \begin{eqnarray*}
-    \hat m_X &=& \bE [\bm X_{k+1}^{\mid k}] = \bm M \bE [\bm X_{k}^{\mid k}],\\
-    \hat{\bm  P}_{k+1} &=& \bV [\bm X_{k+1}^{\mid k}] = \bm M \bE [\bm X_{k+1}^{\mid k}] \bm M^T + \bm Q,
+    \hat{\bm{m}}_{z} &=& \bE [\bm z_{k+1} \mid \mathcal D_k] = \bm M \bm m_z,\\
+    \hat{\bm  P}_{z} &=& \bV [\bm z_{k+1} \mid \mathcal D_k] = \bm M \bm m_z \bm M^T + \bm Q,
 \end{eqnarray*}
 
 et le modèle d'observation donne
 
 \begin{eqnarray*}
-    m_Y &=& \bE [\bm Y_{k+1}^{\mid k}] = \bm H \bE [X_{k+1}^{\mid k}],\\
-    \bm C_{Y,Y}&=&\bV [\bm Y_{k+1}^{\mid k}] = \bm H \bV [\bm X_{k+1}^{\mid k}] \bm H^T + \bm R, \\
-    \bm C_{X,Y} &=& \bC[\bm X_{k+1}^{\mid k},\bm Y^{\mid k}_{k+1}] = \bm P_{k+1} \bm H^T,
+    \hat{\bm{m}}_y &=& \bE [\bm y_{k+1} \mid \mathcal D_k] = \bm H \hat{\bm{m}}_{z},\\
+    \bm C_{y,y}&=&\bV [\bm y_{k+1} \mid \mathcal D_k] = \bm H \hat{\bm  P}_{z} \bm H^T + \bm R, \\
+    \bm C_{z,y} &=& \text{Cov}[\bm z_{k+1}, \bm y_{k+1}\mid \mathcal D_k] = \hat{\bm  P}_{z} \bm H^T,
 \end{eqnarray*}
 
-De telle sorte que la distribution conditionnelle de $\bm Y_{k+1}$ par $^{\mid k}$ et $\bm Y_{k+1} = \bm{y_{k+1}}$, si cette dernière est non-dégénérée (ce qui est le cas si $\bm R$ n'est pas singulière), est défini par ses deux premiers moments qui sont
+De telle sorte que la distribution \textit{a posteriori}, si cette dernière est non-dégénérée (ce qui est le cas si $\bm R$ n'est pas singulière), est défini par ses deux premiers moments qui sont
+
 \begin{eqnarray*}
-    m_X &=& \bE[\bm X^{\mid k}_{k+1} \mid \bm Y_{k+1}^{\mid k}] = \hat m_X + \bm C_{X,Y} \bm C_{Y,Y}^{-1} (\bm y_{k+1} - m_Y), \\
+    \bm m_z &=& \bE[\bm X^{\mid k}_{k+1} \mid \bm Y_{k+1}^{\mid k}] = \hat m_X + \bm C_{X,Y} \bm C_{Y,Y}^{-1} (\bm y_{k+1} - m_Y), \\
     \bm P_{k+1} &=& \bV[\bm X^{\mid k}_{k+1} \mid \bm Y_{k+1}^{\mid k}] = \hat{\bm  P}_{k+1} - \bm C_{X,Y} \bm C_{Y,Y}^{-1} \bm C_{X,Y}^T.
 \end{eqnarray*}
 
