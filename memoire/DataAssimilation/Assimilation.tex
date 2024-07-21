@@ -6,128 +6,127 @@
 
 La construction d'un système expert ou jumeau numérique a besoin de méthode qui puissent faire le lien entre observations et l'état de notre simulation.
 
+En effet, les solutions calculées par les modèles numériques comportent des erreurs qu'il est crucial de comprendre, de quantifier et de réduire.
 
-\mycolor{La DA est un processus permettant d'intégrer des informations issues de différentes sources pour obtenir une compréhension plus précise et plus complète d'un système ou d'un phénomène. Cette méthode combine des données observées (mesures réelles) avec des prévisions issues de modèles numériques. L'objectif est de corriger et d'améliorer les modèles en fonction des observations, réduisant ainsi les incertitudes et améliorant la précision des prévisions. Dans ce processus, les observations, qui peuvent être incomplètes ou entachées d'erreurs, sont confrontées aux prévisions du modèle au cours du temps. Le modèle est ensuite ajusté pour mieux correspondre aux données réelles. Il s'agit donc de résoudre un problème inverse en prenant en compte l'aspect dynamique du phénomène. Cette méthode est largement utilisée dans divers domaines tels que la météorologie, l'océanographie, la géophysique, et l'ingénierie environnementale. Par exemple, en météorologie, la DA est essentielle pour les prévisions météorologiques en intégrant des données satellites et des mesures au sol dans les modèles atmosphériques.}
+Cette incertitude peut se manifester sous diverses formes, telles que l'ambiguïté des valeurs des paramètres du modèle, l'imprécision des conditions initiales, ou l'incertitude dans la définition des conditions aux limites ou des forces extérieures. De plus, bien que les modèles numériques intègrent généralement des principes physiques essentiels, ils impliquent certaines simplifications. L'erreur numérique apparaît en raison de l'algorithme et de la discrétisation. Elle s'étend également à l'incertitude associée aux futures mesures expérimentales calibrant les modèles numériques.
 
-L'assimilation peut être décrit comme la combinaison des informations a priori d'un modèle de simulation numérique avec les données issues de l'observation afin d'obtenir une estimation optimale d'un système dynamique et de ses incertitudes.
+En revanche, les approches stochastiques vont au-delà de la simple estimation de l'état ; elles quantifient l'incertitude associée aux états estimés. Cela est crucial, en particulier dans les systèmes dynamiques et incertains, où la reconnaissance et la caractérisation de l'incertitude deviennent primordiales pour une prise de décision fiable et l'amélioration des modèles. Dans cette approche, l'estimation est mise à jour séquentiellement en fonction des observations précédentes et actuelles. Le processus d'assimilation est réalisé dans un cadre bayésien avec une étape de prévision et une étape d'analyse. Le filtre de Kalman est un exemple de formulation séquentielle qui considère un modèle linéaire et des hypothèses de distribution gaussienne. Cependant, des filtres plus avancés ont été introduits pour s'adapter aux distributions non linéaires et arbitraires. L'un des filtres bayésiens les plus populaires est sans doute l'Ensemble Kalman Filter, introduit par Evensen, principalement en raison de son adaptabilité aux problèmes de haute dimension avec tout modèle d'évolution. Il consiste à approximer la distribution de probabilité d'un état grâce à un ensemble de simulations appelées particules ou membres.
 
-L'assimilation de données trouve son origine en prédiction météorologique ou en océanographie~\cite{bocquet_introduction_2014}. Cependant, sa formulation mathématique se base sur l'inférence bayésienne, la théorie du contrôle et le calcul variationnel.
-
-Plus que l'estimation d'un état, l'assimilation de données est aussi une formulation appropriée pour mettre à jour les paramètres d'un système.
-
-\section{Formalisme}
+\section{Formalisme du problème d'assimilation}
 
 Nous décrirons le problème d'assimilation sous sa forme d'inférence bayésienne. Suivant différentes hypothèses, nous montrerons qu'elle s'exprime alors sous des formes variées.
 
 \subsection{Définition de l'état}
-% Définition de l'état initial, modèle d
-Nous définissons un état $\bm x_k$ comme la variable d'\textit{état} qui définit complètement l'état du système à l'instant $t_k \in \mathbb R^+$. L'état du système est obtenu grâce un modèle $\mathcal{M}$ qui décrit l'évolution du système.
-Nous noterons $\mathcal X_k = \{\bx_0, \dots, \bx_k\}$ la trajectoire du modèle jusq'au pas de temps $t_k$.
+
+Nous définissons un état $\bm z_k$ comme la variable d'\textit{état} qui représente complètement la connaissance du système à l'instant $t_k \in \mathbb R^+$. La dynamique de l'état du système au cours du temps est obtenu grâce un modèle $\mathcal{M}$ qui décrit l'évolution du système.
+Nous noterons $\mathcal Z_k = \{\bz_0, \dots, \bz_k\}$ la trajectoire du modèle jusqu'au pas de temps $t_k$.
 Nous supposerons que le modèle admet des incertitudes. Celle-ci sont issues de
 
 \begin{itemize}
-    \item L'erreur de discrétisation dans l'espace et le temps. Soit $\bm x^c$ l'état réel continu. Le modèle numérique ne traite que des représentations discrètes du champ physique. Ainsi, c'est non pas l'état $\bm x^c$ qui est estimé mais une projection dans l'espace de discrétisation. Ainsi on estimera $\bm x^t = \Pi(\bm{x}^c)$, où $\Pi$ est un porjecteur sur l'espace de discrétisation. On parle ici d'erreur de représentativité.
-    \item L'erreur de modèle. C'est un modèle numérique qui calcule l'évolution de l'état simulé. Tout modèle étant imparfait, toutes les physiques ne peuvent êter prises en compte. C'est une erreur qui tient compte de la mauvaise représentation de l'évolution du système mais également de la discrétisation.
+    \item \textbf{L'erreur de discrétisation} dans l'espace et le temps. Soit $\bz^c$ l'état réel continu. Le modèle numérique ne traite que des représentations discrètes du champ physique. Ainsi, c'est non pas l'état $\bm x^c$ qui est estimé mais une projection dans l'espace de discrétisation. On estimera $\bz^t = \Pi(\bz^c)$, où $\Pi$ est un projecteur sur l'espace de discrétisation. On parle ici d'erreur de \textit{représentativité}.
+    \item \textbf{L'erreur de modèle}. C'est un modèle numérique qui calcule l'évolution de l'état simulé. Tout modèle étant imparfait, toutes les physiques ne peuvent êter prises en compte. C'est une erreur qui tient compte de la mauvaise représentation de l'évolution du système mais également de sa discrétisation.
+    \item \textbf{L'erreur de données} Le modèle mathématique doit être complété par des données et des paramètres spécifiant les caractéristiques physiques du système simulé parmi la classe des systèmes représentés par le modèle. Ces données peuvent concerner la géométrie du système, les conditions aux limites et initiales, ainsi que les forçages externes. Les paramètres peuvent être des constantes physiques ou des constantes du modèle prescrivant les lois constitutives du système. L'utilisation de données qui ne reflètent que partiellement la nature du système exact induit des erreurs supplémentaires, appelées erreurs de données, sur la prédiction.
 \end{itemize}
 
-Ainsi nous traiterons l'état comme une variable aléatoire tel que à laquelle nous lui associerons une incertitude à la prédiction $\bm \eta_k$
+Ainsi, nous traiterons l'état comme une variable aléatoire tel que à laquelle nous lui associerons une incertitude à la prédiction $\bm \eta_k$
 
 \begin{equation*}
-    \bm x_k \mathcal{M}(\bx_0, t_k ; \bm \theta) + \eta_k.
+    \bm z_k \mathcal{M}(\bz_0, t_k ; \bm \theta) + \eta_k.
 \end{equation*}
-où $\bm \theta$ sont l'ensemble des paramètres du modèle et $\bm x_0$ l'état initial.
+où $\bm \theta$ sont l'ensemble des paramètres du modèle et $\bm z_0$ l'état initial.
 
 \subsection{Définition des obervations}
-A une formulation dynamique, nous supposons également connue une formule d'émission ou équation d'observation. Celle-ci relie l'état et l'espace de mesure. On définie $\mathcal{D}_k$ les mesures prédites par la fenêtre d'état $\mathcal{X}_k$. Tout comme l'état, les mesures sont sujettent à des incertitudes issues de plusieurs sources
+A l'équation d'évolution, nous supposons également connue une équation d'émission ou équation d'observation. Celle-ci relie l'état à l'espace de mesures. On définie $\mathcal{D}_k$ les mesures prédites par la fenêtre d'état $\mathcal{Z}_k$. Tout comme l'état, les mesures sont sujettent à des incertitudes issues de plusieurs sources
 
 \begin{itemize}
-    \item Erreur de mesure. L'observable $\bm y^c$ est issue d'un signal réel fonction de l'état continu $\bm x^c$. Or ce signal est mesuré par une capteur sujet à des erreurs instrumentales $\bm \varepsilon^{mu}$.
-    \item Erreur de représentativité. L'observation est prédite par un opérateur d'observation numérique $\mathcal H$ via $\bm x_k$. Ainsi une erreur supplémentaire est induite par la représentation de l'opérateur $\mathcal H$ et celle de la projection de l'état continu avec $\Pi$.
+    \item \textbf{L'erreur de mesure}. L'observable $\bm y^c$ est issue d'un signal réel fonction de l'état continu $\bm x^c$. Or ce signal est mesuré par une capteur sujet à des erreurs instrumentales $\bm \varepsilon^{\mu}$. C'est une erreur intrinsèque à la méthode d'acquisition et tient compte par exemple d'interférences environnementales, du bruit électronique, ou des biais systématiques des capteurs.
+    \item \textbf{L'erreur de représentativité}. L'observation est prédite par un opérateur d'observation numérique $\mathcal H$ via $\bm x_k$. Ainsi une erreur supplémentaire est induite par la représentation de l'opérateur $\mathcal H$ et celle de la projection de l'état continu avec $\Pi$. Par exemple, la discrétisation du modèle numérique ne peut pas représenter fidèlement les plus petites échelles spatiales ou temporelles présentes dans le système réel. Cette limitation entraîne une perte d'information et une simplification excessive des dynamiques fines, ce qui peut impacter directement les résultats de prédiction d'observation.
 \end{itemize}
 
 En supposant que ces erreurs sont additives, on défini la formule suivante
 \begin{equation*}
-    \mathcal D_k = \mathcal H (\mathcal{X}_k) + \bm{\varepsilon}_k
-\end{equation*} où $\bm{\varepsilon}_k = \bm{\varepsilon}^\mu  + \bm{\varepsilon}^r$ défini l'incertitude sur l'observation $\mathcal D_k$ relatif à la prédiction $\mathcal{X}_k$.
+    \mathcal D_k = \mathcal H (\mathcal{Z}_k) + \bm{\varepsilon}_k
+\end{equation*} où $\bm{\varepsilon}_k = \bm{\varepsilon}^\mu  + \bm{\varepsilon}^r$ défini l'incertitude sur l'observation $\mathcal D_k$ relatif à la prédiction $\mathcal{Z}_k$.
 
 \subsection{Inférence bayésienne récursive}
 
-Le problème d'assimilation de données peut être formulé sous une approche d'inférence bayésienne. Celle-ci est une méthode statistique pour estimer l'état $\mathcal X_k$ en utilisant à la fois une information a priori et les données observées. Cette méthode repose sur le théorème de Bayes qui décrit la relation entre la distribution a priori de l'état $p(\mathcal X_k)$, la vraissemblance des données $p(\mathcal D_k \mid \mathcal X_k)$ conditionnellement à l'état et la distribution a posteriori de l'état étant donné les données observées, donnant alors
+Le problème d'assimilation de données peut être formulé sous une approche d'inférence bayésienne. Celle-ci est une méthode statistique pour estimer l'état $\mathcal Z_k$ en utilisant à la fois une information \textit{a priori}, obtenue à partir d'un modèles et des connaissances initiales, et les données observées. Cette méthode repose sur le théorème de Bayes qui décrit la relation entre la distribution \textit{a posteriori} de l'état étant donné les données observées avec $p(\mathcal Z_k \mid \mathcal D_k)$ la distribution \textit{a priori} de l'état $p(\mathcal Z_k)$ et la \textit{vraissemblance} des données $p(\mathcal D_k \mid \mathcal Z_k)$ conditionnellement à l'état.
+
+Cette formule est la suivante
+\begin{equation*}
+    p(\mathcal Z_k \mid \mathcal D_k) = \frac{(\mathcal D_k \mid \mathcal Z_k)~p(\mathcal Z_k)}{p(\mathcal D_k)}
+\end{equation*}où $p(\mathcal D_k)$  est la distribution marginale des observations. Elle agit comme constante de normalization afin d'assurer que l'intégrale de la distribution a posteriori soit égale à 1.
 
 \begin{equation*}
-    p(\mathcal X_k \mid \mathcal D_k) = \frac{(\mathcal D_k \mid \mathcal X_k)~p(\mathcal X_k)}{p(\mathcal D_k)}
-\end{equation*}où $p(\mathcal D_k)$  est la distribution marginale des observations. Elle agit comme constante de normalization afin d'assurer que l'intégrale de la distribution a posteriori vaut bien un
-
-\begin{equation*}
-    p(\mathcal D_k) = \mathbb E_{\mathcal X_k}[\mathcal D_k \mid \mathcal X_k]
+    p(\mathcal D_k) = \mathbb E_{\mathcal Z_k}[\mathcal D_k \mid \mathcal Z_k]
 \end{equation*}
 
 Nous souhaitons résoudre le problème d'assimilation de manière séquentielle. C'est à dire, mettre à jour l'état à chaque nouvelle observation à l'instant $t_k$. Pour ce faire, nous utilisons deux approximations
 
 \begin{itemize}
-    \item Le modèle dynamique est une chaîne de Markov d'odre 1. Cette hypothèse suppose que l'état futur $\bm x_{k+1}$ est indépendant des états passé $\mathcal X_{k-1}$ conditionnellement à l'état présent $\bm x_{k}$. Le modèle dynamique s'écrit alors
+    \item Le modèle dynamique est une \textbf{chaîne de Markov d'odre 1}. Cette hypothèse suppose que l'état futur $\bm z_{k+1}$ est indépendant des états passé $\mathcal Z_{k-1}$ conditionnellement à l'état présent $\bm z_{k}$. Le modèle dynamique s'écrit alors
 
           \begin{equation*}
-              \bm x_k \mathcal{M}(\bx_k ; \bm \theta) + \eta_k.
+              \bm z_k = \mathcal{M}(\bz_k ; \bm \theta) + \bm \eta_k.
           \end{equation*}
 
           ce qui implique mathématiquement que
           \begin{equation*}
-              p(\bx_{k+1} \mid \bx_{k},\bx_{k-1}\dots \bx_{0}) = p(\bx_{k+1} \mid \bx_{k}).
+              p(\bz_{k+1} \mid \bz_{k},\bz_{k-1}\dots \bz_{0}) = p(\bz_{k+1} \mid \bz_{k}).
           \end{equation*}
 
-          Ainsi, la probabilité de l'état $p(\mathcal{X}_k)=p(\{\bx_0, \dots, \bx_k\})$ devient
+          Ainsi, la probabilité de l'état $p(\mathcal{Z}_k)=p(\bx_0, \dots, \bx_k)$ devient
 
           \begin{eqnarray*}
-              p(\mathcal{X}_k) &=& p(\bx_0) p(\bx_1 \mid \bx_0) p(\bx_2 \mid \bx_1) \dots p(\bx_k \mid \bx_{k-1}) \\
-              &=& p(\bx_0) p(\bx_1 \mid \bx_0) \prod_{l = 1}^{k} p(\bx_l \mid \bx_{l_1}).
+              p(\mathcal{Z}_k) &=& p(\bz_0) p(\bz_1 \mid \bz_0) p(\bz_2 \mid \bz_1) \dots p(\bz_k \mid \bz_{k-1}) \\
+              &=& p(\bz_0) p(\bz_1 \mid \bz_0) \prod_{l = 1}^{k} p(\bz_l \mid \bz_{l-1}).
           \end{eqnarray*}
 
-    \item Les observations sont indépendantes entre chaque assimilation. Cette hypothèse suppose que les observations présentes $\by_k$ est indépendante des états et observations passé conditionnellement à $\bx_k$. Ceci correspond à définir une loi d'émission local
+    \item Les observations sont indépendantes entre chaque assimilation. Cette hypothèse suppose que les observations présentes $\by_k$ soit indépendante des états et observations passé conditionnellement à $\bz_k$. Ceci correspond à définir une loi d'émission local
           \begin{equation*}
-              \by_k = \mathcal H (\bx_k) + \bm{\varepsilon}_k
+              \by_k = \mathcal H (\bz_k) + \bm{\varepsilon}_k
           \end{equation*}
-          et une vraissemblance comme le produit de vraissemblance locale
-
+          ainsi qu'une vraissemblance comme le produit de vraissemblance locale
           \begin{equation*}
               p(\mathcal{D}_k \mid \mathcal Z_k) = \prod_{l=1}^{k} p(\by_l \mid \bx_l)
           \end{equation*}
 \end{itemize}
 
-Ainsi la trajectoire de l'état et des observation suis les hypothèses d'un modèle de Markov cachés, ici à temps discret, et qui peut être schématisé par le schéma Figure \ref{fig:hidden_markov}.
+Ainsi la trajectoire de l'état et des observation suis les hypothèses d'un modèle de Markov cachés, ici à temps discret, et qui peut être schématisé par le schéma Figure~\ref{fig:hidden_markov}.
 
 \begin{figure}[h]
     \centering
-    % \includegraphics[width=0.5\textwidth]{chemin/vers/ton/image}
-    \caption{Chaîne de Markov cachée \mycolor{Mettre un graph Bayésien}.}
+    \includegraphics[width=0.5\textwidth]{hmc.png}
+    \caption{Chaîne de Markov cachée}
     \label{fig:hidden_markov}
 \end{figure}
 
-\subsection{Estimation des paramètres du modèle par augmentation de l'état}
-Nous avons supposé que le système était complètement décrit par la variable d'état $\bx$ que nous souhaitons estimé. Cependant, nous avons aussi supposé que le modèle était imparfait car ne modélisant pas toute la physique de la dynamique mais parce que les paramètres du modèle $\theta$ ne sont pas connu avec certitude. L'estimation ou calibration de ces paramètres est possible en définissant un état augmenté $\bm z = (\bx, \bm \theta)$.
+On reconnait la partie inférieure du graphique présenté Figure~\ref{fig:graph_dt}.
 
-Le modèle d'évolution est toutefois différent car les paramètres du modèle sont supposé constant dans le temps tel que
+\subsection{Estimation des paramètres du modèle par augmentation de l'état}
+Nous avons supposé que le système était complètement décrit par la variable d'état $\bz$ que nous souhaitons estimé. Cependant, nous avons aussi supposé que le modèle était imparfait à cause d'erreur sur les données des paramètres de modèle. Ansi, les paramètres $\bm \theta$ ne sont pas connu avec certitude. L'estimation ou calibration de ces paramètres est possible en définissant un état augmenté $(\bz, \bm \theta)$.
+
+Le modèle d'évolution est toutefois différent car les paramètres du modèle sont supposés constant dans le temps tel que
 
 \begin{gather*}
     \left\{\begin{aligned}
-         & \bm{x}_{k+1}      & = & \mathcal{M}(\hat{\bm{x}}_{k}) + \bm{\eta}_{k+1}    & , \\
-         & \bm{y}_{k+1}      & = & \mathcal{H}(\bm{x}_{k+1}) + \bm{\varepsilon}_{k+1} & , \\
+         & \bm{z}_{k+1}      & = & \mathcal{M}(\hat{\bm{z}}_{k}) + \bm{\eta}_{k+1}    & , \\
+         & \bm{y}_{k+1}      & = & \mathcal{H}(\bm{z}_{k+1}) + \bm{\varepsilon}_{k+1} & , \\
          & \bm{\theta}_{k+1} & = & \bm{\theta}_{k+1} + \bm{\xi}_{k+1}                 & .
     \end{aligned} \right.
 \end{gather*}
 
-L'ajout des paramètres dans la variable d'état a pu être utilisé pour résoudre des problème inverse sans avoir besoin sans calcul de gradient~\cite{iglesias_ensemble_2013}.
+L'ajout des paramètres dans la variable d'état a pu être utilisé pour résoudre des problème inverse sans calcul de gradient~\cite{iglesias_ensemble_2013}.
 
 \section{Filtrage bayésien}~\label{filtrage_bayesien}
 
-Le filtrage bayésien consiste à écrire la récurrence sur les lois de probabilité, pour estimer, en fonction des observations passées et courante $y_{1:k}$ l'état courant $\bm x_k$ et de prédire l'état future $\bm x_{k+1}$.
+Le filtrage bayésien consiste à écrire la récurrence sur les lois de probabilité, pour estimer, en fonction des observations passées et courante $\mathcal D_ks$ l'état courant $\bm z_k$ et de prédire l'état future $\bm z_{k+1}$.
 
-Pour simplifier les notations, l'exposant $^{\mid k}$ qui conditionne la densité par les observations $\bm y_{1:N}$.
-La densité de l'état est initialisée par la densité a priori de l'état initial $p_{X_0}$.
+Pour simplifier les notations, l'exposant $^{\mid k}$ qui conditionne la densité par les observations $\bm y_{1:N}$. La densité de l'état est initialisée par la densité a priori de l'état initial $p_{X_0}$.
 
-Puis pour tout $k \geq 0$ les lois de probabilité sont propagées.
+Puis pour tout $k \geq 0$ les lois de probabilité sont tout d'abord propagées.
 
-L'étape de propagation ou \textit{forecast} loi \textit{a priori} est obtenue grace à la loi des probabilité totales
+L'étape de propagation ou \textit{forecast} est obtenue grace à la loi des probabilité totales
 
 \begin{equation}\label{tot_rule}
     p_{\bm X_{k+1}}^{\mid k}(\bm x)= \int p_{\bm X_{k+1}\mid \bm X_{k} = \bm x'}(\bm x) p_{\bm X_{k}}^{\mid k}(\bm x')dx'
@@ -158,7 +157,7 @@ Une première alternative consiste à uniquement considérer l'évolution pour l
     \bP_{k+1} = \bM \bP_{k} \bM^T + \bm{Q_k}
 \end{equation*}où $\bm Q_k$ est la matrice de covariance de l'erreur de modèle.
 
-Cette proposition est un des éléments utilisés dans le filter de Kalman~\cite{kalman_filter}. Dans le cas où le modèle n'est pas linéaire, alors une approximation peut être obtenue par linéarisation du modèle.
+Cette proposition est un des éléments utilisés dans le filter de Kalman~\ref{kalman_filter}. Dans le cas où le modèle n'est pas linéaire, alors une approximation peut être obtenue par linéarisation du modèle.
 
 Une autre possibilité consiste à utiliser un ensemble pour représenter la distribution de l'état. L'état est représenté par un ensemble d'échantillons ou particules tel que $p(\bx_k)  = \sum_{i=1}^{N} \omega^i \delta_{\bx^i}(\bx_k)$ est une distribution empirique de la distribution. C'est l'hypothèse qui est utilisé dans le filtre particulaire~\ref{sec:filtre_particulaire} mais également dans le filtre de Kalman d'Ensemble~\ref{sec:enkf}. Dans ce dernier cas, les membres $\bx^i$ sont supposées indépendant et identiquement distribué, ainsi les poids sont tous égaux à $1/N$.
 

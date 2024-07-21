@@ -2,6 +2,8 @@
 
 \chapter{Méthode sans maillage et assimilation de données}
 
+\section{Introduction}
+
 Nous avons vu dans le chapitre précédent que l'assimilation dépendait en particulier de la définition d'un modèle et de son état. Dans le cas de la simulation de l'écoulement au sein du broyeur à boulets, il s'agit principalement de méthodes reposant des discrétisations sans maillage comme évoqué en Section~\ref{sec:methode_resolution}. C'est ce type de modélisaton qu'il faudra prendre en compte dans nos algorithmes d'assimilation de données. Or, si les méthodes d'assimilation peuvent facilement s'exprimer pour des méthodes Eulérienne sur grille ou maillage fixe, elles soulèvent des questionnements lorsque les méthodes reposent sur des discrétisations Lagrangiennes sont en jeu.
 
 De plus, il faut aussi différentier la nature de la représentation.Le fait que l'espace soit continu ou discret va également modifier la signification de l'état et sa capacité à être mis à jour.
@@ -462,6 +464,13 @@ Encore une fois, une solution consiste à réaliser des agrégations pour regrou
 Finalement, la mise à jour en considérant des discrétisations particulaires est complexe. En DEM elle doit prendre en considération les positions relatives des particules entre elles. De manière générale, nous avons vu que considérer les statistiques sur les positions de particules ne permettait pas d'avoir une bonne idée de l'incertitude sur le champ discrétisé.
 
 Ainsi, il nous semble nécessaire de formuler différemment le problème d'assimilation dans le cadre d'un discrétisation particulaire.
+
+\subsection{Inspirations ?}
+
+\subsubsection{Méthodes avec maillage différents}
+\textcolor{red}{présenter des méthodes dans des cas où les membres ne partage pas la même discrétisation}
+\subsubsection{Méthodes d'assimilation de mesures lagrangiennes}
+\textcolor{red}{présenter des méthodes dans des cas où les variables sont des quantités lagrangiennes}
 
 \section{Bilan du chapitre}
 
