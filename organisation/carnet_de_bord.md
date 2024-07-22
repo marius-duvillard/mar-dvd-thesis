@@ -646,15 +646,20 @@ Bootstrapping for confidence intervals
 
 ## 19-07-2024
 
-- [ ] faire intro DA
-- [ ] relire partie DA
-- [ ] faire assimilation de données pour mes méthodes sans maillage
+- [x] faire intro DA
+- [ ] relire partie DA --> en cours
+- [x] faire assimilation de données pour les méthodes sans maillage
 - [ ] Faire le benchmark de part enkf. On fera le cas où il y a un remesh au milieu de chaque forecast. Faire alors varier `dt_forecast` (et donc `dt_remesh`) + le cas sans maillage.
 - Je viens de vérifier que le critère de selection des particules après remaillage n'est pas respecté ! Toujours trop de particules... Il faut vérifier le seuillage.
 - Ca semble bien seuiller, mais peut être qu'on peut seuiller encore plus ?
 - Ok plutot que de faire varier dt_forecast, on fait varier eps_omega. On peut le prendre à 5.e-3 par exemple
 - Lancer le run cette aprem: nohup ./scripts/run_benchmark_align.sh > nohup_align.out &
+- Si jamais ça ne va toujours pas, ajouter plus de shifting
   
+## 20-07-2024
+
+- Vérifier les résultats du benchmark --> En fait je n'ai pas utilisé le bon filtre... mais part_align_enkf: dans ce cas ça marche bien ! aussi bien pour le dt_forecast et le eps_omega.
+- Faire la même chose mais pour le filtre part_enkf. Avec d'abord le dt_forecast de dt = 10 et faire varier eps_omega
 
 ### A FAIRE
 

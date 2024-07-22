@@ -28,7 +28,7 @@ Then, for all $k \geq 0$, probability distributions are propagated.
 The forecast step is obtained through the law of total probability
 
 \begin{equation*}
-    p(\bm x_{k+1} \mid \mathcal D_k) = \mathbb{E}_{\bm x_k}\left[p(\bm x_{k+1} \mid  \bm x_k,\mathcal{D}_k) \mid \mathcal D_k \right] = \mathbb{E}_{\bm x_k}\left[p(\bm x_{k+1} \mid \bm x_k) \mid \mathcal D_k \right].
+    p(\bm x_{k+1} \mid \mathcal D_k) = \mathbb{E}_{\bm x_k}\left[p(\bm x_{k+1} \mid  \bm x_k,\mathcal{D}_k)\right] = \mathbb{E}_{\bm x_k}\left[p(\bm x_{k+1} \mid \bm x_k)\right].
 \end{equation*}
 The a priori law of the $k+1$ observations can be obtained again through the law of total probability
 \begin{equation*}
@@ -49,7 +49,6 @@ This finally lead to a mapping from the prior $p(\bm x_{k+1} \mid \mathcal D_k)$
 We remove the time subscript $k$ in the rest of the section for simplicity and present the forecast and analysis step for a time increment.
 
 \subsubsection{Ensemble Kalman Filter}~{\label{enkf}}
-
 
 The Kalman filter \cite{kalman_new_1960} is a Bayesian filter that, in addition to the previously mentioned assumptions, requires $\mathcal{M}_k$ and $\mathcal{H}_k$ to be linear operators. In this case, the posterior distribution of the state is still Gaussian, so only the mean and the variance are updated. The Kalman estimator is thus a recursive version of the Minimum Mean Square Error applied to the Gaussian Linear model.
 

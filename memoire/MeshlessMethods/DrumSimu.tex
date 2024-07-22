@@ -388,7 +388,7 @@ formation et l'évolution de tourbillons, tout en maintenant une structure de ca
 
 L'assimilation de données, lorsqu'appliquée à des systèmes simulés par la méthode des éléments discrets (DEM), se heurte à plusieurs limites importantes. A la fois pour les méthodes variationnelles (ex : 3DVar) ou stochastique (ex : EnKF) il faut consédérer deux problématiques majeurs : la définition de l'état et la manière de le mettre à jour.
 
-\subsection{Définition de l'état d'une méthode sans maillage}
+\subsection{Définition de l'état d'une méthode sans maillage}~\label{sec:etat_meshless}
 
 L'état est ce qui permet de représenter l'état du système virtuel.
 
@@ -465,14 +465,42 @@ Finalement, la mise à jour en considérant des discrétisations particulaires e
 
 Ainsi, il nous semble nécessaire de formuler différemment le problème d'assimilation dans le cadre d'un discrétisation particulaire.
 
-\subsection{Inspirations ?}
+\section{Assimilation de données sur maillages adaptatifs}
 
-\subsubsection{Méthodes avec maillage différents}
 \textcolor{red}{présenter des méthodes dans des cas où les membres ne partage pas la même discrétisation}
-\subsubsection{Méthodes d'assimilation de mesures lagrangiennes}
+
+Les méthodes particulaires continues peuvent être considérées comme le choix d'une discrétisation mobile d'un problème continu. Ainsi, en utilisant un ensemble de simulations basées sur ces méthodes, on se heurte aux mêmes problématiques que celles rencontrées avec des simulations utilisant des maillages adaptatifs.
+Dans ce cas le principal défi réside dans le fait que les dimensions de l'espace d'état changent au cours du temps et diffèrent d'un membre de l'ensemble à l'autre. Cette variabilité complique les opérations ensemblistes habituelles, telles que les calculs matriciels, lors de la mise à jour de l'analyse.
+
+Une solution courante consiste à adopter une discrétisation de référence commune à tous les membres. Dans les méthodologies à grille fixe avec l'analyse multi-résolution (MRA) et dans les scénarios de maillage mobile, les états définis sur des grilles variées sont harmonisés à travers des techniques de projection et d'interpolation pour établir une grille de référence destinée aux mises à jour des états \cite{siripatana_combining_2019, bonan_data_2017}. Cette démarche offre une grande flexibilité, permettant diverses combinaisons de grilles de référence et de mise à jour adaptées aux spécificités des données et des objectifs de l'étude. Par ailleurs, Siripatana et al. \cite{siripatana_combining_2019} soulignent que la correction par le Filtre de Kalman d’Ensemble (EnKF) repose uniquement sur les prédictions et les observations, indépendamment de la définition de l'état. En réalité, cela simplifie l'application de l'EnKF dans des contextes où les maillages varient entre les membres de l'ensemble en proposant une correction qui est indépendante de la discrétisation
+
+
+
+\section{Méthodes d'assimilation pour des données lagrangiennes}
 \textcolor{red}{présenter des méthodes dans des cas où les variables sont des quantités lagrangiennes}
+
+D'autre part
+- Méthode sans maillage sont des méthodes Lagrangiennes
+- Avoir données variable problématique déjà traité par des données océanographiques issu de flotteurs par exemple
+- Pour traiter ce type de problème, une première approche initialement développé dans~\cite{ide_2002}, est d'augmenter le vecteur d'état ici noté $\bm x$ avec les données d'observation de position de traceur. Cependant, cette variable étant fortement non-linéaire, l'application d'un filtre de Kalman étendu (linéarisation du filtre de Kalman) ne converge pas si les observaitions ne sont pas suffisemment fréquente. Finalement, cela revient à définir l'état comme dans la Section~\ref{sec:etat_meshless} précédente, ce qui n'est pas adéquat.
+
+L'utilisation d'une méthode de type état augmenté trouve plus de sens pour l'application de méthode variationnel.
+C'est en particulier ce qui est proposé dans les travaux de Apte~\cite{apte_2008} pour le filtre 3DVar et le ceux de Nodet~\cite{nodet_2006} pour le filtre 4DVar incrémental.
+
+Cependant, ici les quantités Lagrangiennes sont des quantités passives, c'est à dire qu'elles n'interviennent pas dans la résolution du champ de vitesse à intégrer. Dans notre cas les traceurs sont des supports de discrétisation de la solution. De ce fait, le modèle adjoint du modèle n'est pas aussi simple à construire car la position des particules impactent le champ de vitesse à intégrer.
 
 \section{Bilan du chapitre}
 
-Au travers des précédentes méthodes sans maillage, nous constatons que l'application des méthodes d'assimilation sont innégalement applicable. En particulier, les méthodes discrètes offre difficilement la possibilité de corriger directement l'état de la discrétisation, et nécessite une correction au travers du schémas d'intégration pour éviter des problèmes d'interpénétration. D'autre part, les méthodes particulaires continues (par exemple MPM, SPH), permettent une plus grande flexibilité des schémas d'assimilation. En effet, chaque particule est définie en un point, ce qui annule tout problème d'interpénétration. Toutefois, il reste nécessaire de définir de manière adéquat dans le cas d'une mise à jour d'ensemble.
+Au travers des précédentes méthodes sans maillage, nous constatons que l'application des méthodes d'assimilation sont innégalement applicable. En particulier, les méthodes discrètes offre difficilement la possibilité de corriger directement l'état de la discrétisation, et nécessite une correction au travers du schémas d'intégration pour éviter des problèmes d'interpénétration. Dans la suite, nous nous focaliserons sur les méthodes sans maillage continues.
+
+D'autre part, les méthodes particulaires continues (par exemple MPM, SPH), permettent une plus grande flexibilité des schémas d'assimilation. En effet, chaque particule est définie en un point, ce qui annule tout problème d'interpénétration.
+
+Dans tous les cas, ce sont des méthodes qui ont la particularité d'avoir des discrétisations variables au cours du temps. Cela vient de la représentation lagrangienne sous jacente. Cela rend difficile l'application de méthodes ensemblistes comme la méthode EnKF ou des opérations de calcul matriciel doivent être réalisé entre membres.
+
+D'autre part, ce sont des méthodes dont les opérateurs d'observation sont hautement non-linéaire par rapport aux positions des particules. Ainsi, cela complexifie l'application de méthodes variationnelles qui doivent construire des modèles adjoints pour des méthodes particulaires de grande taille.
+
+Ainsi il devient assez claire que positions et intensités de particule ne peuvent pas être traité de la même manière. Ainsi en s'inspirant des méthodes d'assimilation sur des maillages adaptatifs ou multi résolution, on proposera des méthodes d'assimilation ensembliste qui mettrons à jour les intensités.
+
+Dans un second temps, on proposera plutôt des approches variationnelles pour traiter de la correction des positions de particule.
+
 Afin de facilité le développement de nouveaux filtres, nous avons utilisé la méthode vortex. Elle a été choisie car elle offre une modélisation plus simple que les méthodes SPH et MPM. En effet, chaque particule ne transporte qu'une quantité scalaire, une quantité de tourbillon. Toutefois, elle dispose de toutes les caractéristiques d'une méthode particulaire continue avec à la fois une formulation classique de la méthode se rapproche de la méthode SPH et la méthode Vortex-In-Cell de la méthode MPM.
