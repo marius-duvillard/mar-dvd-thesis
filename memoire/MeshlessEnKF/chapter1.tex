@@ -29,16 +29,14 @@ Heureusement La particularité du filtre de Kalman d'ensemble est qu'il fait une
 
 De cette manière la mise à jour est déterminé comme
 
-\begin{equation*}
-    \mstate_a = \mstate_f + \mstate_f \Fcorr, \quad \Fcorr = \frac{1}{\sqrt{N-1}} \annomY_f^T {(\annomY_f \annomY_f^T + \bm R)}^{-1}(\mdata - \mpred).
-\end{equation*}.
-
-Où la matrice de correction $\Fcorr \in \mathbb{R}^{N\times N}$ est indépendante de la discrétisation.
+\begin{equation}
+    \mstate^a = \mstate^f + \mstate^f \Fcorr, \quad \Fcorr = \annomY^T {(\annomY \annomY^T + \bm R)}^{-1}(\mdata - \mpred),
+\end{equation}où la matrice de correction $\Fcorr \in \mathbb{R}^{N\times N}$ est indépendante de la discrétisation.
 
 De plus, en utilisant la formule de Sherman-Morrison-Woodbury (SMW)~\cite{SMW}, la matrice peut être calculé à l'aide uniquement de l'inversion de la matrice $\bm R$ et d'une matrice de taille $N$
 
 \begin{equation*}
-    \Fcorr = \frac{1}{\sqrt{N - 1}} {(\bm I_N + \annomY_f^T\bm R^{-1}\annomY_f)}^{-1}\annomY_f^T \bm R^{-1} (\mdata - \mpred),
+    \Fcorr = \frac{1}{\sqrt{N - 1}} {(\bm I_N + \annomY^T\bm R^{-1}\annomY)}^{-1}\annomY^T \bm R^{-1} (\mdata - \mpred),
 \end{equation*}ce qui devient avantageux dans le cas où $\bm R$ est une matrice diagonale et $N < N_{\text{obs}}$.
 
 Cette indépendance est possible par la linéarisation de l'opérateur d'observation et l'approche par rang faible. D'autres versions du filtre EnKF offre les mêmes propriétés. C'est le cas du \textit{ensemble transform Kalman filter} (ETKF, \cite{Hunt2007}). En effet, ce filtres travaillent directement dans l'espace de perturbation.
