@@ -13,7 +13,6 @@
 %     bottom=30mm
 % }
 
-
 \usepackage{xcolor}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{lipsum}
@@ -26,6 +25,39 @@
 \usepackage{amsfonts}
 \usepackage{subcaption}
 \usepackage[vlined, french, onelanguage]{algorithm2e}
+% Hyperref setup
+\usepackage[linktoc=page]{hyperref}
+% \hypersetup{
+%     colorlinks=true,
+%     linkcolor=blue,
+%     filecolor=magenta,
+%     urlcolor=cyan,
+%     pdftitle={Overleaf Example},
+%     pdfpagemode=FullScreen,
+% }
+\hypersetup{
+    % General settings
+    pdfencoding=auto,           % Automatically handles PDF string encoding
+    pdfborder={0 0 0},          % Removes borders around links
+    breaklinks=true,            % Allows links to break across lines
+    colorlinks=true,            % Colors the text of links and anchors
+    % Link colors
+    linkcolor=blue,             % Color of internal links (e.g., sections, equations)
+    citecolor=green,            % Color of citation links
+    filecolor=magenta,          % Color of file links
+    urlcolor=cyan,              % Color of external hyperlinks
+    % Metadata
+    pdftitle={thesis duvillard},       % Title of the document
+    pdfauthor={duvillard},              % Author of the document
+    % pdfsubject={thesis},          % Subject of the document
+    % pdfkeywords={keyword1, keyword2},   % Keywords for the document
+    % PDF display settings
+    pdfpagemode=UseOutlines,    % Opens the PDF with the bookmarks pane open
+    bookmarksopen=true,         % Open the bookmarks by default
+    bookmarksnumbered=true,     % Include section numbers in bookmarks
+    unicode=true                % Support for non-ASCII characters in bookmarks
+}
+\urlstyle{same}
 \setlength{\columnseprule}{0pt}
 \setlength\columnsep{10pt}
 \usepackage[most]{tcolorbox}
@@ -39,7 +71,7 @@
 \newcommand{\bV}{\mathbb{V}}
 \newcommand{\bC}{\mathbb{C}}
 \newcommand{\nens}{N}
-
+\newcommand{\bw}{\bm w}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \newcommand{\bx}{\bm{x}}

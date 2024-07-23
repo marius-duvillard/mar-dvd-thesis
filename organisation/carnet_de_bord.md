@@ -656,10 +656,27 @@ Bootstrapping for confidence intervals
 - Lancer le run cette aprem: nohup ./scripts/run_benchmark_align.sh > nohup_align.out &
 - Si jamais ça ne va toujours pas, ajouter plus de shifting
   
-## 20-07-2024
+## 22-07-2024
 
 - Vérifier les résultats du benchmark --> En fait je n'ai pas utilisé le bon filtre... mais part_align_enkf: dans ce cas ça marche bien ! aussi bien pour le dt_forecast et le eps_omega.
 - Faire la même chose mais pour le filtre part_enkf. Avec d'abord le dt_forecast de dt = 10 et faire varier eps_omega
+
+## 23-07-2024
+
+- j'ai vérifié que le filter part_enkf ne marchait pas pour des eps_omega > 0.005. Je teste donc plus faible pour voir si ça va mieux.
+- Il ne marche donc pas pour dt_forecast 20
+- Moralité: on peut faire du remaillage (au moins) et ainsi éviter que l'erreur remonte pour des faibles sigma_obs.
+- [ ] relance filtre part_enkf pour des eps_omega plus faible.
+- [ ] Finir partie DA -> uniformisation des notations. Proposer une partie filtre KF + EnKF + Formulation de rend faible. Puis présenter filtre variationnel, avec 3DVar et 3DEnVar
+- [ ] Relecture et correction des fautes de DA + DrumSimu
+  
+## 24-07-2024
+
+- Reprendre le chapitre 1 pour relecture et mise en conformation des chapitres précédents.
+
+## 25-07-2024
+
+- Reprise de l'introduction. Correction+finir Objectifs et plan de manuscrit.
 
 ### A FAIRE
 

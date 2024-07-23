@@ -4,17 +4,15 @@
 
 \section{Introduction}
 
-Nous avons vu dans le chapitre précédent que l'assimilation dépendait en particulier de la définition d'un modèle et de son état. Dans le cas de la simulation de l'écoulement au sein du broyeur à boulets, il s'agit principalement de méthodes reposant des discrétisations sans maillage comme évoqué en Section~\ref{sec:methode_resolution}. C'est ce type de modélisaton qu'il faudra prendre en compte dans nos algorithmes d'assimilation de données. Or, si les méthodes d'assimilation peuvent facilement s'exprimer pour des méthodes Eulérienne sur grille ou maillage fixe, elles soulèvent des questionnements lorsque les méthodes reposent sur des discrétisations Lagrangiennes sont en jeu.
+Nous avons vu dans le chapitre précédent que l'assimilation dépendait en particulier de la définition d'un modèle et de son état. Dans le cas de la simulation de l'écoulement au sein du broyeur à boulets, il s'agit principalement de méthodes reposant sur des discrétisations sans maillage comme évoqué en Section~\ref{sec:methode_resolution}. C'est ce type de modélisation qu'il faut prendre en compte dans nos algorithmes d'assimilation de données. Or, si les méthodes d'assimilation peuvent facilement s'exprimer pour des méthodes Eulérienne sur grille ou maillage fixe, elles soulèvent des questionnements lorsque les méthodes reposent sur des discrétisations Lagrangiennes. De plus, il faut aussi différentier la nature de la représentation.Le fait que l'espace soit continu ou discret va également modifier la signification de l'état et sa capacité à être mis à jour.
 
-De plus, il faut aussi différentier la nature de la représentation.Le fait que l'espace soit continu ou discret va également modifier la signification de l'état et sa capacité à être mis à jour.
+Dans ce Chapitre, nous reprendrons les principales familles de formulation sans maillage particulaire en particulier en considérant en Section~\ref{sec:part_discret} les méthodes discrétisant un milieu discret et en Section~\ref{sec:part_cont} un milieu continu. Nous évoquerons les sigularités et limites à l'adaptation des méthodes d'assimilation de données comme présentées dans le Chapitre~\ref{sec:da}, et présenterons un état de l'art actuel pour les appliquer. De plus, nous évoquerons la méthode vortex comme une méthode particulaire modèle pour la suite du manuscrit.
 
-Dans ce Chapitre, nous reprendrons les principales familles de formulation particulaire en particulier en considérant en Section~\ref{sec:part_discret} les méthodes utilisant un milieu discret et en Section~\ref{sec:part_cont} un milieu continu. Nous évoquerons les sigularités et limites à l'adaptation des méthodes d'assimilation de données comme présentées dans le chapitre précédent, et présenterons un état de l'art actuel. De plus, nous évoquerons la méthode vortex comme une méthode particulaire modèle pour la suite du manuscrit.
-
-\section{Méthodes sans maillage discrètes}~\label{sec:part_discret}
+\section{Méthodes sans maillage discrétisant un milieu discret}~\label{sec:part_discret}
 
 Les méthodes sans maillage discrètes considèrent les particules comme des objets solides indépendants. Ces entités physiques sont caractérisées par leur géométries, par des propriétés intrasèques conservés comme la masse ou l'inertie, et des variables cinématiques comme la vitesse ou l'accélération. Les particules interagissent entre elles au travers de lois de contact, de frottement et de cohésion. L'objectif est de déterminer la trajectoire des particules. Parmis ces méthodes, on peut mentionner la méthode des éléments discrets (DEM)~\cite{radjai:hal-00691805} et la méthode de dynamique des contacts (CD)~\cite{moreau:hal-01824750}. La principale différence entre ces deux méthodes est de considérer respectivement des particules déformables ou non. Sans perte de généralité pour l'applicabilité au problème d'assimilation, nous présenterons la méthode classique DEM.
 
-\subsection{Méthodes sans maillage discrètes}
+\subsection{Méthodes des éléments discrets, \textit{Discrete element method}(DEM)}
 
 La DEM~\cite{cundall_discrete_1979} est une extension du problème à $N$-corps introduit dans les années 60 aussi bien pour la dynamique moléculaire~\cite{Alder1959}, la dynamique des fluides~\cite{Allen1987}, ou encore l'astrophysique~\cite{vonHoerner1960}.
 La méthode consiste à considérer le mouvement d'un ensemble de $N$ grains composant le milieu.
@@ -24,26 +22,26 @@ Le principe fondamental de la dynamique s'applique sur cet ensemble, et s'exprim
 \begin{equation*}
     \left\{
     \begin{aligned}
-         & m_{i} \frac{ d^{2}\vec{r}_i }{dt^2}=\vec{f}_{i},\; i=1\ldots N      \\
-         & I_{i} \frac{d \vec{\omega}_{i}}{dt}=\vec{\Gamma}_{i},\; i=1\ldots N
+         & m_{i} \frac{ d^{2}\bm{r}_i }{dt^2}=\bm{f}_{i},\; i=1\ldots N      \\
+         & I_{i} \frac{d \bm{\omega}_{i}}{dt}=\bm{\Gamma}_{i},\; i=1\ldots N
     \end{aligned}
     \right.
-\end{equation*}où $N$ est le nombre de grains, $m_{i}$ est la masse, $I_i$ est le moment d'inertie, $\vec{r}_{i}$ est la position, $\vec{\omega_{i}}$ est la rotation, $\vec{f}_{i}$ est la force exercée sur le grain considéré et $\vec{\Gamma_{i}}$ le moment associé à la force $\vec{f}_{i}$.
+\end{equation*}où $N$ est le nombre de grains, $m_{i}$ est la masse, $I_i$ est le moment d'inertie, $\bm{r}_{i}$ est la position, $\bm{\omega_{i}}$ est la rotation, $\bm{f}_{i}$ est la force exercée sur le grain considéré et $\bm{\Gamma_{i}}$ le moment associé à la force $\bm{f}_{i}$.
 
-Le couplace entre particules s'exprime au travers de la force $\vec{f}_{i}$ qui se décomposée comme
+Le couplace entre particules s'exprime au travers de la force $\bm{f}_{i}$ qui se décomposée comme
 \begin{equation*}
-    \vec{f}_{i}=\underset{{\scriptstyle j\neq i}}{\sum}\vec{f}^{c}_{ij}+\vec{f}_{ext}
+    \bm{f}_{i}=\underset{{\scriptstyle j\neq i}}{\sum}\bm{f}^{c}_{ij}+\bm{f}_{ext}
 \end{equation*}
 
-où $\underset{{\scriptstyle j\neq i}}{\sum}\vec{f}^{c}_{ij}$ représente les forces induites par le contact avec les particules $j$ et $\vec{f}_{ext}$ sont celles appliquées au centre de la particule $i$ (par exemple la force de gravité).
+où $\underset{{\scriptstyle j\neq i}}{\sum}\bm{f}^{c}_{ij}$ représente les forces induites par le contact avec les particules $j$ et $\bm{f}_{ext}$ sont celles appliquées au centre de la particule $i$ (par exemple la force de gravité).
 
-Les forces de contact sont décrite par des loi de contact entre les grains ainsi qu'entre les grains et la paroi. Dans le cas élastique, la modèle de Hertz est adapté pour décrire l'intéraction normale. Le modèle Hertz-Mindlin permet de déterminer les interactions tangentielles élastiques. Ces loi sont fonctions de l'interpénétration et de la vitesse relative interpaticules. Par exemple, dans le cas de particules sphérique l'interpénétration est défini comme $\delta_{ij} = \norm{\bm x_i - \bm x_j} - (R_i - R_j)$ où $x$  est la position et $R$ le rayon d'une particule.
+Les forces de contact sont décrite par des loi de contact entre grains, et entre grains et la paroi. Dans le cas élastique, la modèle de Hertz est adapté pour décrire l'intéraction normale. Le modèle Hertz-Mindlin permet de déterminer les interactions tangentielles élastiques. Ces loi sont fonctions de l'interpénétration et de la vitesse relative interpaticules. Par exemple, dans le cas de particules sphérique l'interpénétration est défini comme $\delta_{ij} = \norm{\bm x_i - \bm x_j} - (R_i - R_j)$ où $\bm x$  est la position du centre du grain et $R$ le rayon d'une particule.
 La force de contact tend ainsi à pénaliser l'interpénétration via des coefficients de raideur $k$ et d'amortissement $\gamma$ qui dépendent des propriétés mécaniques des grains de de la paroi.
 
 Il existe plusieurs algorithme pour résoudre numériquement les équations de la dynamique. Le plus utilisé est l'algorithme de Verlet en vitesse~\cite{verlet_1982}.
-Le processus de simulation DEM dans un mélangeur-broyeur commence par la définition des propriétés des particules et des conditions initiales du système. Le mouvement de chaque particule est ensuite calculé en résolvant les équations de Newton pour le mouvement et la rotation. Ces calculs tiennent compte des forces et des moments résultant des collisions et des interactions entre particules, ainsi que de l'interaction des particules avec les parois du broyeur.
+% Le processus de simulation DEM dans un mélangeur-broyeur commence par la définition des propriétés des particules et des conditions initiales du système. Le mouvement de chaque particule est ensuite calculé en résolvant les équations de Newton pour le mouvement et la rotation. Ces calculs tiennent compte des forces et des moments résultant des collisions et des interactions entre particules, ainsi que de l'interaction des particules avec les parois du broyeur.
 
-\section{Méthodes sans maillage continues}\label{sec:part_cont}
+\section{Méthodes sans maillage discrétisant un milieu continue}\label{sec:part_cont}
 Nous envisageons des méthodes par particules pour résoudre des problèmes continus en mécanique des fluides ou des solides. Cela inclut des méthodes telles que l'hydrodynamique par particules lissées (SPH) \cite{lucy_1977,gingold_monaghan_sph_1977} et la méthode des vortex (VM) \cite{cottet_vortex_2000}, et s'étend à d'autres méthodes comme la méthode des points de matériau (MPM) \cite{sulsky_particle_1994}. Elles partagent toutes de décomposer cette fois le domaine en un ensemble $\mathcal{P}$ de particules qui suivent la dynamique du problème. Ainsi, la discrétisation suit la transformation appliquée au milieu en transportant des quantités attachées à chaque particule. Elles sont en cela des méthodes Lagrangienne.
 
 \subsection{Formulation particulaire}

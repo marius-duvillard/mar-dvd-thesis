@@ -25,12 +25,12 @@ La mise à jour du filtre de Kalman se base sur l'approximation des statistiques
 Dans le cas d'un état qui repose sur une discrétisation particulaire, on ne peut directement évaluer ses statistiques directement sur les quantités particulaires, c'est à dire positions et intensité. En effet, chaque membre possède
 
 
-Heureusement La particularité du filtre de Kalman d'ensemble est qu'il fait une approximation de faible rang du gain de Kalman. Nous avons montré en Section~\ref{sec:faible_rang} que la mise à jour s'exprimait comme une combinaison des états de l'ensemble $X$.
+Heureusement La particularité du filtre de Kalman d'ensemble est qu'il fait une approximation de faible rang du gain de Kalman. Nous avons montré en Section~\ref{sec:faible_rang} que la mise à jour s'exprimait comme une combinaison des états de l'ensemble $\bm Z$.
 
 De cette manière la mise à jour est déterminé comme
 
 \begin{equation}
-    \mstate^a = \mstate^f + \mstate^f \Fcorr, \quad \Fcorr = \annomY^T {(\annomY \annomY^T + \bm R)}^{-1}(\mdata - \mpred),
+    \mstate^a = \mstate^f + \mstate^f \Fcorr, \quad \Fcorr = \frac{1}{\sqrt{N - 1}}\annomY^T {(\annomY \annomY^T + \bm R)}^{-1}(\mdata - \mpred),
 \end{equation}où la matrice de correction $\Fcorr \in \mathbb{R}^{N\times N}$ est indépendante de la discrétisation.
 
 De plus, en utilisant la formule de Sherman-Morrison-Woodbury (SMW)~\cite{SMW}, la matrice peut être calculé à l'aide uniquement de l'inversion de la matrice $\bm R$ et d'une matrice de taille $N$
@@ -166,7 +166,7 @@ Le schéma est illustré dans la Figure~\ref{fig:remaillage}
 \begin{figure}~\label{fig:remaillage}
 \end{figure}
 
-\subsection*{Algorithme}
+\subsection{Algorithme}
 
 Le filtre Remesh-EnKF utilise les opérateurs précédemment définis pour appliquer la mise à jour de EnKF. L'assimilation est effectuée avec les étapes suivantes :
 

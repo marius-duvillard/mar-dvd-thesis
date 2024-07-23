@@ -93,13 +93,15 @@ Le jumeau numérique pour l'étape de fabrication du combustible peu donc répon
 Finalement, le jumeau numérique peut être formalisé mathématiquement sous la forme d'un modèle graphique probabiliste proposée par Kapteyn et al.~\cite{kapteyn_probabilistic_2021}.
 Elle permet de relier de bout en bout les flux de données entre capteur, et modèle numérique, mais aussi avec les paramètres de contrôle et de récompense. La représentation graphique du jumeau numérique du broyeur est présentée en Figure~\ref{fig:graph_dt}.
 
-\begin{figure}~\label{fig:graph_dt}
+\begin{figure}
     \centering
     \begin{subfigure}{0.49\textwidth}
         \includegraphics[width=\textwidth]{dt_broyeur.png}
+        \caption{Modélisation des variables du jumeau numérique du broyeur à boulets.}
     \end{subfigure}
-    \begin{subfigure}{0.49\textwidth}
+    \begin{subfigure}{0.49\textwidth}~\label{fig:graph_dt}
         \includegraphics[width=\textwidth]{dt_seq.png}
+        \caption{Représentation graphique des flux de données du jumeau numérique.}
     \end{subfigure}
 \end{figure}
 
