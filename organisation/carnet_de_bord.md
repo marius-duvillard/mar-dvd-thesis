@@ -666,13 +666,16 @@ Bootstrapping for confidence intervals
 - j'ai vérifié que le filter part_enkf ne marchait pas pour des eps_omega > 0.005. Je teste donc plus faible pour voir si ça va mieux.
 - Il ne marche donc pas pour dt_forecast 20
 - Moralité: on peut faire du remaillage (au moins) et ainsi éviter que l'erreur remonte pour des faibles sigma_obs.
-- [ ] relance filtre part_enkf pour des eps_omega plus faible.
-- [ ] Finir partie DA -> uniformisation des notations. Proposer une partie filtre KF + EnKF + Formulation de rend faible. Puis présenter filtre variationnel, avec 3DVar et 3DEnVar
-- [ ] Relecture et correction des fautes de DA + DrumSimu
+- [x] relance filtre part_enkf pour des eps_omega plus faible.
+- [x] Finir partie DA -> uniformisation des notations. Proposer une partie filtre KF + EnKF + Formulation de rend faible. Puis présenter filtre variationnel, avec 3DVar et 3DEnVar
+
   
 ## 24-07-2024
 
-- Reprendre le chapitre 1 pour relecture et mise en conformation des chapitres précédents.
+- Pour l'instant pas de grande différence en changeant le eps... voir si c'est pas un problème d'implémentation. Sinon relancer les études paramétriques entre part enkf part align enkf et remesh enkf avec un remesh et le eps un peu plus élevé genre 1.e-3.
+- [ ] Relecture et correction des fautes de DA + DrumSimu
+- [ ] Envoie à Loïc les deux parties méthodes et outils
+- [ ] Reprendre le chapitre 1 pour relecture et mise en conformation des chapitres précédents.
 
 ## 25-07-2024
 

@@ -15,7 +15,8 @@ La simulation du broyeur repose sur la représentation de l'écoulement d'un mil
 L'écoulement granulaire va se distinguer par trois types de régime que l'on assimile généralement aux trois états de la matière: solide où où le mouvement des particules est lent et le comportement est presque statique, une couche semblable à un liquide dans laquelle les grains s'écoulent avec une certaine inertie, et une zone semblable à un gaz où les particules se déplacent à des vitesses plus élevées de manière chaotique. Ils interviennents simultanément dans l'écoulement. Ce qui complexifie sa caractérisation rhéologique.
 
 \begin{figure}
-    \includegraphics[width=\textwidth]{three_regimes.png}
+    \centering
+    \includegraphics[width=0.5\textwidth]{three_regimes.png}
     \caption{Image de billes d'acier s'écoulant d'un tas. Trois phases de l'écoulement granulaire, se comportant comme un gaz, un liquide ou un solide, peuvent être identifiées.~\cite{forterre_flows_2008}}
 \end{figure}
 
@@ -31,7 +32,8 @@ Finalement le régime gaz ou cinétique correspond au écoulement granulaires di
 Dans le tambour en rotation l'ensemble des trois zones d'écoulement sont présentes. En fonction du nombre de Foudre, divers régimes d'écoulement apparaissent~\cite{MELLMANN2001251}. Entre autres, on retrouve le glissement, l'avalanche, la cascade, le cataracte, la centrifugation illustrés Figure~\ref{}
 
 \begin{figure}~\label{fig:flow_drum}
-    \includegraphics[width=\textwidth]{flows_in_drum.png}
+    \centering
+    \includegraphics[width=0.8\textwidth]{flows_in_drum.png}
     \caption{Représentation des différents régimes d'écoulement au sein du tambour en rotation avec la méthode DEM.}
 \end{figure}
 
@@ -55,6 +57,7 @@ Finalement, une autre classe de méthode continue a été plus récemment utilis
 Finalement, bien que le sens physique ne soit pas le même entre méthodes discrètes et continues, il existe une prédominance des méthodes sans maillages dites particulaires pour traiter le problème de l'écoulement dans un tambour en rotation comme illustré Figure~\ref{fig:simu_granulaire}.
 
 \begin{figure}~\label{fig:simu_granulaire}
+    \centering
     \includegraphics[width=\textwidth]{simulation_granulaire.png}
 \end{figure}
 
@@ -68,7 +71,26 @@ D'autre part, des mesures accoustiques du broyeur peut révéler des information
 
 On trouve également dans la littérature l'usage de mesure vibratoire ou de jauges de contraintes sur la paroi afin de déterminer la position du corps broyant~\cite{Davey, tano_2005}, des données issues du moteur~\cite{pedrayes_frequency_2017} ou bien l'instrumentation des boulets~\cite{Wang} (ce qui difficilement réalisable dans notre situation où la matière est contaminée).
 
-Le laboratoire expérimental SA3E a instrumenté une maquette de broyeur dont des acquisitions sont représentées sur la Figure~\textcolor{red}{imageBastien}.
+Le laboratoire expérimental SA3E a instrumenté une maquette de broyeur dont des acquisitions sont représentées sur la Figure~\ref{fig:mesures}.
+
+\begin{figure}[b]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{mesure_pic.png}
+        \caption{particule Image Velocimetry}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{mesure_theta.png}
+        \caption{angle de repos dynamique}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{mesure_ea.png}
+        \caption{mesures electro-acoustique}
+    \end{subfigure}
+    \caption{Exemples d'acquisition sur la maquette du broyeur à boulets au laboratoire du SA3E.}~\label{fig:mesures}
+\end{figure}
 
 Une large gamme de mesures sont donc disponibles. Cependant, ces données mesurées ne permettent que d'avoir une représentation partielle et bruitée de l'état réel du broyage et du mélange. De plus, La qualité des résultats analysée reste néanmoins très variable. En effet, l'interprétabilité de bon nombre ce fait au travers de méthode de corrélation et non pas via des approches inductives.
 
@@ -95,14 +117,14 @@ Elle permet de relier de bout en bout les flux de données entre capteur, et mod
 
 \begin{figure}
     \centering
-    \begin{subfigure}{0.49\textwidth}
+    \begin{subfigure}{0.44\textwidth}
         \includegraphics[width=\textwidth]{dt_broyeur.png}
-        \caption{Modélisation des variables du jumeau numérique du broyeur à boulets.}
     \end{subfigure}
-    \begin{subfigure}{0.49\textwidth}~\label{fig:graph_dt}
+    \hfill
+    \begin{subfigure}{0.55\textwidth}
         \includegraphics[width=\textwidth]{dt_seq.png}
-        \caption{Représentation graphique des flux de données du jumeau numérique.}
     \end{subfigure}
+    \caption{Variables et représentation graphique du jumeau numérique du broyeur à boulets.}~\label{fig:graph_dt}
 \end{figure}
 
 D'une part, on représente bien l'entité réel qui n'est connue qu'au travers des observations présentées Section~\ref{sec:mesures}. Mathématique il s'agit d'un modèle de Markov caché. D'autre part, on retrouve le modèle virtuel qui permet d'avoir accès aux variables d'intérêt et de prédire l'évolution de l'état du système à l'aide des modèles physiques comme présenté en Section~\ref{sec:simu_broyeur}
