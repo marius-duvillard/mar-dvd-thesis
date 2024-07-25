@@ -2,7 +2,7 @@
 
 \section{Methods}\label{Methods}
 
-This section outlines the development of ensemble data assimilation techniques tailored for particle-based simulations. While the forward step aligns with the traditional Ensemble Kalman Filter, the primary challenge lies in the update during the analysis step. In order to be state independant, we define the analysis thanks to the equation \eqref{enkf_formula_Fcorr}. This step benefits from an observation matrix-free implementation, rendering the analysis independent of state discretization. Hence, the correction matrix in the analysis $\Fcorr$ relies solely on the observation $\bm{y}$, predictive observations $\{\bm h_i\}_{i=1}^{N{\text{ens}}}$, and noise samples $\{\bm \varepsilon_i\}_{i=1}^{N{\text{ens}}}$. The analysis fields are obtained at any spacial coordinates thanks to the particle approximation of each member field $\bm u^f_i$ such as for all $\bm z \in \Omega$
+This section outlines the development of ensemble data assimilation techniques tailored for particle-based simulations. While the forward step aligns with the traditional Ensemble Kalman Filter, the primary challenge lies in the update during the analysis step. In order to be state independent, we define the analysis thanks to the equation \eqref{enkf_formula_Fcorr}. This step benefits from an observation matrix-free implementation, rendering the analysis independent of state discretization. Hence, the correction matrix in the analysis $\Fcorr$ relies solely on the observation $\bm{y}$, predictive observations $\{\bm h_i\}_{i=1}^{N{\text{ens}}}$, and noise samples $\{\bm \varepsilon_i\}_{i=1}^{N{\text{ens}}}$. The analysis fields are obtained at any spacial coordinates thanks to the particle approximation of each member field $\bm u^f_i$ such as for all $\bm z \in \Omega$
 
 \begin{equation*}
     \bm u^a_i(\bm z) = \bm u^f_i(\bm z) + \sum_{j} \bm F_{ji} \bm u^f_j(\bm z) \quad i = 1,\dots, N
@@ -20,7 +20,7 @@ To overcome this effect, we introduce two distinct EnKF-adapted filters
 
 \begin{itemize}
     \item The Remesh-EnKF filter (\ref{remesh_enkf}) employs an intermediate Eulerian discretization of the field, consistent across all members. Consequently, classical EnKF can be applied. Then a regular grid of particles is set a allow a constant number of particles.
-    \item The Particles-EnKF filter (\ref{part_enkf}) executes data assimilation with \eqref{eq:part_enkf_eq}. Analysed fields are approximated on each forward member discretization.
+    \item The Particles-EnKF filter (\ref{part_enkf}) executes data assimilation with \eqref{eq:part_enkf_eq}. Analyzed fields are approximated on each forward member discretization.
 \end{itemize}
 
 The choice of filter depends on the context, particularly regarding the feasibility of a remeshing process.
@@ -32,7 +32,7 @@ The first method consists by defining a scheme that combine an intermediate proj
 The assimilation is performed with the following step:
 \begin{itemize}
     \item The members are forward, given new particle set $\mathcal{P}^f_i = \{(\bm z^f_{ip}, \bm U^f_{ip})\}_{ip = 1}^{N_{ip}}$,
-    \item The associate field is project on a regular grid of $n_g$ elements of characteristic length $\ell_{iI}= 2dp$. Using the assigment operator, we obtain for each node $iI \in \Lambda_{i}$
+    \item The associate field is project on a regular grid of $n_g$ elements of characteristic length $\ell_{iI}= 2dp$. Using the assignent operator, we obtain for each node $iI \in \Lambda_{i}$
           \begin{equation*}
               \bm{u}^f_{iI} = \frac1{V_{iI}} \sum_{ip \in \mathcal P^f_i} \bm U^f_{ip}  \bm W \left(\frac{\bm z_{iI} - \bm z^f_{ip}}{\ell_{iI}} \right)
           \end{equation*}

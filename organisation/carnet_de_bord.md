@@ -24,7 +24,8 @@
 
 - toute les formations ont été validée.
 - Vérification du lambda pour le cas dipole, a priori on est sur du **0.1** comme valeur. Par la suite on pourra faire le calcul du lambda optimal avec uniquement 3-4 membres. <!--filtre_align-->
-  
+
+
 ```cpp
 int init=4;
 ```
@@ -679,7 +680,15 @@ Bootstrapping for confidence intervals
 
 ## 25-07-2024
 
-- Reprise de l'introduction. Correction+finir Objectifs et plan de manuscrit.
+- Discussion avec Olivier plan manuscrit et article
+- Reprise de l'introduction. Correction+ finir Objectifs et plan de manuscrit.
+
+## 26-03-2024
+
+- Revoir la mise en commun des partie du manuscrit avec l'article
+- Relire la fin de DrumSimu
+
+## 27-03-2024
 
 ### A FAIRE
 

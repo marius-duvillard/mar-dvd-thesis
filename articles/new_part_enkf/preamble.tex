@@ -17,7 +17,7 @@
 % \setcounter{algocf}{1}
 
 \usepackage[standard]{ntheorem}
-\newtheorem{proposition}{Proposition}
+% \newtheorem{proposition}{Proposition}
 \definecolor{mycustomcolor}{RGB}{128, 0, 128}
 \newcommand{\mycolor}[1]{\textcolor{mycustomcolor}{#1}}
 \newcommand{\lgcolor}[1]{\textcolor{red}{#1}}
@@ -26,14 +26,14 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
 \newcommand{\nens}{N_{\text{ens}}}
-\newcommand{\state}{\bm{x}}
+\newcommand{\state}{\bm{z}}
 \newcommand{\proj}{\bm{\Pi}}
-\newcommand{\mstate}{\bm{X}}
+\newcommand{\mstate}{\bm{Z}}
 \newcommand{\obs}{\bm{y}}
 \newcommand{\z}{\bm{z}}
 \newcommand{\ngrid}{$N_{grid} = 100$}
 \newcommand{\npart}{$N_{part} = 100$}
-\newcommand{\predi}{\mathcal{H} (\bm{x}^i_f)}
+\newcommand{\predi}{\mathcal{H} (\bm z_i^f)}
 \newcommand{\annomX}{\bm A}
 \newcommand{\annomY}{\bm Y}
 \newcommand{\data}{\bm{d}}
@@ -64,8 +64,6 @@
 \newcommand{\Dlow}{0.02}
 \newcommand{\Dup}{0.08}
 \newcommand{\vmean}{0.9}
-\newcommand{\sigmaZm}{0.5}
-\newcommand{\meanZm}{\pi/2 + 0.6}
 \newcommand{\vstd}{1.2}
 \newcommand{\X}{\bm{X}}
 \newcommand{\Y}{\bm{Y}}

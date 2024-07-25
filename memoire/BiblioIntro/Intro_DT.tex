@@ -1,33 +1,27 @@
-% !TEX root = memoire/main.tex
+% !TEX root = ./memoire/main.tex
+% \section{Introduction}
 
-\chapter{Contexte}
+% L'objectif de ce chapitre est de présenter les différentes entités nécessaires à la construction d'un jumeau numérique. Nous présenterons tout d'abord, quels sont les modélisations physiques utilisés pour simuler l'étape du broyeur à boulets. Nous traiterons uniquement la modélisation du mélange et de l'écoulement granulaire au sein du tambour en rotation. Dans un second temps, nous présenterons les méthodes d’acquisition utilisé pour . Finalement, nous présenterons la notion de jumeau numérique et présenterons dans quel cadre observation et simulation peuvent-ils être mis en relation.
 
-\section{Introduction}
-
-L'objectif de ce chapitre est de présenter les différentes entitées nécessaires à la construction d'un jumeau numérique. Nous présenterons tout d'abord, quels sont les modélisations physiques utlisés pour simuler l'étape du broyeur à boulets. Nous traiterons uniquement la modélisation du mélange et de l'écoulement granulaire au sein du tambour en rotation. Dans un second temps, nous présenterons les méthodes d'acquision utilisé pour . Finalement, nous présenterons la notion de jumeau numérique et présenterons dans quel cadre observation et simulation peuvent-ils être mis en relation.
-
-\section{Simulation de l'écoulement granulaire au sein du broyeur à boulets}~\label{sec:simu_broyeur}
-
-\subsection{Ecoulement d'un milieu granulaire}~\label{sec:simu_granulaire}
+\subsection*{Écoulement d'un milieu granulaire}~\label{sec:simu_granulaire}
 
 La simulation du broyeur repose sur la représentation de l'écoulement d'un milieu granulaire. Si les écoulements granulaires sont très présents dans la nature et dans l'industrie, du fait de la nature discrète du milieu, ils sont bien moins comprise que l'écoulement d'un liquide qui se base sur les équations de Navier-Stokes.
 
-L'écoulement granulaire va se distinguer par trois types de régime que l'on assimile généralement aux trois états de la matière: solide où où le mouvement des particules est lent et le comportement est presque statique, une couche semblable à un liquide dans laquelle les grains s'écoulent avec une certaine inertie, et une zone semblable à un gaz où les particules se déplacent à des vitesses plus élevées de manière chaotique. Ils interviennents simultanément dans l'écoulement. Ce qui complexifie sa caractérisation rhéologique.
-
+L'écoulement granulaire va se distinguer par trois types de régime que l'on assimile aux trois états de la matière: solide où où le mouvement des particules est lent et le comportement est presque statique, une couche semblable à un liquide dans laquelle les grains s'écoulent avec une certaine inertie, et une zone semblable à un gaz où les particules se déplacent à des vitesses plus élevées de manière chaotique. Ils interviennent simultanément dans l'écoulement. Ce qui complexifie sa caractérisation rhéologique.
 \begin{figure}
     \centering
     \includegraphics[width=0.5\textwidth]{three_regimes.png}
     \caption{Image de billes d'acier s'écoulant d'un tas. Trois phases de l'écoulement granulaire, se comportant comme un gaz, un liquide ou un solide, peuvent être identifiées.~\cite{forterre_flows_2008}}
 \end{figure}
 
-Le régime solide ou frictionnel intervient en particulier en mécanique des sols pour la prédiction de la défaillance des sols pour les applications de génie civil~\cite{Campbell2006}. Dans ce cas, le critère de rupture de Mohr-Coulomb~\cite{Juvinal1991}, accompagné d'une règle de flux de la plasticité des métaux, est suffisant pour décrire le comportement de l'écoulement granulaire comme un processus continu, sans prendre en compte l'interaction des grains individuels. La loi est alors paramétré par des quantités interprétables : l'angle de friction interne, la cohésion, ainsi que l'angle de dilatation. La loi de Drucker-Prager~\cite{Drucker1952}, version lisée du critère de Mohr-Coulomb est également couremment utilisée.
+Le régime solide ou frictionnel intervient en particulier en mécanique des sols pour la prédiction de la défaillance des sols pour les applications de génie civil~\cite{Campbell2006}. Dans ce cas, le critère de rupture de Mohr-Coulomb~\cite{Juvinal1991}, accompagné d'une règle de flux de la plasticité des métaux, est suffisant pour décrire le comportement de l'écoulement granulaire comme un processus continu, sans prendre en compte l'interaction des grains individuels. La loi est alors paramétré par des quantités interprétables : l'angle de friction interne, la cohésion, ainsi que l'angle de dilatation. La loi de Drucker-Prager~\cite{Drucker1952}, version lissée du critère de Mohr-Coulomb est également couramment utilisée.
 
 
-Le régime liquide ou d'écoulement est principalement décrit à l'aide de lois rhéologique. Les travaux récents convergent vers une loi de comportement viscoplastique défini sous le nom de loi $\mu(I)$~\cite{gdr_midi_dense_2004,jop_constitutive_2006}. Des simulation du tambour en rotation~\cite{Cortet_2009} ont pu êter réalisé et montre une bonne correspondance pour le cas d'écoulement avec surface libre~\cite{chou_cross-sectional_2009}. Toutefois, cette loi trouve certaines limites dans le cas d'écoulement confiné où le coefficient de tassement change et où le mouvement de chaque grain entraîne des modifications significatives dans les chaînes de force. Si la prédiction est bonne au niveau des bords, elle reste toutefois insufisante au niveau des parois~\cite{Rognon_Miller_Metzger_Einav_2015}.
+Le régime liquide ou d'écoulement est principalement décrit à l'aide de lois rhéologique. Les travaux récents convergent vers une loi de comportement viscoplastique défini sous le nom de loi $\mu(I)$~\cite{gdr_midi_dense_2004,jop_constitutive_2006}. Des simulation du tambour en rotation~\cite{Cortet_2009} ont pu être réalisé et montre une bonne correspondance pour le cas d'écoulement avec surface libre~\cite{chou_cross-sectional_2009}. Toutefois, cette loi trouve certaines limites dans le cas d'écoulement confiné où le coefficient de tassement change et où le mouvement de chaque grain entraîne des modifications significatives dans les chaînes de force. Si la prédiction est bonne au niveau des bords, elle reste toutefois insuffisante au niveau des parois~\cite{Rognon_Miller_Metzger_Einav_2015}.
 
 Finalement le régime gaz ou cinétique correspond au écoulement granulaires dispersés. Ce sont alors des modèles de cinétique des gaz qui sont utilisé pour modéliser le comportement du milieu granulaire~\cite{Ng2008}.
 
-\subsection{Méthodes de résolution}~\label{sec:methode_resolution}
+\subsection*{Simulation de l'écoulement granulaire au sein d'un tambour en rotation}~\label{sec:methode_resolution}
 
 Dans le tambour en rotation l'ensemble des trois zones d'écoulement sont présentes. En fonction du nombre de Foudre, divers régimes d'écoulement apparaissent~\cite{MELLMANN2001251}. Entre autres, on retrouve le glissement, l'avalanche, la cascade, le cataracte, la centrifugation illustrés Figure~\ref{}
 
@@ -45,7 +39,7 @@ Ce sont d'abord des lois empiriques ou analytiques qui ont été proposées dans
 
 Les méthodes de simulation ce sont à la fois portées sur des représentations continues ou discrète du milieu.
 
-Les méthodes discrètes vont conserver une représentation particulaire du milieu en considérant un jeu de particules en équilibre. Introduite en 1979 par Cundall and Strack~\cite{cundall_discrete_1979}, la méthode des éléments discrets (DEM) a été utilisé pour la première fois pour la modélisation du tambour en rotation par Mishra and Rajamani~\cite{Mishra1992}. Ces méthodes ont l'avantage de pouvoir représenter les différents régimes d'écoulement granulaire, le mélange ou bien les phénomènes de ségrégation. On trouve également des extensions pour prendre en compte la fragmentation~\cite{orozco:hal-02409236}. Malgré ces différents avantages, la méthode DEM est très coûteuse en temps de calcul, en particulier lors de la détection des contacts. C'est d'autant plus le cas pour la simulation du tambour qui fait intervenir des grains de l'ordre du minimètre pour décrire un écoulement de l'ordre du mètre. Les grains simulés sont alors aggrandi, représentés avec des géométries plus régulière et lisse, pour permettre un temps de calcul acceptable.
+Les méthodes discrètes vont conserver une représentation particulaire du milieu en considérant un jeu de particules en équilibre. Introduite en 1979 par Cundall and Strack~\cite{cundall_discrete_1979}, la méthode des éléments discrets (DEM) a été utilisé pour la première fois pour la modélisation du tambour en rotation par Mishra and Rajamani~\cite{Mishra1992}. Ces méthodes ont l'avantage de pouvoir représenter les différents régimes d'écoulement granulaire, le mélange ou bien les phénomènes de ségrégation. On trouve également des extensions pour prendre en compte la fragmentation~\cite{orozco:hal-02409236}. Malgré ces différents avantages, la méthode DEM est très coûteuse en temps de calcul, en particulier lors de la détection des contacts. C'est d'autant plus le cas pour la simulation du tambour qui fait intervenir des grains de l'ordre du minimètre pour décrire un écoulement de l'ordre du mètre. Les grains simulés sont alors agrandi, représentés avec des géométries plus régulière et lisse, pour permettre un temps de calcul acceptable.
 De plus, la DEM nécessite l'introduction d'un terme dissipatif qu'il est souvent difficile à justifier physiquement.
 
 De l'autre côté, les méthodes continues représentent le milieu granulaire comme un milieu continu. Le système est gouverné par les équations de conservation de masse et de quantité de mouvement. Ce type d'approche est plus à même de représenter des écoulements à grande échelle.
@@ -56,24 +50,25 @@ Finalement, une autre classe de méthode continue a été plus récemment utilis
 
 Finalement, bien que le sens physique ne soit pas le même entre méthodes discrètes et continues, il existe une prédominance des méthodes sans maillages dites particulaires pour traiter le problème de l'écoulement dans un tambour en rotation comme illustré Figure~\ref{fig:simu_granulaire}.
 
-\begin{figure}~\label{fig:simu_granulaire}
+\begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{simulation_granulaire.png}
+    \caption{Catégorisation des simulations de l'écoulement granulaire au sein d'un tambour en rotation.}~\label{fig:simu_granulaire}
 \end{figure}
 
-\section{Mesures appliquées au tambour en rotation}~\ref{sec:mesures}
+\subsection*{Mesures appliquées au tambour en rotation}~\label{sec:mesures}
 
-Outre l'utilisation d'outils de simulation, la validation et la compréhension du procédé se voient renforcés par l'utilisation acru de méthodes de mesure durant la phase de fonctionnement.
+Outre l'utilisation d'outils de simulation, la validation et la compréhension du procédé se voient renforcés par l'utilisation accrue de méthodes de mesure durant la phase de fonctionnement.
 
-Ces données sont de différents types. D'une part, des données issues de l'imagerie~\cite{jarray_wet_2019,Adepu}. Celles-ci nous permetten demesurer des mesures de champ de vitesse capturées à travers la face avant d'un hublot transparent grâce à la méthode \textit{Particle Image Velocimetry} (PIV), de mesurer le ou bien de post traiter des grandeurs caractéristiques comme l'angle de repos dynamique ou de mesurer des indices de mélange.
+Ces données sont de différents types. D'une part, des données issues de l'imagerie~\cite{jarray_wet_2019,Adepu}. Celles-ci nous permette de mesurer des mesures de champ de vitesse capturées à travers la face avant d'un hublot transparent grâce à la méthode \textit{Particle Image Velocimetry} (PIV), de mesurer le ou bien de post traiter des grandeurs caractéristiques comme l'angle de repos dynamique ou de mesurer des indices de mélange.
 
-D'autre part, des mesures accoustiques du broyeur peut révéler des informations sur divers aspects du processus, tels que les conditions de fonctionnement, les anomalies potentielles, ou encore l'usure des éléments du broyeur~\cite{Owusu, almond}.
+D'autre part, des mesures acoustiques du broyeur peut révéler des informations sur divers aspects du processus, tels que les conditions de fonctionnement, les anomalies potentielles, ou encore l'usure des éléments du broyeur~\cite{Owusu, almond}.
 
 On trouve également dans la littérature l'usage de mesure vibratoire ou de jauges de contraintes sur la paroi afin de déterminer la position du corps broyant~\cite{Davey, tano_2005}, des données issues du moteur~\cite{pedrayes_frequency_2017} ou bien l'instrumentation des boulets~\cite{Wang} (ce qui difficilement réalisable dans notre situation où la matière est contaminée).
 
 Le laboratoire expérimental SA3E a instrumenté une maquette de broyeur dont des acquisitions sont représentées sur la Figure~\ref{fig:mesures}.
 
-\begin{figure}[b]
+\begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.3\textwidth}
         \includegraphics[width=\textwidth]{mesure_pic.png}
@@ -96,7 +91,7 @@ Une large gamme de mesures sont donc disponibles. Cependant, ces données mesur�
 
 Finalement, les données mesurées que nous possédons ne représentent qu'une vue brute et partielle de l'état réel, tandis que les données simulées de cet état sont sujettes à des erreurs de modélisation. Ainsi, nous souhaitons trouver un moyen d'améliorer notre connaissance des processus en tenant compte à la fois de la simulation et des mesures expérimentales.
 
-\section{Jumeau numérique}
+\subsection*{Jumeau numérique}
 
 La notion de jumeau numérique trouve un essor considérable aujourd'hui à l'air où la données n'ont jamais été aussi présente. Le potentiel grandissant de la \textit{Big Data}, \textit{l'Internet Of Things}, le calcul haute performance (HPC) mais aussi de l'intelligence artificiel (IA) et en particulier l'apprentissage profond ouvre la voie à de nouveaux outils. Bien que sur toutes les lèvres, on trouve difficilement une définition univoque de ce paradigme.
 En effet, le jumeau numérique peut être tour à tour vu comme un réplique haute fidélité capable d'émuler un système réel~\cite{noauthor_digital_nodate}, ou bien comme un modèle dynamique qui est capable d'être mis à jour avec les données de son pendant physique au long de son cycle de vie afin d'apporter une aide à la décision~\cite{AIAA2020}. Pour éviter toute confusion la distinction est souvent faite entre \textit{Virtual Twin}, \textit{Predictive Twin}, ou encore \textit{Twin Projection}~\cite{Kvamsdal}.
@@ -115,7 +110,7 @@ Le jumeau numérique pour l'étape de fabrication du combustible peu donc répon
 Finalement, le jumeau numérique peut être formalisé mathématiquement sous la forme d'un modèle graphique probabiliste proposée par Kapteyn et al.~\cite{kapteyn_probabilistic_2021}.
 Elle permet de relier de bout en bout les flux de données entre capteur, et modèle numérique, mais aussi avec les paramètres de contrôle et de récompense. La représentation graphique du jumeau numérique du broyeur est présentée en Figure~\ref{fig:graph_dt}.
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \begin{subfigure}{0.44\textwidth}
         \includegraphics[width=\textwidth]{dt_broyeur.png}
@@ -127,13 +122,9 @@ Elle permet de relier de bout en bout les flux de données entre capteur, et mod
     \caption{Variables et représentation graphique du jumeau numérique du broyeur à boulets.}~\label{fig:graph_dt}
 \end{figure}
 
-D'une part, on représente bien l'entité réel qui n'est connue qu'au travers des observations présentées Section~\ref{sec:mesures}. Mathématique il s'agit d'un modèle de Markov caché. D'autre part, on retrouve le modèle virtuel qui permet d'avoir accès aux variables d'intérêt et de prédire l'évolution de l'état du système à l'aide des modèles physiques comme présenté en Section~\ref{sec:simu_broyeur}
+D'une part, on représente bien l'entité réel qui n'est connue qu'au travers des observations présentées Section~\ref{sec:mesures}. Mathématique il s'agit d'un modèle de Markov caché. D'autre part, on retrouve le modèle virtuel qui permet d'avoir accès aux variables d'intérêt et de prédire l'évolution de l'état du système à l'aide des modèles physiques comme présenté en Section~\ref{sec:methode_resolution}
 Finalement, on remarque le lien d'inférence qui permet de relier les observations et avec l'état virtuel du système. Fondamentalement, ce sont les méthode d'inférence bayésienne, et l'assimilation de données qui sont utilisés à cette étape.
 Le modèle probabiliste permet ainsi d'intégrer dans la construction du jumeau numérique la notion de quantification d'incertitude.
-
-\section{Bilan du chapitre}
-
-Ce chapitre nous a permis de montrer la prédominance et des méthodes sans maillage pour simuler le mélange dans un tambour en rotation. Il a permis de présenter un large spectre de méthodes d'acquisition. Finalement, il a permis de présenter le jumeau numérique comme un modèle dynamique capable d'intégrer les données issues de l'observation. Ce lien est possible au travers de méthodes d'assimilation de données.
 
 
 

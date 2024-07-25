@@ -1,9 +1,8 @@
-% !TEX root = memoire/main.tex
+% !TEX root = ./memoire/main.tex
 
-\chapter{Assimilation de données pour la construction d'un jumeau numérique}~\label{sec:da}
+\section{Assimilation de données}~\label{sec:da}
 
-\section{Introduction}~\label{sec:intro_da}
-
+% \section{Introduction}~\label{sec:intro_da}
 La construction d'un système expert ou jumeau numérique a besoin de méthodes qui puissent faire le lien entre observations et l'état de notre simulation. En effet, les solutions calculées par les modèles numériques comportent des erreurs qu'il est crucial de comprendre, de quantifier et de réduire. Cette incertitude peut se manifester sous diverses formes, telles que l'ambiguïté des valeurs des paramètres du modèle, l'imprécision des conditions initiales, ou l'incertitude dans la définition des conditions aux limites ou des forces extérieures. De plus, bien que les modèles numériques intègrent généralement des principes physiques essentiels, ils impliquent certaines simplifications. L'erreur numérique apparaît en raison de l'algorithme et de la discrétisation. Elle s'étend également à l'incertitude associée aux futures mesures expérimentales calibrant les modèles numériques. Ainsi, les méthodes d'assimilation de données sont mises en place pour combiner les informations issues d'un modèle numérique, et celles issues de l'observation, et ce, de manière optimale, c'est-à-dire en tenant compte de leurs incertitudes respectives.
 
 L'intégration des prévisions des modèles et des données d'observation a été largement appliquée dans des disciplines telles que la météorologie, l'océanographie, et les géosciences~\cite{bocquet_introduction_2014}. Dans le domaine de l'assimilation de données, deux grandes familles d'approche émerge :
@@ -14,13 +13,13 @@ L'intégration des prévisions des modèles et des données d'observation a ét�
 \end{itemize}
 
 
-Dans ce chapitre, nous présenterons la formulation du problème d'assimilation sous sa forme probabiliste. Nous présenterons ensuite certaines méthodes stochastiques et variationnelles ainsi que leurs extensions d'ensemble que nous utiliserons dans les chapitres suivants. Pour des explications plus détaillées, veuillez vous référer à la bibliographie~\cite{law_data_2015,asch_data_2016,evensen_data_2022}.
+Dans cette section, nous présenterons la formulation du problème d'assimilation sous sa forme probabiliste. Nous présenterons ensuite certaines méthodes stochastiques et variationnelles ainsi que leurs extensions d'ensemble que nous utiliserons dans les chapitres suivants. Pour des explications plus détaillées, veuillez vous référer à la bibliographie~\cite{law_data_2015,asch_data_2016,evensen_data_2022}.
 
 % Les approches stochastiques séquentielles cherchent à estimer la distribution à chaque nouvelles acquisitions d'une observation. Dans ce cas, c'est la distribution de l'état elle-même qui est approchée. Le processus d'assimilation est réalisé dans un cadre bayésien avec une étape de prévision et une étape d'analyse. Le filtre de Kalman~\cite{kalman_new_1960} est un exemple de formulation séquentielle considérant un modèle linéaire et des hypothèses de distribution Gaussienne. Des filtres plus avancés ont été introduits pour s'adapter aux distributions non linéaires et arbitraires. L'un des filtres les plus populaires est sans aucun doute le filtre de Kalman d'ensemble, introduit par Evensen~\cite{evensen_sequential_1994}, principalement en raison de son adaptabilité aux problèmes de grande dimension avec n'importe quel modèle d'évolution et de sa résilience aux écarts par rapport aux hypothèses Gaussiennes initiales. Il consiste à approximer la distribution de probabilité d'un état grâce à un ensemble de simulations appelées particules ou membres.
 % Les approches variationnelles~\cite{variational_method} se concentrent sur la minimisation d'une fonction de coût qui mesure le décalage entre les prévisions du modèle et les observations, cherchant ainsi l'état optimal du système. Les formulations les plus courantes dérivent des méthodes 3D-Var et 4D-Var~\cite{talagrand1997assimilation}.
 
 % Dans ce chapitre nous présenterons le formalisme pour l'assimilation de données ainsi que certaines méthodes stochastiques et variationnelles ainsi que leurs extensions ensemblistes.
-\section{Formulation du problème}
+\subsection{Formulation du problème}
 
 \begin{definition}[assimilation de données]
     Méthodes et algorithmes qui permettent d’estimer l’\textbf{état} d’un système, à l’aide d’un \textbf{modèle} mathématique décrivant son évolution, des \textbf{observations} disponibles, des statistiques décrivant les \textbf{erreurs}, et de toute autre information possible sur cet état.
@@ -28,7 +27,7 @@ Dans ce chapitre, nous présenterons la formulation du problème d'assimilation 
 
 Nous présentons l'ensemble des termes de cette définition.
 
-\subsection{Définition de l'état}
+\subsubsection{Définition de l'état}
 
 Nous définissons un état $\bm z_k$ comme la variable qui représente complètement la connaissance du système à l'instant $t_k \in \mathbb R^+$. La dynamique de l'état du système au cours du temps est obtenue grâce à un modèle $\mathcal{M}$ qui décrit l'évolution du système.
 Nous noterons $\mathcal Z_k = \{\bz_0, \dots, \bz_k\}$ la trajectoire du modèle jusqu'au pas de temps $t_k$.
@@ -47,7 +46,7 @@ Ainsi, nous traiterons l'état comme une variable aléatoire à laquelle est ass
 \end{equation*}
 où $\bm \theta$ sont l'ensemble des paramètres du modèle et $\bm z_0$ l'état initial.
 
-\subsection{Définition des observations}
+\subsubsection{Définition des observations}
 A l'équation d'évolution, nous supposons également connu une équation d'observation. Celle-ci relie l'état à l'espace de mesures. On définie $\mathcal{D}_k$ les mesures prédites par la fenêtre d'état $\mathcal{Z}_k$. Tout comme l'état, les mesures sont sujettes à des incertitudes issues de plusieurs sources
 
 \begin{itemize}
@@ -60,7 +59,7 @@ En supposant que ces erreurs sont additives, on défini l'équation d'observatio
     \mathcal D_k = \mathcal H (\mathcal{Z}_k) + \bm{\varepsilon}_k
 \end{equation*} où $\bm{\varepsilon}_k = \bm{\varepsilon}^\mu  + \bm{\varepsilon}^r$ défini l'incertitude sur l'observation $\mathcal D_k$ relatif à la prédiction $\mathcal{Z}_k$.
 
-\subsection{Inférence bayésienne récursive}
+\subsubsection{Inférence bayésienne récursive}
 
 Le problème d'assimilation de données peut être formulé sous une approche d'inférence bayésienne. Celle-ci est une méthode statistique pour estimer l'état $\mathcal Z_k$ en utilisant à la fois une information a priori, obtenue à partir d'un modèles et des connaissances initiales, et les données observées. Cette méthode repose sur le théorème de Bayes qui décrit la relation entre la distribution a posteriori de l'état étant donné les données observées avec $p(\mathcal Z_k \mid \mathcal D_k)$ la distribution a priori de l'état $p(\mathcal Z_k)$ et la vraisemblance des données $p(\mathcal D_k \mid \mathcal Z_k)$ conditionnellement à l'état. Cette formule est la suivante
 \begin{equation*}
@@ -111,7 +110,7 @@ Ainsi la trajectoire de l'état et des observation suis les hypothèses d'un mod
 
 On reconnaît la partie inférieure du graphique présenté Figure~\ref{fig:graph_dt}. C'est cette modélisation qui va être utilisée pour propager et estimer les distributions de l'état en fonction des données.
 
-\subsection{Estimation des paramètres du modèle par augmentation de l'état}
+\subsubsection{Estimation des paramètres du modèle par augmentation de l'état}
 Nous avons supposé que le système était complètement décrit par la variable d'état $\bz$ que nous souhaitons estimer. Cependant, nous avons aussi supposé que le modèle était imparfait à cause d'erreur sur les données des paramètres de modèle. Ainsi, les paramètres $\bm \theta$ ne sont pas connu avec certitude. L'estimation ou calibration de ces paramètres est possible en définissant un état augmenté $(\bz, \bm \theta)$.
 
 Le modèle d'évolution est toutefois différent car les paramètres du modèle sont supposés constants dans le temps tel que
@@ -126,11 +125,11 @@ Le modèle d'évolution est toutefois différent car les paramètres du modèle 
 
 L'ajout des paramètres dans la variable d'état a pu être utilisé pour résoudre des problèmes inverses sans calcul de gradient~\cite{iglesias_ensemble_2013}.
 
-\section{Approches stochastiques}
+\subsection{Approches stochastiques}
 
 Les approches que nous appelons stochastiques sont des méthodes qui vont chercher à approcher la distribution a posteriori de l'état. À partir des éléments vus précédemment, nous présenterons les étapes du filtrage bayésien comme une étape de propagation et d'analyse. Puis, nous présenterons deux adaptations : le filtre de Kalman dans le cas linéaire Gaussien, et le filtre de Kalman d'Ensemble dans le cas non-linéaire avec approximation Gaussienne.
 
-\subsection{Filtrage bayésien}~\label{filtrage_bayesien}
+\subsubsection{Filtrage bayésien}~\label{filtrage_bayesien}
 
 Le filtrage bayésien consiste à écrire la récurrence sur les lois de probabilité, pour estimer, en fonction des observations passées et courante $\mathcal D_k$ l'état courant $\bm z_k$ et de prédire la distribution de l'état future $\bm z_{k+1}$.
 
@@ -157,7 +156,7 @@ Après la $k+1$ observation $\bm y_{k+1}$, l'étape d'\textbf{analyse}, permet g
 
 Ainsi, les méthodes de filtrage présentent sous diverse forme ces deux étapes de propagation et d'analyse pour mettre à jour la distribution de l'état au cours du temps et après mesure des observations. Dans la suite du manuscrit, on distinguera la variable a priori par la lettre $f$ pour \textit{forecast} et la variable a posteriori par la lettre $a$ pour \textit{analysis}.
 
-% \subsection{Propagation}
+% \subsubsection{Propagation}
 % En pratique, il est difficile de réaliser la propagation de la distribution de l'état.
 % En effet, l'évolution du prior nécessite de propager entièrement la distribution à l'aide de l'équation de Fokker-Planck, celle-ci ne pouvant être résolue qu'en dimension faible~\cite{jazwinski_4_1970}.
 
@@ -172,7 +171,7 @@ Ainsi, les méthodes de filtrage présentent sous diverse forme ces deux étapes
 % Une autre possibilité consiste à utiliser un ensemble pour représenter la distribution de l'état. L'état est représenté par un ensemble d'échantillons ou particules tel que $p(\bz)  = \sum_{i=1}^{N} \omega^i \delta(\bz - \bz^i)$ est une distribution empirique de la distribution. C'est l'hypothèse qui est utilisé pour le filtre de Kalman d'Ensemble~\ref{sec:enkf}. Dans ce dernier cas, les membres $\bx^i$ sont supposées indépendant et identiquement distribué, ainsi les poids égaux à $1/N$.
 
 
-% \subsection{Filtre particulaire}~\label{sec:filtre_particulaire}
+% \subsubsection{Filtre particulaire}~\label{sec:filtre_particulaire}
 
 % Le filtre particulaire est une implémentation du filtre bayésien qui approxime la PDF à l'aide d'une distribution empirique. Les transformations du filtre, \textit{forecast} et \textit{analysis} sont appliquées sur les membres de cet échantillon.
 % Cette méthode converge vers la distribution exacte lorsque le nombre de particule $N \to \infty$.
@@ -228,7 +227,7 @@ Ainsi, les méthodes de filtrage présentent sous diverse forme ces deux étapes
 %     }
 % \end{algorithm}
 
-\subsection{Filtre de Kalman}~\label{kalman_filter}
+\subsubsection{Filtre de Kalman}~\label{kalman_filter}
 
 Le filtre de Kalman introduit en 1960~\cite{kalman_new_1960} est une version du filtre bayésien appliqué à un modèle linéaire Gaussien. Dans ces conditions, la distribution de l'état a priori de l'état et des observations sont défini par leur deux premiers moments. Soit $(\bz^a,\bm  P^a)$ les deux premiers moments au pas de temps $k$, la propagation devient se résume par
 
@@ -277,7 +276,7 @@ Ainsi, la distribution a posteriori est définie comme un produit matriciel où 
 %     }
 % \end{algorithm}
 
-\subsection{Filtre de Kalman d'Ensemble (EnKF)}~\label{sec:enkf}
+\subsubsection{Filtre de Kalman d'Ensemble (EnKF)}~\label{sec:enkf}
 
 Le filtre de Kalman est adapté à des modèles linéaires. Il est possible de l'appliquer à des problèmes faiblement linéaire grâce au filtre de Kalman étendu grâce à l'opérateur tangent. Si le modèle est fortement non-linéaire, le filtre de Kalman sans parfum peut-être utilisé. Cependant, toutes ces adaptations devienne inapplicables pour des problèmes de grande dimension.
 Le filtre de Kalman d'ensemble (EnKF) est une méthode d'assimilation de données qui utilise un ensemble de prévisions pour estimer l'état ses incertitudes.
@@ -350,11 +349,11 @@ Ainsi la correction du filtre EnKF est une combinaison linéaire des membres qui
     \Fcorr = \frac{1}{\sqrt{N - 1}} {(\bm I_N + \annomY^T\bm R^{-1}\annomY)}^{-1}\annomY^T \bm R^{-1} (\mdata - \mpred),
 \end{eqnarray*}ce qui devient avantageux dans le cas où $\bm R$ est une matrice diagonale et $N < N_{\text{obs}}$.
 
-\section{Méthodes variationnelles}~\label{sec:variation}
+\subsection{Méthodes variationnelles}~\label{sec:variation}
 
 L'objectif des méthodes variationnelles est de proposer une estimation de l'état ou de sa distribution à partir de la minimisation de fonctions de coût. Pour cela, nous partons de l'estimation du maximum a posteriori auquel on ajoute les hypothèses de gaussianité.
 
-\subsection{Estimation du maximum a posteriori}
+\subsubsection{Estimation du maximum a posteriori}
 
 L'estimateur MAP (\textit{Maximum A Posteriori}) est la meilleure estimation de l'état connaissant les données mesurées. Il est défini comme
 
@@ -364,12 +363,12 @@ L'estimateur MAP (\textit{Maximum A Posteriori}) est la meilleure estimation de 
 
 Le MAP peut être obtenu par des méthodes d'échantillonnage de distribution. Cependant, lorsque les distributions sont Gaussiennes, la distribution a posteriori peut être réécrite comme
 
-% Nous supposerons donc ici que les variables aléatoire introduites dans la section précédentes sont définies comme
+% Nous supposerons donc ici que les variables aléatoire introduites dans la subsection précédentes sont définies comme
 
 % \begin{eqnarray*}
 %     \bm \eta &\sim& \mathcal{N}(\bm 0, P_{k+1}), \quad p(\bm x_{k+1}) = \mathcal{N}(\bm x_{k+1}^f, P_{k+1})\\
 %     \bm \varepsilon & \sim & \mathcal N(\bm 0, R), \quad \quad p(\bm y_{k+1}) = \mathcal{N}(\bm g(\bm x_{k+1}^f) , R_{k+1})\\.
-% \end{eqnarray*}~où $\bm x_{k+1}^f = \mathcal{M}(\bx_{k})$ l'état prédit par le modèle. Nous nous intéressons maintenant à l'étape de mise à jour à l'instant $k+1$, l'indice temporel sera implicite pour le reste de la section.
+% \end{eqnarray*}~où $\bm x_{k+1}^f = \mathcal{M}(\bx_{k})$ l'état prédit par le modèle. Nous nous intéressons maintenant à l'étape de mise à jour à l'instant $k+1$, l'indice temporel sera implicite pour le reste de la subsection.
 
 \begin{equation*}
     p(\bm z \mid \bm y) \propto \exp\left(- \mathcal{L}(\bm z)\right),
@@ -404,7 +403,7 @@ On peut aussi faire plusieurs remarques :
     \item Si l'opérateur d'observation $h$ est non-linéaire alors, le problème n'est pas convexe et une méthode itérative de minimisation est utilisée.
 \end{itemize}
 
-\subsection{Méthode 3DVar}~\label{subsec:3dvar}
+\subsubsection{Méthode 3DVar}~\label{subsec:3dvar}
 
 La méthode 3DVar est un cas particulier de l'équation précédente qui permet de résoudre le problème de minimisation sur un seul instant, sans prendre en compte l'évolution temporelle du système. Elle consiste à supposer fixe et connu les matrices de covariance $\bP$ et $\bR$.
 
@@ -443,7 +442,7 @@ De nouveau avec l'identité de SMW
     \bP^a = (\bm{I} - \bK \bH) \bP
 \end{equation*}~qui n'est autre que la mise à jour de la covariance avec le filtre de Kalman.
 
-\subsection{Maximum de vraisemblance échantillonné}
+\subsubsection{Maximum de vraisemblance échantillonné}
 Les méthodes variationnelles précédemment décrite offre la possibilité de trouver le maximum d'une distribution a posteriori. Cependant, à l'aide de méthode d'ensemble, il est également possible d'estimer complètement cette distribution.
 
 Pour cela, nous nous plaçons dans le cas d'un prior d'état Gaussien $\bm z^f$ de matrice de covariance $P^f$. On suppose $N$ échantillon i.i.d.de cette distribution $\left\{\bm z^f_i\right\}_{i=1}^N$. Après introduction de la mesure perturbée $\bm d_i = \bm d + \bm \varepsilon_i$ avec $\bm \varepsilon_i \sim \mathcal{N}(\bm 0, \bm R)$, la distribution à posteriori peut-être échantillonnée en minimisant un ensemble de fonction coût défini pour chaque membres $i = 1, \dots, N$
@@ -459,7 +458,7 @@ De cette manière, on peut exprimer la norme $\norm{\bm z -\bm z^f_i}^2_{\bm P^f
     &=&\bw^T \annomX^\dagger  \annomX \bw,\\
     &=&(\bw^T \annomX^\dagger  \annomX) (\annomX^\dagger  \annomX \bw), \\
     &=& \tilde{\bw}^T \tilde{\bw},
-\end{eqnarray*}où l'on a utilisé les propriétés du pseudo-inverse~\cite{ben-israel2003generalized} et $\tilde{\bw}$ la projection sur l'espace de perturbation des membres. En constatant que $\annomX \bw =\annomX \tilde{\bw}$ sans perte de généralité, la fonction coût peut être reformulé comme
+\end{eqnarray*}où l'on a utilisé les propriétés du pseudo-inverse~\cite{ben-israel2003generalized} et $\tilde{\bw}$ la projection sur l'espace de perturbation des membres. En constatant que $\annomX \bw =\annomX \tilde{\bw}$, sans perte de généralité, la fonction coût peut être reformulé comme
 
 \begin{equation*}
     \bm w_i = \argmin_{\bm w \in \mathbb R^N} \frac12 \norm{\bm d - \mathcal H(\bm{z}_i^f + \annomX^f \bm w)}^2_{\bm R} + \frac12 \norm{\bm w}_2^2,
@@ -479,13 +478,13 @@ De cette manière, on peut exprimer la norme $\norm{\bm z -\bm z^f_i}^2_{\bm P^f
 
 % Cette approche se généralise pour des cas non-linéaires pour être approchée dans un cas non Gaussien. Dans ce cas, on nous prendrons un linéarisation de la distribution a priori en estimant et ne conservant que les deux premiers moments de la distribution. C'est l'hypothèse qui est appliqué pour le filtre de Kalman d'Ensemble~\ref{sec:enkf}. De fait, cette résolution est obtenue dans un espace de représentant, offrant une optimisation dans un espace généralement de plus faible dimension.
 
-% \subsection{Méthode de rang faible}~\label{sec:faible_rang}
+% \subsubsection{Méthode de rang faible}~\label{sec:faible_rang}
 
 % Nous utilisons dans cette section la même hypothèse que précédemment évoquée dans la partie sur le filtre EnKF~\ref{sec:enkf}. Il s'agit de considérer que la matrice de covariance peut être représenté par un ensemble d'état. En fait, tout comme le filtre de Kalman et l'image du filtre 3DVar le filtre EnKF trouve une équivalence avec une approche variationnelle d'ensemble.
 
 % En utilisant les membres pour échantillonner la matrice de covariance, cela revient à chercher la solution dans l'espace vectoriel engendré par les membres.
 
-\section{Bilan du chapitre}
+% \section{Bilan du chapitre}
 
-Après un rappel de la formulation du problème d’assimilation, nous avons présenté les approches stochastiques et variationnelles pour le résoudre. Dans les deux cas, nous avons introduit des méthodes ensemblistes afin d'approcher la distribution de l'état dans des cas non-linéaires et de grandes dimensions. Toutefois, nous avons en particulier supposé que l'état pouvait être défini sous forme vectorielle et ainsi décrire sa distribution sur chacune de ses composantes. Il est ainsi supposé que l'état est défini sur une discrétisation univoque pour représenter l'état. Il est également supposé que la mise à jour statistique ou de l'optimisation variationnelle ne respecte pas de contraintes. Or, ce n'est pas le cas pour les états de simulation sans maillage basé sur une discrétisation particulaire. Dans le chapitre suivant, nous présenterons plus en détail ce type de problème et les limites de l'applicabilité des méthodes d'assimilation actuelles.
+% Après un rappel de la formulation du problème d’assimilation, nous avons présenté les approches stochastiques et variationnelles pour le résoudre. Dans les deux cas, nous avons introduit des méthodes ensemblistes afin d'approcher la distribution de l'état dans des cas non-linéaires et de grandes dimensions. Toutefois, nous avons en particulier supposé que l'état pouvait être défini sous forme vectorielle et ainsi décrire sa distribution sur chacune de ses composantes. Il est ainsi supposé que l'état est défini sur une discrétisation univoque pour représenter l'état. Il est également supposé que la mise à jour statistique ou de l'optimisation variationnelle ne respecte pas de contraintes. Or, ce n'est pas le cas pour les états de simulation sans maillage basé sur une discrétisation particulaire. Dans le chapitre suivant, nous présenterons plus en détail ce type de problème et les limites de l'applicabilité des méthodes d'assimilation actuelles.
 

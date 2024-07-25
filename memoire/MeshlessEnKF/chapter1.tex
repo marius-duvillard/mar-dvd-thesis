@@ -1,4 +1,4 @@
-% !TEX root = memoire/main.tex
+% !TEX root = ./memoire/main.tex
 \chapter{Développement de méthodes permettant l'adaptation du filtre de Kalman d'ensemble pour des simulations sans maillage}
 
 ---------------
@@ -43,7 +43,7 @@ Cette indépendance est possible par la linéarisation de l'opérateur d'observa
 
 Travailler dans l'espace de perturbation des observations $\bm Y^T$ permet d'éviter d'exprimer les statistiques de l'état.
 
-L'étape d'analyse est donc une combinaison qui ne dépend que des observations $\bm y$ (perturbé pour le filtre stochastique), les prédictions de l'ensemble $\left[\mathcal{H}(x^i_f)\right]_{i=1}^{N}$, et la matrice de covariance d'erreur $R^{1}$. De cette manière, pour chaque membre $i$, le champ analysé $\fstate_i^a$ peut être déterminé en tout point de l'espace $\bm x \in \omega$ grâce aux champs prédits $\fstate_j^f$ tel que
+L'étape d'analyse est donc une combinaison qui ne dépend que des observations $\bm y$ (perturbé pour le filtre stochastique), les prédictions de l'ensemble $\left[\mathcal{H}(x^i_f)\right]_{i=1}^{N}$, et la matrice de covariance d'erreur $\bm R$. De cette manière, pour chaque membre $i$, le champ analysé $\fstate_i^a$ peut être déterminé en tout point de l'espace $\bm x \in \omega$ grâce aux champs prédits $\fstate_j^f$ tel que
 
 \begin{equation}
     \fstate_i^a(\bx) =\fstate_i^f(\bx) + \sum_{j=1}^{N} F_{ji} \fstate_j ^f(\bx), \quad i = 1, \dots, N.
