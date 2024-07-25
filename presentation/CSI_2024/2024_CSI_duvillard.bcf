@@ -2361,20 +2361,8 @@
     <bcf:citekey order="14">siripatana_combining_2019</bcf:citekey>
     <bcf:citekey order="15">evensen_sequential_1994</bcf:citekey>
     <bcf:citekey order="16">siripatana_combining_2019</bcf:citekey>
-    <bcf:citekey order="17">ravela_data_2007</bcf:citekey>
-    <bcf:citekey order="17">rosenthal_displacement_2017</bcf:citekey>
-    <bcf:citekey order="18">ravela_data_2007</bcf:citekey>
-    <bcf:citekey order="18">rosenthal_displacement_2017</bcf:citekey>
-    <bcf:citekey order="19">ravela_data_2007</bcf:citekey>
-    <bcf:citekey order="19">rosenthal_displacement_2017</bcf:citekey>
-    <bcf:citekey order="20">aref_motion_1979</bcf:citekey>
-    <bcf:citekey order="21">aref_motion_1979</bcf:citekey>
-    <bcf:citekey order="22">aref_motion_1979</bcf:citekey>
-    <bcf:citekey order="23">evensen_sequential_1994</bcf:citekey>
-    <bcf:citekey order="24">siripatana_combining_2019</bcf:citekey>
-    <bcf:citekey order="25">ravela_data_2007</bcf:citekey>
-    <bcf:citekey order="26">rosenthal_displacement_2017</bcf:citekey>
-    <bcf:citekey order="27">aref_motion_1979</bcf:citekey>
+    <bcf:citekey order="17">evensen_sequential_1994</bcf:citekey>
+    <bcf:citekey order="18">siripatana_combining_2019</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nyt">
@@ -2406,13 +2394,4 @@
     </bcf:sort>
   </bcf:sortingtemplate>
   <!-- DATALISTS -->
-  <bcf:datalist section="0"
-                name="nyt/global//global/global"
-                type="entry"
-                sortingtemplatename="nyt"
-                sortingnamekeytemplatename="global"
-                labelprefix=""
-                uniquenametemplatename="global"
-                labelalphanametemplatename="global">
-  </bcf:datalist>
 </bcf:controlfile>
