@@ -1,11 +1,11 @@
 % !TEX root = ./memoire/main.tex
 
-\section{Méthodes particulaires pour la simulation}
+\section{Méthodes particulaires pour la simulation}~\label{sec:simu_part}
 
 % \section{Introduction}
 % Nous avons vu dans le chapitre précédent que l'assimilation dépendait en particulier de la définition d'un modèle et de son état. 
 % Or, si les méthodes d'assimilation peuvent facilement s'exprimer pour des méthodes eulériennes sur grille ou maillage fixe, elles soulèvent des questionnements lorsque les méthodes reposent sur des discrétisations lagrangiennes. De plus, il faut aussi différentier la nature de la représentation. Le fait que l'espace soit continu ou discret va également modifier la signification de l'état et sa capacité à être mis à jour.
-Dans le cas de la simulation de l'écoulement au sein du broyeur à boulets, il s'agit principalement de méthodes reposant sur des discrétisations particulaires comme évoqué en Section~\ref{sec:methode_resolution}. C'est ce type de modélisation qu'il faut prendre en compte dans nos algorithmes d'assimilation de données. Dans cette section, nous reprendrons les principales familles de formulation particulaire en particulier en considérant en Section~\ref{sec:part_discret} les méthodes discrétisant un milieu discret et en Section~\ref{sec:part_cont} un milieu continu. En plus des méthodes particulaires pour la modélisation de l'écoulement granulaire, nous présenterons la méthode vortex en Section~\ref{sec:vortex} comme une méthode modèle pour la suite du manuscrit. Nous évoquerons les singularités et limites à l'adaptation des méthodes d'assimilation de données comme présentées dans le Chapitre~\ref{sec:da}, et présenterons un état de l'art actuel d'applications pour y remédier.
+Les méthodes de simulation de l'écoulement au sein du broyeur à boulets reposent principalement sur des discrétisations particulaires comme évoqué en Section~\ref{sec:methode_resolution}. C'est ce type de modélisation qu'il faut prendre en compte dans nos algorithmes d'assimilation de données. Dans cette section, nous reprendrons les principales familles de formulation particulaire en particulier en considérant les méthodes discrètes et celles discrétisant un milieu continu. En plus des méthodes particulaires pour la modélisation de l'écoulement granulaire, nous présenterons la méthode vortex en Section~\ref{sec:vortex} comme une méthode modèle pour la suite du manuscrit.
 
 \subsection{Méthodes des éléments discrets, \textit{Discrete element method} (DEM)}~\label{sec:part_discret}
 
@@ -28,13 +28,12 @@ Le principe fondamental de la dynamique s'applique sur cet ensemble, et s'exprim
 
 Le couplage entre particules s'exprime au travers de la force $\bm{f}_{i}$ qui se décompose comme
 \begin{equation*}
-    \bm{f}_{i}=\underset{{\scriptstyle j\neq i}}{\sum}\bm{f}^{c}_{ij}+\bm{f}_{ext}
+    \bm{f}_{i}=\underset{{\scriptstyle j\neq i}}{\sum}\bm{f}^{c}_{ij}+\bm{f}_i^{\text{ext}}
 \end{equation*}
 
-où $\underset{{\scriptstyle j\neq i}}{\sum}\bm{f}^{c}_{ij}$ représente les forces induites par le contact avec les particules $j$ et $\bm{f}_{ext}$ sont celles appliquées au centre de la particule $i$ (par exemple la force de gravité).
+où $\bm{f}^{c}_{ij}$ est la force induites par le contact de la particule $i$ avec la particules $j$, et $\bm{f}_ i^{\text{ext}}$ la force au centre de la particule $i$ (par exemple la force de gravité).
 
-Les forces de contact sont décrites par des lois de contact entre grains, et entre grains et la paroi. Dans le cas élastique, la modèle de Hertz est adapté pour décrire l’interaction normale. Le modèle Hertz-Mindlin permet de déterminer les interactions tangentielles élastiques. Ces loi sont fonctions de l'interpénétration et de la vitesse relative interpaticulaire. Par exemple, dans le cas de particules sphériques, l'interpénétration est définie comme $\delta_{ij} = \norm{\bm x_i - \bm x_j} - (R_i - R_j)$ où $\bm x$  est la position du centre du grain et $R$ son rayon. De même, on défini des loi de contact pour décrire la composante tangentielle.
-
+Les forces de contact sont décrites par des lois de contact entre grains, et entre grains et la paroi à la frontière du domaine. Dans le cas élastique, la modèle de Hertz est adapté pour décrire l’interaction normale. Le modèle Hertz-Mindlin permet de déterminer les interactions tangentielles élastiques. Ces loi sont fonctions de l'interpénétration et de la vitesse relative interpaticulaire. Par exemple, dans le cas de particules sphériques, l'interpénétration est définie comme $\delta_{ij} = \norm{\bm x_i - \bm x_j} - (R_i - R_j)$ où $\bm x$  est la position du centre du grain et $R$ son rayon. De même, on défini des loi de contact pour décrire la composante tangentielle.
 
 La force de contact tend ainsi à pénaliser l'interpénétration via des coefficients de raideur $k$ et d'amortissement $\gamma$ qui dépendent des propriétés mécaniques des grains de la paroi. Il existe plusieurs algorithmes pour résoudre numériquement les équations de la dynamique. Le plus utilisé est l'algorithme de Verlet en vitesse~\cite{verlet_1982}.
 
@@ -72,11 +71,11 @@ Une fonction de noyau $\phi_\varepsilon$ est introduite pour obtenir une estimat
 
 \begin{eqnarray*}~\label{eq:part_approx}
     \langle \bm{u}(\bm{x}, t) \rangle &=& \sum_{p \in \mathcal P} \int_{\Omega_p} \bm{u}(\bm{x}', t) \phi_\varepsilon(\bm{x}-\bm{x}') d\bm{x}' \\
-    &\approx& \sum_{p \in \mathcal P} \bm{u}(\bm{x}_p(t), t) V_p \phi_\varepsilon (\bm{x}-\bm{x}_p(t)) \\
-    &\approx& \sum_{p \in \mathcal P} \bm{\Gamma}_p(t) \phi_\varepsilon (\bm{x}-\bm{x}_p(t)).
+    &\simeq& \sum_{p \in \mathcal P} \bm{u}(\bm{x}_p(t), t) V_p \phi_\varepsilon (\bm{x}-\bm{x}_p(t)) \\
+    &\simeq& \sum_{p \in \mathcal P} \bm{\Gamma}_p(t) \phi_\varepsilon (\bm{x}-\bm{x}_p(t)).
 \end{eqnarray*}
 
-Ainsi, toute fonction définie sur une discrétisation par particule est définie par un ensemble de positions de particules $\bm{x}_p$ associées à une valeur de particule $\bm{\Gamma}_p(t) = \bm{u}(x_p, t) V_p$ et un noyau lisse $\phi_\varepsilon$. Sur la base de cette discrétisation, l'opérateur différentiel peut être dérivé à travers cette formulation. Tout comme le champ $\bm u$, la même interpolation peut être appliquée pour obtenir
+Ainsi, toute fonction définie sur une discrétisation par particule est définie par un ensemble de positions de particules $\bm{x}_p$ associées à une valeur de particule $\bm{\Gamma}_p(t) = \bm{u}(\bx_p, t) V_p$ et un noyau lisse $\phi_\varepsilon$. Sur la base de cette discrétisation, l'opérateur différentiel peut être dérivé à travers cette formulation. Tout comme le champ $\bm u$, la même interpolation peut être appliquée pour obtenir
 
 \begin{equation*}
     \nabla \bm{u}(\bm{x}, t) = \sum_{p \in \mathcal P} \bm{U}_p(t) \nabla \phi_\varepsilon (\bm{x}-\bm{x}_p(t)).
@@ -86,8 +85,8 @@ Il existe toutefois une grande variété de formule pour approximer l'opérateur
 Généralement, un terme additionnel est introduit lorsque le champ est évalué à la position d'une particule $p \in \mathcal P$ tel que
 
 \begin{equation*}
-    \nabla \bm{u}(\bm{x}_p(t), t) = \sum_{q \in \mathcal P} (\bm{U}_q(t) - \bm{U}_p(t)) \nabla \phi_\varepsilon (\bm{x}_q(t)-\bm{x}_p(t))
-\end{equation*}, où $\sum_q \bm{U}_p(t) \nabla \phi_\varepsilon (\bm{x}_q(t)-\bm{x}_p(t))$ est nul par propriété de localisation du noyau $\phi_\varepsilon$.
+    \nabla \bm{u}(\bm{x}_p(t), t) = \sum_{q \in \mathcal P} (\bm{U}_q(t) - \bm{U}_p(t)) \nabla \phi_\varepsilon (\bm{x}_q(t)-\bm{x}_p(t)),
+\end{equation*}où $\sum_q \bm{U}_p(t) \nabla \phi_\varepsilon (\bm{x}_q(t)-\bm{x}_p(t))$ est nul par propriété de localisation du noyau $\phi_\varepsilon$.
 
 Finalement, l'ensemble de particules $\mathcal P$ va permettre de résoudre les équations de la dynamique, et ce, soit par discrétisation des opérateur de la formulation forte comme avec la méthode SPH, soit par discrétisation de la formulation faible comme avec la méthode MPM. Ainsi, un modèle d'évolution est associé aux positions $\bx_p(t)$ et intensités $\bm \Gamma_p(t)$ tel que
 
@@ -341,10 +340,10 @@ Des transferts plus plus complexes ont été développés afin d'offre des sché
 
 \begin{gather}
     \left\{\begin{aligned}
-         & \frac{d\bm v_p(t)}{dt} = \mathbf I_v \circ \mathbf P_v(v_p;\mathcal P), \\
-         & \frac{d \bx_p(t)}{d t} = \mathbf I_x \circ \mathbf P_x(\bx;\mathcal P),
+         & \frac{d\bm v_p(t)}{dt} = \mathbf I_v \circ \mathbf P_v(\bm v_p(t);\mathcal P), \\
+         & \frac{d \bx_p(t)}{d t} = \mathbf I_x \circ \mathbf P_x(\bx(t);\mathcal P),
     \end{aligned} \right.
-\end{gather}où $\mathbf P$ et $\mathbf I$ sont respectivement des opérateurs d'interpolation et de projection.
+\end{gather}où $\mathbf P$ et $\mathbf I$ sont respectivement des opérateurs de projection et d'interpolation.
 
 Tout comme la méthode SPH, des lois de comportement sont introduites pour pouvoir calculer $\bm f_p$, généralement grâce au tenseur de déformation, le tenseur de contrainte et de variable interne comme fait classiquement en mécanique des solides.
 
@@ -419,7 +418,7 @@ Finalement, on obtient également les équations d'évolution des quantités par
 
 \begin{gather*}
     \left\{\begin{aligned}
-         & \frac{d \bx_p(t)}{dt} = \bm u(\bx_p(t), t)                                                                                                       \\
+         & \frac{d \bx_p(t)}{dt} = \bm u(\bx_p(t), t),                                                                                                      \\
          & \frac{d\Gamma_p(t)}{dt} = \nu \varepsilon^{-2} \sum_{q \in \mathcal P} [V_p \Gamma_q(t) - V_q \Gamma_p(t)] \phi_\varepsilon(\bx_p(t) - \bx_q(t))
     \end{aligned}\right.
 \end{gather*}
@@ -428,7 +427,7 @@ Finalement, on obtient également les équations d'évolution des quantités par
 
 La méthode \textit{Vortex-In-Cell}~\cite{christiansen_1973}, tout comme la méthode MPM~\ref{sec:mpm}, est une version \textit{Particle-In-Cell}~\cite{birdsall_1969} de la méthode Vortex précédemment décrite. Elle a été développé pour tenir compte de ses faiblesses. Comme la méthode MPM, celle-ci repose sur la représentation particulaire pour tenir compte du terme d'advection mais également d'une grille de calcul pour résoudre l'équation de Poisson en utilisant des méthodes eulériennes sur grille.
 
-Le schéma de transfert est similaire à celui de la méthode MPM. D'abord une projection du champ de vorticité sur la grille pour obtenir les valeurs nodales $\omega_I$ à l'aide d'une fonction de forme $W_I$
+Le schéma de transfert est similaire à celui de la méthode MPM. D'abord une projection du champ de vorticité sur la grille de nœuds $\Lambda$ pour obtenir les valeurs nodales $\omega_I$ à l'aide d'une fonction de forme $W_I$
 
 \begin{equation*}
     \omega_I = \frac{1}{V_I}\sum_{p \in \mathcal P} \Gamma_p W_I(\bx_p).
@@ -437,9 +436,11 @@ Le schéma de transfert est similaire à celui de la méthode MPM. D'abord une p
 L'équation de Poisson~\ref{eq:poisson} est résolue sur la grille, soit par différences finies, soit par une méthode FFT pour obtenir des vitesses au nœud $\bm u_I$. La vitesse est ensuite interpolée sur le particule pour mettre à jour leur position
 
 \begin{equation*}
-    \frac{d \bm x}{d t} = \sum_{I \in \Lambda} \bm u_I W_I(\bx_p).
+    \frac{d \bm x_p}{d t} = \sum_{I \in \Lambda} \bm u_I W_I(\bx_p).
 \end{equation*}
 Le terme de diffusion peut également être pris en compte sur la grille de calcul. De plus, de cette manière l'étape de recherche de plus proche voisin n'est pas nécessaire, la résolution des équations se faisant directement sur la grille.
 
-\subsubsection{Similarité avec les méthodes SPH et MPM}
+% \subsubsection{Similarité avec les méthodes SPH et MPM}
+
+
 

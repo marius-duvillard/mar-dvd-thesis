@@ -3,13 +3,27 @@
 \section{Assimilation de données}~\label{sec:da}
 
 % \section{Introduction}~\label{sec:intro_da}
-La construction d'un système expert ou jumeau numérique a besoin de méthodes qui puissent faire le lien entre observations et l'état de notre simulation. En effet, les solutions calculées par les modèles numériques comportent des erreurs qu'il est crucial de comprendre, de quantifier et de réduire. Cette incertitude peut se manifester sous diverses formes, telles que l'ambiguïté des valeurs des paramètres du modèle, l'imprécision des conditions initiales, ou l'incertitude dans la définition des conditions aux limites ou des forces extérieures. De plus, bien que les modèles numériques intègrent généralement des principes physiques essentiels, ils impliquent certaines simplifications. L'erreur numérique apparaît en raison de l'algorithme et de la discrétisation. Elle s'étend également à l'incertitude associée aux futures mesures expérimentales calibrant les modèles numériques. Ainsi, les méthodes d'assimilation de données sont mises en place pour combiner les informations issues d'un modèle numérique, et celles issues de l'observation, et ce, de manière optimale, c'est-à-dire en tenant compte de leurs incertitudes respectives.
+La construction d'un système expert ou jumeau numérique a besoin de méthodes qui puissent faire le lien entre observations et simulation afin d'améliorer l'estimation de l'état. En effet, les solutions calculées par les modèles numériques comportent des erreurs qu'il est crucial de comprendre, de quantifier et de réduire. Cette incertitude peut se manifester sous diverses formes comme rassemblée Figure~\ref{fig:sources_erreur}, telles que l'ambiguïté des valeurs des paramètres du modèle, l'imprécision des conditions initiales, ou l'incertitude dans la définition des conditions aux limites ou des forces extérieures. De plus, bien que les modèles numériques intègrent généralement des principes physiques essentiels, ils impliquent certaines simplifications. Finalement l'erreur numérique apparaît en raison de l'algorithme et de la discrétisation. Elle s'étend également à l'incertitude associée aux futures mesures expérimentales calibrant les modèles numériques.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{sources_incertitudes.png}
+    \caption{Principales sources d'incertitudes de modèle à l'origine d'erreur de prédiction.}~\label{fig:sources_erreur}
+\end{figure}
+
+Ainsi, les méthodes d'assimilation de données sont mises en place pour combiner les informations issues d'un modèle numérique, et celles issues de l'observation, et ce, de manière optimale, c'est-à-dire en tenant compte de leurs incertitudes respectives. C'est une méthode dynamique, c'est à dire que cette combinaison est réalisé tout au long du processus comme illustré Figure~\ref{fig:assim_da_scheme}. On parle parfois de méthode inverse au cours du temps.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{schema d'assimilation.png}
+    \caption{Schéma d'assimilation de données au cours du temps.}~\label{fig:assim_da_scheme}
+\end{figure}
 
 L'intégration des prévisions des modèles et des données d'observation a été largement appliquée dans des disciplines telles que la météorologie, l'océanographie, et les géosciences~\cite{bocquet_introduction_2014}. Dans le domaine de l'assimilation de données, deux grandes familles d'approche émerge :
 
 \begin{itemize}
-    \item les \textbf{méthodes séquentielles stochastiques} cherchent à estimer la distribution à chaque nouvelle acquisition d'une observation au travers du filtrage bayésien. On trouve principalement le filtre de Kalman~\cite{kalman_new_1960} et ses variantes ainsi que les méthodes de Monte-Carlo séquentielles ;
-    \item les \textbf{méthodes variationnelles} cherchent à estimer l'estimateur de maximum a posteriori par la minimisation d'une fonction de coût~\cite{variational_method}. Les formulations les plus courantes dérivent des méthodes 3D-Var et 4D-Var~\cite{talagrand1997assimilation}.
+    \item les \textbf{méthodes séquentielles stochastiques} cherchent à estimer la distribution à chaque nouvelle acquisition d'une observation à travers le développement de filtre bayésien. On trouve principalement le filtre de Kalman~\cite{kalman_new_1960} et ses variantes ainsi que les méthodes de Monte-Carlo séquentielles ;
+    \item les \textbf{méthodes variationnelles} cherchent à estimer l'estimateur de maximum a posteriori par la minimisation d'une fonction de coût~\cite{variational_method}. L'estimation peut être réalisé à chaque nouvelle acquisition comme avec la méthodes 3D-Var, ou bien sur une fenêtre d'assimilation 4D-Var~\cite{talagrand1997assimilation}.
 \end{itemize}
 
 
@@ -104,7 +118,7 @@ Ainsi la trajectoire de l'état et des observation suis les hypothèses d'un mod
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{hmc.png}
-    \caption{Chaîne de Markov cachée}
+    \caption{Chaîne de Markov cachée.}
     \label{fig:hidden_markov}
 \end{figure}
 
@@ -345,11 +359,11 @@ Cette propriété est aussi vérifiée pour le filtre EnKF stochastique. En effe
 
 Ainsi la correction du filtre EnKF est une combinaison linéaire des membres qui composent les colonnes de $\mstate^f$. De plus, en utilisant la formule de Sherman-Morrison-Woodbury (SMW)~\cite{SMW}, la matrice de correction $\Fcorr$ peut être calculée à l'aide uniquement de l'inversion de la matrice $\bm R$ et d'une matrice de taille $N$
 
-\begin{eqnarray*}
+\begin{eqnarray}~\label{eq:corr}
     \Fcorr = \frac{1}{\sqrt{N - 1}} {(\bm I_N + \annomY^T\bm R^{-1}\annomY)}^{-1}\annomY^T \bm R^{-1} (\mdata - \mpred),
-\end{eqnarray*}ce qui devient avantageux dans le cas où $\bm R$ est une matrice diagonale et $N < N_{\text{obs}}$.
+\end{eqnarray}ce qui devient avantageux dans le cas où $\bm R$ est une matrice diagonale et $N < N_{\text{obs}}$.
 
-\subsection{Méthodes variationnelles}~\label{sec:variation}
+\subsection{Approches variationnelles}~\label{sec:variation}
 
 L'objectif des méthodes variationnelles est de proposer une estimation de l'état ou de sa distribution à partir de la minimisation de fonctions de coût. Pour cela, nous partons de l'estimation du maximum a posteriori auquel on ajoute les hypothèses de gaussianité.
 

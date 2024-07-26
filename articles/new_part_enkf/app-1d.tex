@@ -39,13 +39,13 @@ On the other hand, we use a redistribution method called the Particle Strength E
 
 
 \begin{equation*}
-	D \frac{d^2 U_p}{dz^2}  = D V_p \frac{d^2 u_p}{dz^2} \approx D V_p \varepsilon^{-d} \int [u(z)  - u(y)] \phi_\varepsilon(y - z) dz,
+	D \frac{d^2 U_p}{dz^2}  = D  \frac{d^2 u_p}{dz^2} V_p \approx D  \varepsilon^{-d} \int [u(z)  - u(y)] \phi_\varepsilon(y - z) V_p dz,
 \end{equation*}
 
 It deals with the particle approximation by a redistribution of the particle intensities in their previous locations, such as
 
 \begin{equation*}
-	\frac{dU_p}{dt} = D \varepsilon^{-d} V_p \sum_q (U_q - U_p) \phi_\varepsilon( z_q -  z_p),
+	\frac{dU_p}{dt} = D \varepsilon^{-d}  \sum_q (V_p U_q -V_q U_p) \phi_\varepsilon( z_q -  z_p),
 \end{equation*}where $V_p$ the volume of the particle $p$ and $d$ the dimension of $\Omega$.
 For further details on the computation, please refer to \cite{cottet_1990}.
 

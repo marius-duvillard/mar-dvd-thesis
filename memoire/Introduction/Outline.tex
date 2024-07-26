@@ -1,18 +1,12 @@
 % !TEX root = ./memoire/main.tex
-Dans le cadre de la construction d'un jumeau numérique, faisant le lien entre expérimentation et simulation, le travail de cette thèse a consisté à développer des méthodes d'assimilation de données adaptées à des simulations sans maillage.
+
 
 \section{Objectifs de la thèse}
 
-Afin de répondre aux attentes de cette problématique, le premier chapitre présente les différents éléments intervenant dans la construction du jumeau numérique. Ces éléments seront utiles pour comprendre l'orientation scientifique du travail de thèse sur le sujet de l'assimilation de données pour les simulations sans maillage.
+Pour modéliser le mélange de poudre dans le broyeur à boulets intervenant la fabrication du combustible MOX, des simulations dites lagrangiennes ou particulaires ont été développées. D'autre part, à partir de méthodes de traitement d'images, il est également possible de mesurer des profils d'écoulement ou les champs de vitesse dans le broyeur à boulets. Pour construire un modèle de Jumeau Numérique capable d’intégrer les observations issues de l’observation, des méthodes d'assimilation de données doivent être utilisées pour mettre à jour l'état de la simulation à partir d'observations en tenant compte à la fois des incertitudes sur l’état et les observations. Toutefois, les méthodes d'assimilation sont définies sont pour des discrétisations (maillage, grille) qui ne varient pas au cours du temps. Or les méthodes particulaires/lagrangiennes sont définies à l’aide particules qui se déplacent en suivant l’écoulement du milieu.
+C'est ce qui justifie cette thèse, elle consiste à développer des méthodes d'assimilation de données adaptées à des simulations lagrangiennes.
 
-Les chapitres 2 et 3 présentent un état de l'art respectivement sur les méthodes d'assimilation de données et les simulations sans maillage. Le chapitre 2 présentera deux grandes typologies de méthodes d'assimilation utilisé dans le reste du manuscrit. Le chapitre 3, offre en particulier une analyse critique sur l'adaptabilité des méthodes d'assimilation aux différents types de méthodes sans maillage et et ce qui a déjà été proposé dans la littérature. Il montrera en particulier un certain nombre de limitations, motivant le développement des contributions de thèse.
-
-Conscient des spécificités de ce type de simulation, le chapitre 4 présentera le développement d'adaptation du filtre de Kalman d'ensemble à des simulations particulaires. Pour cela, l'idée a été de définir une correction qui soit indépendante des discrétisations particulaires des états. En effet, l'écriture du gain de Kalman d'ensemble dépend habituellement de celles-ci. L’objectif ensuite a été ensuite de mettre en place des mises à jour des représentations particulaires pour obtenir les états assimilés. Ceci s’est effectué en développant différents schémas soit par remaillage de la discrétisation, soit par projection de la solution analysée sur la précédente discrétisation.
-
-Le chapitre 5 a consisté à évaluer les capacités de ces développement à pour l'assimilation de données sur plusieurs applications. L'idée a été de vérifier l'influence des paramètres de simulation et d'assimilation sur les résultats d'assimilation.
-
-Dans un deuxième temps, l'objectif du chapitre 6 a été de développer des méthode d'assimilation de donnée par correction de position pour des simulations sans maillage. En effet, Pour cela nous formuler le problème d'assimilation de données tenant compte des erreurs d'alignement et capable de corriger la position des particules. L'idée a été d'introduire une transformation pour aligner les particules dans un cadre variationnel.
-
-Dans la même optique que le chapitre 5, le chapitre 7 a consisté comparer les différents filtres sur un cas limite.
-
-Finalement le dernier chapitre proposera des extensions pour appliquer ces méthodes au cas du broyeur.
+Tout d'abord, un état de l'art respectif sur les méthodes d'assimilation de données et les simulations lagrangiennes est tout d'abord réalisé. Le chapitre~\ref{sec:prob_contribution}, offre en particulier une analyse critique sur l'adaptabilité des méthodes d'assimilation aux différents types de méthodes lagrangiennes.
+%Il montrera en particulier un certain nombre de limitations, motivant le développement des contributions de thèse.
+Conscient des spécificités de ce type de simulation, le chapitre suivant présentera le développement d'adaptation du filtre de Kalman d'ensemble à des simulations particulaires. Pour cela, l'idée a été de définir une correction des intensités de la discrétisation. Cette correction a été évalué sur plusieurs applications.
+Dans un deuxième temps, l'objectif du chapitre qui suit a été de développer des méthode d'assimilation de donnée par correction de position pour des simulations lagrangienne. En effet, Pour cela nous formulons le problème d'assimilation de données tenant compte d'une erreur d'alignement afin d'être capable de corriger la position des particules. L'idée a été d'introduire une transformation pour aligner les particules dans un cadre variationnel.
