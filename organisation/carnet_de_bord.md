@@ -680,15 +680,20 @@ Bootstrapping for confidence intervals
 
 ## 25-07-2024
 
-- Discussion avec Olivier plan manuscrit et article
-- Reprise de l'introduction. Correction+ finir Objectifs et plan de manuscrit.
+- [ ] Discussion avec Olivier plan manuscrit et article
 
 ## 26-03-2024
 
 - Revoir la mise en commun des partie du manuscrit avec l'article
-- Relire la fin de DrumSimu
+- [x] Reprise de l'introduction.
+- [x] Relire la fin de DrumSimu
 
 ## 27-03-2024
+
+- [ ] Correction + finir Objectifs et plan de manuscrit.
+- [ ] Faire la mise en commun de l'article avec le manuscript.Reprendre l'ancienne notation sur l'article pour uniformiser la notation de la variable d'espace en Z et d'état en Z ? Voir si la dernière condition est vraiment nécessaire.
+- [ ] revoir la partie problématique sur la revue de bibliographie
+- Envoyer une première version à Loïc
 
 ### A FAIRE
 

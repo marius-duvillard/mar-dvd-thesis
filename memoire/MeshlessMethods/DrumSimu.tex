@@ -161,7 +161,7 @@ Dans ce dernier cas, le facteur de normalisation $\alpha$ est
 
 Notez que ces noyaux ont été définis avec la coordonnée radiale $r$.
 
-Une autre possibilité serait de définir le noyau multidimensionnel comme le produit tensoriel du noyau 1d. C'est ce qui est généralement fait pour définir les fonctions de forme associées à la grille de la méthode MPM ou bien les noyaux de redistribution utilisés pour remailler une discrétisation particulaire comme en Section~\ref{sec:remesh}.
+Une autre possibilité serait de définir le noyau multidimensionnel comme le produit tensoriel du noyau 1d. C'est ce qui est généralement fait pour définir les fonctions de forme associées à la grille de la méthode MPM ou bien les noyaux de redistribution utilisés pour remailler une discrétisation particulaire comme en Section~\ref{remesh_part}.
 
 \subsubsection{Distribution particulaire admissible}~\label{sec:part_admissible}
 
@@ -207,7 +207,7 @@ C'est l'ensemble de ces sous-domaines qui forment la distribution particulaire. 
 La condition~\ref{it:cond1} est une condition de recouvrement. Cette dernière est une condition nécessaire de la condition~\ref{it:cond2}. Cette dernière peut être appelée vu comme une condition de chevauchement, nécessaire afin de "lier" les particules entre elles. Finalement, la condition~\ref{it:cond3}
 La définition d'admissibilité a été développée en termes de ($\rho, p$)-régularité par Han et Meng~\cite{HAN20016157} et par Duarte et Oden~\cite{duarte1996hp}.
 
-Cette définition est en particulier déterminante pour pouvoir appliquer les schémas d'interpolation définis dans la Section~\ref{sec:approx_part}.
+Cette définition est en particulier déterminante pour pouvoir appliquer les schémas d'interpolation définis dans la Section~\ref{interpOp}.
 
 \subsection{Hydrodynamique des particules lissées, \textit{Smoothed particle hydrodynamics} (SPH)}
 

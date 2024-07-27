@@ -12,7 +12,8 @@
 %     right=16mm,
 %     bottom=30mm
 % }
-
+\usepackage{appendix}
+\usepackage{etoolbox}
 \usepackage{xcolor}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{lipsum}
@@ -76,6 +77,17 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 \newcommand{\bx}{\bm{x}}
 \newcommand{\mstate}{\bm{Z}}
+\newcommand{\statebis}{\bm{x}}
+\newcommand{\mstatebis}{\bm{X}}
+\newcommand{\zz}{z_0 = 0.02}
+\newcommand{\sigz}{\sigma_0^2 = 0.5}
+\newcommand{\xx}{x_0 = 0.02}
+\newcommand{\sigx}{\sigma_0^2 = 0.5}
+\newcommand{\npart}{$N_{part} = 100$}
+\newcommand{\ngrid}{$N_{grid} = 100$}
+\newcommand{\sigmaY}{0.05}
+\newcommand{\z}{\bm{z}}
+
 \newcommand{\mpred}{\mathcal{Y}}
 \newcommand{\mP}{\mathcal{P}}
 \newcommand{\Fcorr}{\bm{F}}
@@ -105,6 +117,10 @@
 \newcommand{\bh}{\bm{h}}
 \newcommand{\bd}{\bm{d}}
 \newcommand{\fstate}{\bm{u}}
+\newcommand{\cN}{\mathcal N}
+\newcommand{\cU}{\mathcal U}
+\newcommand{\cP}{\mathcal P}
+\newcommand{\cV}{\mathcal V}
 
 \newcommand{\bM}{\bm{M}}
 \newcommand{\bH}{\bm{H}}

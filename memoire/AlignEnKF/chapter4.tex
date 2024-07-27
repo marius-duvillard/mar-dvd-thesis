@@ -1,17 +1,17 @@
 %!TEX root = ./memoire/main.tex
 
-\chapter{Evaluation et comparaison des méthodes de correction de position et/ou d'intensité}
-
-\section{Objectifs}
+% \chapter{Evaluation et comparaison des méthodes de correction de position et/ou d'intensité}
+\section{Application}
+% \subsection{Objectifs}
 
 En définissant dans le précédent chapitre un filtre par correction de position, nous proposons\dots
 
-\section{Définition du problème}
+\subsection{Définition du problème}
 \subsection{Problème des trois vortex}
 
 Nous évaluerons les résultats des filtres à l'aide du problème des trois vortex~\cite{aref_motion_1979,yim_motion_2022}. Il s'agit d'un problème analogue au problème à N-corps pour la mécanique céleste. A partir de trois corps, Henri Poincaré a montré que ces problèmes sont sensibles aux conditions initiales, initiant ainsi la théorie du chaos moderne~\cite{poincare1890,diacu1996}.
 
-Chaque tourbillon est positionné sur une boite de taille $[0, \pi]^2$  et suit la distribution du tourbillon de Bessel~\cite{vanGeffen1996}. Un tourbillon de Bessel est défini par un champ de vorticité continu sur un cercke de rayon $R$ et d'équation
+Chaque tourbillon est positionné sur une boite de taille $[0, \pi]^2$  et suit la distribution du tourbillon de Bessel~\cite{vanGeffen1996}. Un tourbillon de Bessel est défini par un champ de vorticité continu sur un cercle de rayon $R$ et d'équation
 
 \begin{equation*}
     \omega(r) =  \begin{cases}
@@ -20,7 +20,7 @@ Chaque tourbillon est positionné sur une boite de taille $[0, \pi]^2$  et suit 
     \end{cases}
 \end{equation*}où $J_0$ est la première fonction de Bessel, $k$ son premier zero non trivial, $r$ la distance au centre du tourbillon et $\Gamma$ une intensité.
 
-Indépendemment, il s'agit de solution stationnaire pour les équation d'Euler dans un domaine infini. Dans ce cas, chaque vortex tourne autour de son centre, avec une vitesse angulaire constante $\frac{\Gamma}{2\pi}$ sans changer de forme. Lorsque lorsque plusieurs tourbillons sont placés dans une boite, ceux-ci vont commencer à ce déplacer du fait des vitesses induites les uns aux autres et également du fait des conditions limites. La figure~\ref{sec:ref_three_vortex} représente la trajectoire de trois tourbillons au cours du temps.
+Indépendamment, il s'agit de solution stationnaire pour les équation d'Euler dans un domaine infini. Dans ce cas, chaque vortex tourne autour de son centre, avec une vitesse angulaire constante $\frac{\Gamma}{2\pi}$ sans changer de forme. Lorsque lorsque plusieurs tourbillons sont placés dans une boite, ceux-ci vont commencer à ce déplacer du fait des vitesses induites les uns aux autres et également du fait des conditions limites. La figure~\ref{sec:ref_three_vortex} représente la trajectoire de trois tourbillons au cours du temps.
 
 % Rajouter la configuration des particules initales
 \begin{figure}~\label{sec:ref_three_vortex}

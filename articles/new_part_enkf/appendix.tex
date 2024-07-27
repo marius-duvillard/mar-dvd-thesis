@@ -1,30 +1,29 @@
 % !TEX root = main.tex
 
-\appendix
 \section{Stochastic Ensemble Kalman Filter}~\label{appendix:enkf}
 
-We define the matrix of states and the matrix of anomalies $\mstate^f = [\state^1, \dots, \state^N]$, $\annomX$ whose columns are the member states and the normalized anomalies.
+We define the matrix of states and the matrix of anomalies $\mstate^f = [\statebis^1, \dots, \statebis^N]$, $\annomX$ whose columns are the member states and the normalized anomalies.
 
 \begin{equation*}
-    \annomX = \frac{1}{\sqrt{N - 1}}(\X^f - \overline{\state}^f \bm{1}^T),
+    \annomX = \frac{1}{\sqrt{N - 1}}(\mstate^f - \overline{\statebis}^f \bm{1}^T),
 \end{equation*}where$\bm{1} \in \mathbb{R}^N$ is a vector of one.
 
-Respectively the matrix of observation and observation anomalies are $\mathcal Y^f = [\mathcal{H}(\state_1^f), \dots, \mathcal{H}(\state_N^f)]$, $\annomY$ where columns are
+Respectively the matrix of observation and observation anomalies are $\mathcal Y^f = [\mathcal{H}(\statebis_1^f), \dots, \mathcal{H}(\statebis_N^f)]$, $\annomY$ where columns are
 
 \begin{equation*}
-    \annomY = \frac{1}{\sqrt{N - 1}} \left(\mathcal Y - \overline{\obs} \bm{1}^T \right) \quad \text{with} \quad \overline{\obs} = \frac{1}{N} \sum_{j=1}^{N} \mathcal{H}(\state_j^f).
+    \annomY = \frac{1}{\sqrt{N - 1}} \left(\mathcal Y - \overline{\obs} \bm{1}^T \right) \quad \text{with} \quad \overline{\obs} = \frac{1}{N} \sum_{j=1}^{N} \mathcal{H}(\statebis_j^f).
 \end{equation*}
 
 The ensemble defines the covariance between states and observations $\Cov \bm H^T$, the covariance between observations $\Cov \bm H^T$, and $\tilde{\bm{K}}$
 
 \begin{eqnarray*}
-    \Cov \bm H^T &\simeq& \frac{1}{N - 1} \sum_{i = 1}^{N} {(\state_i^f - \overline{\state}^f)} {\left[ \mathcal{H}_k(\state_i^f) - \overline{\bm{y}}\right]}^T = \annomX \annomY^T, \\
-    \bm H \Cov \bm H^T &\simeq& \frac{1}{N -1} \sum_{i = 1}^{N}\left[ \mathcal{H}_k(\state_i^f) - \overline{\bm{y}}\right] {\left[ \mathcal{H}_k(\state_i^f) - \overline{\bm{y}}\right]}^T = \annomY \annomY^T,\\
+    \Cov \bm H^T &\simeq& \frac{1}{N - 1} \sum_{i = 1}^{N} {(\statebis_i^f - \overline{\statebis}^f)} {\left[ \mathcal{H}_k(\statebis_i^f) - \overline{\bm{y}}\right]}^T = \annomX \annomY^T, \\
+    \bm H \Cov \bm H^T &\simeq& \frac{1}{N -1} \sum_{i = 1}^{N}\left[ \mathcal{H}_k(\statebis_i^f) - \overline{\bm{y}}\right] {\left[ \mathcal{H}_k(\statebis_i^f) - \overline{\bm{y}}\right]}^T = \annomY \annomY^T,\\
     \tilde{\bm{K}} &=& \Cov \bm H^T{(\bm H \Cov \bm H^T + \bm R)}^{-1} = \annomX \annomY^T {(\annomY \annomY^T + \bm R)}^{-1}.
 \end{eqnarray*}
 
-This observation matrix-free implementation rely on the secant method approximation $\mathcal{H}(\state_i^f - \overline{\state}^f) \approx \predi - \overline{\obs}$.
-The forecast is then update to a posterior ensemble $\left\{\state_i^a\right\}_{i=1}^{N}$ such as
+This observation matrix-free implementation rely on the secant method approximation $\mathcal{H}(\statebis_i^f - \overline{\statebis}^f) \approx \predi - \overline{\obs}$.
+The forecast is then update to a posterior ensemble $\left\{\statebis_i^a\right\}_{i=1}^{N}$ such as
 
 \begin{equation} \label{enkf_formula}
     \mstate^a = \mstate^f + \tilde{\bm{K}} ( \mdata - \mpred),

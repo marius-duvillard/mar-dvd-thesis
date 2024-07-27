@@ -14,38 +14,38 @@ The goal is to establish the recurrence in probability distributions that, throu
 A hidden Markov chain is used to model this recurrence. We position ourselves within a finite-dimensional context. The forecast and observation are introduced, such as for $ k \geq 0$,
 \[
     \begin{cases}
-        \state_{k+1} = \mathcal{M}_{k+1} (\state_{k}) + \bm{\eta}_{k+1}, \\
-        \bm{y}_{k+1} = \mathcal{H}_{k+1} (\state_{k+1}) + \bm \varepsilon_{k+1},
+        \statebis_{k+1} = \mathcal{M}_{k+1} (\statebis_{k}) + \bm{\eta}_{k+1}, \\
+        \bm{y}_{k+1} = \mathcal{H}_{k+1} (\statebis_{k+1}) + \bm \varepsilon_{k+1},
     \end{cases}
-\]where $\mathcal{M}_{k+1}$ is the model operator describing the time evolution of the state from time $k$ to time $k+1$, and $\mathcal{H}_k$ is the observation operator. The term $\state_k$ $\in$ $\mathbb{R}^n$ is the vector state at time $k$ and $\bm{y}_k$ $\in$ $\mathbb{R}^m$ the observation vector, $\bm{\eta}_{k}$ is the model error that accounts for error in the numerical model and the errors due to discretization, and $\bm{\varepsilon}_k$ is the observation error which combine measurement error and representativeness error. We assume that $\bm{\eta}_{k}$, $\bm{\varepsilon}_k$ are random variables following Gaussian distributions with zero mean and covariance matrices $\bm Q_k$ and $\bm R_k$ respectively. Finally, we assume that the observation and the model errors are independent though the time and that initial error on $\state_0$, $\bm{\varepsilon}_k$ and $\bm{\eta}_{k}$ are mutually independent.Let $\mathcal{D}_k = \left\{\bm y_l\right\}_{l=1}^k$ represent the accumulated data up to time $k$.
-Thus, $\state_{k+1}$ and $\mathcal{D}_k$ are conditionally independent with respect to $\state_{k}$, as well as $\bm{y}_{k+1}$ and $\state_{k+1}$, leading to simplifications in the next paragraph.
+\]where $\mathcal{M}_{k+1}$ is the model operator describing the time evolution of the state from time $k$ to time $k+1$, and $\mathcal{H}_k$ is the observation operator. The term $\statebis_k$ $\in$ $\mathbb{R}^n$ is the vector state at time $k$ and $\bm{y}_k$ $\in$ $\mathbb{R}^m$ the observation vector, $\bm{\eta}_{k}$ is the model error that accounts for error in the numerical model and the errors due to discretization, and $\bm{\varepsilon}_k$ is the observation error which combine measurement error and representativeness error. We assume that $\bm{\eta}_{k}$, $\bm{\varepsilon}_k$ are random variables following Gaussian distributions with zero mean and covariance matrices $\bm Q_k$ and $\bm R_k$ respectively. Finally, we assume that the observation and the model errors are independent though the time and that initial error on $\statebis_0$, $\bm{\varepsilon}_k$ and $\bm{\eta}_{k}$ are mutually independent.Let $\mathcal{D}_k = \left\{\bm y_l\right\}_{l=1}^k$ represent the accumulated data up to time $k$.
+Thus, $\statebis_{k+1}$ and $\mathcal{D}_k$ are conditionally independent with respect to $\statebis_{k}$, as well as $\bm{y}_{k+1}$ and $\statebis_{k+1}$, leading to simplifications in the next paragraph.
 
 \subsubsection{Bayesian filtering}
 
-The filtering problem consists of assessing the current state of the signal by utilizing data observation up to the present moment. Filtering involves the determination of $p(\state_{k} \mid \mathcal{D}_{k})$, the probability density function associated with the probability measure on the random variable $\state_{k} | \mathcal D_{k}$. Specifically, filtering focuses on the sequential updating of this probability density function as the index $k$ is incremented.
+The filtering problem consists of assessing the current state of the signal by utilizing data observation up to the present moment. Filtering involves the determination of $p(\statebis_{k} \mid \mathcal{D}_{k})$, the probability density function associated with the probability measure on the random variable $\statebis_{k} | \mathcal D_{k}$. Specifically, filtering focuses on the sequential updating of this probability density function as the index $k$ is incremented.
 The state density is initialized by the a priori density of the initial state $p_{x_0}$.
 Then, for all $k \geq 0$, probability distributions are propagated.
 The forecast step is obtained through the law of total probability
 
 \begin{equation*}
-    p(\state_{k+1} \mid \mathcal D_k) = \mathbb{E}_{\state_k}\left[p(\state_{k+1} \mid  \state_k,\mathcal{D}_k)\right] = \mathbb{E}_{\state_k}\left[p(\state_{k+1} \mid \state_k)\right].
+    p(\statebis_{k+1} \mid \mathcal D_k) = \mathbb{E}_{\statebis_k}\left[p(\statebis_{k+1} \mid  \statebis_k,\mathcal{D}_k)\right] = \mathbb{E}_{\statebis_k}\left[p(\statebis_{k+1} \mid \statebis_k)\right].
 \end{equation*}
 The a priori law of the $k+1$ observations can be obtained again through the law of total probability
 \begin{equation*}
-    p(\bm y_{k+1} \mid \mathcal D_k) = \mathbb{E}_{\bm{x}_{k+1}}\left[p(\bm y_{k+1}\mid \state_{k+1}) \mid \mathcal D_k\right].
+    p(\bm y_{k+1} \mid \mathcal D_k) = \mathbb{E}_{\bm{x}_{k+1}}\left[p(\bm y_{k+1}\mid \statebis_{k+1}) \mid \mathcal D_k\right].
 \end{equation*}
 After the $k+1$ observation of the random variable $\bm y_{k+1}$, the analysis step determines the a posteriori law of the state using Bayes law
 \begin{equation*}
-    p(\state_{k+1} \mid \mathcal D_{k+1}) = p(\state_{k+1} \mid \bm y_{k+1}, \mathcal D_{k})  = \frac{p(\bm y_{k+1} \mid \state_{k+1} ,\mathcal D_k)  p(\state_{k+1}\mid \mathcal D_k)}{p(\bm y_{k+1}\mid \mathcal D_k)}.
+    p(\statebis_{k+1} \mid \mathcal D_{k+1}) = p(\statebis_{k+1} \mid \bm y_{k+1}, \mathcal D_{k})  = \frac{p(\bm y_{k+1} \mid \statebis_{k+1} ,\mathcal D_k)  p(\statebis_{k+1}\mid \mathcal D_k)}{p(\bm y_{k+1}\mid \mathcal D_k)}.
 \end{equation*}
 
 Due to the independence hypothesis the formula reduced to
 
 \begin{equation*}
-    p(\state_{k+1} \mid \mathcal D_{k+1}) = \frac{p(\bm y_{k+1} \mid \state_{k+1})  p(\state_{k+1})}{p(\bm y_{k+1})} \propto p(\bm y_{k+1} \mid \state_{k+1})  p(\state_{k+1}).
+    p(\statebis_{k+1} \mid \mathcal D_{k+1}) = \frac{p(\bm y_{k+1} \mid \statebis_{k+1})  p(\statebis_{k+1})}{p(\bm y_{k+1})} \propto p(\bm y_{k+1} \mid \statebis_{k+1})  p(\statebis_{k+1}).
 \end{equation*}
 
-This finally lead to a mapping from the prior $p(\state_{k+1} \mid \mathcal D_k)$ to the posterior $p(\state_{k+1} \mid \mathcal D_{k+1})$.
+This finally lead to a mapping from the prior $p(\statebis_{k+1} \mid \mathcal D_k)$ to the posterior $p(\statebis_{k+1} \mid \mathcal D_{k+1})$.
 We remove the time subscript $k$ in the rest of the section for simplicity and present the forecast and analysis step for a time increment.
 
 \subsubsection{Ensemble Kalman Filter}~{\label{enkf}}
@@ -54,23 +54,23 @@ The Kalman filter \cite{kalman_new_1960} is a Bayesian filter that, in addition 
 
 The ensemble Kalman Filter (EnKF) is a data assimilation method adapted to high dimensional non-linear problems introduced by Evensen~\cite{evensen_sequential_1994}. The formulation uses an ensemble of discrete samples based on the assumptions of a multivariate Gaussian distribution, such as the Kalman filter. We present the stochastic EnKF, where the observations are perturbed to account for observation errors.
 
-Assuming we have an ensemble of $N$ states $\left\{\bm \state_i \right\}_{i=1}^N$, we forecast the ensemble by propagating each state with the dynamic model and obtain a forecast ensemble.
+Assuming we have an ensemble of $N$ states $\left\{\bm \statebis_i \right\}_{i=1}^N$, we forecast the ensemble by propagating each state with the dynamic model and obtain a forecast ensemble.
 The two first moments of the error are given by
 
 \begin{eqnarray*}
-    \overline{\state}^f &=& \frac{1}{N} \sum_{i = 1}^{N} \state_i^f, \\
-    \Cov^f &=& \frac{1}{N-1} \sum_{i = 1}^{N} (\state_i^f - \overline{\state}^f){(\state_i^f - \overline{\state}^f)}^T,
+    \overline{\statebis}^f &=& \frac{1}{N} \sum_{i = 1}^{N} \statebis_i^f, \\
+    \Cov^f &=& \frac{1}{N-1} \sum_{i = 1}^{N} (\statebis_i^f - \overline{\statebis}^f){(\statebis_i^f - \overline{\statebis}^f)}^T,
 \end{eqnarray*}
-where $\overline{\state}^f$ and $\Cov^f$ are respectively the empirical estimates of the mean and  the covariance matrix of the state distribution obtained from the ensemble members.
+where $\overline{\statebis}^f$ and $\Cov^f$ are respectively the empirical estimates of the mean and  the covariance matrix of the state distribution obtained from the ensemble members.
 
-Likewise, the mean and covariance of the observation $\left\{\mathcal{H}(\state_i^f) \right\}_{i=1}^N$ could be estimated as well as the covariance between state and observation.
+Likewise, the mean and covariance of the observation $\left\{\mathcal{H}(\statebis_i^f) \right\}_{i=1}^N$ could be estimated as well as the covariance between state and observation.
 
 We develop the general formulation of the EnKF filter in the Appendix~\ref{appendix:enkf}.
 
 Finally, our formulation of EnKF takes advantage of a correction of the state defined in the member space. We define $\Fcorr$, the correction matrix that gives the update in terms of linear combinations of the forward states
 
 \begin{equation}~\label{enkf_formula_Fcorr}
-    \mstate^a = \mstate^f + \mstate^f \Fcorr,
-\end{equation}where the matrix $\Fcorr$ only depends on the ensemble members through the predicted observations ensemble $\left\{\mathcal{H}(\state_i^f) \right\}^N_{i=1}$, the observation $\obs$ and the associate perturbations  $\left\{\bm{\varepsilon}_i \right\}^N_{i=1}$
+    \mstatebis^a = \mstatebis^f + \mstatebis^f \Fcorr,
+\end{equation}where the matrix $\Fcorr$ only depends on the ensemble members through the predicted observations ensemble $\left\{\mathcal{H}(\statebis_i^f) \right\}^N_{i=1}$, the observation $\obs$ and the associate perturbations  $\left\{\bm{\varepsilon}_i \right\}^N_{i=1}$
 
 This independence is made possible by the linearization of the observation operator and the low-rank approach. The same property is verified for the ensemble transform Kalman filter~\cite{bishop_adaptive_2001}. Indeed, the filter is explicitly defined in the perturbation space.
