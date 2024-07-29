@@ -3,12 +3,11 @@
 \input{./preamble.tex}
 
 
-\title{Data Assimilation by Alignment for Meshless Methods}
-\author[1,2]{Marius Duvillard}
-\author[3]{Olivier Le Maître}
+\title{Data Assimilation by Alignment for Lagrangian Simulation}
+\author[1]{Marius Duvillard}
+\author[2]{Olivier Le Maître}
 \affil[1]{CEA, DES, IRESNE, DEC, SESC, LMCP, Cadarache, F-13108 Saint-Paul-Lez-Durance, France}
-\affil[3]{CNRS, Inria, Centre de Mathématiques Appliquées, Ecole Polytechnique, IPP, Route de Saclay, 91128, Palaiseau Cedex, France}
-\affil[2]{Centre de Mathématiques Appliquées, Ecole Polytechnique, IPP, Route de Saclay, 91128, Palaiseau Cedex, France}
+\affil[2]{CNRS, Inria, Centre de Mathématiques Appliquées, Ecole Polytechnique, IPP, Route de Saclay, 91128, Palaiseau Cedex, France}
 \date{}
 
 
@@ -20,11 +19,12 @@
 
 \begin{abstract}
 
-    This study introduces a novel approach to data assimilation tailored to meshless simulations, particularly addressing scenarios where positional errors are prevalent. We propose a formulation centered on correcting particle discretization errors in terms of both positions and intensities. The methodology employs a sequential implementation strategy, comprising a dynamic alignment step integrating a correction velocity field followed by an intensity correction utilizing Ensemble Kalman correction techniques. Leveraging an ensemble formulation, our approach minimizes a suite of cost functions, rendering it computationally tractable. Importantly, our method offers a viable solution for correcting meshless simulations in situations where remeshing is impractical. To demonstrate the efficacy of the proposed method, we apply it to a nonlinear two-dimensional inviscid flow problem using Vortex Simulation.
+    We introduce a novel data assimilation formulation for Lagrangian simulations. Specifically, our method addresses problems requiring the modification of the discretization support's position. We treat the correction of intensity and position separately, employing distinct methodologies for each. To achieve this, we developed a sequential formulation that includes an alignment correction step through the integration of a velocity field, followed by an intensity correction using the EnKF as previously described. Our ensemble-based approach minimizes a set of independent, low-rank cost functions. Importantly, this method provides a suitable framework for techniques that cannot remesh a new particle discretization and require position updates consistent with physical principles. We test the algorithm to solve the Navier-Stokes equations with the Vortex method on a 2D problem.
+    % This study introduces a novel approach to data assimilation tailored to Lagrangian simulations. Particularly addressing scenarios where correction particle disc. We propose a formulation centered on correcting particle discretization errors in terms of both positions and intensities. The methodology employs a sequential implementation strategy, comprising a dynamic alignment step integrating a correction velocity field followed by an intensity correction utilizing Ensemble Kalman correction techniques. Leveraging an ensemble formulation, our approach minimizes a suite of cost functions, rendering it computationally tractable. Importantly, our method offers a viable solution for correcting meshless simulations in situations where remeshing is impractical. To demonstrate the efficacy of the proposed method, we apply it to a nonlinear two-dimensional inviscid flow problem using Vortex Simulation.
 
 \end{abstract}
 
-{\bf Keywords:} Meshless Methods, Particle-based Method, Data Assimilation, Position Correction, Ensemble Methods, Vortex Methods.
+{\bf Keywords:} Lagrangian Simulation, Particle-based Method, Data Assimilation, Position Correction, Ensemble Methods, Vortex Methods, Field Alignment.
 
 
 \tableofcontents

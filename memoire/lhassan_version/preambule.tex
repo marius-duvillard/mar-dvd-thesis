@@ -1,0 +1,154 @@
+% !TEX root = ./main.tex
+
+\usepackage[utf8]{inputenc}
+% \renewcommand{\familydefault}{\sfdefault}
+\usepackage{geometry}
+\usepackage[pdftex]{graphicx}
+
+\graphicspath{ {../MeshlessEnKF}{../Introduction/images} {../MeshlessMethods/images} {../AlignEnKF/images} {../BiblioIntro/images} {../DataAssimilation/images}}
+% \geometry{
+%     left=16mm,
+%     top=30mm,
+%     right=16mm,
+%     bottom=30mm
+% }
+\usepackage{appendix}
+\usepackage{etoolbox}
+\usepackage{xcolor}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{lipsum}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{multicol}
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{subcaption}
+\usepackage[vlined, french, onelanguage]{algorithm2e}
+% Hyperref setup
+\usepackage[linktoc=page]{hyperref}
+% \hypersetup{
+%     colorlinks=true,
+%     linkcolor=blue,
+%     filecolor=magenta,
+%     urlcolor=cyan,
+%     pdftitle={Overleaf Example},
+%     pdfpagemode=FullScreen,
+% }
+\hypersetup{
+    % General settings
+    pdfencoding=auto,           % Automatically handles PDF string encoding
+    pdfborder={0 0 0},          % Removes borders around links
+    breaklinks=true,            % Allows links to break across lines
+    colorlinks=true,            % Colors the text of links and anchors
+    % Link colors
+    linkcolor=blue,             % Color of internal links (e.g., sections, equations)
+    citecolor=green,            % Color of citation links
+    filecolor=magenta,          % Color of file links
+    urlcolor=cyan,              % Color of external hyperlinks
+    % Metadata
+    pdftitle={thesis duvillard},       % Title of the document
+    pdfauthor={duvillard},              % Author of the document
+    % pdfsubject={thesis},          % Subject of the document
+    % pdfkeywords={keyword1, keyword2},   % Keywords for the document
+    % PDF display settings
+    pdfpagemode=UseOutlines,    % Opens the PDF with the bookmarks pane open
+    bookmarksopen=true,         % Open the bookmarks by default
+    bookmarksnumbered=true,     % Include section numbers in bookmarks
+    unicode=true                % Support for non-ASCII characters in bookmarks
+}
+\urlstyle{same}
+\setlength{\columnseprule}{0pt}
+\setlength\columnsep{10pt}
+\usepackage[most]{tcolorbox}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}%[section]
+
+\definecolor{mycustomcolor}{RGB}{128, 0, 128}
+\newcommand{\mycolor}[1]{\textcolor{mycustomcolor}{#1}}
+\newcommand{\bE}{\mathbb{E}}
+\newcommand{\bV}{\mathbb{V}}
+\newcommand{\bC}{\mathbb{C}}
+\newcommand{\nens}{N}
+\newcommand{\bw}{\bm w}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\bx}{\bm{x}}
+\newcommand{\mstate}{\bm{Z}}
+\newcommand{\statebis}{\bm{x}}
+\newcommand{\mstatebis}{\bm{X}}
+\newcommand{\zz}{z_0 = 0.02}
+\newcommand{\sigz}{\sigma_0^2 = 0.5}
+\newcommand{\xx}{x_0 = 0.02}
+\newcommand{\sigx}{\sigma_0^2 = 0.5}
+\newcommand{\npart}{$N_{part} = 100$}
+\newcommand{\ngrid}{$N_{grid} = 100$}
+\newcommand{\sigmaY}{0.05}
+\newcommand{\z}{\bm{z}}
+
+\newcommand{\mpred}{\mathcal{Y}}
+\newcommand{\mP}{\mathcal{P}}
+\newcommand{\Fcorr}{\bm{F}}
+\newcommand{\mdata}{\bm{D}}
+\newcommand{\state}{\bm{z}}
+\newcommand{\annomX}{\bm A}
+\newcommand{\annomY}{\bm Y}
+\newcommand{\obs}{\bm{y}}
+\newcommand{\Cov}{\bm{P}}
+\newcommand{\predi}{\mathcal{H} (\bm{x}^i_f)}
+\newcommand{\sigmaZm}{0.5}
+\newcommand{\meanZm}{\pi/2 + 0.6}
+\newcommand{\bz}{\bm z}
+\newcommand{\visc}{D}
+\newcommand{\refv}{1.0}
+\newcommand{\refvisc}{0.05}
+\newcommand{\Dlow}{0.02}
+\newcommand{\Dup}{0.08}
+\newcommand{\vmean}{0.9}
+\newcommand{\vstd}{1.2}
+\newcommand{\smLow}{0.8}
+\newcommand{\smUp}{1.2}
+
+\newcommand{\by}{\bm{y}}
+\newcommand{\bP}{\bm{P}}
+\newcommand{\bR}{\bm{R}}
+\newcommand{\bh}{\bm{h}}
+\newcommand{\bd}{\bm{d}}
+\newcommand{\fstate}{\bm{u}}
+\newcommand{\cN}{\mathcal N}
+\newcommand{\cU}{\mathcal U}
+\newcommand{\cP}{\mathcal P}
+\newcommand{\cV}{\mathcal V}
+
+\newcommand{\bM}{\bm{M}}
+\newcommand{\bH}{\bm{H}}
+\newcommand{\bK}{\bm{K}}
+
+\DeclareMathOperator{\Tr}{Tr}
+\usepackage[most]{tcolorbox}
+
+% Définition du modèle "boite1"
+\newtcolorbox{ObjectifChap}[1][]{
+    colback=blue!5!white,
+    colframe=blue!75!black,
+    fonttitle=\bfseries,
+    title=Boîte 1,
+    #1
+}
+
+% Définition du modèle "boite2"
+\newtcolorbox[auto counter]{BilanChap}[1][]{
+    colback=red!5!white,
+    colframe=red!75!black,
+    fonttitle=\bfseries,
+    title=Boîte \thetcbcounter,
+    #1
+}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+
+\usepackage[french]{babel}
+\usepackage{biblatex}
+\addbibresource{../biblio.bib}
+% \bibliographystyle{plain}

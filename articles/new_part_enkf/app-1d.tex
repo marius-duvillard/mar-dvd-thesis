@@ -35,7 +35,7 @@ Following a Lagrangian perspective by tracking a fluid particle of position $z_p
 \end{equation*}
 
 To solve the convection-diffusion scheme, we employ the two steps of the viscous splitting algorithm. The advection is taken into account by updating the position of the particle with an Euler explicit scheme.
-On the other hand, we use a redistribution method called the Particle Strength Exchange Method (PSE)~\cite{degond_1989,cottet_1990} to approximate the laplacian term $\frac{d^2 U_p}{dz^2}$.
+On the other hand, we use a redistribution method called the Particle Strength Exchange Method (PSE)~\cite{degond_1989,cottet_1990} to approximate the Laplacian term $\frac{d^2 U_p}{dz^2}$.
 
 
 \begin{equation*}
@@ -101,7 +101,7 @@ Simultaneously, a standard Ensemble Kalman Filter (EnKF) update is applied to th
 
 \subsection{Results}
 
-We compare the different filters on the assimilation of the state. We first compare the Grid-EnKF, the Remesh EnKF, and two Part-ENKF filters with 100 and 60 particles. The parameter sample is still unchanged. We take unknown parameters into account as model uncertainties. The two filters outlined in the Method section~\ref{Methods} and the Eulerian filter are compared with the reference filter based on a grid discretization.
+We compare the different filters on the assimilation of the state. We first compare the Grid-EnKF, the Remesh EnKF, and two Part-EnKF filters with 100 and 60 particles. The parameter sample is still unchanged. We take unknown parameters into account as model uncertainties. The two filters outlined in the Method section~\ref{Methods} and the Eulerian filter are compared with the reference filter based on a grid discretization.
 
 In figure \ref{fig:1d_error_time}, we appreciate different assimilation steps for the Remesh-EnKF filter.
 
@@ -111,7 +111,7 @@ In figure \ref{fig:1d_error_time}, we appreciate different assimilation steps fo
 	\begin{subfigure}{\textwidth}
 		\includegraphics[width=\textwidth]{images/app1d/wo_calibration/remesh_EnKF.pdf}
 	\end{subfigure}
-	\caption{Data assimilation ower assimilation step for the Remesh-EnKF filter.}
+	\caption{Data assimilation over assimilation step for the Remesh-EnKF filter.}
 \end{figure}
 
 The result is quite similar for all the different filters except the Part-EnKF with 60 particles.
