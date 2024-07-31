@@ -97,14 +97,14 @@ Finalement, l'assimilation de données pour les méthodes particulaires souffre 
 
 Ces limitations ne sont pas toute propre uniques à ce domaine, mais se retrouvent également dans d'autres disciplines. Le fait d'avoir un ensemble de membre ne partageant pas les mêmes discrétisations est aussi une problématique pour l'application du filtre EnKF avec des méthodes de maillages adaptatifs. De même, la même problématique de passé d'une représentation eulériennes, c'est à dire sur une grille fixe vers une représentation lagrangienne a également dû être considéré pour des observables. Finalement,
 
-\subsection{Assimilation de données sur maillages adaptatifs}
+\subsubsection{Assimilation de données sur maillages adaptatifs}
 
 Les méthodes particulaires continues peuvent être considérées comme le choix d'une discrétisation mobile d'un problème continu. Ainsi, en utilisant un ensemble de simulations basées sur ces méthodes, on se heurte aux mêmes problématiques que celles rencontrées avec des simulations utilisant des maillages adaptatifs.
 Dans ce cas le principal défi réside dans le fait que les dimensions de l'espace d'état changent au cours du temps et diffèrent d'un membre de l'ensemble à l'autre. Cette variabilité complique les opérations ensemblistes habituelles, telles que les calculs matriciels, lors de la mise à jour de l'analyse.
 
 Une solution courante consiste à adopter une discrétisation de référence commune à tous les membres. Dans les méthodologies à grille fixe avec l'analyse multi-résolution (MRA) et dans les scénarios de maillage mobile, les états définis sur des grilles variées sont harmonisés à travers des techniques de projection et d'interpolation pour établir une grille de référence destinée aux mises à jour des états \cite{siripatana_combining_2019, bonan_data_2017}. Cette démarche offre une grande flexibilité, permettant diverses combinaisons de grilles de référence et de mise à jour adaptées aux spécificités des données et des objectifs de l'étude. Par ailleurs, Siripatana et al. \cite{siripatana_combining_2019} soulignent que la correction par le Filtre de Kalman d’Ensemble (EnKF) repose uniquement sur les prédictions et les observations, indépendamment de la définition de l'état. En réalité, cela simplifie l'application de l'EnKF dans des contextes où les maillages varient entre les membres de l'ensemble en proposant une correction qui est indépendante de la discrétisation
 
-\subsection{Méthodes d'assimilation pour des données lagrangiennes}
+\subsubsection{Méthodes d'assimilation pour des données lagrangiennes}
 \textcolor{red}{présenter des méthodes dans des cas où les variables sont des quantités lagrangiennes}
 
 D'autre part
@@ -118,7 +118,7 @@ C'est en particulier ce qui est proposé dans les travaux de Apte~\cite{apte_200
 Cependant, ici les quantités lagrangiennes sont des quantités passives, c'est à dire qu'elles n'interviennent pas dans la résolution du champ de vitesse à intégrer. Dans notre cas les traceurs sont des supports de discrétisation de la solution. De ce fait, le modèle adjoint du modèle n'est pas aussi simple à construire car la position des particules impactent le champ de vitesse à intégrer.
 
 
-\subsection{Méthodes d'assimilation de données par déplacement ou alignement}~\label{sec:biblio_align}
+\subsubsection{Méthodes d'assimilation de données par déplacement ou alignement}~\label{sec:biblio_align}
 
 Dans le Chapitre~\ref{sec:da}, nous avons présenté l'assimilation de données comme la combinaison les simulations issues d'un modèle avec les données bruités issues de l'observation. Cette combinaison nécessite de pouvoir mettre à jour de manière optimale l'état de la simulation en tenant compte à la fois de l'erreur \textit{a priori} du modèle ainsi que l'erreur d'observation. Plus précisément, ces méthodes cherchent à déterminer la distribution ou l'estimateur du maximum a posteriori (MAP) de l'état par correction de l'intensité.
 

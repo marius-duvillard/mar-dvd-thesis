@@ -1,0 +1,30 @@
+\documentclass{article}
+\usepackage{bm}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+
+\title{Alignement des champs de vorticité}
+\author{Marius Duvillard}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{General setting}
+
+We suppose $\bm u$ to be a vorticity field, defined by an ensemble of particle $\mathcal P = \{(\bm x_p, \Gamma_p)\}$. We want to correct the position and intensity sequentially. To do that, we introduce a velocity field $\bm w$ that correct the position of particles that parametrize a coordinate transformation $\bm A$ on $\omega$ such that
+
+\begin{equation*}
+    \begin{cases}
+        \bm x'(\tau = 0) = \bm x,                                                           \\
+        \frac{d \bm x'}{d \tau} = \bm w_i (\bm x'), \quad \bm A_i(\bm x) = \bm x'(\tau = 1) \\
+    \end{cases}
+\end{equation*}
+
+We define a formulation for data assimilation for Lagrangian simulation by sequentially update position and intensities. Thus, we wish to find $(u, \bm w)$maximize the a posteriori distribution $p(u, w \mid y)$ that might be expressed using Bayes rule such as $p(u, w \mid y) \propto p(u \mid u, w)p(u\mid w) p(w)$
+
+By taking the negative log-likelihood, we finally defined a cost function
+
+\begin{equation*}
+    J(u, w) = \frac12 \norm{u - u \circ A(w)}_{P(w)^{-1}}^2 + \frac12 \norm{d - \mathcal(u\circ A(w))}^2_{R^{-1}} +
+\end{equation*}

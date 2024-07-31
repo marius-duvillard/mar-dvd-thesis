@@ -1,0 +1,45 @@
+% !TEX root = main.tex
+
+\section{Background}
+
+\subsection*{Model setting and observations}
+
+In this article we employ the vortex method to solve the Navier-Stokes equation particularly for inviscid incompressible equation for a two dimensional closing domain $[0, 2 \pi]$. The Vortex Method~\cite{cottet_vortex_2000} is a Lagrangian method that use an ensemble of particles to discretize the vorticity field $\omega$. The Euler equation in velocity-vorticity formulation is
+\begin{gather}~\label{eq:euler_eq}
+    \left\{\begin{aligned}
+         & \frac{\partial \bm \omega}{\partial t} + (\bm{u} \cdot \nabla) \bm \omega  =  \bm 0, \\
+         & \Delta u   =  -\nabla \times \bm \omega,
+    \end{aligned} \right.
+\end{gather}où $\bm{u}$ the velocity such as $\omega= \nabla \times \bm u$.
+
+We express the particle discretization of the vorticity field thanks to an particle set $\mathcal P = \{(\bm x_p, \Gamma_p)\}_{p = 1}^{N_p}$ with position $\bm x_p$ and strength $\Gamma_p$ such as
+
+\begin{equation*}
+    \omega(\bm x, t) = \sum_{i=1}^{N_p} \Gamma_p \phi_\varepsilon(\bm x - \bm x_p(t)),
+\end{equation*}où $\phi_\varepsilon$ a smoothing kernel that particularly verify the unit integral property.
+
+We use the Vortex-In-Cell formulation that use operator projection/interpolation on grid to solve the Poisson equation $\Delta \bm u = - \nabla \times \omega$ and determined $\bm u$. The equation of evolution are define by using the Lagrangian version of equation~\eqref{eq:euler_eq} such as
+
+\begin{gather*}
+    \left\{\begin{aligned}
+         & \frac{d \bx_p(t)}{dt} = \bm u(\bx_p(t), t), \\
+         & \frac{d\Gamma_p(t)}{dt} = 0.
+    \end{aligned}\right.
+\end{gather*}
+
+As observations, we mesure the velocity field $\bm u$ on a coarse regular grid over the
+- dire que les observations seront des mesures de vitesse, dire comment on relie à la discrétisation particulaire.
+
+\subsection*{Part-EnKF for Vortex Method}
+
+- On rappelle le problème sous forme variationnelle en partant de p(u \mid y), dire que ça peut être résolu avec un ensemble de fonctions coût.
+- On rappelle la mise à jour EnKF : filtre de Kalman permet de déterminer la distribution a posteriori à l'aide d'un ensemble de membres en corrigeant les amplitudes par combinaison de chaque membre. Ce qui est équivalent à résoudre le problème sous la forme de fonctions coût lorsque l'on linéarise
+- On utilise un ensemble de membres pour propager la distribution mais aussi pour approcher le gain du filtre de Kalman. On défini dans l'annexe et on montre que la mise à jour est définie comme une combinaison des membres
+
+- Dire que l'on a précédemment introduit un filtre de Kalman d'ensemble qui est purement particulaire. Qui garde la même discrétisation que précédemment. Les supports peuvent être différents (mettre figure) et donc on est pas capable d'appliquer l'analyse
+- En fait, on fait l'hypothèse que le problème sur le support est dû à l'origine à une erreur sur l'alignement des membres.%la. C'est une correction dans l'espace euclidien dans l'espace des valeurs de membres.
+- On rappelle que le filtre EnKF permet d'approcher la distribution à posteriori qui permet de résoudre les fonctions de coût suivantes.
+- Dans ce cas on retrouve
+- On a une correction par combinaison des membres.
+- Dire que c'est une méthode de correction en amplitude par le fait qu'elle soit défini comme combinaison d'intensité ce qui amène naturellement à corriger les amplitudes de
+- Parce que l'on fait l'hypothèse que le problème d'interpolation vient à l'origine d'un problème d'alignement, on se propose de formuler le problème en terme de correction de position et d'intensité.

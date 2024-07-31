@@ -2,8 +2,74 @@
 
 \section{Methods}
 
+We want to define a formulation of the data assimilation problem that include a correction respectively on position and strength. In this formulation, we suppose that the state error could be .  We made the assumption that the uncertainty decomposition, allowing us to use the data several time.
 
-Note:
-- Préciser la nécessité de faire de la régularisation dans le cas précis ici
-- ridge regression sur les coefficient de la comb linéaire pourquoi. Faire le lien avec la dist a priori.Dire que ça signifie mettre le même poids pour tous termes.
+\subsection*{Strenght correction}
+
+- Comme l'opérateur d'observation de vitesse est défini sur une grille fixe, on peut utiliser la linéarité de l'opérateur d'observation. Ainsi on peut exprimer facilement la correction EnKF --> ca a du sens ici d'utiliser la méthode EnKF.
+
+To adapt the discretization, and correct position erreur, the strength correction is preceded by the alignment step.
+
+\subsection{Position transformation}
+
+To define the position correction, we introduce a mapping $A$ apply to particle positions.
+For any state $\bm \omega^f(\bx) = \sum_{p in \mathcal P_i} \Gamma_p ^f \phi_\varepsilon(\bx  - \bx_p)$, the updated state is given by  $\bm \omega^a = \sum_{p in \mathcal P_i} \Gamma_p ^f \phi_\varepsilon(\bx  - A(\bx_p))$.
+
+In order to define a transformation that respect the assumption of an incompressible flows, we choose to define the mapping $A$ through the integration of a divergence-free velocity $w$ over an arbitrary time interval. By this way $A$ is the solution of the following ODE.
+
+\begin{gather*}
+    \left\{\begin{aligned}
+         & \bm x'(\tau = 0) = \bx,                                        \\
+         & \frac{d\bx'}{dt} = \bm u(\bx'), \quad A(\bx) = \bx'(\tau = 1).
+    \end{aligned} \right.
+\end{gather*}
+
+By applying this type of transformation for position correction, we validate that the position is physically consistent. Finally, the problem of position correction consist to determine the field $\bm u(.; \bm b)$ parametrized with vector $\bm b$.
+
+\subsection*{Alignment step}
+
+As for the strength correction step, we first define a cost function to minimize based on the discrepancy between observations and predictions. For each member $i = 1, \dots, N_{\text{ens}}$  of the ensemble we search
+
+\begin{equation*}
+    \bm u_i = \argmin_{\bm u \in \mathcal U} \left\|\mathcal H(\bm \omega^f_i \mid \bm u) - y_i \right\|_{\bm R}^2 + R(\bm u),
+\end{equation*}where $\mathcal U$ is the velocity search space, $\mathcal H(\bm \omega^f \mid w)$ is the observation operator conditioned by $\bm u$ such that $\mathcal H(\bm \omega^f \mid \bm u) = \mathcal H(\bm \omega^f \circ A(\cdot; \bm u))$ is the observation of $\omega^f$ after the application of the position correction. Because the problem is ill-posed a regularization terme $R(w)$ is needed. In the problem we choose, the streamlines form a closed loop, meaning that double $w$ will give the same alignment. Moreover, the regularization is needed to be less sensitive to noise and ill-conditioning.This term is based on prior assomption concerning the definition of $w$.
+Because the operator is highly non-linear with respect to the coordinate transformation, we will directly minimize the cost function to determined the field parameter
+
+\subsection{Reduced-order modeling based on ensemble decomposition}%Correction field parametrization and search space}
+
+To solve this alignment problem, we need to discretize the velocity field and define the search space $\mathcal U$. We choose to define the correction in the ensemble space of velocity field define as $V = \text{Span}(\{\mathbf{v}_i\}_{i = 1}^N)$, where $v_i$ is the velocity field induced by the vorticity of member $i$. This choice is based on the fact that the error of position is reckon to be due to an error in the integration of the velocity field.  As a first approximation we use the velocity field at the end of simulation. Moreover the fields $u_i$ are divergence-free, and by linearity of the gradient, the search space verify this property. We introduce vectors $\bm a_i \in \mathbb R^N$ such as we write
+
+\begin{equation*}
+    \bm u_i =  \sum_{j = 1}^N a_{i,j} \frac{\bm v_j}{\sqrt{N - 1}}.
+\end{equation*}
+
+This decomposition lead to the definition of $N$ independent problems of dimension $N$ to solve
+
+\begin{equation*}
+    \mathcal L_i =  \min_{\bm a \in \mathbb R^N} \left\| h(\bm a) - \bm y_i\right\|_{\bm R}^2 + \frac{\lambda}{2} \norm{\bm a}^2_2,
+\end{equation*}where  $h(\bm a) = \mathcal H(\bm \omega^f_i \mid \bm a,V)$ is the observation operator conditioned by $\bm a,\{\mathbf{v}_i\}_{i = 1}^N$ such as $h(\bm a) = \mathcal H(\bm \omega^f_i \mid \bm a,V) =\mathcal H(\bm \omega^f_i \circ A(\cdot; \bm w = \sum_{j = 1}^N a_{j} \bm v_j))$. We use a Ridge regression on the coefficient of $\bm a$ with a coefficient $\lambda$. Ridge penalization is a commun choice to avoid overfitting by penalize high value of coefficient. It also stabilize solution particularly when $\bm v_i$ are correlated. This choice is also linked to a prior on the coefficient of the decomposition. It supposes that the coefficient $a_i$ are independent and identically distributed such as $a_i \sim \mathcal N(0, 1/ lambda)$ and $p(\bm a) \propto \exp\left( - \frac{\lambda}{2} \norm{\bm a}_2^2\right)$. That also mean that the same weight is given to each field $\bm v_i$ in the decomposition. In fact, this correspond to a regularization of the field $\bm u$ with $\mathcal R(\bm u) = \norm{\bm u}^2_{P}$, where the metric $P = \frac{1}{N-1} \sum_{i = 1}^{N}\bm v_j \otimes \bm v_j$.
+% Penalize the norm of $\bm a$ is equivalent as penalize the field $w$ in the 
+% This assumption are linked to a prior knowledge for the field $\bm u$ such as
+
+\subsection{Gradient computation}
+The cost functions $\mathcal L_i$ to minimize are non-linear. A local descent gradient algorithm is needed for optimization. The gradient with respect to $\bm a$ of $\mathcal L_i$ is defined as $\nabla_a L_i = \nabla_a h(\bm a)~\bm R^{-1}(h(\bm a) - \bm y_i) + \lambda~\bm a$. The $\nabla_a h(\bm a)$ could be compute with finite difference by evaluate $N+1$ times. An other way consist to evaluate the gradient during one model evaluation such as
+
+
+
+\subsection{selection of the penalization coefficient}
+- On a un lambda aussi qui dépend du temps d'intégration.
+
+
+- **Induced Norm**: The norm induced by \(\mathbf{X}\mathbf{X}^T\) measures the "length" of a vector \(\mathbf{v}\) in a space where directions are scaled by \(\mathbf{X}\mathbf{X}^T\). This reflects how much each direction in the space is amplified or attenuated by the transformation given by \(\mathbf{X}\mathbf{X}^T\).
+
+\section*{Choix du Paramètre de Régularisation (\(\lambda\))}
+
+Le paramètre de régularisation \(\lambda\) contrôle la force de la pénalisation. Un \(\lambda\) plus grand signifie une régularisation plus forte, ce qui réduit davantage la magnitude des coefficients :
+\begin{itemize}
+    \item \textbf{Si \(\lambda = 0\)} : Le modèle revient à une régression linéaire classique sans régularisation.
+    \item \textbf{Si \(\lambda\) est très grand} : Les coefficients peuvent devenir très petits, voire nuls, ce qui peut conduire à un modèle trop simple (sous-ajustement).
+\end{itemize}
+
+
+- ridge regression sur les coefficient de la comb linéaire pourquoi. Faire le lien avec la dist a priori. Dire que ça signifie mettre le même poids pour tous termes donc pour tous les membres.
 - Nécessité de choisir le terme de pénalisation. Ecrire sous une forme qui dépend de N_ens / sigma / nobs

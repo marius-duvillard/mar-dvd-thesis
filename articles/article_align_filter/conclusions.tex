@@ -1,0 +1,37 @@
+% !TEX root = ./memoire/main.tex
+
+\section{Conclusion}
+
+- meme si on traite séparemment intensités et positions pour la correction, il n'y a tout de même par de raison que les corrections proposées appartiennent à des espaces orthogonaux. Ainsi, les données sont utilisées plusieurs fois pour une même correction.
+
+1. Surestimation de la Confiance des Données
+Problème : Si les données sont utilisées plusieurs fois dans le processus d'assimilation, cela peut conduire à une surestimation de leur fiabilité. L'assimilation des données repose sur la supposition que les observations sont indépendantes et fournissent des informations nouvelles et uniques à chaque étape. Lorsque les mêmes données sont utilisées plusieurs fois, le modèle peut devenir trop confiant en ces données, ce qui fausse les résultats de l'assimilation.
+
+Conséquence : Cela peut conduire à une sous-estimation de l'incertitude, ce qui réduit l'efficacité de la correction des prévisions.
+
+2. Introduction de Biais
+Problème : L'utilisation répétée des mêmes données peut introduire un biais systématique dans le modèle. Si les mêmes observations sont intégrées dans le modèle à plusieurs reprises, les ajustements effectués sur ces données peuvent ne pas refléter fidèlement la variabilité réelle du système.
+
+Conséquence : Le modèle peut produire des prévisions biaisées et moins représentatives de la réalité.
+
+3. Impact sur les Méthodes d'Ensemble
+Problème : Dans les méthodes d'ensemble, les ensembles sont souvent utilisés pour estimer la variabilité et les incertitudes. Réutiliser les mêmes données peut fausser l'estimation de cette variabilité, car les perturbations et les ajustements ne sont plus représentatifs de la diversité des observations.
+
+Conséquence : Les membres de l'ensemble peuvent ne pas représenter correctement l'incertitude et la variabilité du système, affectant ainsi la qualité des prévisions.
+
+4. Propagation des Erreurs
+Problème : Lorsque les données sont utilisées plusieurs fois, les erreurs associées à ces observations peuvent être propagées et amplifiées à travers les différentes étapes du processus d'assimilation.
+
+Conséquence : Les erreurs peuvent se multiplier, affectant négativement la précision des prévisions.
+
+5. Violation des Hypothèses
+Problème : Beaucoup de méthodes d'assimilation de données reposent sur des hypothèses concernant l'indépendance et l'unicité des observations. L'utilisation répétée des mêmes données viole ces hypothèses et peut conduire à des résultats incorrects.
+
+Conséquence : La validité des résultats obtenus peut être compromise, car les hypothèses sur lesquelles les méthodes sont basées ne sont plus respectées.
+
+Bonnes Pratiques pour Éviter la Réutilisation des Données
+Validation Croisée : Utiliser des techniques de validation croisée pour garantir que les données sont correctement partitionnées et non utilisées plusieurs fois dans les différentes phases de l'assimilation.
+
+Gestion des Données : Mettre en place des procédures rigoureuses pour suivre l'utilisation des données et éviter les doublons.
+
+Contrôle des Sources : Assurer que les données proviennent de sources variées et indépendantes pour éviter la réutilisation non intentionnelle.
