@@ -52,9 +52,11 @@ This decomposition lead to the definition of $N$ independent problems of dimensi
 % This assumption are linked to a prior knowledge for the field $\bm u$ such as
 
 \subsection{Gradient computation}
-The cost functions $\mathcal L_i$ to minimize are non-linear. A local descent gradient algorithm is needed for optimization. The gradient with respect to $\bm a$ of $\mathcal L_i$ is defined as $\nabla_a L_i = \nabla_a h(\bm a)~\bm R^{-1}(h(\bm a) - \bm y_i) + \lambda~\bm a$. The $\nabla_a h(\bm a)$ could be compute with finite difference by evaluate $N+1$ times. An other way consist to evaluate the gradient during one model evaluation such as
+The cost functions $\mathcal L_i$ to minimize are non-linear. A local descent gradient algorithm is needed for optimization. The gradient with respect to $\bm a$ of $\mathcal L_i$ is defined as $\nabla_a L_i = \nabla_a h(\bm a)~\bm R^{-1}(h(\bm a) - \bm y_i) + \lambda~\bm a$. The $\nabla_a h(\bm a)$ could be compute with finite difference by evaluate the integration $N+1$ times such as
 
-
+\begin{equation*}
+    \frac{\partial \mathcal h}{\partial a_i}(\bm a) = D_{u_i} \bm h(\bm a) \approx \frac{\bm h(\bm a + \delta a_i \bm e_i) - \bm h(a)}{\delta a_i},
+\end{equation*}where $\bm e_i$ is the unit vector in the canonical basis in the direction of $a_i$. An other way consist to evaluate the gradient during one model evaluation as detailed by propagate $N$ perturbation around a main trajectory in Appendix~\ref{ap:gradient}.
 
 \subsection{selection of the penalization coefficient}
 - On a un lambda aussi qui dépend du temps d'intégration.

@@ -682,19 +682,54 @@ Bootstrapping for confidence intervals
 
 - [ ] Discussion avec Olivier plan manuscrit et article
 
-## 26-03-2024
+## 26-07-2024
 
 - Revoir la mise en commun des partie du manuscrit avec l'article
 - [x] Reprise de l'introduction.
 - [x] Relire la fin de DrumSimu
 
-## 27-03-2024
+## 27-07-2024
 
 - [ ] Correction + finir Objectifs et plan de manuscrit.
 - [ ] Faire la mise en commun de l'article avec le manuscript.Reprendre l'ancienne notation sur l'article pour uniformiser la notation de la variable d'espace en Z et d'état en Z ? Voir si la dernière condition est vraiment nécessaire.
 - [ ] revoir la partie problématique sur la revue de bibliographie
 - Envoyer une première version à Loïc
 
+## 29-07-2024
+
+## 30-07-2024
+ 
+## 31-07-2024
+
+Reprise de la formulaition. Je n'arrive pas à faire le lien avec un vrai prior sur v la matrice de correction de position. On pourrait pour simplifier, faire une svd ? Pour réduire le problème d'optim
+
+## 01-08-2024
+
+- Avancer sur l'application. Meme sur la formulation n'est aps bonne, faire avec ce qui marche. Donc préparer les calculs avec l'init avec juste incertitude sur les positions pas sur les intensités. Lancer et mettre les résultats dans deux dossiers séparés pour `résultats article`. Lancer pour les filtres Part, Remesh et align.
+- Premier jeu d'assimilation dans le cas sans erreur d'amplitude avec `outputs/align_app1_three_vortex/2024-08-01-10:07:50` à `outputs/align_app1_three_vortex/2024-08-01-10:13:16`. Il faut refaire le remesh.
+- Correction du remesh enkf. Variation du eps_omega pour voir quand le filtre part_enkf ne parche plus. Refaire egalement le no assim avec ce nouveau seuil
+- pour l'instant eps_omega ne permet pas de faire voir les effets attendu. Il faudrait soit faire varier dt_forecast ou augmenter le shift initial. pour réduire le recouvrement.
+- Remesh fait avec étape de remaillage et seui 0.01 dans le `2024-08-01-14:39:38`
+- Fait les test avec erreur uniquement position et avec tout dans `no_assim`.
+- On a de "bons résultats" sur part_enkf avec le seuille de 0.1 
+
+- [x] Faire une visualisation avec des contours plot pour afficher tous les vortex sur un seul plot. 
+
+- Faire une simulation sans assim pour voir la dispersion dans ce cas 1.
+- Faire la meme chose mais en faisant le remaillage une fois. Faire la visualisation des cercles
+- Lancer le cas 16 vortex
+
+## 02-08-2024
+
+- Faire la rédaction du calcul du gradient en annexe.
+- Pour la visualisation des tourbillon, faire l'affichage de la forme du vortex. preque ok 
+- 
+- Faire rédaction du cas test associé et traduction du problème en anglais.
+
+- Reprendre les erreurs de typo dans le manuscrit.
+
+- Refaire un cas avec uniquement la perturbation pour voir si ce n'est quand meme pas possible.
+- Avancer sur la partie problématique et contribution ou objectif.
 ### A FAIRE
 
 - Redaction

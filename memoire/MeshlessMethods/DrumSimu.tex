@@ -5,7 +5,7 @@
 % \section{Introduction}
 % Nous avons vu dans le chapitre précédent que l'assimilation dépendait en particulier de la définition d'un modèle et de son état. 
 % Or, si les méthodes d'assimilation peuvent facilement s'exprimer pour des méthodes eulériennes sur grille ou maillage fixe, elles soulèvent des questionnements lorsque les méthodes reposent sur des discrétisations lagrangiennes. De plus, il faut aussi différentier la nature de la représentation. Le fait que l'espace soit continu ou discret va également modifier la signification de l'état et sa capacité à être mis à jour.
-Les méthodes de simulation de l'écoulement au sein du broyeur à boulets reposent principalement sur des discrétisations particulaires comme évoqué en Section~\ref{sec:methode_resolution}. C'est ce type de modélisation qu'il faut prendre en compte dans nos algorithmes d'assimilation de données. Dans cette section, nous reprendrons les principales familles de formulation particulaire en considérant les méthodes discrètes et celles discrétisant un milieu continu. En plus des méthodes particulaires pour la modélisation de l'écoulement granulaire, nous présenterons la méthode vortex en Section~\ref{sec:vortex} comme une méthode modèle pour la suite du manuscrit.
+Les méthodes de simulation de l'écoulement au sein du broyeur à boulets reposent principalement sur des discrétisations particulaires comme évoqué en Section~\ref{sec:methode_resolution}. C'est ce type de modélisation qu'il faut prendre en compte dans nos algorithmes d'assimilation de données. Dans cette section, nous reprenons les principales familles de formulation particulaire en considérant les méthodes discrètes et celles discrétisant un milieu continu. En plus des méthodes particulaires pour la modélisation de l'écoulement granulaire, nous présenterons la méthode vortex en Section~\ref{sec:vortex} comme une méthode modèle pour la suite du manuscrit.
 
 \subsection{Méthodes des éléments discrets, \textit{Discrete element method} (DEM)}~\label{sec:part_discret}
 
@@ -92,8 +92,8 @@ Finalement, l'ensemble de particules $\mathcal P$ va permettre de résoudre les 
 
 \begin{gather}~\label{eq:model_evol}
     \left\{\begin{aligned}
-         & \frac{d\bm \Gamma_p(t)}{dt} = M_\Gamma(\bm \Gamma_p(t); \mathcal P), \\
-         & \frac{d \bx_p(t)}{d t} = M_x(\bx_p(t); \mathcal P).
+         & \frac{d\bm \Gamma_p(t)}{dt} = M_\Gamma(\bm \Gamma_p(t); \mathcal P(t)), \\
+         & \frac{d \bx_p(t)}{d t} = M_x(\bx_p(t); \mathcal P(t)).
     \end{aligned} \right.
 \end{gather}C'est en particulier grâce à la mise à jour de la position $\bx_p$ qui le terme d'advection est pris en compte dans la résolution du problème dynamique.
 
@@ -102,8 +102,8 @@ Finalement, l'ensemble de particules $\mathcal P$ va permettre de résoudre les 
 Plusieurs noyaux ont été utilisés en fonction de la méthode. La formulation originale de la MPM n'utilise pas de noyau de substitution et écrit la densité comme suit
 
 \begin{equation*}
-    \bm{u}(\bm{z}, t) = \sum_{p \in \mathcal P} \bm{U}_p(t) \delta (\bm{z}-\bm{z}(t)_p).
-\end{equation*}Finalement, ce n'est pas tant cette fonction que la projection sur une grille de fond associée à certaines fonctions de forme qui est utilisé pour discrétiser le problème~\cite{sulsky_particle_1994}. La méthode GIMP~\cite{bardenhagen_generalized_2004} est une formulation différente qui utilise la fonction de Heaviside et associe donc bien volume autour de chaque particule
+    \bm{u}(\bm{z}, t) = \sum_{p \in \mathcal P} \bm{U}_p(t) \delta (\bm{z}-\bm{z}_p(t)).
+\end{equation*}Ce n'est pas tant cette fonction que la projection sur une grille de fond associée à certaines fonctions de forme qui est utilisée pour discrétiser le problème~\cite{sulsky_particle_1994}. La méthode GIMP~\cite{bardenhagen_generalized_2004} est une formulation différente qui utilise la fonction de Heaviside et associe donc bien volume autour de chaque particule
 
 \begin{equation*}
     M_1(r) = \frac{\alpha}{\varepsilon}\left\{\begin{aligned}
@@ -162,7 +162,7 @@ Les méthodes particulaires sont ici des méthodes d'approximation de champs con
               \begin{equation*}
                   S:= \bigcup_{p \in \mathcal P} S_p
               \end{equation*}
-              est inclus dans le domaine $\bar \Omega$ dans lequel réside de tel sorte que $\bar \Omega	\subseteq S$.
+              est inclus dans le domaine $\bar \Omega$ dans lequel réside les particules de tel sorte que $\bar \Omega	\subseteq S$.
         \item $\forall \bx \in \Omega$, il existe une boule~\label{it:cond2}
               \begin{equation*}
                   \mathcal B(x) = \{x \mid \|\bx - \bar \bx\| < \rho\}
@@ -179,10 +179,8 @@ Les méthodes particulaires sont ici des méthodes d'approximation de champs con
     \end{enumerate}
 \end{definition}
 
-La condition~\ref{it:cond1} est une condition de recouvrement. Cette dernière est une condition nécessaire de la condition~\ref{it:cond2}. Elle peut être vue comme une condition de chevauchement, nécessaire afin de «lier» les particules entre elles. Finalement, la condition~\ref{it:cond3}
-La définition d'admissibilité a été développée en termes de ($\rho, p$)-régularité par Han et Meng~\cite{HAN20016157} et par Duarte et Oden~\cite{duarte1996hp}.
-
-Cette définition est en particulier déterminante pour pouvoir appliquer les schémas d'interpolation définis dans la Section~\ref{interpOp}.
+\textcolor{red}{Rajouter image de configurations non admissibles.}
+La condition~\ref{it:cond1} est une condition de recouvrement. Cette dernière est une condition nécessaire de la condition~\ref{it:cond2}. Elle peut être vue comme une condition de chevauchement, nécessaire afin de «lier» les particules entre elles. Finalement, la condition~\ref{it:cond3}. La définition d'admissibilité a été développée en termes de ($\rho, p$)-régularité par Han et Meng~\cite{HAN20016157} et par Duarte et Oden~\cite{duarte1996hp}. Cette définition est en particulier déterminante pour pouvoir appliquer les schémas d'interpolation définis dans la Section~\ref{interpOp}.
 
 \subsection{Hydrodynamique des particules lissées, \textit{Smoothed particle hydrodynamics} (SPH)}
 
@@ -205,7 +203,8 @@ En utilisant la règle d'approximation du gradient le terme $\rho \nabla \cdot \
 
 \begin{equation*}
     m_p \frac{d \bm v_p}{dt} = \sum_{q} m_p m_q \left(\frac{\bm \sigma_p}{\rho_p^2} + \frac{\bm \sigma_q}{\rho_q^2} \right) \cdot \nabla \phi_\varepsilon(\bm x_p - \bm x_q).
-\end{equation*}Cette version est symétrique par rapport aux indices $p$ et $q$ ce qui favorise les propriétés de conservation. Comme défini en~\eqref{eq:model_evol}, on obtient alors des équations d'évolution des quantités particulaires pour la densité $\rho_p$ et la vitesse $\bm v_p$ qui sera utilisé pour mettre à jour la position des particules $\bx_p$ au travers d'un schéma d'intégration temporel comme un algorithme \textit{leap-frog}. La variable de contrainte $\bm \sigma_p$ est mise à jour au travers d'une loi de comportement. En pratique, pour des problèmes de choc ou dominé par la convection, un terme de viscosité artificiel est ajouté dans l'équation d'évolution de la vitesse~\cite{MONAGHAN1983374}.
+\end{equation*}Cette version est symétrique par rapport aux indices $p$ et $q$ ce qui favorise les propriétés de conservation.
+Comme défini en~\eqref{eq:model_evol}, on obtient des équations d'évolution pour la densité $\rho_p$ et la vitesse $\bm v_p$, utilisées pour mettre à jour la position des particules $\bx_p$ via un algorithme \textit{leap-frog}. La variable de contrainte $\bm \sigma_p$ est mise à jour au travers d'une loi de comportement. En pratique, pour des problèmes de choc ou dominé par la convection, un terme de viscosité artificiel est ajouté dans l'équation d'évolution de la vitesse~\cite{MONAGHAN1983374}.
 
 \subsection{Méthode des points matériels, \textit{Material Point Method} (MPM)}~\label{sec:mpm}
 
@@ -232,19 +231,11 @@ Comme en éléments finis, la méthode MPM consiste à résoudre le problème au
 Le schéma MPM peut être obtenu en concentrant la masse sur $N_p$ particules. La densité est alors représentée comme un somme de Dirac
 
 \begin{equation*}
-    \rho(\bm x) = \sum_{p \in \mathcal P} V_p~\rho_p \delta(\bm x - \bm x_p) = \sum_{p \in \mathcal P} m_p \delta(\bm x - \bm x_p)
-\end{equation*}
-
-De même, on discrétise la contrainte $\bm \sigma$
-
+    \rho(\bm x) = \sum_{p \in \mathcal P} V_p~\rho_p \delta(\bm x - \bm x_p) = \sum_{p \in \mathcal P} m_p \delta(\bm x - \bm x_p).
+\end{equation*}De même, on discrétise la contrainte $\bm \sigma$
 \begin{equation*}
     \bm \sigma(\bm x) = \sum_{p \in \mathcal P} \bm \sigma_p \delta(\bm x - \bm x_p).
 \end{equation*}
-On trouve un certain nombre de généralisation dans la littérature comme la méthode GIMP~\cite{bardenhagen_generalized_2004} en définissant une représentation particulaire de la densité où les Dirac sont remplacés par des fonction caractéristique $\chi_p$ tel que
-
-\begin{equation*}
-    \rho(\bm z) = \sum_{p \in \mathcal P} m_p \chi(\bm z - \bm z_p)
-\end{equation*}.
 
 Finalement, en injectant cette discrétisation de la densité dans l'équation~\eqref{eq:form_faible}
 
@@ -252,6 +243,11 @@ Finalement, en injectant cette discrétisation de la densité dans l'équation~\
     \sum_{p \in \mathcal P} m_p \bm q(\bm z_p(t), t)\cdot \bm a(\bm z_p(t), t) = - \sum_{p \in \mathcal P} m_p \bm \sigma(\bm z(t), t) : \nabla \bm u(\bm z(t), t) \\
     + \int_{\partial \Omega_t} \bm t \bm q dS + \sum_{p} m_p \bm q(X(t), t) \cdot \bm b(X(t), t).
 \end{multline*}
+On trouve un certain nombre de généralisation dans la littérature comme la méthode GIMP~\cite{bardenhagen_generalized_2004} en définissant une représentation particulaire de la densité où les Dirac sont remplacés par des fonction caractéristique $\chi_p$ tel que
+
+\begin{equation*}
+    \rho(\bm z) = \sum_{p \in \mathcal P} m_p \chi(\bm z - \bm z_p)
+\end{equation*}.
 
 Les variables cinématiques sont ensuite discrétisées sur la grille eulérienne. La précédente équation est résolue sur la grille et l'accélération est déterminée sur chaque nœud $I \in \Lambda$ de la grille comme
 
@@ -259,11 +255,11 @@ Les variables cinématiques sont ensuite discrétisées sur la grille eulérienn
     \sum_{J \in \Lambda} m_{IJ} \bm a_J = \bm f_I^{\text{int}} + \bm f_I^{\text{ext}},
 \end{equation*}ou $m_{IJ}$ la matrice de masse, $\bm f_I^{\text{int}}$ sont les forces internes, et $\bm f_I^{\text{ext}}$ les forces externes.
 
-En pratique, afin d'obtenir $m_{IJ},\bm a_J,\bm f_I^{\text{int}}$ à partir des quantités particulaires, les deux niveaux de discrétisation communique selon des étapes de projection (\textit{particles to grid}) puis d'interpolation (\textit{grid to particles}).
+En pratique, afin d'obtenir $m_{IJ},\bm a_J,\bm f_I^{\text{int}}$ à partir des quantités particulaires, les deux niveaux de discrétisation communiquent selon des étapes de projection (\textit{particles to grid}) puis d'interpolation (\textit{grid to particles}).
 
-\paragraph*{projection}
+\paragraph*{Projection}
 
-Les valeurs de la grille sont initialisées à 0. La masse $m_p$,la quantité de mouvement $m_p \bm v_p$ et les forces $\bm f_p$ sont transférées à la grille à l'aide des fonctions de forme $\phi_I$ associé à chaque nœud
+Les valeurs de la grille sont initialisées à 0. La masse $m_p$, la quantité de mouvement $m_p \bm v_p$ et les forces $\bm f_p$ sont transférées à la grille à l'aide des fonctions de forme $\phi_I$ associées à chaque nœud
 
 \begin{gather*}
     \left\{\begin{aligned}
@@ -275,7 +271,7 @@ Les valeurs de la grille sont initialisées à 0. La masse $m_p$,la quantité de
 
 \paragraph*{Mise à jour sur la grille}
 
-L'équation~\ref{eq:mpm_pfd} est résolue sur les nœuds de la grille avec un schéma explicit
+L'équation~\ref{eq:mpm_pfd} est résolue sur les nœuds de la grille avec un schéma explicite
 
 \begin{gather*}
     \left\{\begin{aligned}
@@ -285,11 +281,11 @@ L'équation~\ref{eq:mpm_pfd} est résolue sur les nœuds de la grille avec un sc
     \end{aligned} \right.
 \end{gather*}
 
-\paragraph*{interpolation}
+\paragraph*{Interpolation}
 
 Les quantités particulaires sont mises à jour par interpolation des quantités nodales afin de suivre la déformation de la grille mettant à jour positions $\bm x_p$ et leur vitesses $\bm v_p$. C'est ainsi que l'étape d'advection est prise en compte.
 
-Celle-ci est réalisé directement par interpolation de la vitesse, de l'accélération, ou une combinaison des deux~\cite{stomakhin2013material} tel que
+Celle-ci est réalisée directement par interpolation de la vitesse, de l'accélération, ou une combinaison des deux~\cite{stomakhin2013material} tel que
 
 \begin{equation*}
     \bm v_{p}^{n+1} = \alpha \left(\bm v_{p}^{n} + \sum_I \varphi_{Ip} (\bm v_I^{n+1} - \bm v_I^{n})\right) + (1- \alpha)\sum_I \varphi_{Ip} \bm v_I^{n+1}
@@ -314,6 +310,7 @@ Tout comme la méthode SPH, des lois de comportement sont introduites pour pouvo
 
 \subsection{Méthodes vortex}~\label{sec:vortex}
 
+\textcolor{red}{rappeler pourquoi utiliser méthodes vortex}
 \subsubsection{Méthode vortex classique}
 
 La méthode vortex est une méthode particulaire utilisée pour résoudre les équations de Navier-Stokes pour un écoulements incompressibles~\cite{Cottet_Koumoutsakos_2000}. Elle a été pour la première fois développée indépendamment par Prager~\cite{prager1928druckverteilung} et Rosenhead~\cite{rosenhead1931formation}. Elle se base sur la discrétisation du champ de tourbillon par un ensemble de particules, et résout la formulation vorticité-vitesse des équations de Navier-Stokes
@@ -343,7 +340,7 @@ Dans le cas d'un écoulement bi-dimensionnelle, le champ tourbillon est un champ
     \end{aligned} \right.
 \end{gather*}
 
-Le champ de vorticité est discrétisé à l'aide d'un ensemble de particules $p$ défini à une position $\bm _p$, une quantité de circulation locale $\Gamma_p$ qui est par définition la circulation autour de la particule $\Gamma_p = \oint_{\partial \Omega_p} \bm v = \int_{\Omega_p} \omega dS$. Ainsi, pour tout point $\bx \in \Omega \subset \mathbb R^2$ la vorticité peut être exprimée comme
+Le champ de vorticité est discrétisé à l'aide d'un ensemble de particules $p$ définies à une position $\bm x_p$, une quantité de circulation locale $\Gamma_p$ qui est par définition la circulation autour de la particule $\Gamma_p = \oint_{\partial \Omega_p} \bm v = \int_{\Omega_p} \omega dS$. Ainsi, pour tout point $\bx \in \Omega \subset \mathbb R^2$ la vorticité peut être exprimée comme
 
 \begin{equation*}
     \omega(\bm x, t) = \sum_{i=1}^{N_p} \Gamma_p(t) \phi_\varepsilon(\bm x - \bm x_p(t)),
@@ -367,7 +364,7 @@ En pratique, le choix d'un noyau en Dirac rend impossible le calcul de la vitess
     \bm u(\bm x) = \sum_{p \in \mathcal P} \frac{\Gamma_p(1 - \exp(-r^2 / \varepsilon^2)) }{2\pi r^2} (\bm x - \bm x_p)\times \bm k, \quad r = \|\bm x - \bm x_p\|_2.
 \end{equation*}
 
-Afin de tenir compte de la diffusion, une approche par fractionnement est généralement utilisé. Introduite pour la première fois par Chorin~\cite{chorin_discretization_1973}, elle permet dans le cas de problème où le terme de transport est dominant, de traiter séparément et successivement les termes d'advection et de diffusion. Ainsi après avoir mis à jour la position des particules sans tenir compte de la viscosité, l'équation suivante est résolue
+Afin de tenir compte de la diffusion, une approche par fractionnement est généralement utilisée. Introduite pour la première fois par Chorin~\cite{chorin_discretization_1973}, elle permet dans le cas de problèmes où le terme de transport est dominant, de traiter séparément et successivement les termes d'advection et de diffusion. Ainsi après avoir mis à jour la position des particules sans tenir compte de la viscosité, l'équation suivante est résolue
 
 \begin{equation*}
     \frac{d\omega(\bm x_p, t)}{dt} = \nu \Delta \omega(\bx_p).

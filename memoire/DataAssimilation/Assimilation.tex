@@ -10,15 +10,12 @@ La construction d'un système expert ou jumeau numérique a besoin de méthodes 
     \includegraphics[width=\textwidth]{sources_incertitudes.png}
     \caption{Principales sources d'incertitudes de modèle à l'origine d'erreur de prédiction.}~\label{fig:sources_erreur}
 \end{figure}
-
-Ainsi, les méthodes d'assimilation de données sont mises en place pour combiner les informations issues d'un modèle numérique, et celles issues de l'observation, et ce, de manière optimale, c'est-à-dire en tenant compte de leurs incertitudes respectives. C'est une méthode dynamique, c'est à dire que cette combinaison est réalisé tout au long du processus comme illustré Figure~\ref{fig:assim_da_scheme}. On parle parfois de méthode inverse au cours du temps.
-
+Ainsi, les méthodes d'assimilation de données combinent de manière optimale les informations des modèles numériques et des observations en tenant compte de leurs incertitudes respectives. Cette méthode dynamique ajuste la combinaison tout au long du processus, comme le montre la Figure~\ref{fig:assim_da_scheme}. On parle parfois de méthode inverse au cours du temps.
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{schema d'assimilation.png}
     \caption{Schéma d'assimilation de données au cours du temps.}~\label{fig:assim_da_scheme}
 \end{figure}
-
 L'intégration des prévisions des modèles et des données d'observation a été largement appliquée dans des disciplines telles que la météorologie, l'océanographie, et les géosciences~\cite{bocquet_introduction_2014}. Dans le domaine de l'assimilation de données, deux grandes familles d'approches émergent :
 
 \begin{itemize}
@@ -411,9 +408,7 @@ On peut faire plusieurs remarques :
 La méthode 3DVar est un cas particulier de l'équation précédente qui permet de résoudre le problème de minimisation sur un seul instant, sans prendre en compte l'évolution temporelle du système. Elle consiste à supposer fixe et connu les matrices de covariance $\bP$ et $\bR$. Dans le cas où la fonction d'observation est linéaire $\mathcal H(\bz) = \bH \bz$, la fonction coût devient
 \begin{equation*}
     \mathcal L_{3D}(\bz) = \frac{1}{2}\norm{\by-\bH \bz}^2_{\bm R} + \frac{1}{2}\norm{\bz-\bz^f}_{\bP}^2,
-\end{equation*}où $\bm R$ est la matrice de covariance sur les observations et $\bP$ sur l'état.
-
-Dans ce cas, l'annulation du gradient de la fonction coût se réduit à l'expression suivante
+\end{equation*}où $\bm R$ est la matrice de covariance sur les observations et $\bP$ sur l'état. Dans ce cas, l'annulation du gradient de la fonction coût se réduit à l'expression suivante
 
 \begin{equation*}
     \bP^{-1} (\bz^a - \bz^f) + \bH^T \bR^{-1}(\bH \bz^a - \bm d) = \bm 0,
@@ -425,9 +420,7 @@ Dans ce cas, l'annulation du gradient de la fonction coût se réduit à l'expre
 
 \begin{equation*}
     (\bP^{-1} + \bH^T \bR^{-1} \bH)^{-1} = \bP \bH^T (\bH \bP \bH^T + \bR)^{-1}
-\end{equation*}
-
-Ainsi la matrice de covariance d'état $\bP$ ne nécessite pas d'être inversé. De plus on retrouve le gain de Kalman $\bK = \bP \bH^T (\bH \bP \bH^T + \bR)^{-1}$ précédemment défini. Cette estimateur ainsi obtenu est également le BLUE (\textit{Best Linear Unbiased Estimator}). C'est en effet la combinaison linéaire de $\bz^f$ et $\bd$ dont l'erreur $\bm \varepsilon^a$ est non biaisée ($\mathbb{E}[\bm \varepsilon^a] = \bm 0$), et dont la variance ($\Tr(\bP^a)$) est minimale.
+\end{equation*}Ainsi la matrice de covariance d'état $\bP$ ne nécessite pas d'être inversé. De plus on retrouve le gain de Kalman $\bK = \bP \bH^T (\bH \bP \bH^T + \bR)^{-1}$ précédemment défini. Cette estimateur ainsi obtenu est également le BLUE (\textit{Best Linear Unbiased Estimator}). C'est en effet la combinaison linéaire de $\bz^f$ et $\bd$ dont l'erreur $\bm \varepsilon^a$ est non biaisée ($\mathbb{E}[\bm \varepsilon^a] = \bm 0$), et dont la variance ($\Tr(\bP^a)$) est minimale.
 
 Finalement, sachant que la posterior est gaussienne, en prenant l'inverse de dérivée seconde de la fonction coût, la matrice de covariance peut être obtenue
 
@@ -454,7 +447,7 @@ Une première hybridation entre 3DVar et EnKF réside dans la définition de la 
 L'avantage de cette première hybridation est de pouvoir améliorer les performance du filtre EnKF lorsque la taille de l'ensemble est faible (grâce à la composante $\gamma \bm P_{\text{3DVar}}$), et du filtre 3DVar lorsque la grille d'observation n'est pas assez dense.
 
 Cependant, en conservant la matrice de rang faible $\bm P^f$ il est possible d'exprimer la solution dans l'espace de perturbations. En effet, $\bm P^f$ étant symétrique, $\text{Span}(\bm P^f)$ est bijectif avec l'espace généré par les colonnes de $\annomX$.
-Ainsi,comme suggéré par Hunt et al.~\cite{Hunt2007}, la perturbation $\bm z -\bm z^f_i$ est exprimée comme une combinaison linéaire dans l'espace de perturbation $\bm z = \bm z^f_i + \annomX \bw$. En utilisant le pseudo-inverse indiqué par $^\dagger$, le terme $\norm{\bm z -\bm z^f_i}^2_{\bm P^f}$ devient alors
+Ainsi, comme suggéré par Hunt et al.~\cite{Hunt2007}, la perturbation $\bm z -\bm z^f_i$ est exprimée comme une combinaison linéaire dans l'espace de perturbation $\bm z = \bm z^f_i + \annomX \bw$. En utilisant le pseudo-inverse indiqué par $^\dagger$, le terme $\norm{\bm z -\bm z^f_i}^2_{\bm P^f}$ devient alors
 
 \begin{eqnarray*}
     \norm{\bm z -\bm z^f_i}^2_{\bm P^f} &=&  \bw^T \annomX^T\left(\annomX \annomX^T\right)^\dagger \annomX \bw,\\

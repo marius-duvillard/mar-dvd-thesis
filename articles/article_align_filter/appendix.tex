@@ -1,0 +1,36 @@
+\section{Gradient computation}~\label{ap:gradient}
+
+The calculation of the derivative by finite difference requires performing $N$ additional forward evaluations, which can be costly. An alternative is to determine a main trajectory and to consider
+$N$ perturbations around this trajectory.
+
+To calculate $\nabla_a h$, we define a perturbation of the alignement velocity field $\bm u(\bm a)$ such as \bm a' = \bm a + \varepsilon \bm e_i. It induces a perturbation around the trajectory that we note $\bm x_a$ such as $\bm x_{a'}(t) = \bm x_a(t) + \varepsilon \bm x_1(t) + o(\varepsilon)$ which give the following evolution model
+
+\begin{equation}~\label{eq:part_derive}
+    \frac{d}{dt}(\bm x_a(t) + \varepsilon \bm x_1(t), \dots) = \sum_{j = 1}^N  a_j \bm u_j(\bm x_a + \varepsilon \bm x_1 + \varepsilon^2 \bm x_2, \dots) + \varepsilon a_i \bm u_i (\bm x_a + \varepsilon \bm x_1 + \dots).
+\end{equation}We develop the perturbed velocity fields by a first order Taylor expansion such as
+\begin{equation*}
+    u_j(\bm x_a + \varepsilon \bm x_1 +\dots) = u_j(\bm x_a) + \varepsilon \bm x_1 \nabla_x u_j (\bm x_a) + o(\varepsilon).
+\end{equation*}
+
+By substituting in the equation~\eqref{eq:part_derive}, we finally get couple problem where the particles are
+
+\begin{equation*}
+    \begin{cases}
+        \frac{d\bm x_a}{dt}      & =  \sum_j a_j u_j(\bm x_a),                                                   \\
+        \bm x_a(t=0)             & =  \bm x_a^0,                                                                 \\
+        i = 1, \dots, M:                                                                                         \\
+        \frac{d\hat \bm x_i}{dt} & =  \hat \bm x_i \sum_j a_j  \nabla_x \bm u_j(\bm x_a) + a_i \bm u_i(\bm x_a), \\
+        \hat \bm x_i(t=0)        & =  0.
+    \end{cases}
+\end{equation*}
+
+Where we only need to know the gradient and velocity field of each component $\bm u_j$ for the trajectory $\bm x_a$, and track $N$ perturbations $\bm x^i$. So that, $\frac{\partial \bm x}{\partial \bm v}$ is the matrix where the columns are $(\bm x_1, \dots, \bm x^N)$ such that the gradient of observation is
+
+\begin{equation*}
+    \frac{\partial \bm h}{\partial \bm v} = \frac{\partial \bm h}{\partial \bm x} \frac{\partial \bm x}{\partial \bm v}
+\end{equation*}where $\frac{\partial \bm h}{\partial \bm x}$ could be estimate by finite difference such as
+
+\begin{equation*}
+    \frac{\partial \bm h}{\partial \bm x_i} \approx \frac{\mathcal H(\bm x_a + \varepsilon \bm x_i) - \mathcal H(\bm x_a)}{\varepsilon}.
+\end{equation*}
+
